@@ -17,7 +17,7 @@
 
 
     $captchatoken = trim(strip_tags($_POST['captchatoken']));
-    $secret = '6LfqIcoaAAAAABLUDr44MbjcHRmcKs1lxLuELHXW';
+    $secret = '6Le-0EQpAAAAAIsBTBogTi1ypk-XjeGPNPXPBplV';
     $action = trim(strip_tags($_POST['action']));
     // now you need do a POST requst to google recaptcha server.
     // url: https://www.google.com/recaptcha/api/siteverify.

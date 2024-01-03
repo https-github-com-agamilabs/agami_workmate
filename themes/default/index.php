@@ -678,7 +678,7 @@ if (!defined("DB_USER")) {
                             <div class="post-author">
                                 <a href="#"><img src="<?= $imgPath ?>blog-img/p3.jpg" alt=""></a>
                             </div>
-                            <a href="#" class="headline">Good news for the pacients</a>
+                            <a href="#" class="headline">Good news for the patients</a>
                             <p>Dolor sit amet, consecte tuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.</p>
                             <a href="#" class="comments">3 Comments</a>
                         </div>

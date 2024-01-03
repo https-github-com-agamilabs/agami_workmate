@@ -67,12 +67,12 @@ $langHeaderData = langConverter($jasonFilePath);
             <div class="row h-100">
                 <div class="col-12 h-100">
                     <div class="h-100 d-md-flex justify-content-between align-items-center">
-                        <div>
+                        <!-- <div>
                             <p id="nav_title">
                                 <?= $langHeaderData[$lang]['lang_welcome_to']; ?>
                                 <span><?= $langHeaderData[$lang]['lang_holistic_online_health_care_system']; ?> </span>
                             </p>
-                        </div>
+                        </div> -->
                         <div>
                             <div>
                                 <a href="#" class="btn-sm btn-light"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a>
@@ -85,11 +85,11 @@ $langHeaderData = langConverter($jasonFilePath);
                                     <option value="bn">BN</option>
                                 </select>
 
-                                <!-- <div class="d-inline-block mt-2 mt-sm-0">
+                                <div class="d-inline-block mt-2 mt-sm-0">
                                     <a href="< ?= $publicAccessUrl ?>login.php" class="btn-sm btn-light text-nowrap">
                                         <i class="far fa-user-circle mr-1"></i>< ?= $langHeaderData[$lang]['lang_login/register']; ?>
                                     </a>
-                                </div> -->
+                                </div>
                                 <div class="dropdown d-inline-block">
                                     <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle btn btn-light btn-sm shadow-sm rounded-0" style="padding: 2px 4px;">
                                         <i class="far fa-user-circle mr-1"></i><?= $langHeaderData[$lang]['lang_login/register']; ?>

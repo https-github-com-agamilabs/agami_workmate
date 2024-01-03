@@ -15,12 +15,26 @@ if (isset($_GET['lang'])) {
 
 ?>
 
+<?php
+include_once "./lang_converter/converter.php";
+$jasonFilePath = './lang-json/' . $lang . '/index.json';
+$arrayData = langConverter($jasonFilePath);
+//print_r($arrayData);
+//echo $arrayData[$lang]['lang_home'];
+
+?>
+
+
+
+
+
+
 
 
 
 <?php
 $basePath = dirname(dirname(dirname(__FILE__)));
-// include_once($basePath . "/configmanager/org_configuration.php");
+include_once($basePath . "/configmanager/org_configuration.php");
 if (!defined("DB_USER")) {
     include_once $basePath . '/php/db/config.php';
 } else {
@@ -44,10 +58,10 @@ if (!defined("DB_USER")) {
     <link rel="icon" href="<?= $publicAccessUrl . $response['orglogourl']; ?>">
 
     <!-- Style CSS -->
-    <link rel="stylesheet" href="<?= $publicAccessUrl ?>themes/default/css/style.css">
+    <link rel="stylesheet" href="<?= $publicAccessUrl ?>themes/medi/css/style.css">
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="<?= $publicAccessUrl ?>themes/default/js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="<?= $publicAccessUrl ?>themes/medi/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- <script src="< ?= $publicAccessUrl ?>vendor/jquery/3.5.1/jquery-3.5.1.min.js"></script> -->
     <!-- Popper js -->
     <script src="<?= $publicAccessUrl ?>vendor/popper/1.11.0/umd/popper.min.js"></script>
@@ -55,9 +69,9 @@ if (!defined("DB_USER")) {
     <script src="<?= $publicAccessUrl ?>vendor/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Plugins js -->
-    <script src="<?= $publicAccessUrl ?>themes/default/js/plugins.js" async defer></script>
+    <script src="<?= $publicAccessUrl ?>themes/medi/js/plugins.js" async defer></script>
     <!-- Active js -->
-    <script src="<?= $publicAccessUrl ?>themes/default/js/active.js" async defer></script>
+    <script src="<?= $publicAccessUrl ?>themes/medi/js/active.js" async defer></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
@@ -152,7 +166,7 @@ if (!defined("DB_USER")) {
     </div>
 
     <?php
-    $imgPath = $publicAccessUrl . "themes/default/img/";
+    $imgPath = $publicAccessUrl . "themes/medi/img/";
     ?>
 
     <?php include_once "header-area.php"; ?>
@@ -958,7 +972,7 @@ if (!defined("DB_USER")) {
 
         }
 
-        $.get(`${publicAccessUrl}themes/default/index.json`, data => {
+        $.get(`${publicAccessUrl}themes/medi/index.json`, data => {
             show_data(data);
         }, `json`);
 
@@ -1614,6 +1628,10 @@ if (!defined("DB_USER")) {
             $(`.doctor_and_schedule.collapse`).collapse(`show`);
         }
     </script>
+
+    <?php
+    require_once $basePath . "/find_doctor.php";
+    ?>
 
 </body>
 

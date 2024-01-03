@@ -1,0 +1,1 @@
+<?php include_once "themes/default/about-us.php"; ?>

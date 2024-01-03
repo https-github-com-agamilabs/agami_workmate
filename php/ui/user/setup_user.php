@@ -1,0 +1,171 @@
+<?php
+    include_once  dirname(dirname(__FILE__))."/login/check_session.php";
+
+    $response = array();
+    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+        $response['error'] = true;
+        $response['message'] = "Invalid Request method";
+        echo json_encode($response);
+        exit();
+    }
+
+    try {
+
+        $base_path = dirname(dirname(dirname(__FILE__)));
+        require_once($base_path."/db/Database.php");
+
+        $db = new Database();
+        $dbcon=$db->db_connect();
+        if (!$db->is_connected()) {
+            throw new \Exception("Database is not connected!", 1);
+        }
+
+        $userno=-1;
+        if (isset($_POST['userno'])) {
+            $userno = (int) $_POST['userno'];
+        }
+
+        //username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase
+
+        if (isset($_POST['username']) && strlen($_POST['username'])>0) {
+            $username = trim(strip_tags($_POST['username']));
+        }else{
+            throw new \Exception("User Name cannot be Empty!", 1);
+        }
+
+        if (isset($_POST['firstname']) && strlen($_POST['firstname'])>0) {
+            $firstname = trim(strip_tags($_POST['firstname']));
+        }else{
+            throw new \Exception("User First Name cannot be Empty!", 1);
+        }
+
+        $lastname=NULL;
+        if (isset($_POST['lastname']) && strlen($_POST['lastname'])>0) {
+            $lastname = trim(strip_tags($_POST['lastname']));
+        }
+
+        $affiliation=NULL;
+        if (isset($_POST['affiliation']) && strlen($_POST['affiliation'])>0) {
+            $affiliation = trim(strip_tags($_POST['affiliation']));
+        }
+
+        $jobtitle=NULL;
+        if (isset($_POST['jobtitle']) && strlen($_POST['jobtitle'])>0) {
+            $jobtitle = trim(strip_tags($_POST['jobtitle']));
+        }
+
+        $email=NULL;
+        if (isset($_POST['email']) && strlen($_POST['email'])>0) {
+            $email = trim(strip_tags($_POST['email']));
+        }
+
+        $primarycontact=NULL;
+        if (isset($_POST['primarycontact']) && strlen($_POST['primarycontact'])>0) {
+            $primarycontact = trim(strip_tags($_POST['primarycontact']));
+        }
+
+        $permissionlevel=0;
+        if (isset($_POST['permissionlevel']) && strlen($_POST['permissionlevel'])>0) {
+            $permissionlevel = (int) $_POST['permissionlevel'];
+        }
+
+        $supervisor=NULL;
+        if (isset($_POST['supervisor']) && strlen($_POST['supervisor'])>0) {
+            $supervisor = trim(strip_tags($_POST['supervisor']));
+        }
+
+        if($userno<0){ //password operation is performed during insert, not during update
+            if (isset($_POST['password']) && strlen($_POST['password'])>6) {
+                $password = trim(strip_tags($_POST['password']));
+            }else{
+                throw new \Exception("Password cannot be less than 6 characters!", 1);
+            }
+
+            $retype_password="";
+            if (isset($_POST['retype_password']) && strlen($_POST['retype_password'])>0) {
+                $retype_password = trim(strip_tags($_POST['retype_password']));
+            }
+
+            if(strcmp($password,$retype_password)!=0){
+                throw new \Exception("Password and Retype Password must be equal!", 1);
+            }else{
+                $passphrase = password_hash($password, PASSWORD_DEFAULT);
+            }
+        }
+
+        $ucatno=1;
+        if (isset($_POST['ucatno']) && strlen($_POST['ucatno'])>0) {
+            $ucatno = (int) $_POST['ucatno'];
+        }
+
+        if($userno>0){
+            $nos=update_user($dbcon, $username,$firstname,$lastname,$affiliation,
+                                    $jobtitle,$email,$primarycontact,
+                                    $ucatno, $supervisor,$permissionlevel,$userno);
+            if($nos>0){
+                $response['error'] = false;
+                $response['message'] = "User is Updated.";
+            }else{
+                $response['error'] = true;
+                $response['message'] = "Cannot Update User!";
+            }
+        }else{
+            $userno=insert_user($dbcon, $username,$firstname,$lastname,$affiliation,
+                                        $jobtitle,$email,$primarycontact,$passphrase,
+                                        $supervisor,$permissionlevel,$ucatno);
+            if($userno>0){
+                $response['error'] = false;
+                $response['message'] = "User is Added.";
+            }else{
+                $response['error'] = true;
+                $response['message'] = "Cannot Add User!";
+            }
+        }
+    } catch (Exception $e) {
+        $response['error'] = true;
+        $response['message'] = $e->getMessage();
+    }
+
+    echo json_encode($response);
+
+    $dbcon->close();
+
+    /**
+     * Local Function
+     */
+
+    function insert_user($dbcon, $username,$firstname,$lastname,$affiliation,
+                                $jobtitle,$email,$primarycontact,$passphrase,
+                                $supervisor,$permissionlevel,$ucatno){
+
+        $sql = "INSERT INTO hr_user(
+                                username,firstname,lastname,affiliation,
+                                jobtitle,email,primarycontact,passphrase,
+                                supervisor,permissionlevel,ucatno
+                            )
+                VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("ssssssssiii",$username,$firstname,$lastname,$affiliation,
+                            $jobtitle,$email,$primarycontact,$passphrase,
+                            $supervisor,$permissionlevel,$ucatno);
+        $stmt->execute();
+        return $stmt->insert_id;
+
+
+    }
+
+    function update_user($dbcon, $username,$firstname,$lastname,$affiliation,
+                                $jobtitle,$email,$primarycontact,
+                                $ucatno,$supervisor,$permissionlevel,$userno){
+        $sql = "UPDATE hr_user
+                SET username=?,firstname=?,lastname=?,affiliation=?,
+                    jobtitle=?,email=?,primarycontact=?,
+                    ucatno=?, supervisor=?,permissionlevel=?
+                WHERE userno=?";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("sssssssiiii", $username,$firstname,$lastname,$affiliation,
+                                $jobtitle,$email,$primarycontact,
+                                $ucatno,$supervisor,$permissionlevel,$userno);
+        $stmt->execute();
+        return $stmt->affected_rows;
+    }

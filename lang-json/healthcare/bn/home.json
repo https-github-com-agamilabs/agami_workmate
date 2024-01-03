@@ -1,0 +1,33 @@
+{
+  "bn": {
+    "lang_home": "হোম",
+    "lang_your_doctor_statistics_mentioned_here.": "আপনার ডাক্তারের পরিসংখ্যান এখানে উল্লেখ করা হয়েছে।",
+    "lang_chamber": "চেম্বার",
+    "lang_chamber_setup": "চেম্বার সেটআপ",
+    "lang_settings": "সেটিংস",
+    "lang_profile": "প্রোফাইল",
+    "lang_welcome_to_homepage": "হোমপেজে স্বাগতম।",
+    
+    "lang_3._all_the_other_roles_which_are_given_to_you_from_authority_will_be_shown.": "৩. কর্তৃপক্ষের কাছ থেকে আপনাকে দেওয়া অন্যান্য সমস্ত ভূমিকা প্রদর্শিত হবে।",
+    "lang_2.the_another_button_role_manager_if_you_need_new_roles(clinic_owner,_doctor,_medicine_agent,_care_provider,front_desk,_pharmacy_keeper),_you_can_add_from_here_wit_necessary_permissions_and_informations.": "২. অন্য বোতামের ভূমিকা পরিচালক যদি আপনার নতুন ভূমিকা (ক্লিনিক মালিক, ডাক্তার, মেডিসিন এজেন্ট, কেয়ার প্রোভাইডার, ফ্রন্ট ডেস্ক, ফার্মাসি কিপার) প্রয়োজন হয় তবে আপনি এখান থেকে প্রয়োজনীয় অনুমতি এবং তথ্যগুলি যুক্ত করতে পারেন।",
+    "lang_1._when_you_click_the_profile_button,_you_can_edit_your_information_if_needed.": "1. আপনি যখন প্রোফাইল বোতামটি ক্লিক করেন, আপনি প্রয়োজনে আপনার তথ্য সম্পাদনা করতে পারেন।",
+    "lang_lorem_ipsum_dolor_sit_amet_consectetur_adipisicing_elit._similique_amet_ex_maiores_dolore_minus_cumque_inventore_corrupti_ipsum_in_nihil_accusamus_hic_ullam_laboriosam_nisi_corporis_dolores_sunt,_soluta_exercitationem.": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique amet ex maiores dolore minus cumque inventore corrupti ipsum in nihil accusamus hic ullam laboriosam nisi corporis dolores sunt, soluta exercitationem.",
+    "lang_role_manager": "ম্যানেজার রোল",
+    "lang_doctors_info": "ডাক্তারদের তথ্য",
+    "lang_chamber_&_appointment": "চেম্বার এবং অ্যাপয়েন্টমেন্ট",
+    "lang_vital_sign(patient)": "গুরুত্বপূর্ণ লক্ষণ (রোগী)",
+    "lang_medical_history(patient)": "চিকিৎসা ইতিহাস (রোগী)",
+    "lang_test_setting": "টেস্ট সেটিং",
+    "lang_speciality_setting": "স্পেশালিটি সেটিং",
+    "lang_medical_setting": "মেডিকেল সেটিং",
+    "lang_home_service_call": "হোম সার্ভিস কল",
+    "lang_service_call": "সেবামূলক কল",
+    "lang_front_desk": "ফ্রন্টডেস্ক",
+    "lang_home_service_knock": "হোম সার্ভিস কল",
+    "lang_my_health": "আমার স্বাস্থ্য",
+    "lang_doctor's_appointment": "ডাক্তারের সাক্ষাত",
+    "lang_previous_prescriptions": "পূর্ববর্তী প্রেসক্রিপশন",
+    "lang_medical_history": "পূর্ববর্তী চিকিৎসার তথ্য",
+    "lang_health_blog": "স্বাস্থ্য ব্লগ"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "en": {
+    "lang_add": "Add",
+    "lang_create_store": "Create Store",
+    "lang_title": "Title",
+    "lang_store_id": "Store ID",
+    "lang_store": "Store",
+    "lang_street": "Street",
+    "lang_postcode": "Postcode",
+    "lang_country": "Country",
+    "lang_latitude": "Latitude",
+    "lang_longitude": "Longitude",
+    "lang_get_lat_&_lon": "Get Lat & Lon",
+    "lang_save": "Save",
+    "lang_store_product": "Store Product",
+    "lang_limit": "Limit",
+    "lang_sl": "SL",
+    "lang_medicine": "Medicine",
+    "lang_unit": "Unit",
+    "lang_purchase_rate": "Purchase Rate",
+    "lang_sale_rate": "Sale Rate",
+    "lang_discount": "Discount",
+    "lang_action": "Action",
+    "lang_close": "Close",
+    "lang_save_all": "Save All",
+
+    "lang_filter": "Filter",
+    "lang_setup_store": "Setup Store"
+  }
+}

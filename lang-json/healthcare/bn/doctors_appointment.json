@@ -1,0 +1,30 @@
+{
+    "bn": {
+        "lang_doctor's_appointment": "ডাক্তারের সাক্ষাৎ",
+        "lang_doctor_&_schedule": "ডাক্তার এবং সময়সূচী",
+        "lang_schedule_date": "তারিখ নির্ধারণ",
+        "lang_schedule": "সময়সূচী",
+        "lang_patient_information": "রোগীর তথ্য",
+        "lang_family_&_friend": "পরিবার এবং বন্ধু",
+        "lang_self": "নিজ",
+        "lang_first_name...": "নামের প্রথম অংশ...",
+        "lang_last_name...": "নামের শেষ অংশ...",
+        "lang_date_of_birth": "জন্মতারিখ",
+        "lang_age": "বয়স",
+        "lang_gender": "লিংগ",
+        "lang_select..": "বাছাই করুন",
+        "lang_male": "পুরুষ",
+        "lang_female": "নারী",
+        "lang_others": "অন্যান্য",
+        "lang_blood_group": "রক্তের গ্রুপ",
+        "lang_serial_no": "সিরিয়াল নাম্বার",
+        "lang_get_serial_no": "সিরিয়াল নাম্বার পেতে ক্লিক করুন",
+        "lang_save": "সেইভ",
+        "lang_these_page_describe_you_if_you_need_to_fix_an_appointment_with_your_desired_doctor,_you_can_apply_from_here_for_yourself_or_your_friends_or_family.": "এই পৃষ্ঠাটি আপনাকে বর্ণনা করে যদি আপনার পছন্দসই ডাক্তারের সাথে অ্যাপয়েন্টমেন্ট ঠিক করতে হয় তবে আপনি নিজের বা আপনার বন্ধুবান্ধব বা পরিবারের জন্য এখান থেকে আবেদন করতে পারেন।",
+        "lang_appointment_form_description": "অ্যাপয়েন্টমেন্ট ফর্ম বর্ণনা-",
+        "lang_step_1:_you_should_select_your_desired_doctor._after_that,_select_chamber.": "পদক্ষেপ 1: আপনার আপনার পছন্দসই ডাক্তার নির্বাচন করা উচিত। এর পরে, চেম্বার নির্বাচন করুন।",
+        "lang_step_2:_look_for_your_schedule._according_to_schedule_day,_you_should_select_schedule_date.": "পদক্ষেপ 2: আপনার সময়সূচী সন্ধান করুন। তফসিল দিবস অনুসারে, আপনার সময়সূচী তারিখ নির্বাচন করা উচিত।",
+        "lang_step_3:_click_on_'get_serial_no'.": "পদক্ষেপ 3: 'সিরিয়াল নম্বর পান' এ ক্লিক করুন।",
+        "lang_step_4:_click_save.": "পদক্ষেপ 4: সংরক্ষণ ক্লিক করুন।"
+    }
+}

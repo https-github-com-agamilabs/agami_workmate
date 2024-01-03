@@ -1,0 +1,39 @@
+{
+  "en": {
+    "lang_this_page_describes:": "this page describes:",
+    "lang_1._you_can_add_unlimited_portfolios_and_provide_necessary_links._initially_this_information_will_be_private_unless_you_make_it_public_by_clicking_the_publish_button.": "1. you can add unlimited portfolios and provide necessary links. Initially this information will be private unless you make it public by clicking the publish button.",
+
+    
+    "lang_portfolios": "PORTFOLIOS",
+    "lang_all_of_your_portfolios_should_be_mentioned_here": "All of your portfolios should be mentioned here.",
+    "lang_you_haven't_added_any_portfolio_yet.": "You haven't added any portfolio yet.",
+    "lang_video_embed_link": "Video Embed Link",
+    "lang_add": "Add",
+    "lang_title": "Title",
+    "lang_portfolio_link": "Portfolio Link",
+    "lang_portfolio_type": "Portfolio Type",
+    "lang_media_type": "Media Type",
+    "lang_uploaded_image": "Uploaded Image",
+    "lang_upload_file": "Upload File",
+    "lang_description": "Description",
+    "lang_save": "Save",
+    "lang_change_order": "Change Order",
+    "lang_drag_and_change_order_of_above_professional_responsibilities_and_press_save_button": "Drag and change order of above professional responsibilities and press save button.",
+    "lang_professional_experiences": "Professional Experiences",
+    "lang_all_of_your_job_experience_should_be_mentioned_here": "All of your job experience should be mentioned here.",
+    "lang_professional_experience": "PROFESSIONAL EXPERIENCE",
+    "lang_image": "Image",
+    "lang_video": "Video",
+    "lang_organization": "Organization",
+    "lang_start_date": "Start Date",
+    "lang_end_date": "End Date",
+    "lang_currently_working": "Currently Working",
+    "lang_location": "Location",
+    "lang_you_haven't_added_any_professional_experience_yet.": "You haven't added any professional experience yet.",
+    "lang_experience_on_social_welfare": "EXPERIENCE ON SOCIAL WELFARE",
+    "lang_you_haven't_added_any_social_welfare_experience_yet.": "You haven't added any social welfare experience yet.",
+    "lang_administrative_experience": "ADMINISTRATIVE EXPERIENCE",
+    "lang_you_haven't_added_any_administrative_experience_yet.": "You haven't added any administrative experience yet.",
+    "lang_cancel": "Cancel"
+  }
+}

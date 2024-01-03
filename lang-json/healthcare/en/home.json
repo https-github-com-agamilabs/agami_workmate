@@ -1,0 +1,33 @@
+{
+    "en": {
+        "lang_home": "Home",
+        "lang_your_doctor_statistics_mentioned_here.": "Your doctor statistics mentioned here.",
+        "lang_chamber": "CHAMBER",
+        "lang_settings": "Settings",
+        "lang_profile": "Profile",
+        "lang_welcome_to_homepage": "Welcome to the homepage.",
+    
+        "lang_1._when_you_click_the_profile_button,_you_can_edit_your_information_if_needed.": "1. When you click the profile button, you can edit your information if needed. ",
+        "lang_2.the_another_button_role_manager_if_you_need_new_roles(clinic_owner,_doctor,_medicine_agent,_care_provider,front_desk,_pharmacy_keeper),_you_can_add_from_here_wit_necessary_permissions_and_informations.": "2.the another button role manager if you need new roles(clinic owner, doctor, medicine agent, care provider,front desk, pharmacy keeper), you can add from here wit necessary permissions and informations.",
+        "lang_3._all_the_other_roles_which_are_given_to_you_from_authority_will_be_shown.": "3. all the other roles which are given to you from authority will be shown.",
+        "lang_chamber_setup": "Chamber Setup",
+        "lang_lorem_ipsum_dolor_sit_amet_consectetur_adipisicing_elit._similique_amet_ex_maiores_dolore_minus_cumque_inventore_corrupti_ipsum_in_nihil_accusamus_hic_ullam_laboriosam_nisi_corporis_dolores_sunt,_soluta_exercitationem.": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique amet ex maiores dolore minus cumque inventore corrupti ipsum in nihil accusamus hic ullam laboriosam nisi corporis dolores sunt, soluta exercitationem.",
+        "lang_role_manager": "Role Manager",
+        "lang_doctors_info": "Doctors Info",
+        "lang_chamber_&_appointment": "Chamber & Appointment",
+        "lang_vital_sign(patient)": "Vital Sign (Patient)",
+        "lang_medical_history(patient)": "Medical History (Patient)",
+        "lang_test_setting": "Test Setting",
+        "lang_speciality_setting": "Speciality Setting",
+        "lang_medical_setting": "Medical Setting",
+        "lang_home_service_call": "Home Service Call",
+        "lang_service_call": "Service Call",
+        "lang_front_desk": "Front Desk",
+        "lang_home_service_knock": "Home Service Knock",
+        "lang_my_health": "MY HEALTH",
+        "lang_doctor's_appointment": "Doctor's Appointment",
+        "lang_previous_prescriptions": "Previous Prescriptions",
+        "lang_medical_history": "Medical History",
+        "lang_health_blog": "Health Blog"
+    }
+}

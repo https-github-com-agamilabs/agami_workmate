@@ -1,0 +1,30 @@
+{
+    "en": {
+        "lang_doctor's_appointment": "DOCTOR'S APPOINTMENT",
+        "lang_doctor_&_schedule": "Doctor & Schedule",
+        "lang_schedule_date": "Schedule Date",
+        "lang_schedule": "Schedule",
+        "lang_patient_information": "Patient Information",
+        "lang_family_&_friend": "Family & Friend",
+        "lang_self": "SELF",
+        "lang_first_name...": "First Name...",
+        "lang_last_name...": "Last Name...",
+        "lang_date_of_birth": "Date of Birth",
+        "lang_age": "Age",
+        "lang_gender": "Gender",
+        "lang_select..": "Select..",
+        "lang_male": "male",
+        "lang_female": "female",
+        "lang_others": "others",
+        "lang_blood_group": "Blood Group",
+        "lang_serial_no": "Serial No",
+        "lang_get_serial_no": "Get Serial No",
+        "lang_save": "Save",
+        "lang_these_page_describe_you_if_you_need_to_fix_an_appointment_with_your_desired_doctor,_you_can_apply_from_here_for_yourself_or_your_friends_or_family.": "These page describe you if you need to fix an appointment with your desired doctor, you can apply from here for yourself or your friends or family.",
+        "lang_appointment_form_description": "Appointment form description",
+        "lang_step_1:_you_should_select_your_desired_doctor._after_that,_select_chamber.": "step 1: you should select your desired doctor. After that, select chamber.",
+        "lang_step_2:_look_for_your_schedule._according_to_schedule_day,_you_should_select_schedule_date.": "step 2: Look for your schedule. According to schedule day, you should select schedule date.",
+        "lang_step_3:_click_on_'get_serial_no'.": "step 3: Click on 'Get Serial No'.",
+        "lang_step_4:_click_save.": "step 4: Click save."
+    }
+}

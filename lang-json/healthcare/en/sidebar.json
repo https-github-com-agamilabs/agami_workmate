@@ -1,0 +1,24 @@
+{
+    "en": {
+      "lang_personal": "ব্যক্তিগত",
+
+      "lang_home": "Home",
+      "lang_frontdesk": "FRONTDESK",
+      "lang_chamber_&_appointment": "Chamber & Appointment",
+      "lang_vital_sign_(patient)": "Vital Sign (Patient) ",
+      "lang_medical_history_(patient)": "Medical History (Patient) ",
+      "lang_test_setting": "Test Setting ",
+      "lang_medicine_setting": "Medicine Setting ",
+      "lang_speciality_setting": "Speciality Setting",
+      "lang_my_health": "MY HEALTH",
+      "lang_doctor's_appointment": "Doctor's Appointment",
+      "lang_previous_prescriptions": "Previous Prescriptions",
+      "lang_medical_history": "Medical History",
+      "lang_health_blog": "Health Blog",
+      "lang_doctors_info": "Doctors Info",
+      "lang_home_service_call": "Home Service Call",
+      "lang_home_service_knock": "Home Service Knock",
+      "lang_chamber": "CHAMBER",
+      "lang_front_desk": "FRONTDESK"
+    }
+}

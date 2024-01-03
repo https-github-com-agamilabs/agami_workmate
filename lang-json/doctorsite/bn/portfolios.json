@@ -1,0 +1,43 @@
+{
+  "bn": {
+    "lang_this_page_describes:": "এই পৃষ্ঠাটি বর্ণনা করে:",
+    "lang_1._you_can_add_unlimited_portfolios_and_provide_necessary_links._initially_this_information_will_be_private_unless_you_make_it_public_by_clicking_the_publish_button.": "1. আপনি সীমাহীন পোর্টফোলিও যুক্ত করতে পারেন এবং প্রয়োজনীয় লিঙ্কগুলি সরবরাহ করতে পারেন। প্রাথমিকভাবে এই তথ্যটি ব্যক্তিগত হবে যদি না আপনি প্রকাশের বোতামটি ক্লিক করে এটি সর্বজনীন না করেন।",
+
+    
+    "lang_portfolios": "পোর্টফোলিও",
+    "lang_all_of_your_portfolios_should_be_mentioned_here": "আপনার সমস্ত পোর্টফোলিও এখানে উল্লেখ করা উচিত।",
+    "lang_you_haven't_added_any_portfolio_yet.": "আপনি এখনও কোনও পোর্টফোলিও যুক্ত করেন নি।",
+    "lang_video_embed_link": "ভিডিও এম্বেড লিঙ্ক",
+    "lang_add": "এড করুন",
+    "lang_title": "শিরোনাম",
+    "lang_portfolio_link": "পোর্টফোলিও লিংক",
+    "lang_portfolio_type": "পোর্টফোলিও ধরণ",
+    "lang_media_type": "মিডিয়া ধরণ",
+    "lang_uploaded_image": "ছবি আপলোড করুন",
+    "lang_upload_file": "ফাইল আপলোড করুন",
+    "lang_description": "বিবরণ",
+    "lang_save": "সেইভ করুন",
+    "lang_change_order": "ক্রম পরিবর্তন",
+    "lang_drag_and_change_order_of_above_professional_responsibilities_and_press_save_button": "উপরের পেশাদার দায়িত্বগুলির উপর টেনে আনুন এবং পরিবর্তন করুন এবং সেভ বোতাম টিপুন।",
+    "lang_professional_experiences": "পেশাগত অভিজ্ঞতা",
+    "lang_all_of_your_job_experience_should_be_mentioned_here": "আপনার সমস্ত কাজের অভিজ্ঞতা এখানে উল্লেখ করা উচিত।",
+    "lang_professional_experience": "পেশাগত অভিজ্ঞতা",
+    "lang_image": "ছবি",
+    "lang_video": "ভিডিও",
+
+    "lang_organization": "সংগঠন",
+    "lang_start_date": "শুরুর তারিখ",
+    "lang_end_date": "শেষ তারিখ",
+    "lang_currently_working": "কাজ চলছে",
+    "lang_location": "অবস্থান",
+
+    "lang_you_haven't_added_any_professional_experience_yet.": "আপনি এখনও কোনও পেশাদার অভিজ্ঞতা যোগ করেন নি।",
+
+    "lang_experience_on_social_welfare": "সমাজকল্যাণে অভিজ্ঞতা",
+    "lang_you_haven't_added_any_social_welfare_experience_yet.": "আপনি এখনও কোনও সামাজিক কল্যাণ অভিজ্ঞতা যোগ করেন নি।",
+    "lang_administrative_experience": "প্রশাসনিক অভিজ্ঞতা",
+    "lang_you_haven't_added_any_administrative_experience_yet.": "আপনি এখনও কোনও প্রশাসনিক অভিজ্ঞতা যোগ করেন নি।",
+    "lang_cancel": "বাতিল"
+
+  }
+}

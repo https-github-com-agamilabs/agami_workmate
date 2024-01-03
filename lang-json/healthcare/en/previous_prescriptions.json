@@ -1,0 +1,36 @@
+{
+  "en": {
+    "lang_1._this_page_describes_all_your_previous_appointments_and_prescriptions_in_detail.": "1. This page describes all your previous appointments and prescriptions in detail.",
+    "lang_2._if_you_want_any_prescription_you_should_click_your_desired_prescription_button.": "2. If you want any prescription you should click your desired prescription button.",
+    "lang_previous_prescription": "PREVIOUS PRESCRIPTION",
+    "lang_your_previous_prescription_are_given_here.": "Your previous prescription are given here.",
+    "lang_sl": "SL",
+    "lang_schedule_time": "Schedule Time",
+    "lang_doctor_&_chamber": "Doctor & Chamber",
+    "lang_action": "Action",
+
+    "lang_name": "Name",
+    "lang_date": "Date",
+    "lang_id": "ID",
+    "lang_patient_complaints": "Patient Complaints",
+    "lang_provisional_diagnosis": "Provisional Diagnosis",
+    "lang_tests": "Tests",
+    "lang_confirmed_diagnosis": "Confirmed Diagnosis",
+    "lang_advice_given": "Advice Given",
+    "lang_store": "Store",
+    "lang_medicine": "Medicine",
+    "lang_days": "Days",
+    "lang_intake_plan": "Intake Plan",
+    "lang_total_(qty)": "Total (Qty)",
+    "lang_probable_price": "Probable Price",
+    "lang_total_price_(probable)": "Total Price (Probable)",
+    "lang_delivery:_pick_up_from_shop": "Delivery: Pick Up From Shop",
+    "lang_payment:_at_shop": "Payment: At Shop",
+    "lang_place_order": "Place Order",
+    "lang_close": "Close",
+
+    "lang_delete": "Delete",
+
+    "lang_no_data!": "No Data!"
+  }
+}

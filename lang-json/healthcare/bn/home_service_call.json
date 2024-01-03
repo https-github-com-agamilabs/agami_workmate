@@ -1,0 +1,41 @@
+{
+    "bn": {
+        "lang_service_call": "সেবামূলক কল",
+        "lang_new_call_request": "নতুন কল অনুরোধ",
+        "lang_response": "রেস্পন্স",
+        "lang_all_call_request": "সমস্ত কল অনুরোধ",
+        "lang_request_home_service_for": "হোম সেবা অনুরোধ",
+        "lang_self": "নিজ",
+        "lang_or": "অথবা",
+        "lang_friends_&_family": "বন্ধু এবং পরিবার",
+        "lang_requester_info": "অনুরোধকারীর তথ্য",
+        "lang_contact_no": "যোগাযোগের নম্বর ",
+        "lang_contact_no...": "যোগাযোগের নম্বর ...",
+        "lang_street": "রাস্তা",
+        "lang_postcode": "পোস্টকোড",
+        "lang_latitude": "অক্ষাংশ",
+        "lang_1._this_page_describes_you_if_you_need_any_home_service_like_physiotherapy_nursing_service_babysitter_caregiver,_pathology_test_mental_health_etc._you_can_apply_using_below_form._you_can_apply_for_yourself_or_for_your_friends_and_family.": "১. এই পৃষ্ঠাটি আপনাকে সাহায্য করে যদি আপনার ফিজিওথেরাপি নার্সিং সার্ভিস বেবিসিটার কেয়ারগিভার, প্যাথলজি টেস্ট মানসিক স্বাস্থ্য ইত্যাদির মতো কোনও হোম সার্ভিসের প্রয়োজন হয় তবে আপনি নীচের ফর্মটি ব্যবহার করে আবেদন করতে পারেন। আপনি নিজের জন্য বা আপনার বন্ধু এবং পরিবারের জন্য আবেদন করতে পারেন।",
+        "lang_2._after_feeling_up_the_call_request_from_you_can_get_the_call_detail_in_all_call_require_if_you_want.": "২. কল অনুরোধটি অনুভব করার পরে আপনি যদি চান তবে সমস্ত কলটিতে কল বিশদটি পেতে পারেন।",
+        "lang_3._if_authority_accept_your_application,_you_can_see_the_update_in_response": "৩. কর্তৃপক্ষ যদি আপনার আবেদন গ্রহণ করে তবে আপনি প্রতিক্রিয়াটিতে আপডেটটি দেখতে পাবেন",
+
+        "lang_name": "নাম",
+        "lang_longitude": "দ্রাঘিমাংশ",
+        "lang_service_type":"সেবার ধরণ",
+        "lang_service_info":"পরিষেবা তথ্য",
+        "lang_age": "বয়স",
+        "lang_gender": "লিঙ্গ",
+        "lang_sl":"সিরিয়াল",
+        "lang_amount":"পরিমাণ",
+        "lang_condition":"শর্ত",
+        "lang_care_provider": "যত্ন প্রদানকারী",
+        "lang_action": "ক্রিয়া",
+        "lang_service_start_date": "পরিষেবা শুরুর তারিখ",
+        "lang_service_end_date": "পরিষেবা শেষ তারিখ",
+        "lang_knock_deadline": "নক ডেডলাইন",
+        "lang_end_date": "শেষ তারিখ",
+        "lang_start_date": "শুরুর তারিখ",
+        "lang_description": "বিস্তারিত",
+        "lang_announce": "ঘোষণা"
+
+    }
+}

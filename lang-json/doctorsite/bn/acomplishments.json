@@ -1,0 +1,28 @@
+{
+  "bn": {
+    "lang_this_page_describes:": "এই পৃষ্ঠাটি বর্ণনা করে:",
+    "lang_you_can_add_information_about_completed_projects,_acquired_training_and_certifications._initially_this_information_will_be_private_unless_you_make_it_puclic_by_clicking_publish_button.": "আপনি সম্পূর্ণ প্রকল্প, অর্জিত প্রশিক্ষণ এবং শংসাপত্র সম্পর্কে তথ্য যুক্ত করতে পারেন। প্রাথমিকভাবে এই তথ্যটি ব্যক্তিগত হবে যদি না আপনি প্রকাশ্যে প্রকাশ করুন বোতামটি ক্লিক করে এটি পুকলিক না করে।",
+    "lang_also_you_can_edit_or_delete_information.": "এছাড়াও আপনি তথ্য সম্পাদনা বা মুছতে পারেন।",
+    
+    "lang_accomplishments": "সাফল্য",
+    "lang_all_of_your_acquired_training_&_certifications_should_be_mentioned_here.": "আপনার অর্জিত সমস্ত প্রশিক্ষণ এবং প্রশংসাপত্রগুলি এখানে উল্লেখ করা উচিত।",
+    "lang_completed_projects": "সম্পন্ন প্রকল্প",
+    "lang_you_haven't_added_any_completed_project_yet.": "আপনি এখনও কোনও সম্পূর্ণ প্রকল্প যুক্ত করেন নি।",
+    "lang_project_title": "প্রকল্প শিরোনাম",
+    "lang_project_link": "প্রকল্পের লিঙ্ক",
+    "lang_start_date": "শুরুর তারিখ",
+    "lang_end_date": "শেষ তারিখ",
+    "lang_description": "বর্ণনা",
+    "lang_save": "সংরক্ষণ",
+    "lang_cancel": "বাতিল",
+    "lang_acquired_training_&_certifications": "অর্জিত প্রশিক্ষণ ও প্রশংসাপত্র",
+    "lang_you_haven't_added_any_training_and_certification_yet.": "আপনি এখনও কোনও প্রশিক্ষণ এবং প্রশংসাপত্র যুক্ত করেন নি।",
+    "lang_title": "শিরোনাম",
+    "lang_short_title": "ছোট শিরোনাম",
+    "lang_training/certification_link": "প্রশিক্ষণ/প্রশংসাপত্রের লিঙ্ক",
+    "lang_certificate_issuer": "প্রশংসাপত্র ইস্যুকারী",
+    "lang_reference": "রেফারেন্স",
+    "lang_uploaded_certificate": "আপলোড প্রশংসাপত্র",
+    "lang_change_order": "ক্রম পরিবর্তন"
+  }
+}

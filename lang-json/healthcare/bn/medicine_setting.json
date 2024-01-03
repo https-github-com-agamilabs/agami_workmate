@@ -1,0 +1,25 @@
+{
+
+    "bn": {
+        "lang_this_page_describes_how_you_can_add_new_medicine_or_edit_or_delete_medicine.": "এই পৃষ্ঠাটি বর্ণনা করে যে আপনি কীভাবে নতুন ওষুধ যুক্ত করতে পারেন বা ওষুধ সম্পাদনা করতে বা মুছতে পারেন।",
+        "lang_using_the_top_right_corner_add_button_you_can_add_new_medicine.": "উপরের ডানদিকে কোণার অ্যাড বোতামটি ব্যবহার করে আপনি নতুন ওষুধ যুক্ত করতে পারেন।",
+        "lang_add_button_operation_:": "বোতাম অপারেশন যুক্ত করুন:",
+        "lang_1._med_must_be_unique.": "1. মেড অবশ্যই অনন্য হতে হবে।",
+        "lang_2._you_select_this_med_generic_name,_category_(physical_appearance)_of_this_med.": "২. আপনি এই মেডের জেনেরিক নাম, এই মেডের বিভাগ (শারীরিক উপস্থিতি) নির্বাচন করুন।",
+        "lang_3._unit_describe_this_medicine_supply_either_on_pieces_or_box_etc.": "৩. ইউনিট এই ওষুধের সরবরাহকে টুকরো বা বাক্স ইত্যাদি বর্ণনা করে",
+        "lang_4._you_must_select_a_brand_name_from_where_this_medicine_belongs.": "৪. আপনাকে অবশ্যই এই ওষুধটি যেখানে থেকে একটি ব্র্যান্ডের নাম নির্বাচন করতে হবে।",
+        "lang_medicine_setting": "মেডিসিন সেটিং",
+        "lang_add": "যোগ করুন",
+        "lang_medicine_setting_filter_form": "মেডিসিন সেটিং ফিল্টার ফর্ম",
+        "lang_limit": "সীমা",
+        "lang_search": "অনুসন্ধান",
+        "lang_sl": "Sl",
+        "lang_name": "নাম",
+        "lang_generic": "জেনেরিক",
+        "lang_category": "বিভাগ",
+        "lang_unit": "ইউনিট",
+        "lang_brand": "ব্র্যান্ড",
+        "lang_action": "কর্ম",
+        "lang_update_medicine_setting": "ওষুধ সেটিং আপডেট করুন"
+    }
+}

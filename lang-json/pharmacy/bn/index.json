@@ -1,0 +1,31 @@
+{
+  "bn": {
+    "lang_add": "যোগ করুন",
+    "lang_create_store": "স্টোর তৈরি করুন",
+    "lang_title": "শিরোনাম",
+    "lang_store_id": "স্টোর আইডি",
+    "lang_street": "রাস্তা",
+    "lang_postcode": "পোস্টকোড",
+    "lang_country": "দেশ",
+    "lang_latitude": "অক্ষাংশ",
+    "lang_longitude": "দ্রাঘিমাংশ",
+    "lang_get_lat_&_lon": "ল্যাট অ্যান্ড লোন পান",
+    "lang_save": "সংরক্ষণ",
+    "lang_store_product": "পণ্য স্টোর করুন",
+    "lang_store": "স্টোর",
+
+    "lang_limit": "সীমা",
+    "lang_filter": "Filter",
+    "lang_sl": "সিরিয়াল",
+    "lang_medicine": "অসুধ",
+    "lang_unit": "ইউনিট",
+    "lang_purchase_rate": "ক্রয় হার",
+    "lang_sale_rate": "বিক্রয় হার",
+    "lang_discount": "ছাড়",
+    "lang_action": "কর্ম",
+    "lang_close": "বন্ধ করুন",
+    "lang_save_all": "সব সেইভ করুন",
+
+    "lang_setup_store": "সেটআপ স্টোর"
+  }
+}

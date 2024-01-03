@@ -1,0 +1,24 @@
+{
+    "en": {
+        "lang_this_page_describes_a_doctor's_specialty._you_can_add_or_edit_or_delete_doctors_specialty_from_here.": "This page describes a doctor's specialty. You can add or edit or delete doctors specialty from here.",
+        "lang_for_adding_a_new_specialty,_you_should_click_the_top_right_corner_add_button.": "For adding a new specialty, you should click the top right corner add button.",
+        "lang_add_button_operation:": "add button operation:",
+        "lang_1._write_specialty_(must_be_unique)": "1. write specialty (must be unique)",
+        "lang_2._parent_specialty_means_that_you_should_select_this_specialty's_type_if_it_exists.": "2. parent specialty means that you should select this Specialty's type if it exists.",
+        "lang_speciality_setting": "SPECIALITY SETTING",
+        "lang_create_speciality_setting": "Create Speciality Setting",
+        "lang_setup_speciality_setting": "Setup Speciality Setting",
+        "lang_sl": "SL",
+        "lang_specialty": "Specialty",
+        "lang_action": "Action",
+        "lang_parent_specialty": "Parent Specialty",
+        "lang_save": "save",
+        "lang_search": "Search",
+        "lang_update_speciality_setting": "Update Speciality Setting",
+        "lang_showing": "Showing",
+        "lang_to": "to",
+        "lang_of": "of",
+        "lang_entries": "entries",
+        "lang_you_are_going_to_delete_this_record._are_you_sure_to_proceed?": "You are going to delete this record. Are you sure to proceed?"
+    }
+}

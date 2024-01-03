@@ -1,0 +1,25 @@
+{
+    "bn": {
+        "lang_this_page_describes:": "এই পৃষ্ঠাটি বর্ণনা করে:",
+        "lang_you_can_add_new_test_by_clicking_add_button.": "আপনি ‘অ্যাড’ বোতামটি ক্লিক করে নতুন পরীক্ষা যুক্ত করতে পারেন।",
+        "lang_step_for_'add'_button_form:": "'অ্যাড' বোতাম ফর্মের জন্য পদক্ষেপ:",
+        "lang_1._provide_unique_test_id_that_is_not_used_before": "1. অনন্য পরীক্ষার আইডি সরবরাহ করুন যা আগে ব্যবহৃত হয় না",
+        "lang_2._also_test_title_will_be_unique.": "2. এছাড়াও টেস্ট_টাইটেল অনন্য হবে।",
+        "lang_3._you_can_select_test_category_based_on_disease_type": "৩. আপনি রোগের ধরণের উপর ভিত্তি করে টেস্ট_ বিভাগ নির্বাচন করতে পারেন",
+        "lang_4._you_can_provide_normal_range_of_these_tests.": "৪. আপনি এই পরীক্ষাগুলির স্বাভাবিক পরিসীমা সরবরাহ করতে পারেন।",
+        "lang_here_below_the_test_setting_table_is_showing_all_types_of_test_that_you_have_saved_before.": "এখানে পরীক্ষার সেটিং টেবিলের নীচে সমস্ত ধরণের পরীক্ষা দেখানো হচ্ছে যা আপনি আগে সংরক্ষণ করেছেন।",
+       "lang_within_this_table._column_name_status_has_two_buttons_activate_or_deactivate_which_means_if_an_active_button_is_clicked,_then_this_test_will_be_available_else_unavailable.": "এই টেবিলের মধ্যে। কলামের নামের স্থিতির দুটি বোতাম সক্রিয় বা নিষ্ক্রিয় রয়েছে যার অর্থ যদি একটি সক্রিয় বোতামটি ক্লিক করা হয় তবে এই পরীক্ষাটি অন্য অনুপলব্ধ উপলভ্য হবে।",
+        "lang_test_setting": "টেস্ট সেটিং",
+        "lang_test_setting_filter_form.": "পরীক্ষা সেটিং ফিল্টার ফর্ম",
+        "lang_limit": "সীমা",
+        "lang_search_key": "অনুসন্ধান ",
+        "lang_search": "অনুসন্ধান",
+        "lang_sl": "সিরিয়াল",
+        "lang_test_id": "পরীক্ষার আইডি",
+        "lang_test_title": "পরীক্ষার শিরোনাম",
+        "lang_test_type": "পরীক্ষার ধরন",
+        "lang_category": "পরীক্ষা বিভাগ",
+        "lang_normal_value": "স্বাভাবিক মান",
+        "lang_status": "অবস্থা"
+    }
+}

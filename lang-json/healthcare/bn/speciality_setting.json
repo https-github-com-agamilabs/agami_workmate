@@ -1,0 +1,25 @@
+{
+
+    "bn": {
+        "lang_this_page_describes_a_doctor's_specialty._you_can_add_or_edit_or_delete_doctors_specialty_from_here.": "এই পৃষ্ঠাটি একজন চিকিত্সকের বিশেষত্ব বর্ণনা করে। আপনি এখান থেকে ডাক্তারদের বিশেষত্ব যুক্ত বা সম্পাদনা করতে বা মুছতে পারেন।",
+        "lang_for_adding_a_new_specialty,_you_should_click_the_top_right_corner_add_button.": "একটি নতুন বিশেষত্ব যুক্ত করার জন্য, আপনার উপরের ডান কোণার অ্যাড বোতামটি ক্লিক করা উচিত।",
+        "lang_add_button_operation:": "এড বোতাম অপারেশন :",
+        "lang_1._write_specialty_(must_be_unique)": "1. বিশেষত্ব লিখুন (অবশ্যই অনন্য হতে হবে)",
+        "lang_2._parent_specialty_means_that_you_should_select_this_specialty's_type_if_it_exists.": "২. পেরেন্ট বিশেষত্ব হল যদি এটি বিদ্যমান থাকে তবে আপনার এই বিশেষের ধরণটি নির্বাচন করা উচিত।",
+        "lang_speciality_setting": "স্পেশালিটি সেটিংস",
+        "lang_create_speciality_setting": "স্পেশালিটি সেটিং তৈরি করুন",
+        "lang_setup_speciality_setting": "সেটআপ স্পেশালিটি সেটিং",
+        "lang_sl": "সিরিয়াল",
+        "lang_specialty": "স্পেশালিটি",
+        "lang_action": "এক্‌শন",
+        "lang_parent_specialty": "পেরেন্ট স্পেশালিটি",
+        "lang_save": "সেইভ করুন",
+        "lang_search": "খুজুন",
+        "lang_update_speciality_setting": "স্পেশালিটি সেটিংস আপডেট করুন",
+        "lang_showing": "দেখানো হচ্ছে",
+        "lang_to": "প্রতি",
+        "lang_of": "এর",
+        "lang_entries": "এন্ট্রি",
+        "lang_you_are_going_to_delete_this_record._are_you_sure_to_proceed?": "আপনি এই রেকর্ড মুছে দিচ্ছেন. আপনি এগিয়ে যেতে নিশ্চিত?"
+    }
+}

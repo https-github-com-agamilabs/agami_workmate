@@ -1,0 +1,22 @@
+{
+  "bn": {
+    "lang_frontdesk": "ফ্রন্টডেস্ক",
+    "lang_home": "হোম",
+    "lang_chamber_&_appointment": "চেম্বার ও অ্যাপয়েন্টমেন্ট",
+    "lang_vital_sign_(patient)": "গুরুত্বপূর্ণ লক্ষণ (রোগী)",
+    "lang_medical_history_(patient)": "মেডিকেল হিস্টরি (রোগী)",
+    "lang_test_setting": "টেস্ট সেটিং",
+    "lang_medicine_setting": "মেডিসিন সেটিং",
+    "lang_speciality_setting": "বিশেষত্ব সেটিং",
+    "lang_my_health": "আমার স্বাস্থ্য",
+    "lang_doctor's_appointment": "ডাক্তারের সাক্ষাৎ",
+    "lang_previous_prescriptions": "পূর্ববর্তী প্রেস্ক্রিপশন",
+    "lang_medical_history": "ডাক্তারি ইতিহাস",
+    "lang_health_blog": "স্বাস্থ্য ব্লগ",
+    "lang_doctors_info": "ডাক্তারের তথ্যাদি",
+    "lang_home_service_call": "হোম সার্ভিস কল",
+    "lang_home_service_knock": "হোম সার্ভিস নক",
+    "lang_chamber": "চেম্বার",
+    "lang_front_desk": "ফ্রন্টডেস্ক"
+  }
+}

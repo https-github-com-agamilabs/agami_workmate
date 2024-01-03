@@ -1,0 +1,29 @@
+{
+  "bn": {
+    "lang_this_page_describes_-": "এই পৃষ্ঠাটি বর্ণনা করে:",
+    "lang_you_can_add_unlimited_information_about_professional_experience,_experience_on_social_welfare_and_administrative_experiences.": "আপনি পেশাদার অভিজ্ঞতা, সমাজকল্যাণ এবং প্রশাসনিক অভিজ্ঞতা সম্পর্কে অভিজ্ঞতা সম্পর্কে সীমাহীন তথ্য যুক্ত করতে পারেন।",
+    "lang_initially_this_information_will_be_private_unless_you_make_it_puclic_by_clicking_publish_button.": "প্রাথমিকভাবে এই তথ্যটি ব্যক্তিগত হবে যদি না আপনি প্রকাশ্যে প্রকাশ করুন বোতামটি ক্লিক করে এটি পুকলিক না করে।",
+    "lang_also_you_can_edit_or_delete_information.": "এছাড়াও আপনি তথ্য সম্পাদনা বা মুছতে পারেন।",
+    
+    "lang_drag_and_change_order_of_above_professional_responsibilities_and_press_save_button": "উপরের পেশাদার দায়িত্বগুলির উপর টেনে আনুন এবং পরিবর্তন করুন এবং সেভ বোতাম টিপুন।",
+    "lang_professional_experiences": "পেশাগত অভিজ্ঞতা",
+    "lang_all_of_your_job_experience_should_be_mentioned_here": "আপনার সমস্ত কাজের অভিজ্ঞতা এখানে উল্লেখ করা উচিত।",
+    "lang_professional_experience": "পেশাগত অভিজ্ঞতা",
+    "lang_title": "শিরোনাম",
+    "lang_organization": "সংগঠন",
+    "lang_start_date": "শুরুর তারিখ",
+    "lang_end_date": "শেষ তারিখ",
+    "lang_currently_working": "কাজ চলছে",
+    "lang_location": "অবস্থান",
+    "lang_save": "সংরক্ষণ",
+    "lang_description": "বর্ণনা",
+    "lang_you_haven't_added_any_professional_experience_yet.": "আপনি এখনও কোনও পেশাদার অভিজ্ঞতা যোগ করেন নি।",
+    "lang_change_order": "ক্রম পরিবর্তন",
+    "lang_add": "যোগ করুন",
+    "lang_experience_on_social_welfare": "সমাজকল্যাণে অভিজ্ঞতা",
+    "lang_you_haven't_added_any_social_welfare_experience_yet.": "আপনি এখনও কোনও সামাজিক কল্যাণ অভিজ্ঞতা যোগ করেন নি।",
+    "lang_administrative_experience": "প্রশাসনিক অভিজ্ঞতা",
+    "lang_you_haven't_added_any_administrative_experience_yet.": "আপনি এখনও কোনও প্রশাসনিক অভিজ্ঞতা যোগ করেন নি।",
+    "lang_cancel": "বাতিল"
+  }
+}

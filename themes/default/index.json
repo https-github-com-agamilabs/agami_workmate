@@ -1,0 +1,127 @@
+{
+    "title": "Holistic Online Health Care System",
+    "nav-title": "Welcome to <span>Holistic Online Health Care System </span>",
+    "about":"eRx@BD is a holistic health-care system, where a patient can get the essence of AI, get doctor's appointment, get medicine online pharmacy, book a home-service, get health-update from doctors blog and many more. Doctors can prescribe patients effectively, quickly, and error-freely with the help of Artificial Intelligence (AI).",
+    "subscription":"Empower yourself with knowledge and nurture your mind and soul with our health blog subscription. Embrace a life of vitality and well-being. Subscribe today and embark on a journey to your healthiest self!",
+    "head-carousel": [
+        {
+            "imageurl": "http://localhost/agamimedrx/themes/medi/img/bg-img/hero1.jpg",
+            "title": "Holistic & Online<br>Health-care Services",
+            "sub-title": "That you can Trust 100%",
+            "subsub-title": "The system is dedicated to <br> patients, doctors, care-givers, medicine company, pharmacy, and diagnostics service.",
+            "extra-button": "Which Doctor I Should See <span>AI</span>"
+        },
+        {
+            "imageurl": "http://localhost/agamimedrx/themes/medi/img/bg-img/breadcumb1.jpg",
+            "title": "Accurate & Faster<br>Prescription",
+            "sub-title": "Doctor and Patients work together",
+            "subsub-title": "Patients input medical history to accelerate doctor's diagnosis. Patient's chronic disease, previous medical history and treatment may help doctors to identify disease and medicate more accurately.",
+            "extra-button": "Which Doctor I Should See <span>AI</span>"
+        },
+        {
+            "imageurl": "http://localhost/agamimedrx/themes/medi/img/bg-img/breadcumb3.jpg",
+            "title": "Artificial Intelligence (AI)<br> Enabled Health-care",
+            "sub-title": "Doctor and AI, leading the way to a healthier future",
+            "subsub-title": "Don't miss out on the future of medicine. Schedule your appointment with doctor today and experience the difference that AI can make in your healthcare journey.",
+            "extra-button": "Which Doctor I Should See <span>AI</span>"
+        },
+        {
+            "imageurl": "http://localhost/agamimedrx/themes/medi/img/bg-img/breadcumb3.jpg",
+            "title": "Your Trusted Partner in <br>Medical Home Services",
+            "sub-title": "From skilled nursing to specialized medical assistance",
+            "subsub-title": "We believe in building lasting relationships, treating every client like family, and creating an environment of trust and comfort.",
+            "extra-button": "Find Care-giver Near Me <span title='Home'>Hm</span>"
+        }
+    ],
+    "sections": {
+        "appointment": {
+            "title": "Get Doctor's Appointment",
+            "sub-title": "Your Gateway to Hassle-Free Medical Consultations",
+            "description": "Your convenient solution for scheduling doctor's appointments from the comfort of your own home. Our user-friendly platform lets you schedule appointments instantly, 24/7."
+        },
+        "service": {
+            "title": "Services",
+            "sub-title": "Choose the best medical services and experience a new standard of care.",
+            "description": "Our innovation connect you to expert doctors, trained care-providers, pharmacies for online medicine order, and blog for health updates. Join today!",
+            "list": [
+                {
+                    "icon": "fas fa-user-md",
+                    "title": "Doctor's Appointment",
+                    "short-description": "Patient can classify which specialist does he to see using AI and can get doctor's appointment using web, phone-call or SMS easily and quickly staying at home."
+                },
+                {
+                    "icon": "fas fa-prescription",
+                    "title": "Prescription",
+                    "short-description": "We aim to establish our online prescription system for hassle-free prescription. Doctor can create it easily, quickly, and efficiently. Patient can share to other as necessary."
+                },
+                {
+                    "icon": "fas fa-user-nurse",
+                    "title": "Home Services (Care-giver)",
+                    "short-description": "Are you looking for skilled nurses to care for your family’s baby/elderly parents or sick loved ones? Now to get nursing services at home, we are at your side. "
+                },
+                {
+                    "icon": "icon-medicine",
+                    "title": "Online Medicine Order",
+                    "short-description": "We provide medicines through a medical prescription and healthcare products to be dispensed at pick-up and home delivery in all over Bangladesh."
+                },
+                {
+                    "icon": "fas fa-blog",
+                    "title": "Doctors' Blog",
+                    "short-description": "Doctors blog to educate patients, to humanize themselves, to improve current patient adherence, and to keep people up to date with the latest medical research."
+                },
+                {
+                    "icon": "icon-medicine-2",
+                    "title": "Medicine Branding",
+                    "short-description": "Medicine branding increases online visibility, controls professional reputation, and establishes your ‘niche’ market. Get online, be active to ensure pay-off."
+                }
+            ]
+        },
+        "home-service": {
+            "title": "Home Services",
+            "sub-title": "You can enjoy peace of mind knowing that our caregivers are there for you, providing round-the-clock assistance whenever and wherever you need it.",
+            "description": "We understand the importance of maintaining independence and quality of life in the comfort of your own home. Our team of compassionate caregivers is dedicated to providing personalized care tailored to your unique needs. We believe that true care goes beyond just tending to physical needs. We provide emotional support and companionship, fostering a genuine connection with our clients.",
+            "list": [
+                {
+                    "icon": "",
+                    "title": "Post-Stroke Physiotherapy",
+                    "short-description": "Our expert help the patients to regain strength, coordination and functionto improve his posture and balance."
+                },
+                {
+                    "icon": "",
+                    "title": "Rehabilitation at Home",
+                    "short-description": "We offer home occupational therapy, respite care services, and flexible home care options to cater to the diverse needs of our clients. "
+                },
+                {
+                    "icon": "fas fa-baby",
+                    "title": "Babysitting and Elderly Care",
+                    "short-description": "We offers the best babysitting and elderly care services to ensure peace of mind for parents through carefully selecting experienced, well-trained, and passionate care-givers."
+                },
+                {
+                    "icon": "",
+                    "title": "In-home Nursing Assistance",
+                    "short-description": "We offer a range of in-home nursing services cater to various needs, from geriatric care to post-surgery home care and palliative care services. "
+                },
+                {
+                    "icon": "",
+                    "title": "Midwifery at Home",
+                    "short-description": "A skilled, knowledgeable and compassionate care-giver will take care of pregnants and newborn infants."
+                },
+                {
+                    "icon": "",
+                    "title": "Beauty Treatments at Home",
+                    "short-description": "Our professional artists provide premium facial, meni-pedi treatments that will leave you feeling rejuvenated and refreshed."
+                }
+            ]
+        },
+        "pharmacy": {
+            "title": "Medicine Stores",
+            "sub-title": "Your One-Stop Online Medical Store",
+            "description": "Say goodbye to long queues and crowded aisles."
+        },
+        "blog": {
+            "title": "Latest Update from Doctors",
+            "sub-title": "Health Insights: Stay informed, stay healthy.",
+            "description": ""
+        }
+    }
+}

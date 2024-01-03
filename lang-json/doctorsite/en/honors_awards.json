@@ -1,0 +1,52 @@
+{
+  "en": {
+    "lang_this_page_describes_:": "this page describes:",
+    "lang_1._you_can_add_information_about_honours_and_awards._initially_this_information_will_be_private_unless_you_make_it_public_by_clicking_the_publish_button.": "1. you can add information about Honours and awards. Initially this information will be private unless you make it public by clicking the publish button.",
+    "lang_2._you_can_add_information_about_professional_membership._initially_this_information_will_be_private_unless_you_make_it_public_by_clicking_the_publish_button.": "2. you can add information about professional membership. Initially this information will be private unless you make it public by clicking the publish button.",
+
+
+    
+    "lang_honors_&_awards": "HONORS & AWARDS",
+    "lang_all_of_your_honors_&_awards_should_be_mentioned_here.": "All of your honors & awards should be mentioned here.",
+    "lang_you_haven't_added_any_award_yet.": "You haven't added any award yet.",
+    "lang_drag_and_change_order_of_above_professional_responsibilities_and_press_save_button": "Drag and change order of above professional responsibilities and press save button.",
+    "lang_add": "Add",
+    "lang_month": "Month",
+    "lang_january": "January",
+
+    "lang_february": "February",
+    "lang_march": "March",
+    "lang_april": "April",
+    "lang_may": "May",
+    "lang_june": "June",
+    "lang_july": "July",
+    "lang_august": "August",
+    "lang_september": "September",
+    "lang_october": "October",
+    "lang_november": "November",
+    "lang_december": "December",
+    "lang_select_month": "Select Month",
+
+    "lang_award_title": "Award Title",
+    "lang_issuer": "Issuer",
+    "lang_award_month": "Award Month",
+    "lang_award_year": "Award Year",
+    "lang_description": "Description",
+    "lang_save": "Save",
+    "lang_cancel": "Cancel",
+    "lang_member_title": "Member Title",
+
+    "lang_change_order": "Change Order",
+    "lang_start_month": "Start Month",
+    "lang_start_year": "Start Year",
+    "lang_end_month": "end Month",
+    "lang_end_year": "end Year",
+    "lang_you_haven't_added_any_scholarship_yet.": "You haven't added any scholarship yet.",
+    "lang_professional_membership": "PROFESSIONAL MEMBERSHIP",
+    "lang_scholarship_&_fellowship": "SCHOLARSHIP & FELLOWSHIP",
+    "lang_membership_title": "Membership Title",
+    "lang_organization": "Organization",
+    "lang_organization_url": "Organization URL",
+    "lang_you_haven't_added_any_professional_membership_yet.": "You haven't added any professional membership yet."
+  }
+}

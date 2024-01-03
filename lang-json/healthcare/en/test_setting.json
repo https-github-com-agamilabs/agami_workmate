@@ -1,0 +1,25 @@
+{
+    "en": {
+        "lang_this_page_describes:": "This page describes:",
+        "lang_you_can_add_new_test_by_clicking_add_button.": "You can add new test by clicking 'Add' button.",
+        "lang_step_for_'add'_button_form:": "Step for 'Add' button form:",
+        "lang_1._provide_unique_test_id_that_is_not_used_before": "1. Provide unique test ID that is not used before",
+        "lang_2._also_test_title_will_be_unique.": "2. Also test_title will be unique.",
+        "lang_3._you_can_select_test_category_based_on_disease_type": "3. You can select test_category based on disease type",
+        "lang_4._you_can_provide_normal_range_of_these_tests.": "4. You can provide normal range of these tests.",
+        "lang_here_below_the_test_setting_table_is_showing_all_types_of_test_that_you_have_saved_before.": "Here below the test setting table is showing all types of test that you have saved before.",
+        "lang_within_this_table._column_name_status_has_two_buttons_activate_or_deactivate_which_means_if_an_active_button_is_clicked,_then_this_test_will_be_available_else_unavailable.": "Within this table. column name status has two buttons activate or deactivate which means if an active button is clicked, then this test will be available else unavailable.",
+        "lang_test_setting": "Test Setting",
+        "lang_test_setting_filter_form.": "Test Setting Filter Form.",
+        "lang_limit": "Limit",
+        "lang_search_key": "Search Key",
+        "lang_search": "Search",
+        "lang_sl": "SL",
+        "lang_test_id": "Test Id",
+        "lang_test_title": "Test Title",
+        "lang_test_type": "Test Type",
+        "lang_category": "Category",
+        "lang_normal_value": "Normal Value",
+        "lang_status": "Status"
+    }
+}

@@ -1,0 +1,38 @@
+{
+  "bn": {
+    "lang_1._this_page_describes_all_your_previous_appointments_and_prescriptions_in_detail.": "১. এই পৃষ্ঠাটি আপনার পূর্ববর্তী সমস্ত অ্যাপয়েন্টমেন্ট এবং প্রেসক্রিপশনগুলি বিশদভাবে বর্ণনা করে।",
+    "lang_2._if_you_want_any_prescription_you_should_click_your_desired_prescription_button.": "২. আপনি যদি কোনও প্রেসক্রিপশন চান তবে আপনার পছন্দসই প্রেসক্রিপশন বোতামটি ক্লিক করুন।",
+    "lang_previous_prescription": "পূর্ববর্তী প্রেসক্রিপশন",
+    "lang_your_previous_prescription_are_given_here.": "আপনার পূর্ববর্তী প্রেসক্রিপশন এখানে দেওয়া হয়েছে।",
+    "lang_sl": "সিরিয়াল",
+    "lang_schedule_time": "তফসিল সময়",
+    "lang_doctor_&_chamber": "ডাক্তার ও চেম্বার",
+    "lang_action": "কর্ম",
+
+    "lang_name": "নাম",
+    "lang_date": "তারিখ",
+    "lang_id": "আইডি",
+    "lang_patient_complaints": "রোগীর অভিযোগ",
+    "lang_provisional_diagnosis": "অস্থায়ী নির্ণয়",
+    "lang_tests": "পরীক্ষা",
+    "lang_on_test_examination": "পরীক্ষা",
+    "lang_confirmed_diagnosis": "নিশ্চিত নির্ণয়",
+    "lang_advice_given": "দেওয়া পরামর্শ",
+    "lang_store": "স্টোর",
+    "lang_view_store_in_map": "মানচিত্রে স্টোর দেখুন",
+    "lang_medicine": "মেডিসিন",
+    "lang_intake_plan": "কীভাবে নেবেন?",
+    "lang_days": "দিন",
+    "lang_total_(qty)": "মোট পরিমাণ",
+    "lang_probable_price": "সম্ভাব্য দাম",
+    "lang_delete": "মুছে ফেলুন",
+    "lang_total_price_(probable)": "মোট মূল্য (সম্ভাব্য)",
+    "lang_delivery:_pick_up_from_shop": "ডেলিভারি: দোকান থেকে বাছাই করুন",
+
+    "lang_payment:_at_shop": "দোকানে অর্থ প্রদান:",
+    "lang_place_order": "অর্ডার করুন",
+       "lang_close": "বন্ধ করুন",
+
+    "lang_no_data!": "কোন তথ্য নেই!"
+  }
+}

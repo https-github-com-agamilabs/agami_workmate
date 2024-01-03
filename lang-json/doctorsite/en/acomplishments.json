@@ -1,0 +1,28 @@
+{
+    "en": {
+        "lang_this_page_describes:": "this page describes:",
+        "lang_you_can_add_information_about_completed_projects,_acquired_training_and_certifications._initially_this_information_will_be_private_unless_you_make_it_puclic_by_clicking_publish_button.": "you can add information about completed projects, acquired training and certifications. Initially this information will be private unless you make it puclic by clicking publish button.",
+        "lang_also_you_can_edit_or_delete_information.": "also You can edit or delete information.",
+        
+        "lang_accomplishments": "Accomplishments",
+        "lang_all_of_your_acquired_training_&_certifications_should_be_mentioned_here.": "All of your acquired training & certifications should be mentioned here.",
+        "lang_completed_projects": "COMPLETED PROJECTS",
+        "lang_you_haven't_added_any_completed_project_yet.": "You haven't added any completed project yet.",
+        "lang_project_title": "Project Title",
+        "lang_project_link": "Project Link",
+        "lang_start_date": "Start Date",
+        "lang_end_date": "End Date",
+        "lang_description": "Description",
+        "lang_save": "save",
+        "lang_cancel": "cancel",
+        "lang_acquired_training_&_certifications": "ACQUIRED TRAINING & CERTIFICATIONS",
+        "lang_you_haven't_added_any_training_and_certification_yet.": "You haven't added any training and certification yet.",
+        "lang_title": "Title",
+        "lang_short_title": "Short Title",
+        "lang_training/certification_link": "Training/Certification Link",
+        "lang_certificate_issuer": "Certificate Issuer",
+        "lang_reference": "Reference",
+        "lang_uploaded_certificate": "Uploaded Certificate",
+        "lang_change_order": "Change Order"
+    }
+}

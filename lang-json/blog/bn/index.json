@@ -1,0 +1,27 @@
+{
+
+    "bn": {
+        "lang_these_page_describe_all_blogs_that_was_written_by_doctor._also_if_you_are_doctor_or_health_provider_you_can_add_blog/_post_/suggestion_here._keep_in_mind_that_this_blog_must_be_help_related.": "এই পৃষ্ঠাটি ডাক্তার লিখেছেন এমন সমস্ত ব্লগ বর্ণনা করেছেন। এছাড়াও আপনি যদি ডাক্তার বা স্বাস্থ্য সরবরাহকারী হন তবে আপনি এখানে ব্লগ / পোস্ট / পরামর্শ যুক্ত করতে পারেন। মনে রাখবেন যে এই ব্লগটি অবশ্যই সম্পর্কিত হতে হবে।",
+        "lang_you_can_see_your_previous_post_also_by_clicking_on_my_post_button.": "আপনি আমার পোস্ট বোতামে ক্লিক করে আপনার আগের পোস্টটিও দেখতে পারেন।",
+        "lang_if_you_are_a_general_public_or_a_patient_you_can_only_read_and_see_all_blogs.": "আপনি যদি সাধারণ জনসাধারণ বা রোগী হন তবে আপনি কেবল সমস্ত ব্লগ পড়তে এবং দেখতে পারেন।",
+        "lang_using_'browse_tags'_you_can_filter_your_desired_post_according_to_the_tag.": "'ব্রাউজ ট্যাগ' ব্যবহার করে আপনি ট্যাগ অনুযায়ী আপনার পছন্দসই পোস্টটি ফিল্টার করতে পারেন।",
+        "lang_test_setting": "টেস্ট সেটিং",
+        "lang_test_setting_filter_form.": "পরীক্ষা সেটিং ফিল্টার ফর্ম",
+        "lang_limit": "সীমা",
+        "lang_search_key": "অনুসন্ধান ",
+        "lang_search": "অনুসন্ধান",
+        "lang_sl": "সিরিয়াল",
+        "lang_test_id": "পরীক্ষার আইডি",
+        "lang_test_title": "পরীক্ষার শিরোনাম",
+        "lang_test_type": "পরীক্ষার ধরন",
+        "lang_category": "পরীক্ষা বিভাগ",
+        "lang_normal_value": "স্বাভাবিক মান",
+        "lang_status": "অবস্থা",
+        "lang_find_posts": "পোস্ট সন্ধান করুন",
+        "lang_newsfeed": "ঘটনাচক্র",
+        "lang_my_posts": "আমার পোস্ট",
+        "lang_you_have_to_login_as_doctor_to_post_anything": "কিছু পোস্ট করার জন্য আপনাকে ডাক্তার হিসাবে লগইন করতে হবে",
+        "lang_browse_tags": "ট্যাগ ব্রাউজ করুন",
+        "lang_click_to_login": "লগইন করতে ক্লিক করুন"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "en": {
+        
+        "lang_this_page_describes_how_you_can_add_new_medicine_or_edit_or_delete_medicine.": "This page describes how you can add new medicine or edit or delete medicine.",
+        "lang_using_the_top_right_corner_add_button_you_can_add_new_medicine.": "Using the top right corner add button you can add new medicine.",
+        "lang_add_button_operation_:": "Add button operation :",
+        "lang_1._med_must_be_unique.": "1. med must be unique.",
+        "lang_2._you_select_this_med_generic_name,_category_(physical_appearance)_of_this_med.": "2. you select this med generic name, category (physical appearance) of this med.",
+        "lang_3._unit_describe_this_medicine_supply_either_on_pieces_or_box_etc.": "3. unit describe this medicine supply either on pieces or box etc.",
+        "lang_4._you_must_select_a_brand_name_from_where_this_medicine_belongs.": "4. you must select a brand name from where this medicine belongs.",
+        "lang_medicine_setting": "MEDICINE SETTING",
+        "lang_add": "Add",
+        "lang_medicine_setting_filter_form": "Medicine Setting Filter Form",
+        "lang_limit": "Limit",
+        "lang_search": "Search",
+        "lang_sl": "SL",
+        "lang_name": "Name",
+        "lang_generic": "Generic",
+        "lang_category": "Category",
+        "lang_unit": "Unit",
+        "lang_brand": "Brand",
+        "lang_action": "Action",
+        "lang_update_medicine_setting": "Update Medicine Setting"
+    }
+}

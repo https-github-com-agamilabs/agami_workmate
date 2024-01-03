@@ -1,36 +1,36 @@
 {
-    "title": "Holistic Online Health Care System",
-    "nav-title": "Welcome to <span>Holistic Online Health Care System </span>",
-    "about":"eRx@BD is a holistic health-care system, where a patient can get the essence of AI, get doctor's appointment, get medicine online pharmacy, book a home-service, get health-update from doctors blog and many more. Doctors can prescribe patients effectively, quickly, and error-freely with the help of Artificial Intelligence (AI).",
-    "subscription":"Empower yourself with knowledge and nurture your mind and soul with our health blog subscription. Embrace a life of vitality and well-being. Subscribe today and embark on a journey to your healthiest self!",
+    "title": "WorkMate is Virtual Assistant (VA) Management System",
+    "nav-title": "Welcome to <span>the VA Management System </span>",
+    "about":"WorkMate is a VA management system, where a busy person can hire and manage the activity of Virtual Assistant. We provide an experienced team of Virtual Assistant (VA) in a diversified domains of experties. The proliferation of work-load, expansion of Information Technology, and sophistication of Artificial Intelligence require appropriate person to assist in business. However, managing VA is a formidable task. WorkMate promises to make this task easy for you to support your business to grow",
+    "subscription":"Empower yourself with knowledge and nurture your mind and soul with our virtual assistant blog subscription. Proliferate your business with appropriate action. ",
     "head-carousel": [
         {
-            "imageurl": "http://localhost/agami_workmate/themes/default/img/bg-img/hero1.jpg",
-            "title": "Holistic & Online<br>Health-care Services",
-            "sub-title": "That you can Trust 100%",
-            "subsub-title": "The system is dedicated to <br> patients, doctors, care-givers, medicine company, pharmacy, and diagnostics service.",
-            "extra-button": "Which Doctor I Should See <span>AI</span>"
+            "imageurl": "http://localhost/agamimedrx/themes/default/img/bg-img/hero1.jpg",
+            "title": "Let your VA handle it.",
+            "sub-title": "To-do list growing out of control?",
+            "subsub-title": "Your time is valuable. Let our VAs to take the mountain of routine tasks off your hands.",
+            "extra-button": "Find My Virtual Assistant"
         },
         {
-            "imageurl": "http://localhost/agami_workmate/themes/default/img/bg-img/breadcumb1.jpg",
-            "title": "Accurate & Faster<br>Prescription",
-            "sub-title": "Doctor and Patients work together",
-            "subsub-title": "Patients input medical history to accelerate doctor's diagnosis. Patient's chronic disease, previous medical history and treatment may help doctors to identify disease and medicate more accurately.",
-            "extra-button": "Which Doctor I Should See <span>AI</span>"
+            "imageurl": "http://localhost/agamimedrx/themes/default/img/bg-img/breadcumb3.jpg",
+            "title": "How Our VA helps Your Business",
+            "sub-title": "Web Development, Creative Content, and Digital Marketing",
+            "subsub-title": "We offer full-time and part-time assistants in web development, web maintenance, creating creative content, digital marketing, customer support and operations. We can help you hire just one assistant, or an end-to-end team that takes over an entire department or business function.",
+            "extra-button": "Choose Your Right Plan!"
         },
         {
-            "imageurl": "http://localhost/agami_workmate/themes/default/img/bg-img/breadcumb3.jpg",
-            "title": "Artificial Intelligence (AI)<br> Enabled Health-care",
-            "sub-title": "Doctor and AI, leading the way to a healthier future",
-            "subsub-title": "Don't miss out on the future of medicine. Schedule your appointment with doctor today and experience the difference that AI can make in your healthcare journey.",
-            "extra-button": "Which Doctor I Should See <span>AI</span>"
+            "imageurl": "http://localhost/agamimedrx/themes/default/img/bg-img/breadcumb1.jpg",
+            "title": "Try a VA for free",
+            "sub-title": "Want to know how it fits? ",
+            "subsub-title": "Just send us your first task and one of our virtual assistants will do it for free.",
+            "extra-button": "Try a VA for FREE!"
         },
         {
-            "imageurl": "http://localhost/agami_workmate/themes/default/img/bg-img/breadcumb3.jpg",
-            "title": "Your Trusted Partner in <br>Medical Home Services",
-            "sub-title": "From skilled nursing to specialized medical assistance",
-            "subsub-title": "We believe in building lasting relationships, treating every client like family, and creating an environment of trust and comfort.",
-            "extra-button": "Find Care-giver Near Me <span title='Home'>Hm</span>"
+            "imageurl": "http://localhost/agamimedrx/themes/default/img/bg-img/breadcumb3.jpg",
+            "title": "VA for Startups & Enterprise",
+            "sub-title": "From skilled worker to AI-specialized assistant",
+            "subsub-title": "Delegate your work, tasks & processes to a dedicated, full-time team member. You may also hire a part-time assistant to grow.",
+            "extra-button": "Plan & Pricing"
         }
     ],
     "sections": {

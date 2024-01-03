@@ -166,7 +166,7 @@ $langHeaderData = langConverter($jasonFilePath);
                                             <a class="nav-link" href="#medica-about-us-area"><?= $langHeaderData[$lang]['lang_services']; ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#medicine_store_section"><?= $langHeaderData[$lang]['lang_pharmacy']; ?></a>
+                                            <a class="nav-link" href="#medicine_store_section"><?= $langHeaderData[$lang]['lang_va']; ?></a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="<?= $publicAccessUrl ?>blog/index.php"><?= $langHeaderData[$lang]['lang_blog']; ?></a>

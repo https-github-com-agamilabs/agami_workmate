@@ -54,16 +54,16 @@ if (!defined("DB_USER")) {
     <link rel="icon" href="<?= $publicAccessUrl . $response['orglogourl']; ?>">
 
     <!-- Style CSS -->
-    <link rel="stylesheet" href="<?= $publicAccessUrl ?>themes/medi/css/style.css">
+    <link rel="stylesheet" href="<?= $publicAccessUrl ?>themes/default/css/style.css">
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="<?= $publicAccessUrl ?>themes/medi/js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="<?= $publicAccessUrl ?>themes/default/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
     <script src="<?= $publicAccessUrl ?>vendor/popper/1.11.0/umd/popper.min.js"></script>
     <!-- Bootstrap js -->
     <script src="<?= $publicAccessUrl ?>vendor/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Plugins js -->
-    <script src="<?= $publicAccessUrl ?>themes/medi/js/plugins.js"></script>
+    <script src="<?= $publicAccessUrl ?>themes/default/js/plugins.js"></script>
 
 </head>
 
@@ -74,7 +74,7 @@ if (!defined("DB_USER")) {
     </div>
 
     <?php
-    $imgPath = $publicAccessUrl . "themes/medi/img/";
+    $imgPath = $publicAccessUrl . "themes/default/img/";
     ?>
 
     <?php include_once "header-area.php"; ?>
@@ -311,7 +311,7 @@ if (!defined("DB_USER")) {
     <?php include_once "footer_area.php"; ?>
 
     <!-- Active js -->
-    <script src="<?= $publicAccessUrl ?>themes/medi/js/active.js"></script>
+    <script src="<?= $publicAccessUrl ?>themes/default/js/active.js"></script>
 
 </body>
 

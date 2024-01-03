@@ -58,10 +58,10 @@ if (!defined("DB_USER")) {
     <link rel="icon" href="<?= $publicAccessUrl . $response['orglogourl']; ?>">
 
     <!-- Style CSS -->
-    <link rel="stylesheet" href="<?= $publicAccessUrl ?>themes/medi/css/style.css">
+    <link rel="stylesheet" href="<?= $publicAccessUrl ?>themes/default/css/style.css">
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="<?= $publicAccessUrl ?>themes/medi/js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="<?= $publicAccessUrl ?>themes/default/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- <script src="< ?= $publicAccessUrl ?>vendor/jquery/3.5.1/jquery-3.5.1.min.js"></script> -->
     <!-- Popper js -->
     <script src="<?= $publicAccessUrl ?>vendor/popper/1.11.0/umd/popper.min.js"></script>
@@ -69,9 +69,9 @@ if (!defined("DB_USER")) {
     <script src="<?= $publicAccessUrl ?>vendor/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Plugins js -->
-    <script src="<?= $publicAccessUrl ?>themes/medi/js/plugins.js" async defer></script>
+    <script src="<?= $publicAccessUrl ?>themes/default/js/plugins.js" async defer></script>
     <!-- Active js -->
-    <script src="<?= $publicAccessUrl ?>themes/medi/js/active.js" async defer></script>
+    <script src="<?= $publicAccessUrl ?>themes/default/js/active.js" async defer></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
@@ -166,7 +166,7 @@ if (!defined("DB_USER")) {
     </div>
 
     <?php
-    $imgPath = $publicAccessUrl . "themes/medi/img/";
+    $imgPath = $publicAccessUrl . "themes/default/img/";
     ?>
 
     <?php include_once "header-area.php"; ?>
@@ -972,7 +972,7 @@ if (!defined("DB_USER")) {
 
         }
 
-        $.get(`${publicAccessUrl}themes/medi/index.json`, data => {
+        $.get(`${publicAccessUrl}themes/default/index.json`, data => {
             show_data(data);
         }, `json`);
 
@@ -1630,7 +1630,7 @@ if (!defined("DB_USER")) {
     </script>
 
     <?php
-    require_once $basePath . "/find_doctor.php";
+    // require_once $basePath . "/find_doctor.php";
     ?>
 
 </body>

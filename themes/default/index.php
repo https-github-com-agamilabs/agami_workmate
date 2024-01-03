@@ -820,7 +820,7 @@ if (!defined("DB_USER")) {
                 limit: 6
             };
 
-            $.post(`${publicAccessUrl}healthcare/php/ui/patientvisit/pop_nearest_pharmacy.php`, json, resp => {
+            $.post(`${publicAccessUrl}php/ui/api/pop_nearest_pharmacy.php`, json, resp => {
                 if (resp.error) {
                     // toastr.error(resp.message);
                 } else {
@@ -888,7 +888,7 @@ if (!defined("DB_USER")) {
 
             let json = {};
 
-            $.post(`${publicAccessUrl}php/ui/gallery/get_gallery.php`, json, resp => {
+            $.post(`${publicAccessUrl}php/ui/api/get_gallery.php`, json, resp => {
                 if (resp.error) {
                     // toastr.error(resp.message);
                 } else {
@@ -1128,7 +1128,7 @@ if (!defined("DB_USER")) {
         get_all_specialtycategory();
 
         function get_all_specialtycategory() {
-            $.post(`${publicAccessUrl}healthcare/php/ui/specialty/get_all_specialtycategory.php`, resp => {
+            $.post(`${publicAccessUrl}php/ui/api/get_all_specialtycategory.php`, resp => {
                 if (resp.error) {
                     // toastr.error(resp.message);
                 } else {

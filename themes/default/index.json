@@ -5,28 +5,28 @@
     "subscription":"Empower yourself with knowledge and nurture your mind and soul with our health blog subscription. Embrace a life of vitality and well-being. Subscribe today and embark on a journey to your healthiest self!",
     "head-carousel": [
         {
-            "imageurl": "http://localhost/agamimedrx/themes/medi/img/bg-img/hero1.jpg",
+            "imageurl": "http://localhost/agamimedrx/themes/default/img/bg-img/hero1.jpg",
             "title": "Holistic & Online<br>Health-care Services",
             "sub-title": "That you can Trust 100%",
             "subsub-title": "The system is dedicated to <br> patients, doctors, care-givers, medicine company, pharmacy, and diagnostics service.",
             "extra-button": "Which Doctor I Should See <span>AI</span>"
         },
         {
-            "imageurl": "http://localhost/agamimedrx/themes/medi/img/bg-img/breadcumb1.jpg",
+            "imageurl": "http://localhost/agamimedrx/themes/default/img/bg-img/breadcumb1.jpg",
             "title": "Accurate & Faster<br>Prescription",
             "sub-title": "Doctor and Patients work together",
             "subsub-title": "Patients input medical history to accelerate doctor's diagnosis. Patient's chronic disease, previous medical history and treatment may help doctors to identify disease and medicate more accurately.",
             "extra-button": "Which Doctor I Should See <span>AI</span>"
         },
         {
-            "imageurl": "http://localhost/agamimedrx/themes/medi/img/bg-img/breadcumb3.jpg",
+            "imageurl": "http://localhost/agamimedrx/themes/default/img/bg-img/breadcumb3.jpg",
             "title": "Artificial Intelligence (AI)<br> Enabled Health-care",
             "sub-title": "Doctor and AI, leading the way to a healthier future",
             "subsub-title": "Don't miss out on the future of medicine. Schedule your appointment with doctor today and experience the difference that AI can make in your healthcare journey.",
             "extra-button": "Which Doctor I Should See <span>AI</span>"
         },
         {
-            "imageurl": "http://localhost/agamimedrx/themes/medi/img/bg-img/breadcumb3.jpg",
+            "imageurl": "http://localhost/agamimedrx/themes/default/img/bg-img/breadcumb3.jpg",
             "title": "Your Trusted Partner in <br>Medical Home Services",
             "sub-title": "From skilled nursing to specialized medical assistance",
             "subsub-title": "We believe in building lasting relationships, treating every client like family, and creating an environment of trust and comfort.",

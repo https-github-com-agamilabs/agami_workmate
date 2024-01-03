@@ -67,12 +67,12 @@ $langHeaderData = langConverter($jasonFilePath);
             <div class="row h-100">
                 <div class="col-12 h-100">
                     <div class="h-100 d-md-flex justify-content-between align-items-center">
-                        <!-- <div>
+                        <div>
                             <p id="nav_title">
                                 <?= $langHeaderData[$lang]['lang_welcome_to']; ?>
                                 <span><?= $langHeaderData[$lang]['lang_holistic_online_health_care_system']; ?> </span>
                             </p>
-                        </div> -->
+                        </div>
                         <div>
                             <div>
                                 <a href="#" class="btn-sm btn-light"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a>
@@ -85,11 +85,7 @@ $langHeaderData = langConverter($jasonFilePath);
                                     <option value="bn">BN</option>
                                 </select>
 
-                                <div class="d-inline-block mt-2 mt-sm-0">
-                                    <a href="< ?= $publicAccessUrl ?>login.php" class="btn-sm btn-light text-nowrap">
-                                        <i class="far fa-user-circle mr-1"></i>< ?= $langHeaderData[$lang]['lang_login/register']; ?>
-                                    </a>
-                                </div>
+                                
                                 <div class="dropdown d-inline-block">
                                     <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle btn btn-light btn-sm shadow-sm rounded-0" style="padding: 2px 4px;">
                                         <i class="far fa-user-circle mr-1"></i><?= $langHeaderData[$lang]['lang_login/register']; ?>
@@ -97,12 +93,12 @@ $langHeaderData = langConverter($jasonFilePath);
                                     <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right" style="width: 320px;">
                                         <form id="login_form" class="px-2">
                                             <div class="mb-2">
-                                                <input name="username" type="text" class="form-control shadow-sm" minlength="3" autocomplete="off" placeholder="Enter Your Username" required>
+                                                <input id="username" name="username" type="text" class="form-control shadow-sm" minlength="3" autocomplete="off" placeholder="Enter Your Username" required>
                                             </div>
 
                                             <div class="mb-2">
                                                 <label class="d-block mb-0">
-                                                    <input name="password" class="form-control shadow-sm" type="password" minlength="6" autocomplete="off" placeholder="Enter Your Password" required>
+                                                    <input id="password" name="password" class="form-control shadow-sm" type="password" minlength="6" autocomplete="off" placeholder="Enter Your Password" required>
                                                 </label>
                                             </div>
 
@@ -201,6 +197,24 @@ $langHeaderData = langConverter($jasonFilePath);
     let langSelect = document.getElementsByName(`lang`)[0];
     langSelect.value = `<?= $_SESSION["lang"] ?>`;
 
+    document.getElementById('login_form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        if (username.length < 3) {
+            alert("Username should be at least 3 characters long!");
+            return;
+        }
+
+        if (password.length < 6) {
+            alert("Password should be at least 6 characters long!");
+            return;
+        }
+
+        complete_login(username, password);
+    });
+
     langSelect.addEventListener(`change`, function(e) {
         if (location.search.length) {
             if (location.href.lastIndexOf(`lang`) >= 0) {
@@ -245,4 +259,51 @@ $langHeaderData = langConverter($jasonFilePath);
             }
         });
     });
+
+    function complete_login(username, password) {
+        // needs for recaptacha ready
+        grecaptcha.ready(function() {
+            // do request for recaptcha token
+            // response is promise with passed token
+            grecaptcha.execute('6LfqIcoaAAAAAKD9ytBZCLxdPPcW4EhMNPAmbd0P', {
+                action: 'employee_login'
+            }).then(function(token) {
+                // add token to form
+                var action = "employee_login";
+
+                console.log({
+                    captchatoken: token,
+                    action: action,
+                    username: username,
+                    password: password
+                });
+
+                $.ajax({
+                    url: "php/ui/login/login.php",
+                    type: 'POST',
+                    data: {
+                        captchatoken: token,
+                        action: action,
+                        username: username,
+                        password: password
+                    },
+                    success: (result) => {
+                        console.log('login result=>', result);
+                        let resp = JSON.parse(result);
+                        console.log('login resp=>', resp);
+                        if (resp.error) {
+                            toastr.error(resp.message);
+                            console.log(resp.message);
+                            alert(resp.message);
+                        } else {
+                            // toastr.success(resp.message);
+                            window.location.href = (resp.ucatno == 5) ? "dashboard.php" : "time_keeper.php";
+                        }
+                    }
+                });
+
+            });;
+        });
+    }
+
 </script>

@@ -230,7 +230,7 @@ if (!defined("DB_USER")) {
                         <div class="row no-gutters align-items-center">
                             <div class="col-12 col-lg-9">
                                 <div class="medilife-appointment-form">
-                                    <div class="section_title h3 text-white mb-3">Doctor's Appointment</div>
+                                    <div class="section_title h3 text-white mb-3">Try a VA for free</div>
                                     <div class="section_subtitle h5 text-white mb-3">Doctor's Appointment</div>
                                     <form id="patient_appointment_form">
                                         <div class="doctor_and_schedule collapse show">
@@ -493,42 +493,6 @@ if (!defined("DB_USER")) {
         </div>
     </section>
     <!-- ***** About Us Area End ***** -->
-
-    <hr>
-    <section id="medicine_store_section" class="section-padding-100-20">
-        <div class="container pb-5">
-            <div class="row pb-5">
-                <div class="col-lg-4">
-                    <div class="section_pharmacy medica-about-content sticky-top">
-                        <div class="px-3 py-4" style="background-color: #fefaeb;">
-                            <h2 class="section_title">Medicine Stores</h2>
-                            <h6 class="section_subtitle">Your One-Stop Online Medical Store</h6>
-                            <p class="section_description">
-                                Say goodbye to long queues and crowded aisles.
-                            </p>
-                            <a href="product_search.php" class="btn medilife-btn mt-50">
-                                Order <span>+</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-8">
-                    <div class="my-3">
-                        <select name="postcode" class="form-control shadow-sm"></select>
-                    </div>
-
-                    <div class="medicine_stores_row row"></div>
-
-                    <div class="text-center">
-                        <a href="product_search.php" class="btn medilife-btn mt-50">
-                            Detail <span>+</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- ***** Gallery Area Start ***** -->
     <div class="medilife-gallery-area owl-carousel">

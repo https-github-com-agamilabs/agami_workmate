@@ -29,7 +29,7 @@ for ($i = 0; $i < count($debughost); $i++) {
 // echo $debug."CONFIG HOST: ".$host;
 
 if ($debug) {
-    $projectName = "workmate";
+    $projectName = "agami_workmate";
 
     #MySQL Database name:
     define('DB_NAME', 'workmatedb');

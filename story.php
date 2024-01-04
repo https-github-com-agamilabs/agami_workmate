@@ -311,29 +311,8 @@ include_once "php/ui/login/check_session.php";
 
 		$(`#task_manager_setup_modal_form`).submit(function(e) {
 			e.preventDefault();
-
-			let json = {
-				channelno: $(`[name="channelno"]`, this).val(),
-				message: $(`[name="message"]`, this).val(),
-			};
-
-			let chatno = Number($(this).data("chatno"), 10) || -1;
-			if (chatno > 0) {
-				json.chatno = chatno;
-			}
-
-			let parentchatno = Number($(this).data("parentchatno"), 10) || -1;
-			if (parentchatno > 0) {
-				json.parentchatno = parentchatno;
-			}
-
-			console.log(!json.message.length);
-			if (!json.message.length) {
-				toastr.error(`Message Text cannot be empty!`);
-				return;
-			}
-
-			setup_chat(json);
+			let json = Object.fromEntries((new FormData(this)).entries());
+			formSubmit(json, this, `php/ui/taskmanager/backlog/setup_backlog.php`);
 		});
 
 		function formSubmit(json, formElem, url) {

@@ -191,7 +191,7 @@ $langHeaderData = langConverter($jasonFilePath);
 <!-- ***** Header Area End ***** -->
 
 <?php include_once "signup_modal.php"; ?>
-<script src="js/login.js"></script>
+<!-- <script src="js/login.js"></script> -->
 
 <script>
     let langSelect = document.getElementsByName(`lang`)[0];

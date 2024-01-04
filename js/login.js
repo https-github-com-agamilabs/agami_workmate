@@ -8,7 +8,7 @@ $(document).on(`click`, `.toggle_password`, function (e) {
 });
 
 function complete_login(json) {
-    json.action = "people_login";
+    json.action = "employee_login";
 
     grecaptcha.ready(function () {
         grecaptcha.execute('6Ld1TUUpAAAAAPfUZlFrc5Hsf-TTGRVDP9wFeMbt', {

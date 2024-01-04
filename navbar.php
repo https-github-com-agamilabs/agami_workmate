@@ -75,7 +75,7 @@
                             </div> -->
                             <!-- Timekeppeer Start -->
                             <div class=" mr-2 mr-md-4">
-                                <div class="d-flex alert alert-primary shadow-sm border border-primary text-center mb-0 py-1 px-2" style="height:max-content;">
+                                <div class="alert alert-primary d-flex mb-0 py-0 shadow-sm text-center" style="height:max-content; border-radius: 15px;">
                                     <h4 class="stopwatch mb-0 pr-2 border-secondary  border-right" style="line-height: unset;">00:00:00</h4>
                                     <i data-hideontimerpage="true" class="timer_button far fa-2x btn-sm fa-play-circle text-success" style="line-height:1"></i>
                                 </div>
@@ -455,7 +455,7 @@
     }
 
     function show_va_owner_users(data) {
-        let select1 = $(`#workingtime_workfor_modal_form [name="workfor"]`).append(`<option value="">Select employee...</option>`);
+        let select1 = $(`#workingtime_workfor_modal_form [name="workfor"]`).append(`<option value="">Select employer...</option>`);
 
         $.each(data, (index, value) => {
             $(`<option value="${value.userno}">

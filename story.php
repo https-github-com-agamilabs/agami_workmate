@@ -334,6 +334,17 @@ include_once "php/ui/login/check_session.php";
 					$(".modal.show").modal("hide");
 					let pageno = $("#task_manager_table_pageno_input").val();
 					get_channel_backlogs(pageno);
+
+					$(`#chat_attachment_container`).find(`.chat_attachment`).each((index, elem) => {
+						if ($(elem).data("isnew")) {
+							set_chat_attachment({
+								chatno: json.chatno || resp.chatno,
+								filetypeno: $(elem).data("filetypeno"),
+								shorttitle: $(elem).data("shorttitle"),
+								fileurl: $(elem).data("fileurl")
+							});
+						}
+					});
 				}
 			}, `json`);
 		}

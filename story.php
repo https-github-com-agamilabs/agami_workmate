@@ -87,7 +87,7 @@ include_once "php/ui/login/check_session.php";
 	</div>
 
 	<div id="task_manager_setup_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-dialog modal-lg" style="max-width: 85%;" role="document">
 			<div class="modal-content">
 				<form id="task_manager_setup_modal_form">
 					<div class="modal-header">
@@ -137,18 +137,51 @@ include_once "php/ui/login/check_session.php";
 							<textarea name="message" class="form-control shadow-sm" placeholder="What's on your mind?" rows="3"></textarea>
 						</div>
 
-						<div class="form-group">
-							<label class="d-block mb-0">
-								Story Phase <span class="text-danger">*</span>
-								<select name="storyphaseno" class="form-control shadow-sm mt-2" required></select>
-							</label>
-						</div>
 
-						<div class="text-primary h6">Attachments : </div>
-						<div id="chat_attachment_container" class="d-flex flex-wrap"></div>
+
 
 						<div class="row align-items-end">
-							<div class="col-sm-6 text-center text-sm-left">
+
+
+							<div class="col-sm-6">
+								<label class="d-block mb-0">
+									Category <span class="text-danger">*</span>
+									<select name="storyphaseno" class="form-control shadow-sm mt-2" required></select>
+								</label>
+							</div>
+
+							<div class="col-sm-6">
+								<label class="d-block mb-0">
+									Type <span class="text-danger">*</span>
+									<select name="storytype" class="form-control shadow-sm mt-2" required>
+										<option value="1" data-extra-show='' data-extra-hide='#task_manager_setup_modal_form .prioritylevelno_root, #task_manager_setup_modal_form .relativepriority_root'>Chat</option>
+										<option value="2" data-extra-show='' data-extra-hide='#task_manager_setup_modal_form .prioritylevelno_root, #task_manager_setup_modal_form .relativepriority_root'>Notification</option>
+										<option value="3" data-extra-hide='' data-extra-show='#task_manager_setup_modal_form .prioritylevelno_root, #task_manager_setup_modal_form .relativepriority_root'>Task</option>
+									</select>
+								</label>
+							</div>
+
+							<div class="col-md-6 mt-3 prioritylevelno_root">
+								<label class="d-block mb-0">
+									Priority Level <span class="text-danger">*</span>
+									<select name="prioritylevelno" class="form-control shadow-sm mt-2"></select>
+								</label>
+							</div>
+
+							<div class="col-md-6 mt-3 relativepriority_root">
+								<label class="d-block mb-0">
+									Priority Value <span class="text-danger">*</span>
+									<input name="relativepriority" class="form-control shadow-sm mt-2" type="number" min="0" placeholder="Priority Value...">
+								</label>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+							<div class="text-primary h6">Attachments : </div>
+							<div id="chat_attachment_container" class="d-flex flex-wrap"></div>
+
+							<div class="text-center text-sm-left">
 								<div class="dropdown d-inline-block">
 									<input name="fileurl" class="form-control shadow-sm" style="display: none;" type="file" title="Attachment file">
 
@@ -158,30 +191,6 @@ include_once "php/ui/login/check_session.php";
 									<div id="filetype_dropdown_menu" class="dropdown-menu" tabindex="-1" role="menu" aria-hidden="true"></div>
 								</div>
 							</div>
-
-							<div class="col-sm-6">
-								<label class="d-block mb-0">
-									Story Type <span class="text-danger">*</span>
-									<select name="storytype" class="form-control shadow-sm mt-2" required>
-										<option value="1">Chat</option>
-										<option value="2">Notification</option>
-										<option value="3">Task</option>
-									</select>
-								</label>
-							</div>
-
-							<div class="col-md-6 mt-3">
-								<label class="d-block mb-0">
-									Priority Level <span class="text-danger">*</span>
-									<select name="prioritylevelno" class="form-control shadow-sm mt-2"></select>
-								</label>
-							</div>
-
-							<div class="col-md-6 mt-3">
-								<label class="d-block mb-0">
-									Priority Value <span class="text-danger">*</span>
-									<input name="relativepriority" class="form-control shadow-sm mt-2" type="number" min="0" placeholder="Priority Value...">
-								</label>
 							</div>
 						</div>
 					</div>
@@ -497,6 +506,21 @@ include_once "php/ui/login/check_session.php";
 		$(`#task_channel_select`).change(function(e) {
 			$(`#load_previous_task_progress_button`).data(`pageno`, 1);
 			get_channel_backlogs(1);
+		});
+
+		$(`[name="storytype"]`, `#task_manager_setup_modal`).change(function(e) {
+			let option = $(this).find('option:selected');
+			console.log(option);
+
+			let toShow = option.data('extra-show');
+			let toHide = option.data('extra-hide');
+			if (toShow.length) {
+				$(toShow).show('slow');
+			}
+
+			if (toHide.length) {
+				$(toHide).hide('slow');
+			}
 		});
 
 		function get_channel_backlogs(pageno = 1) {

@@ -27,12 +27,6 @@
             throw new \Exception("You must login first!", 1);
         }
 
-        if (isset($_POST['workfor'])) {
-            $workfor=(int) $_POST['workfor'];
-        } else {
-            throw new \Exception("Missing: whom you are working for!", 1);
-        }
-
         $result=is_time_running($dbcon, $empno);
         if ($result->num_rows>0) {
             $timeno = $result->fetch_array(MYSQLI_ASSOC)['timeno'];
@@ -45,13 +39,12 @@
                 $response['message'] = "Cannot End Time!";
             }
         } else {
-            // $rs=check_my_incomplete_task($dbcon, $empno);
-            // if ($rs->num_rows<=0){
-            //     $rs2=check_my_incomplete_not_started_task($dbcon, $empno);
-            //     if ($rs2->num_rows<=0){
-            //         throw new \Exception("If you/person have an incomplete task, update your task-status. If you don't have an incomplete task, take a task from 'Available Task'!", 1);
-            //     }
-            // }
+            if (isset($_POST['workfor'])) {
+                $workfor=(int) $_POST['workfor'];
+            } else {
+                throw new \Exception("Missing: whom you are working for!", 1);
+            }
+
             $userno=start_workingtime($dbcon, $empno,$workfor);
             if ($userno>0) {
                 $response['error'] = false;

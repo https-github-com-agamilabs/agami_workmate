@@ -206,6 +206,9 @@ include_once "php/ui/login/check_session.php";
 
 	<script>
 		const ucatno = `<?= $ucatno; ?>`;
+		const searchParams = new URLSearchParams(window.location.search);
+
+		const selected_channel = searchParams.has('channelno') ? searchParams.get('channelno') : '';
 
 		get_channels_available_task();
 
@@ -244,6 +247,16 @@ include_once "php/ui/login/check_session.php";
 					placeholder: "Select Channel...",
 					allowClear: true
 				});
+
+			if (selected_channel.length) {
+				select1.val(selected_channel)
+					.trigger('change');
+				select1.parents(`.form_elem_parent`).hide();
+
+				select2.val(selected_channel)
+					.trigger('change');
+				select2.parents(`.form_elem_parent`).hide();
+			}
 
 			if ($(`option`, select1).length == 1) {
 				select1.parents(`.form_elem_parent`).hide();

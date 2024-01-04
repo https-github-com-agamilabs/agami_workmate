@@ -470,9 +470,9 @@
     $(document).on('click', '.timer_button', function() {
         let userno = `<?= $userno; ?>`;
 
-        if (!stopWatch.isTimeStopped) {
-            $(`#incomplete_task_alltime_modal`).modal("show");
-        }
+        // if (!stopWatch.isTimeStopped) {
+        //     $(`#incomplete_task_alltime_modal`).modal("show");
+        // }
 
         onoff_workingtime({
             userno

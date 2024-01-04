@@ -1,3 +1,10 @@
+<?php
+$response['error'] = true;
+$response['message'] = "Not available!";
+echo json_encode($response);
+exit();
+?>
+
 <?php include_once "php/ui/login/check_session.php"; ?>
 
 <!doctype html>
@@ -224,12 +231,12 @@
 
 			$.each(data, (index, value) => {
 				// if (value.hdtypeid != `WEEK_END`) {
-					
+
 				// }
 
 				$(`<option value="${value.hdtypeid}">${value.displaytitle}</option>`)
-						.data(value)
-						.appendTo(select);
+					.data(value)
+					.appendTo(select);
 
 				let template = $(`<button type="button" tabindex="0" class="dropdown-item">${value.displaytitle}</button>`)
 					.data(value)

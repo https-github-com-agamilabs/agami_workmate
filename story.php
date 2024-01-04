@@ -176,7 +176,7 @@ include_once "php/ui/login/check_session.php";
 							</div>
 						</div>
 
-						<div class="row">
+						<div class="row mt-2">
 							<div class="col-12">
 							<div class="text-primary h6">Attachments : </div>
 							<div id="chat_attachment_container" class="d-flex flex-wrap"></div>

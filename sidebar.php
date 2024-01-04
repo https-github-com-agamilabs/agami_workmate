@@ -63,24 +63,24 @@
 
                 <?php
                 if ($ucatno == 19) : ?>
-                    <li>
+                    <!-- <li>
                         <a href="gantt_chart.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-chart-area"></i> Gantt Chart
                         </a>
-                    </li>
+                    </li> -->
 
-                    <li>
+                    <!-- <li>
                         <a href="key_performance_indicator.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-chart-line"></i> KPI Setting
                         </a>
-                    </li>
+                    </li> -->
                 <?php endif; ?>
 
-                <li>
+                <!-- <li>
                     <a href="kpi_report.php" class="menu-anchor menu-anchor-lvl-1">
                         <i class="metismenu-icon fas fa-chart-pie"></i> KPI Report
                     </a>
-                </li>
+                </li> -->
 
                 <!-- <li>
                     <a href="holiday_settings.php" class="menu-anchor menu-anchor-lvl-1">
@@ -97,26 +97,26 @@
                     </li>
                 <?php endif; ?>
 
-                <li class="app-sidebar__heading">Task Manager</li>
+                <!-- <li class="app-sidebar__heading">Task Manager</li> -->
 
                 <?php
                 if ($_SESSION['cogo_permissionlevel'] >= 1 || $ucatno == 19) : ?>
-                    <li>
+                    <!-- <li>
                         <a href="task_manager.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-tasks"></i> Task Settings
                         </a>
-                    </li>
+                    </li> -->
                 <?php endif; ?>
 
-                <li>
+                <!-- <li>
                     <a href="task_filter.php" class="menu-anchor menu-anchor-lvl-1">
                         <i class="metismenu-icon fas fa-filter"></i> Task Filter
                     </a>
-                </li>
+                </li> -->
 
                 <?php
                 if ($ucatno == 19) : ?>
-                    <li style="display: none;">
+                    <!-- <li style="display: none;">
                         <a href="task_today.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-tasks"></i> Task Today
                         </a>
@@ -125,10 +125,10 @@
                         <a href="incomplete_task_alltime.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-folder-minus"></i>All Incomplete Task
                         </a>
-                    </li>
+                    </li> -->
                 <?php endif; ?>
 
-                <li style="display: none;">
+                <!-- <li style="display: none;">
                     <a href="my_incomplete_task.php" class="menu-anchor menu-anchor-lvl-1">
                         <i class="metismenu-icon fas fa-folder-minus"></i> My Incomplete Task
                     </a>
@@ -137,7 +137,7 @@
                     <a href="available_task.php" class="menu-anchor menu-anchor-lvl-1">
                         <i class="metismenu-icon fas fa-folder"></i> Available Task
                     </a>
-                </li>
+                </li> -->
 
                 <li class="app-sidebar__heading">Channels</li>
 

@@ -333,6 +333,29 @@
     </div>
 </div>
 
+<div id="workingtime_workfor_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form id="workingtime_workfor_modal_form">
+                <div class="modal-header">
+                    <h5 class="modal-title">Who Are You Working For?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label class="d-block mb-0">
+                        Work For <span class="text-danger">*</span>
+                        <select name="workfor" class="form-control shadow-sm mt-2" required></select>
+                    </label>
+                </div>
+                <div class="modal-footer py-2">
+                    <button type="submit" class="btn btn-primary rounded-pill px-5 ripple custom_shadow">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script src="js/stopwatch.js"></script>
 
@@ -415,6 +438,33 @@
     let stopWatch = new StopWatch(".stopwatch", ".timer_button");
     // console.log(`stopWatch`, stopWatch);
 
+    get_all_users();
+
+    function get_all_users() {
+        $(`#workingtime_workfor_modal_form [name="workfor"]`).empty();
+
+        $.post(`php/ui/user/get_users.php`, resp => {
+            if (resp.error) {
+                // toastr.error(resp.message);
+            } else {
+                show_all_users(resp.results);
+            }
+        }, `json`);
+    }
+
+    function show_all_users(data) {
+        let select1 = $(`#workingtime_workfor_modal_form [name="workfor"]`).append(`<option value="">Select employee...</option>`);
+
+        $.each(data, (index, value) => {
+            $(`<option value="${value.userno}">
+                    ${value.firstname}
+                    ${value.lastname ? `${value.lastname}` : ``}
+                    ${value.jobtitle ? `(${value.jobtitle})` : ``}
+                </option>`)
+                .appendTo(select1);
+        });
+    }
+
     $(document).on('click', '.timer_button', function() {
         let userno = `<?= $userno; ?>`;
 
@@ -481,18 +531,43 @@
     }
 
     function onoff_workingtime(json) {
-        $.post(`php/ui/workingtime/onoff_workingtime.php`, json, resp => {
-            if (resp.error) {
-                toastr.error(resp.message);
-            } else {
-                if (stopWatch.isTimeStopped) {
-                    stopWatch.startTimer();
-                } else {
-                    stopWatch.stopTimer().resetTimer();
-                }
-                get_employee_workingtime();
-            }
-        }, `json`);
+        let modal = $(`#workingtime_workfor_modal`).modal(`show`);
+
+        let promise = new Promise((resolve, reject) => {
+            modal.on(`hidden.bs.modal`, function(e) {
+                reject(`You have mention who are you working for?`);
+            });
+
+            $(`#workingtime_workfor_modal_form`).submit(function(e) {
+                e.preventDefault();
+                let obj = Object.fromEntries((new FormData(this)).entries());
+                json = {
+                    ...json,
+                    ...obj
+                };
+
+                resolve(json);
+            });
+        });
+
+        promise.then(
+            json => {
+                $.post(`php/ui/workingtime/onoff_workingtime.php`, json, resp => {
+                    if (resp.error) {
+                        toastr.error(resp.message);
+                    } else {
+                        if (stopWatch.isTimeStopped) {
+                            stopWatch.startTimer();
+                        } else {
+                            stopWatch.stopTimer().resetTimer();
+                        }
+                        get_employee_workingtime();
+                        modal.modal(`hide`);
+                    }
+                }, `json`);
+            },
+            error => toastr.error(error)
+        );
     }
 
     function setTimeframe(fromDate, toDate) {
@@ -600,27 +675,27 @@
         return `${yyyy}-${mm.padStart(2, 0)}-${dd.padStart(2, 0)}`;
     }
 
-    $.post("php/ui/leave/get_leavetypes.php", {}, (resp) => {
-        if (resp.error) {
-            toastr.error(resp.message);
-        } else {
-            $.each(resp.data, (index, value) => $(`#leave_application_modal_form [name="leavetypeno"]`).append(
-                new Option(value.leavetypetitle, value.leavetypeno)));
-        }
-    }, "json");
+    // $.post("php/ui/leave/get_leavetypes.php", {}, (resp) => {
+    //     if (resp.error) {
+    //         toastr.error(resp.message);
+    //     } else {
+    //         $.each(resp.data, (index, value) => $(`#leave_application_modal_form [name="leavetypeno"]`).append(
+    //             new Option(value.leavetypetitle, value.leavetypeno)));
+    //     }
+    // }, "json");
 
-    $.post("php/ui/leave/get_leavestatus.php", {}, (resp) => {
-        if (resp.error) {
-            toastr.error(resp.message);
-        } else {
-            $.each(resp.data, (index, value) => $(`#leave_application_modal_form [name="leavestatusno"]`).append(
-                new Option(value.leavestatustitle, value.leavestatusno)));
-        }
-    }, "json");
+    // $.post("php/ui/leave/get_leavestatus.php", {}, (resp) => {
+    //     if (resp.error) {
+    //         toastr.error(resp.message);
+    //     } else {
+    //         $.each(resp.data, (index, value) => $(`#leave_application_modal_form [name="leavestatusno"]`).append(
+    //             new Option(value.leavestatustitle, value.leavestatusno)));
+    //     }
+    // }, "json");
 
-    $(function() {
-        get_leave_application_list();
-    });
+    // $(function() {
+    //     get_leave_application_list();
+    // });
 
     function get_leave_application_list() {
         $("#previous_application_table_tbody").empty();
@@ -780,7 +855,6 @@
         $.post(`php/ui/taskmanager/selection/get_my_incomplete_task_alltime.php`, resp => {
             if (resp.error) {
                 toastr.error(resp.message);
-                reject(resp.message);
             } else if (resp.results.length) {
                 show_task(resp.results, `#incomplete_task_alltime_container`);
             }
@@ -814,7 +888,7 @@
 
             // console.log(`delay =>`, delay);
 
-        let card = $(`<div class="card mb-3${cardClass}">
+            let card = $(`<div class="card mb-3${cardClass}">
                     <div class="card-header justify-content-between" style="height:auto;">
                         <div class="my-md-1">
                             <div class="d-flex flex-wrap justify-content-center justify-content-md-start">

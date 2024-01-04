@@ -489,6 +489,7 @@ include_once "php/ui/login/check_session.php";
 			let modal = $(`#task_manager_setup_modal`).modal(`show`);
 			let storytype = $(this).data(`storytype`) || 3;
 			$(`[name="storytype"]`, modal).val(storytype);
+			$(`[name="storytype"]`, modal).trigger('change');
 		});
 
 		$(`[name="message"]`, `#task_manager_setup_modal_form`).on(`input`, function(e) {

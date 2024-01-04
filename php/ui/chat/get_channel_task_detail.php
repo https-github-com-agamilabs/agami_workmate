@@ -119,7 +119,7 @@
     function get_channel_task_update($dbcon, $channelno, $pageno, $limit){
         $startindex=($pageno-1)*$limit;
         $sql = "SELECT channelno,(SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
-                        b.backlogno,story,points, lastupdatetime as storytime,
+                        b.backlogno,story,storytype, lastupdatetime as storytime,
                         prioritylevelno,(SELECT priorityleveltitle FROM asp_prioritylevel WHERE prioritylevelno=b.prioritylevelno) as priorityleveltitle,
                         storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=b.storyphaseno) as storyphasetitle,
                         relativepriority,howto,assigntime,scheduledate,duration,
@@ -127,7 +127,7 @@
                         b.userno, (SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=b.userno) as assignedby,
                         s.assignedto, (SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=s.assignedto) as assignee
                 FROM
-                    (SELECT backlogno, channelno, story, storyphaseno,points, prioritylevelno, relativepriority, lastupdatetime, userno
+                    (SELECT backlogno, channelno, story, storyphaseno,storytype, prioritylevelno, relativepriority, lastupdatetime, userno
                     FROM asp_channelbacklog
                     WHERE channelno=?) as b
                     INNER JOIN asp_cblschedule as s ON s.backlogno=b.backlogno

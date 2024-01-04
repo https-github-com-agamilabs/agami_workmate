@@ -149,11 +149,11 @@
                         </a>
                     </li>
 
-                    <li>
+                    <!-- <li>
                         <a href="story.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-comments"></i> Story
                         </a>
-                    </li>
+                    </li> -->
                 <?php endif; ?>
 
             </ul>

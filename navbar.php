@@ -531,6 +531,11 @@
     }
 
     function onoff_workingtime(json) {
+        if (!stopWatch.isTimeStopped) {
+            onoff_working_time(json);
+            return;
+        }
+
         let modal = $(`#workingtime_workfor_modal`).modal(`show`);
 
         let promise = new Promise((resolve, reject) => {
@@ -551,23 +556,25 @@
         });
 
         promise.then(
-            json => {
-                $.post(`php/ui/workingtime/onoff_workingtime.php`, json, resp => {
-                    if (resp.error) {
-                        toastr.error(resp.message);
-                    } else {
-                        if (stopWatch.isTimeStopped) {
-                            stopWatch.startTimer();
-                        } else {
-                            stopWatch.stopTimer().resetTimer();
-                        }
-                        get_employee_workingtime();
-                        modal.modal(`hide`);
-                    }
-                }, `json`);
-            },
+            results => onoff_working_time(results),
             error => toastr.error(error)
         );
+    }
+
+    function onoff_working_time(json) {
+        $.post(`php/ui/workingtime/onoff_workingtime.php`, json, resp => {
+            if (resp.error) {
+                toastr.error(resp.message);
+            } else {
+                if (stopWatch.isTimeStopped) {
+                    stopWatch.startTimer();
+                } else {
+                    stopWatch.stopTimer().resetTimer();
+                }
+                get_employee_workingtime();
+                modal.modal(`hide`);
+            }
+        }, `json`);
     }
 
     function setTimeframe(fromDate, toDate) {

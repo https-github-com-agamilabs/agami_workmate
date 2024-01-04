@@ -65,7 +65,7 @@
     *   LOCAL FUNCTIONS
     */
     //wstatusno<3@progress on different-day
-    //asp_channelbacklog(backlogno, channelno, story, points, prioritylevelno, relativepriority, storytypeno, lastupdatetime, userno)
+    //asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
     //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
     function get_schedule_data($dbcon, $startdate,$enddate){

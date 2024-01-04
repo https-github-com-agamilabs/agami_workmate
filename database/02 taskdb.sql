@@ -3,7 +3,7 @@
 -- asp_workstatus(wstatusno, statustitle, colorno)
 -- asp_prioritylevel(prioritylevelno, priorityleveltitle, priorityleveldescription, colorno)
 
--- asp_channelbacklog(backlogno, channelno, story, points, prioritylevelno, relativepriority, storyphaseno, parentbacklogno,lastupdatetime, userno)
+-- asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
 -- asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,duration,userno)
 -- asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
 -- asp_deadlines(dno,cblscheduleno,deadline,entrytime,userno)
@@ -108,7 +108,7 @@ VALUES(1, 'Chat'),
 (2, 'Notification'),
 (3, 'Task');
 
-
+-- asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
 -- ========= END SETTINGS ==============
 CREATE TABLE asp_channelbacklog(
     backlogno int AUTO_INCREMENT,

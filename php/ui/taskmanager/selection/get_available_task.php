@@ -51,13 +51,13 @@
     *   LOCAL FUNCTIONS
     */
     //wstatusno<3@progress on different-day
-    //asp_channelbacklog(backlogno, channelno, story, points, prioritylevelno, relativepriority, storytypeno, lastupdatetime, userno)
+    //asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
     //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
     function get_non_assigned_task($dbcon, $channelno){
         $sql = "SELECT backlogno, channelno, story,
                     storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=b.storyphaseno) as storyphasetitle,
-                    points,
+                    storytype,
                     prioritylevelno,(SELECT priorityleveltitle FROM asp_prioritylevel WHERE prioritylevelno=b.prioritylevelno) as priorityleveltitle,
                     relativepriority
                 FROM asp_channelbacklog as b

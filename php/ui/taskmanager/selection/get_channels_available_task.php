@@ -91,6 +91,7 @@
         return $dbcon->query($sql);
     }
 
+    //asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
     function get_sub_channels($dbcon,$parentchannel)
     {
         $sql = "SELECT c.channelno,channeltitle,c.parentchannel, a.availabletask

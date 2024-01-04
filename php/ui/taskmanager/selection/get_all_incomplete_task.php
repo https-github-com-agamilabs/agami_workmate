@@ -84,7 +84,7 @@
     */
     //hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,ucatno,createtime,lastupdatetime,isactive)
     //wstatusno<3@progress on different-day
-    //asp_channelbacklog(backlogno, channelno, story, points, prioritylevelno, relativepriority, storytypeno, lastupdatetime, userno)
+    //asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
     //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
 
@@ -135,7 +135,7 @@
 
     function get_my_incomplete_task($dbcon, $userno){
         $sql = "SELECT channelno,(SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
-                        b.backlogno,story,points,
+                        b.backlogno,story,storytype,storytypetitle,
                         prioritylevelno,(SELECT priorityleveltitle FROM asp_prioritylevel WHERE prioritylevelno=b.prioritylevelno) as priorityleveltitle,
                         storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=b.storyphaseno) as storyphasetitle,
                         relativepriority,howto,assigntime,scheduledate,duration,
@@ -155,7 +155,9 @@
                         )
                     ) as s
                     INNER JOIN
-                    (SELECT backlogno, channelno, story, storyphaseno,points, prioritylevelno, relativepriority, userno
+                    (SELECT backlogno, channelno, story, 
+                            storytype,(SELECT storytypetitle FROM asp_storytype WHERE storytypeno=b.storytype) as storytypetitle,
+                            storyphaseno,prioritylevelno, relativepriority, userno
                     FROM asp_channelbacklog) as b
                     ON s.backlogno=b.backlogno
                 ";
@@ -172,7 +174,7 @@
         date_default_timezone_set("Asia/Dhaka");
         $today = date("Y-m-d");
         $sql = "SELECT channelno,(SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
-                        b.backlogno,story,points,
+                        b.backlogno,story,storytype,storytypetitle,
                         prioritylevelno,(SELECT priorityleveltitle FROM asp_prioritylevel WHERE prioritylevelno=b.prioritylevelno) as priorityleveltitle,
                         storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=b.storyphaseno) as storyphasetitle,
                         relativepriority,howto,assigntime,scheduledate,duration,
@@ -192,7 +194,9 @@
                                 )
                     ) as s
                     INNER JOIN
-                    (SELECT backlogno, channelno, story, storyphaseno,points, prioritylevelno, relativepriority, userno
+                    (SELECT backlogno, channelno, story, 
+                            storytype,(SELECT storytypetitle FROM asp_storytype WHERE storytypeno=b.storytype) as storytypetitle,
+                            storyphaseno,prioritylevelno, relativepriority, userno
                     FROM asp_channelbacklog) as b
                     ON s.backlogno=b.backlogno
                 ";

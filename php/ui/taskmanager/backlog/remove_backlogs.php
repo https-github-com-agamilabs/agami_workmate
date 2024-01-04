@@ -50,7 +50,7 @@
      * Local Function
      */
 
-    //asp_channelbacklog(backlogno, channelno, story, points, prioritylevelno, relativepriority, storytypeno, lastupdatetime, userno)
+    //asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
     function remove_a_backlog($dbcon, $backlogno){
         $sql = "DELETE
                 FROM asp_channelbacklog

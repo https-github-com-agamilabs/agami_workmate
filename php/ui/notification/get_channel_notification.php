@@ -66,7 +66,7 @@
     /*
     *   LOCAL FUNCTIONS
     */
-
+//asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
 //msg_chat(chatno,messenger,channelno,message,createtime,lastupdatetime,editcount,catno,statusno,parentchatno,chatflag)
 function get_lastvisittime($dbcon, $userno){
     $sql = "SELECT channelno, lastvisittime

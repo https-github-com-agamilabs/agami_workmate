@@ -207,7 +207,7 @@
                         <ul class="mm-collapse">
                             ${value.subchannels.map(a =>
                             `<li>
-                                <a href="channels.php?channelno=${a.channelno}" class="menu-anchor menu-anchor-lvl-2">
+                                <a href="story.php?channelno=${a.channelno}" class="menu-anchor menu-anchor-lvl-2">
                                     <i class="metismenu-icon"></i> <i class="fas fa-comments opacity-6 mr-2"></i> ${a.channeltitle}
                                     <span class="chat_badge badge badge-info rounded-circle p-1"></span>
                                     <span class="task_badge badge badge-warning rounded-circle p-1"></span>
@@ -241,14 +241,14 @@
                     // let parentUpdateQty = resp.data?.filter(a => a.parentchannel == value.channelno)?.map(a => a.updateqty)?.reduce((a, b) => parseInt(a) + parseInt(b), 0) || "";
 
                     $.each(resp.chat, (index, value) => {
-                        $(`a[href="channels.php?channelno=${value.channelno}"] .chat_badge`).html(value.updateqty);
-                        let parentBadgeElement = $(`a[href="channels.php?channelno=${value.channelno}"]`).parents(`.mm-collapse`).siblings(`.menu-anchor-lvl-1`).find(`.chat_badge`);
+                        $(`a[href="story.php?channelno=${value.channelno}"] .chat_badge`).html(value.updateqty);
+                        let parentBadgeElement = $(`a[href="story.php?channelno=${value.channelno}"]`).parents(`.mm-collapse`).siblings(`.menu-anchor-lvl-1`).find(`.chat_badge`);
                         parentBadgeElement.hide().html((parseInt(parentBadgeElement.html(), 10) || 0) + value.updateqty).show(index * 50);
                     });
 
                     $.each(resp.task, (index, value) => {
-                        $(`a[href="channels.php?channelno=${value.channelno}"] .task_badge`).html(value.updateqty);
-                        let parentBadgeElement = $(`a[href="channels.php?channelno=${value.channelno}"]`).parents(`.mm-collapse`).siblings(`.menu-anchor-lvl-1`).find(`.task_badge`);
+                        $(`a[href="story.php?channelno=${value.channelno}"] .task_badge`).html(value.updateqty);
+                        let parentBadgeElement = $(`a[href="story.php?channelno=${value.channelno}"]`).parents(`.mm-collapse`).siblings(`.menu-anchor-lvl-1`).find(`.task_badge`);
                         parentBadgeElement.hide().html((parseInt(parentBadgeElement.html(), 10) || 0) + value.updateqty).show(index * 50);
                     });
                 }
@@ -264,7 +264,7 @@
 <script type="text/javascript">
     function sidebar_menu_activate() {
         let filename = window.location.pathname.split("/").pop();
-        filename = (filename == `channels.php`) ? filename + window.location.search : filename;
+        filename = (filename == `story.php`) ? filename + window.location.search : filename;
         // console.log(`filename =>`, filename);
 
         var currentmenu = $(`.scrollbar-sidebar a[href=\"${filename}\"]`);

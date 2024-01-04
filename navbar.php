@@ -438,21 +438,23 @@
     let stopWatch = new StopWatch(".stopwatch", ".timer_button");
     // console.log(`stopWatch`, stopWatch);
 
-    get_all_users();
+    get_va_owner_users();
 
-    function get_all_users() {
+    function get_va_owner_users() {
         $(`#workingtime_workfor_modal_form [name="workfor"]`).empty();
 
-        $.post(`php/ui/user/get_users.php`, resp => {
+        $.post(`php/ui/user/get_users.php`, {
+            ucatno: 13
+        }, resp => {
             if (resp.error) {
                 // toastr.error(resp.message);
             } else {
-                show_all_users(resp.results);
+                show_va_owner_users(resp.results);
             }
         }, `json`);
     }
 
-    function show_all_users(data) {
+    function show_va_owner_users(data) {
         let select1 = $(`#workingtime_workfor_modal_form [name="workfor"]`).append(`<option value="">Select employee...</option>`);
 
         $.each(data, (index, value) => {

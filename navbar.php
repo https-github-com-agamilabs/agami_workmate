@@ -856,7 +856,7 @@
         }, `json`);
     }
 
-    get_my_incomplete_task_alltime();
+    // get_my_incomplete_task_alltime();
 
     function get_my_incomplete_task_alltime() {
         $(`#incomplete_task_alltime_container`).empty();

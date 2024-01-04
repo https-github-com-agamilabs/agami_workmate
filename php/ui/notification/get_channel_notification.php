@@ -30,11 +30,11 @@
             $ucatno=(int) $_SESSION['cogo_ucatno'];
         }
 
-        if($ucatno>10){
-            $result=get_admin_new_update($dbcon,$userno);
-        }else{
-            $result=get_user_new_update($dbcon, $userno);
-        }
+        // if($ucatno>=19){
+        //     $result=get_admin_new_update($dbcon,$userno);
+        // }else{
+        //     $result=get_user_new_update($dbcon, $userno);
+        // }
 
         $notfication_array=array();
         if($result->num_rows>0){

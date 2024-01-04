@@ -52,6 +52,12 @@ include_once "php/ui/login/check_session.php";
 
 							<div class="row no-gutters">
 								<div class="col-4">
+									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="3">
+										<i class="fas fa-tasks text-warning mr-2 d-none d-sm-inline-block"></i> Task
+									</button>
+								</div>
+
+								<div class="col-4">
 									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="1">
 										<i class="fas fa-comment-alt text-danger mr-2 d-none d-sm-inline-block"></i> Chat
 									</button>
@@ -63,11 +69,7 @@ include_once "php/ui/login/check_session.php";
 									</button>
 								</div>
 
-								<div class="col-4">
-									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="3">
-										<i class="fas fa-tasks text-warning mr-2 d-none d-sm-inline-block"></i> Task
-									</button>
-								</div>
+
 							</div>
 						</div>
 					</div>
@@ -178,19 +180,19 @@ include_once "php/ui/login/check_session.php";
 
 						<div class="row mt-2">
 							<div class="col-12">
-							<div class="text-primary h6">Attachments : </div>
-							<div id="chat_attachment_container" class="d-flex flex-wrap"></div>
+								<div class="text-primary h6">Attachments : </div>
+								<div id="chat_attachment_container" class="d-flex flex-wrap"></div>
 
-							<div class="text-center text-sm-left">
-								<div class="dropdown d-inline-block">
-									<input name="fileurl" class="form-control shadow-sm" style="display: none;" type="file" title="Attachment file">
+								<div class="text-center text-sm-left">
+									<div class="dropdown d-inline-block">
+										<input name="fileurl" class="form-control shadow-sm" style="display: none;" type="file" title="Attachment file">
 
-									<button class="btn btn-primary dropdown-toggle shadow-sm mb-2 mb-sm-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<i class="fas fa-upload mr-sm-2"></i> Attachment
-									</button>
-									<div id="filetype_dropdown_menu" class="dropdown-menu" tabindex="-1" role="menu" aria-hidden="true"></div>
+										<button class="btn btn-primary dropdown-toggle shadow-sm mb-2 mb-sm-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<i class="fas fa-upload mr-sm-2"></i> Attachment
+										</button>
+										<div id="filetype_dropdown_menu" class="dropdown-menu" tabindex="-1" role="menu" aria-hidden="true"></div>
+									</div>
 								</div>
-							</div>
 							</div>
 						</div>
 					</div>

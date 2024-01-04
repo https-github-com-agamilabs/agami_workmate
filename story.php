@@ -27,9 +27,9 @@ include_once "php/ui/login/check_session.php";
 			<div class="app-main__outer">
 				<div class="app-main__inner">
 
-					<div class="card mb-3">
+					<div class="card mb-3" style="border-radius: 15px">
 						<div class="card-body py-2">
-							<div class="media">
+							<div class="media py-2">
 								<img src="<?php
 											if (!empty($_SESSION["cogo_photoname"])) {
 												echo $_SESSION["cogo_photoname"];
@@ -52,19 +52,19 @@ include_once "php/ui/login/check_session.php";
 
 							<div class="row no-gutters">
 								<div class="col-4">
-									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="3">
+									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="3" style="border-radius: 15px;">
 										<i class="fas fa-tasks text-warning mr-2 d-none d-sm-inline-block"></i> Task
 									</button>
 								</div>
 
 								<div class="col-4">
-									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="1">
+									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="1" style="border-radius: 15px;">
 										<i class="fas fa-comment-alt text-danger mr-2 d-none d-sm-inline-block"></i> Chat
 									</button>
 								</div>
 
 								<div class="col-4">
-									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="2">
+									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="2" style="border-radius: 15px;">
 										<i class="fas fa-bullhorn text-success mr-2 d-none d-sm-inline-block"></i> Notification
 									</button>
 								</div>

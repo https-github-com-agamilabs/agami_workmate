@@ -65,14 +65,14 @@
                     <div class="widget-content-wrapper">
                         <div class="widget-content-left d-flex mt-2">
 
-                            <div class=" mr-3">
+                            <!-- <div class=" mr-3">
                                 <button id="leave_application_button" class="d-flex alert alert-primary shadow-sm border border-primary btn btn-sm btn-default border px-2 shadow-sm py-1" type="button" data-toggle="tooltip" data-placement="bottom" title="Leave Application">
                                     <img src="assets/image/exit.png" width="33" alt="">
 
                                     <h5 class="d-none d-md-block mb-0 my-auto border-secondary  border-left pl-1 pr-1"> Leave Application</h5>
 
                                 </button>
-                            </div>
+                            </div> -->
                             <!-- Timekeppeer Start -->
                             <div class=" mr-2 mr-md-4">
                                 <div class="d-flex alert alert-primary shadow-sm border border-primary text-center mb-0 py-1 px-2" style="height:max-content;">

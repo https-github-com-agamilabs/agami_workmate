@@ -89,7 +89,7 @@
                                                                                 } else {
                                                                                     echo 'assets/image/user_icon.png';
                                                                                 }
-                                                                                ?>" onerror="this.src='assets/image/user_icon.png'" alt="">
+                                                                                ?>" onerror="this.onerror=null;this.src='assets/image/user_icon.png'" alt="">
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-180px, 44px, 0px);">

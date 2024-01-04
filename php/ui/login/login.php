@@ -8,9 +8,27 @@
 		exit();
 	}
 
-    if(!isset($_POST['action']) || !isset($_POST['captchatoken']) || !isset($_POST['username']) || !isset($_POST['password'])){
+    if(!isset($_POST['action']) || !isset($_POST['captchatoken'])){
         $response['error'] = true;
-        $response['message'] = "Required field missing!";
+        $response['message'] = "This site is protected. We could not validate your data!";
+        echo json_encode($response);
+        exit();
+    }
+
+    if(isset($_POST['username']) && strlen($_POST['username'])>0){
+        $username = trim(strip_tags($_POST['username']));
+    }else{
+        $response['error'] = true;
+        $response['message'] = "User-name cannot be empty!";
+        echo json_encode($response);
+        exit();
+    }
+
+    if(isset($_POST['password']) && strlen($_POST['password'])>0){
+        $password = trim(strip_tags($_POST['password']));
+    }else{
+        $response['error'] = true;
+        $response['message'] = "Invalid Credential!";
         echo json_encode($response);
         exit();
     }
@@ -52,8 +70,6 @@
         exit();
     }
 
-    $username = trim(strip_tags($_POST['username']));
-    $password = trim(strip_tags($_POST['password']));
 
     if(strlen($username)<=0){
         $response['error'] = true;

@@ -574,7 +574,7 @@
                     stopWatch.stopTimer().resetTimer();
                 }
                 get_employee_workingtime();
-                modal.modal(`hide`);
+                $(`#workingtime_workfor_modal`).modal(`hide`);
             }
         }, `json`);
     }

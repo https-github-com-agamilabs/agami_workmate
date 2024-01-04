@@ -151,7 +151,7 @@
 
                     <li>
                         <a href="story.php" class="menu-anchor menu-anchor-lvl-1">
-                            <i class="metismenu-icon fas fa-plus-square"></i> Story
+                            <i class="metismenu-icon fas fa-comments"></i> Story
                         </a>
                     </li>
                 <?php endif; ?>

@@ -27,6 +27,12 @@
             throw new \Exception("You must login first!", 1);
         }
 
+        if (isset($_POST['workfor'])) {
+            $workfor=(int) $_POST['workfor'];
+        } else {
+            throw new \Exception("Missing: whom you are working for!", 1);
+        }
+
         $result=is_time_running($dbcon, $empno);
         if ($result->num_rows>0) {
             $timeno = $result->fetch_array(MYSQLI_ASSOC)['timeno'];
@@ -39,14 +45,14 @@
                 $response['message'] = "Cannot End Time!";
             }
         } else {
-            $rs=check_my_incomplete_task($dbcon, $empno);
-            if ($rs->num_rows<=0){
-                $rs2=check_my_incomplete_not_started_task($dbcon, $empno);
-                if ($rs2->num_rows<=0){
-                    throw new \Exception("If you/person have an incomplete task, update your task-status. If you don't have an incomplete task, take a task from 'Available Task'!", 1);
-                }
-            }
-            $userno=start_workingtime($dbcon, $empno);
+            // $rs=check_my_incomplete_task($dbcon, $empno);
+            // if ($rs->num_rows<=0){
+            //     $rs2=check_my_incomplete_not_started_task($dbcon, $empno);
+            //     if ($rs2->num_rows<=0){
+            //         throw new \Exception("If you/person have an incomplete task, update your task-status. If you don't have an incomplete task, take a task from 'Available Task'!", 1);
+            //     }
+            // }
+            $userno=start_workingtime($dbcon, $empno,$workfor);
             if ($userno>0) {
                 $response['error'] = false;
                 $response['message'] = "Time is Started.";
@@ -82,22 +88,22 @@
         return $result;
     }
 
-    //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
-    function start_workingtime($dbcon, $empno)
+    //emp_workingtime(timeno,empno,workfor,starttime,endtime,comment,isaccepted)
+    function start_workingtime($dbcon, $empno,$workfor)
     {
         date_default_timezone_set("Asia/Dhaka");
         $now = date("Y-m-d H:i:s");
         $sql = "INSERT INTO emp_workingtime(
-                                empno,starttime,endtime
+                                empno,workfor,starttime,endtime
                             )
-                VALUES(?,?,NULL)";
+                VALUES(?,?,?,NULL)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("is", $empno, $now);
+        $stmt->bind_param("iis", $empno, $workfor,$now);
         $stmt->execute();
         return $stmt->insert_id;
     }
 
-    //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
+    //emp_workingtime(timeno,empno,workfor,starttime,endtime,comment,isaccepted)
     function end_workingtime($dbcon, $timeno)
     {
         date_default_timezone_set("Asia/Dhaka");

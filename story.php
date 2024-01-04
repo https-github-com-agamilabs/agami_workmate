@@ -1,4 +1,6 @@
-<?php include_once "php/ui/login/check_session.php"; ?>
+<?php
+include_once "php/ui/login/check_session.php";
+?>
 
 <!doctype html>
 <html lang="en">
@@ -41,6 +43,13 @@
 							</div>
 							<hr class="my-2">
 
+							<div class="input-group form_elem_parent mb-3" style="display1: none;">
+								<!-- <div class="input-group-prepend">
+									<span class="input-group-text shadow-sm">Channel</span>
+								</div> -->
+								<select id="task_channel_select" name="channelno" class="form-control shadow-sm" style="width: 100%;" required></select>
+							</div>
+
 							<div class="row no-gutters">
 								<div class="col-4">
 									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="1">
@@ -63,15 +72,24 @@
 						</div>
 					</div>
 
+					<div id="task_progress_container"></div>
+
+					<div class="text-center mb-2">
+						<button id="load_previous_task_progress_button" type="button" class="btn btn-primary font-weight-bold rounded-pill px-4 btn_shadow">
+							Load Previous Task Progress
+						</button>
+
+						<div class="alert alert-info py-2" style="display: none;">No info available.</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div id="setup_channel_backlog_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div id="task_manager_setup_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
-				<form id="setup_channel_backlog_modal_form">
+				<form id="task_manager_setup_modal_form">
 					<div class="modal-header">
 						<h5 class="modal-title">Create Post</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -108,27 +126,62 @@
 							</div>
 						</div>
 
-						<div class="form-group">
-							<textarea name="story" class="form-control shadow-sm" placeholder="What's on your mind?" rows="3"></textarea>
+						<div class="form-group form_elem_parent">
+							<label class="d-block mb-0">
+								<!-- Channel <span class="text-danger">*</span> -->
+								<select name="channelno" class="form-control shadow-sm mt-2" style="width: 100%;" required></select>
+							</label>
 						</div>
 
-						<div class="row align-items-center">
-							<div class="col-4">
-								<button class="btn btn-primary btn-sm" type="button">
-									<i class="fas fa-upload mr-sm-2"></i> Attachment
-								</button>
+						<div class="form-group">
+							<textarea name="message" class="form-control shadow-sm" placeholder="What's on your mind?" rows="3"></textarea>
+						</div>
+
+						<div class="form-group">
+							<label class="d-block mb-0">
+								Story Phase <span class="text-danger">*</span>
+								<select name="storyphaseno" class="form-control shadow-sm mt-2" required></select>
+							</label>
+						</div>
+
+						<div class="text-primary h6">Attachments : </div>
+						<div id="chat_attachment_container" class="d-flex flex-wrap"></div>
+
+						<div class="row align-items-end">
+							<div class="col-sm-6 text-center text-sm-left">
+								<div class="dropdown d-inline-block">
+									<input name="fileurl" class="form-control shadow-sm" style="display: none;" type="file" title="Attachment file">
+
+									<button class="btn btn-primary dropdown-toggle shadow-sm mb-2 mb-sm-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="fas fa-upload mr-sm-2"></i> Attachment
+									</button>
+									<div id="filetype_dropdown_menu" class="dropdown-menu" tabindex="-1" role="menu" aria-hidden="true"></div>
+								</div>
 							</div>
-							<div class="col-8">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text shadow-sm">Type</span>
-									</div>
-									<select name="storytype" class="form-control shadow-sm" required>
+
+							<div class="col-sm-6">
+								<label class="d-block mb-0">
+									Story Type <span class="text-danger">*</span>
+									<select name="storytype" class="form-control shadow-sm mt-2" required>
 										<option value="1">Chat</option>
 										<option value="2">Notification</option>
 										<option value="3">Task</option>
 									</select>
-								</div>
+								</label>
+							</div>
+
+							<div class="col-md-6 mt-3">
+								<label class="d-block mb-0">
+									Priority Level <span class="text-danger">*</span>
+									<select name="prioritylevelno" class="form-control shadow-sm mt-2"></select>
+								</label>
+							</div>
+
+							<div class="col-md-6 mt-3">
+								<label class="d-block mb-0">
+									Priority Value <span class="text-danger">*</span>
+									<input name="relativepriority" class="form-control shadow-sm mt-2" type="number" min="0" placeholder="Priority Value...">
+								</label>
 							</div>
 						</div>
 					</div>
@@ -143,18 +196,290 @@
 	<script>
 		const ucatno = `<?= $ucatno; ?>`;
 
+		get_channels_available_task();
+
+		function get_channels_available_task() {
+			$.post(`php/ui/taskmanager/selection/get_channels_available_task.php`, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					show_channels_available_task(resp.data);
+				}
+			}, `json`);
+		}
+
+		function show_channels_available_task(result) {
+			let select1 = $(`#task_channel_select`).empty();
+			let select2 = $(`#task_manager_setup_modal_form [name="channelno"]`).empty();
+
+			$.each(result, (index, value) => {
+				let optgroup1 = $(`<optgroup label="${value.channeltitle}"></optgroup>`).appendTo(select1);
+				let optgroup2 = $(`<optgroup label="${value.channeltitle}"></optgroup>`).appendTo(select2);
+
+				$.each(value.subchannels, (indexInSubChannels, valueOfSubChannels) => {
+					$(`<option value="${valueOfSubChannels.channelno}">${valueOfSubChannels.channeltitle}</option>`).appendTo(optgroup1);
+					$(`<option value="${valueOfSubChannels.channelno}">${valueOfSubChannels.channeltitle}</option>`).appendTo(optgroup2);
+				});
+			});
+
+			select1
+				.select2({
+					placeholder: "Select Channel...",
+					allowClear: true
+				});
+
+			select2
+				.select2({
+					placeholder: "Select Channel...",
+					allowClear: true
+				});
+
+			if ($(`option`, select1).length == 1) {
+				select1.parents(`.form_elem_parent`).hide();
+				select2.parents(`.form_elem_parent`).hide();
+			}
+
+			get_channel_backlogs(1);
+		}
+
+		get_story_phase();
+
+		function get_story_phase() {
+			let select = $(`#task_manager_setup_modal_form [name="storyphaseno"]`).empty();
+
+			$.post(`php/ui/taskmanager/selection/list_storyphase.php`, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					$.each(resp.results, (index, value) => {
+						select.append(new Option(value.storyphasetitle, value.storyphaseno));
+					});
+				}
+			}, `json`);
+		}
+
+		get_priority_level();
+
+		function get_priority_level() {
+			let select = $(`#task_manager_setup_modal_form [name="prioritylevelno"]`).empty().append(`<option value="">Select...</option>`);
+
+			$.post(`php/ui/taskmanager/selection/list_prioritylevel.php`, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					$.each(resp.results, (index, value) => {
+						select.append(new Option(value.priorityleveltitle, value.prioritylevelno));
+					});
+				}
+			}, `json`);
+		}
+
+		get_filetype();
+
+		function get_filetype() {
+			$(`#filetype_dropdown_menu`).empty();
+
+			$.post(`php/ui/chat/get_filetype.php`, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					show_filetype(resp.data);
+				}
+			}, `json`);
+		}
+
+		function show_filetype(data) {
+			let target = $(`#filetype_dropdown_menu`);
+
+			$.each(data, (i, value) => {
+				let button = $(`<button class="dropdown-item" data-filetypeno="${value.filetypeno}" type="button" tabindex="0">
+						${value.filetypetitle}
+					</button>`)
+					.appendTo(target);
+
+				(function($) {
+					button.click(function(e) {
+						$(`#task_manager_setup_modal_form [name="fileurl"]`)
+							.data(`filetypeno`, value.filetypeno)
+							.trigger("click")
+							.siblings(`[data-toggle="dropdown"]`)
+							.dropdown(`hide`);
+					});
+				})(jQuery);
+			});
+		}
+
+		$(`#task_manager_setup_modal_form`).submit(function(e) {
+			e.preventDefault();
+
+			let json = {
+				channelno: $(`[name="channelno"]`, this).val(),
+				message: $(`[name="message"]`, this).val(),
+			};
+
+			let chatno = Number($(this).data("chatno"), 10) || -1;
+			if (chatno > 0) {
+				json.chatno = chatno;
+			}
+
+			let parentchatno = Number($(this).data("parentchatno"), 10) || -1;
+			if (parentchatno > 0) {
+				json.parentchatno = parentchatno;
+			}
+
+			console.log(!json.message.length);
+			if (!json.message.length) {
+				toastr.error(`Message Text cannot be empty!`);
+				return;
+			}
+
+			setup_chat(json);
+		});
+
+		function formSubmit(json, formElem, url) {
+			let backlogno = $(formElem).data("backlogno");
+			if (backlogno > 0) {
+				json.backlogno = backlogno;
+			}
+
+			let parentbacklogno = $(formElem).data("parentbacklogno");
+			if (parentbacklogno > 0) {
+				json.parentbacklogno = parentbacklogno;
+			}
+
+			$.post(url, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					$(".modal.show").modal("hide");
+					let pageno = $("#task_manager_table_pageno_input").val();
+					get_channel_backlogs(pageno);
+				}
+			}, `json`);
+		}
+
+		function setup_chat(json) {
+			$.post(`php/ui/chat/setup_chat.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					$(`#chat_target_container`).find(`.chat_target`).each((index, elem) => {
+						if ($(elem).data("isnew")) {
+							set_chattarget({
+								chatno: json.chatno || resp.chatno,
+								userno: $(elem).data("userno")
+							});
+						}
+					});
+
+					$(`#chat_attachment_container`).find(`.chat_attachment`).each((index, elem) => {
+						if ($(elem).data("isnew")) {
+							set_chat_attachment({
+								chatno: json.chatno || resp.chatno,
+								filetypeno: $(elem).data("filetypeno"),
+								shorttitle: $(elem).data("shorttitle"),
+								fileurl: $(elem).data("fileurl")
+							});
+						}
+					});
+
+					$(`#task_manager_setup_modal`).modal("hide");
+					toastr.success(resp.message);
+					get_channel_backlogs();
+				}
+			}, `json`);
+		}
+
+		function delete_chat(json) {
+			$.post(`php/ui/chat/remove_chat.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					get_channel_chat_detail();
+				}
+			}, `json`);
+		}
+
+		function set_chat_attachment(json) {
+			let formData = new FormData();
+			$.each(json, (key, value) => formData.append(key, value));
+			$.ajax({
+				type: "POST",
+				url: "php/ui/chat/set_chatattachment.php",
+				cache: false,
+				contentType: false,
+				processData: false,
+				data: formData,
+				success: function(result) {
+					let resp = $.parseJSON(result);
+
+					if (resp.error) {
+						toastr.error(resp.message);
+					} else {
+						toastr.success(resp.message);
+						get_channel_chat_detail();
+					}
+				}
+			});
+		}
+
+		function delete_chat_attachment(json) {
+			$.post(`php/ui/chat/remove_chatattachment.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					get_channel_chat_detail();
+				}
+			}, `json`);
+		}
+
+		$(`#task_manager_setup_modal_form [name="fileurl"]`).change(function(e) {
+			if (this.files.length) {
+				let filetypeno = $(this).data(`filetypeno`);
+				let filetypetitle = $(`#filetype_dropdown_menu [data-filetypeno="${filetypeno}"]`).html();
+
+				let div = $(`<div class="input-group input-group-sm mr-2 mb-2" style="width:max-content;">
+						<div class="input-group-prepend">
+							<span class="input-group-text shadow-sm">${filetypetitle}</span>
+						</div>
+						<input name="shorttitle" value="${this.files[0].name}" class="form-control shadow-sm" type="text" placeholder="Short title for file..." title="Short title for file">
+						<div class="input-group-append">
+							<button class="delete_button btn btn-light shadow-sm" type="button"> <i class="fas fa-times"></i></button>
+						</div>
+					</div>`)
+					.data({
+						isnew: true,
+						filetypeno,
+						shorttitle: this.files[0].name,
+						fileurl: this.files[0]
+					})
+					.appendTo(`#chat_attachment_container`);
+
+				$(`[name="shorttitle"]`, div).trigger(`focus`);
+
+				(function($) {
+					$(`.delete_button`, div).click(function(e) {
+						div.remove();
+					});
+				})(jQuery);
+			}
+		});
+
 		$(`[name="create_post"], button[data-storytype]`).on(`click`, function(e) {
-			let modal = $(`#setup_channel_backlog_modal`).modal(`show`);
+			let modal = $(`#task_manager_setup_modal`).modal(`show`);
 			let storytype = $(this).data(`storytype`) || 3;
 			$(`[name="storytype"]`, modal).val(storytype);
 		});
 
-		$(`[name="story"]`, `#setup_channel_backlog_modal_form`).on(`input`, function(e) {
-			let submitButton = $(`#setup_channel_backlog_modal_form :submit`);
+		$(`[name="message"]`, `#task_manager_setup_modal_form`).on(`input`, function(e) {
+			let submitButton = $(`#task_manager_setup_modal_form :submit`);
 			submitButton.prop(`disabled`, this.value.length <= 0);
 		});
 
-		$(`#setup_channel_backlog_modal_form`).submit(function(e) {
+		$(`#task_manager_setup_modal_form`).submit(function(e) {
 			e.preventDefault();
 			let json = Object.fromEntries((new FormData(this)).entries());
 
@@ -166,6 +491,92 @@
 				}
 			}, `json`);
 		});
+
+		$(`#load_previous_task_progress_button`).click(function(e) {
+			let pageno = $(this).data(`pageno`);
+			if (pageno == null) {
+				pageno = 2;
+			} else {
+				++pageno;
+			}
+
+			$(this).data(`pageno`, pageno);
+			get_channel_backlogs(pageno);
+		});
+
+		$(`#task_channel_select`).change(function(e) {
+			$(`#load_previous_task_progress_button`).data(`pageno`, 1);
+			get_channel_backlogs(1);
+		});
+
+		function get_channel_backlogs(pageno = 1) {
+			if (pageno == 1) {
+				$(`#task_progress_container`).empty();
+			}
+
+			let json = {
+				channelno: $(`#task_channel_select`).val(),
+				pageno,
+				limit: 10
+			};
+
+			$(`#load_previous_task_progress_button`).hide().siblings().hide();
+
+			$.post(`php/ui/taskmanager/backlog/get_channel_backlogs.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					if (resp.results.length >= 10) {
+						$(`#load_previous_task_progress_button`).show();
+					} else {
+						$(`#load_previous_task_progress_button`).siblings().show();
+					}
+
+					show_channel_task_detail(resp.results);
+				}
+			}, `json`);
+		}
+
+
+		function show_channel_task_detail(data) {
+			let target = $(`#task_progress_container`);
+
+			$.each(data, (index, value) => {
+				let template = $(`<tr>
+						<td>${1 + index}</td>
+						<td></td>
+						<td>
+							<div class="d-flex justify-content-center p-0">
+								<button class="edit_button btn btn-sm btn-info rounded-circle custom_shadow m-1" type="button" title="Edit">
+									<i class="fas fa-edit"></i>
+								</button>
+								<button class="delete_button btn btn-sm btn-danger rounded-circle custom_shadow m-1" type="button" title="Delete">
+									<i class="fas fa-trash"></i>
+								</button>
+							</div>
+						</td>
+					</tr>`)
+					.appendTo(target);
+
+				(function($) {
+					$(`.edit_button`, template).click(function(e) {
+						let modal = $(`#modal`).modal(`show`).find(`.modal-title`).html(`Update Data`);
+						let form = $(`form`, modal).trigger(`reset`).data(`tablePK`, value.tablePK);
+
+						$(`[name]`, form).each((i, elem) => {
+							let elementName = $(elem).attr(`name`);
+							if (value[elementName] != null) {
+								$(elem).val(value[elementName]);
+							}
+						});
+					});
+
+					$(`.delete_button`, template).click(function(e) {
+						if (!confirm(`Your are going to delete this record. Are you sure to proceed?`)) return;
+					});
+				})(jQuery);
+			});
+		}
 	</script>
 </body>
 

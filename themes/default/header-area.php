@@ -85,7 +85,7 @@ $langHeaderData = langConverter($jasonFilePath);
                                     <option value="bn">BN</option>
                                 </select>
 
-                                
+
                                 <div class="dropdown d-inline-block">
                                     <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle btn btn-light btn-sm shadow-sm rounded-0" style="padding: 2px 4px;">
                                         <i class="far fa-user-circle mr-1"></i><?= $langHeaderData[$lang]['lang_login/register']; ?>
@@ -111,11 +111,11 @@ $langHeaderData = langConverter($jasonFilePath);
                                             <a href="javascript:void(0);" class="forgotten_password">Forgotten password?</a>
                                         </div>
 
-                                        <hr>
+                                        <!-- <hr>
 
                                         <div class="text-center px-2">
                                             <button id="create_new_account_button" type="button" class="btn btn-success ripple font-size-lg custom_shadow">Create new account</button>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>

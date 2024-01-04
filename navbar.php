@@ -21,6 +21,18 @@
         border-left-width: 3px !important;
     }
 </style>
+
+<style>
+    .glass-modal {
+        /* From https://css.glass */
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(6.8px);
+        -webkit-backdrop-filter: blur(6.8px);
+        border: 1px solid rgba(255, 255, 255, 1);
+    }
+</style>
 <div class="app-header header-shadow d-print-none">
     <div class="app-header__logo">
         <div class="logo-src mx-auto"></div>

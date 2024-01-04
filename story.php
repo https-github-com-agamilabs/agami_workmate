@@ -53,19 +53,22 @@ include_once "php/ui/login/check_session.php";
 							<div class="row no-gutters">
 								<div class="col-4">
 									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="3" style="border-radius: 15px;">
-										<i class="fas fa-tasks text-warning mr-2 d-none d-sm-inline-block"></i> Task
+										<i class="fas fa-tasks text-warning mr-2"></i> 
+										<span class="d-none d-sm-inline-block">Task</span>
 									</button>
 								</div>
 
 								<div class="col-4">
 									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="1" style="border-radius: 15px;">
-										<i class="fas fa-comment-alt text-danger mr-2 d-none d-sm-inline-block"></i> Chat
+										<i class="fas fa-comment-alt text-danger mr-2"></i>
+										<span class="d-none d-sm-inline-block">Chat</span>
 									</button>
 								</div>
 
 								<div class="col-4">
 									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="2" style="border-radius: 15px;">
-										<i class="fas fa-bullhorn text-success mr-2 d-none d-sm-inline-block"></i> Notification
+										<i class="fas fa-bullhorn text-success mr-2"></i>
+										<span class="d-none d-sm-inline-block">Notification</span>
 									</button>
 								</div>
 

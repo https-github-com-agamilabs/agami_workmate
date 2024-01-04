@@ -36,14 +36,14 @@
         //     $result=get_user_new_update($dbcon, $userno);
         // }
 
-        $notfication_array=array();
-        if($result->num_rows>0){
-            while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-                $notfication_array[]=$row;
-            }
-        }
-        $response['error'] = false;
-        $response['chat'] = $notfication_array;
+        // $notfication_array=array();
+        // if($result->num_rows>0){
+        //     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+        //         $notfication_array[]=$row;
+        //     }
+        // }
+        // $response['error'] = false;
+        // $response['chat'] = $notfication_array;
 
         $result=get_user_task_update($dbcon,$userno);
         $notfication_array=array();
@@ -81,57 +81,57 @@ function get_lastvisittime($dbcon, $userno){
 
     return $result;
 }
-function get_user_new_update($dbcon, $userno)
-{
-    $sql = "SELECT c.channelno,cl.parentchannel,count(chatno) as updateqty
-            FROM (SELECT channelno, chatno, createtime, lastupdatetime
-                    FROM msg_chat
-                    WHERE channelno IN(
-                        SELECT channelno
-                        FROM msg_channelmember
-                        WHERE userno=?)
-                ) as c
-                LEFT JOIN (SELECT channelno, lastvisittime
-                            FROM msg_lastvisit
-                            WHERE userno=?) as lv
-                    ON c.channelno=lv.channelno
-                INNER JOIN msg_channel as cl ON c.channelno=cl.channelno
-            WHERE (lv.lastvisittime is NULL) OR c.createtime > lv.lastvisittime OR c.lastupdatetime > lv.lastvisittime
-            GROUP BY c.channelno
-            HAVING count(chatno)>0
-            ORDER BY c.channelno";
-    $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("ii", $userno,$userno);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
+// function get_user_new_update($dbcon, $userno)
+// {
+//     $sql = "SELECT c.channelno,cl.parentchannel,count(chatno) as updateqty
+//             FROM (SELECT channelno, chatno, createtime, lastupdatetime
+//                     FROM msg_chat
+//                     WHERE channelno IN(
+//                         SELECT channelno
+//                         FROM msg_channelmember
+//                         WHERE userno=?)
+//                 ) as c
+//                 LEFT JOIN (SELECT channelno, lastvisittime
+//                             FROM msg_lastvisit
+//                             WHERE userno=?) as lv
+//                     ON c.channelno=lv.channelno
+//                 INNER JOIN msg_channel as cl ON c.channelno=cl.channelno
+//             WHERE (lv.lastvisittime is NULL) OR c.createtime > lv.lastvisittime OR c.lastupdatetime > lv.lastvisittime
+//             GROUP BY c.channelno
+//             HAVING count(chatno)>0
+//             ORDER BY c.channelno";
+//     $stmt = $dbcon->prepare($sql);
+//     $stmt->bind_param("ii", $userno,$userno);
+//     $stmt->execute();
+//     $result = $stmt->get_result();
+//     $stmt->close();
 
-    return $result;
-}
+//     return $result;
+// }
 
-function get_admin_new_update($dbcon,$userno)
-{
-    $sql = "SELECT c.channelno,cl.parentchannel,count(chatno) as updateqty
-            FROM (SELECT channelno, chatno, createtime, lastupdatetime
-                    FROM msg_chat
-                ) as c
-                LEFT JOIN (SELECT channelno, lastvisittime
-                            FROM msg_lastvisit
-                            WHERE userno=?) as lv
-                    ON c.channelno=lv.channelno
-                INNER JOIN msg_channel as cl ON c.channelno=cl.channelno
-            WHERE (lv.lastvisittime is NULL) OR c.createtime > lv.lastvisittime OR c.lastupdatetime > lv.lastvisittime
-            GROUP BY c.channelno
-            HAVING count(chatno)>0
-            ORDER BY c.channelno";
-    $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("i", $userno);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
+// function get_admin_new_update($dbcon,$userno)
+// {
+//     $sql = "SELECT c.channelno,cl.parentchannel,count(chatno) as updateqty
+//             FROM (SELECT channelno, chatno, createtime, lastupdatetime
+//                     FROM msg_chat
+//                 ) as c
+//                 LEFT JOIN (SELECT channelno, lastvisittime
+//                             FROM msg_lastvisit
+//                             WHERE userno=?) as lv
+//                     ON c.channelno=lv.channelno
+//                 INNER JOIN msg_channel as cl ON c.channelno=cl.channelno
+//             WHERE (lv.lastvisittime is NULL) OR c.createtime > lv.lastvisittime OR c.lastupdatetime > lv.lastvisittime
+//             GROUP BY c.channelno
+//             HAVING count(chatno)>0
+//             ORDER BY c.channelno";
+//     $stmt = $dbcon->prepare($sql);
+//     $stmt->bind_param("i", $userno);
+//     $stmt->execute();
+//     $result = $stmt->get_result();
+//     $stmt->close();
 
-    return $result;
-}
+//     return $result;
+// }
 
 function get_user_task_update($dbcon,$userno)
 {

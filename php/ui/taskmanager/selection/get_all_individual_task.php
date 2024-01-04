@@ -120,7 +120,7 @@
                     INNER JOIN
                     (
                         SELECT backlogno, channelno, story, 
-                            storytype,(SELECT storytypetitle FROM asp_storytype WHERE storytypeno=b.storytype) as storytypetitle,
+                            storytype,(SELECT storytypetitle FROM asp_storytype WHERE storytypeno=storytype) as storytypetitle,
                             storyphaseno,prioritylevelno, relativepriority, userno
                         FROM asp_channelbacklog
                     ) as b

@@ -27,7 +27,7 @@ $langHeaderData = langConverter($jasonFilePath);
 
 ?>
 
-<script src='//www.google.com/recaptcha/api.js?render=6Le-0EQpAAAAAHQlefT-hdZhSf7oWvLw77aAd_ZA'></script>
+<script src='//www.google.com/recaptcha/api.js?render=6Ld1TUUpAAAAAPfUZlFrc5Hsf-TTGRVDP9wFeMbt'></script>
 
 <style>
     .form-control-sm {

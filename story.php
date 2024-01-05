@@ -678,7 +678,6 @@ include_once "php/ui/login/check_session.php";
 						<div class="card-header justify-content-between" style="height:auto;">
 							<div class="my-md-1">
 								<div class="d-flex flex-wrap justify-content-center justify-content-md-start">
-									<div class="bg-info text-white rounded text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${value.channeltitle}</div>
 									${value.storytype==3 ? 
 										`<div class="alert alert-info text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${value.priorityleveltitle} (${value.relativepriority})</div>
 										${delay.days_diff > 0
@@ -692,8 +691,8 @@ include_once "php/ui/login/check_session.php";
 								</div>
 								<div class="small mt-1">
 									<div style="text-transform:none;">
+										By: ${value.assignedby || ``} at ${value.storytime || ``} 
 										${value.storytype == 3 ? value.storyphasetitle:``}
-										By: ${value.assignedby || ``}
 									</div>
 								</div>
 							</div>

@@ -134,7 +134,7 @@ include_once "php/ui/login/check_session.php";
 						<div class="form-group form_elem_parent">
 							<label class="d-block mb-0">
 								<!-- Channel <span class="text-danger">*</span> -->
-								<select name="channelno" class="form-control shadow-sm mt-2" style="width: 100%;" required></select>
+								<select name="channelno" class="form-control shadow-sm mt-2" style="width: 100%;"></select>
 							</label>
 						</div>
 
@@ -188,7 +188,7 @@ include_once "php/ui/login/check_session.php";
 
 								<div class="text-center text-sm-left">
 									<div class="dropdown d-inline-block">
-										<input name="fileurl" class="form-control shadow-sm" style="display: none;" type="file" title="Attachment file">
+										<input name="fileurl" class="form-control shadow-sm" style="display: none;" type="file" multiple title="Attachment file">
 
 										<button class="btn btn-primary dropdown-toggle shadow-sm mb-2 mb-sm-0" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<i class="fas fa-upload mr-sm-2"></i> Attachment
@@ -237,7 +237,7 @@ include_once "php/ui/login/check_session.php";
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
-					//show_channels_available_task(resp.data);
+					show_channels_available_task(resp.data);
 					show_task(resp.results, `#task_progress_container`);
 				}
 			}, `json`);
@@ -248,7 +248,7 @@ include_once "php/ui/login/check_session.php";
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
-					//show_channels_available_task(resp.data);
+					show_channels_available_task(resp.data);
 					load_channel_story_detail(resp.data);
 				}
 			}, `json`);
@@ -382,6 +382,8 @@ include_once "php/ui/login/check_session.php";
 				json.parentbacklogno = parentbacklogno;
 			}
 
+			console.log(json);
+
 			$.post(url, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
@@ -484,33 +486,40 @@ include_once "php/ui/login/check_session.php";
 
 		$(`#task_manager_setup_modal_form [name="fileurl"]`).change(function(e) {
 			if (this.files.length) {
-				let filetypeno = $(this).data(`filetypeno`);
-				let filetypetitle = $(`#filetype_dropdown_menu [data-filetypeno="${filetypeno}"]`).html();
 
-				let div = $(`<div class="input-group input-group-sm mr-2 mb-2" style="width:max-content;">
-						<div class="input-group-prepend">
-							<span class="input-group-text shadow-sm">${filetypetitle}</span>
-						</div>
-						<input name="shorttitle" value="${this.files[0].name}" class="form-control shadow-sm" type="text" placeholder="Short title for file..." title="Short title for file">
-						<div class="input-group-append">
-							<button class="delete_button btn btn-light shadow-sm" type="button"> <i class="fas fa-times"></i></button>
-						</div>
-					</div>`)
-					.data({
-						isnew: true,
-						filetypeno,
-						shorttitle: this.files[0].name,
-						fileurl: this.files[0]
-					})
-					.appendTo(`#story_attachment_container`);
+				for (let index = 0; index < this.files.length; index++) {
+					const aFile = this.files[index];
 
-				$(`[name="shorttitle"]`, div).trigger(`focus`);
+					let filetypeno = $(this).data(`filetypeno`);
+					let filetypetitle = $(`#filetype_dropdown_menu [data-filetypeno="${filetypeno}"]`).html();
 
-				(function($) {
-					$(`.delete_button`, div).click(function(e) {
-						div.remove();
-					});
-				})(jQuery);
+					let div = $(`<div class="input-group input-group-sm mr-2 mb-2" style="width:max-content;">
+									<div class="input-group-prepend">
+										<span class="input-group-text shadow-sm">${filetypetitle}</span>
+									</div>
+									<input name="shorttitle" value="${aFile.name}" class="form-control shadow-sm" type="text" placeholder="Short title for file..." title="Short title for file">
+									<div class="input-group-append">
+										<button class="delete_button btn btn-light shadow-sm" type="button"> <i class="fas fa-times"></i></button>
+									</div>
+								</div>`)
+						.data({
+							isnew: true,
+							filetypeno,
+							shorttitle: aFile.name,
+							fileurl: aFile
+						})
+						.appendTo(`#story_attachment_container`);
+
+					$(`[name="shorttitle"]`, div).trigger(`focus`);
+
+					(function($) {
+						$(`.delete_button`, div).click(function(e) {
+							div.remove();
+						});
+					})(jQuery);
+				}
+
+				
 			}
 		});
 

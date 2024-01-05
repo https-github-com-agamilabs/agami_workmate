@@ -184,7 +184,7 @@ include_once "php/ui/login/check_session.php";
 						<div class="row mt-2">
 							<div class="col-12">
 								<div class="text-primary h6">Attachments : </div>
-								<div id="chat_attachment_container" class="d-flex flex-wrap"></div>
+								<div id="story_attachment_container" class="d-flex flex-wrap"></div>
 
 								<div class="text-center text-sm-left">
 									<div class="dropdown d-inline-block">
@@ -208,19 +208,48 @@ include_once "php/ui/login/check_session.php";
 	</div>
 
 	<script>
+		const CHANNELNO = parseInt(window.location.search.split("=").pop(), 10) || -1;
+		const LOGGEDIN_USERNO = parseInt(`<?= $userno; ?>`, 10) || -1;
+		const UCATNO = parseInt(`<?= $ucatno; ?>`, 10) || -1;
+
 		const ucatno = `<?= $ucatno; ?>`;
 		const searchParams = new URLSearchParams(window.location.search);
 
 		const selected_channel = searchParams.has('channelno') ? searchParams.get('channelno') : '';
 
-		get_channels_available_task();
+		//get_channels_available_task();
+		get_channel_task_detail();
+
+		function get_channel_task_detail(pageno = 1) {
+			// if (pageno == 1) {
+			// 	$(`#task_progress_container`).empty();
+			// }
+
+			let json = {
+				channelno: CHANNELNO,
+				pageno,
+				limit: 10
+			};
+
+			//$(`#load_previous_task_progress_button`).hide().siblings().hide();
+
+			$.post(`php/ui/chat/get_channel_task_detail.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					//show_channels_available_task(resp.data);
+					show_task(resp.results, `#task_progress_container`);
+				}
+			}, `json`);
+		}
 
 		function get_channels_available_task() {
 			$.post(`php/ui/taskmanager/selection/get_channels_available_task.php`, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
-					show_channels_available_task(resp.data);
+					//show_channels_available_task(resp.data);
+					load_channel_story_detail(resp.data);
 				}
 			}, `json`);
 		}
@@ -362,9 +391,9 @@ include_once "php/ui/login/check_session.php";
 					let pageno = $("#task_manager_table_pageno_input").val();
 					get_channel_backlogs(pageno);
 
-					$(`#chat_attachment_container`).find(`.chat_attachment`).each((index, elem) => {
+					$(`#story_attachment_container`).find(`.story_attachment`).each((index, elem) => {
 						if ($(elem).data("isnew")) {
-							set_chat_attachment({
+							set_story_attachment({
 								chatno: json.chatno || resp.chatno,
 								filetypeno: $(elem).data("filetypeno"),
 								shorttitle: $(elem).data("shorttitle"),
@@ -381,7 +410,7 @@ include_once "php/ui/login/check_session.php";
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
-					$(`#chat_target_container`).find(`.chat_target`).each((index, elem) => {
+					$(`#story_target_container`).find(`.story_target`).each((index, elem) => {
 						if ($(elem).data("isnew")) {
 							set_chattarget({
 								chatno: json.chatno || resp.chatno,
@@ -390,9 +419,9 @@ include_once "php/ui/login/check_session.php";
 						}
 					});
 
-					$(`#chat_attachment_container`).find(`.chat_attachment`).each((index, elem) => {
+					$(`#story_attachment_container`).find(`.story_attachment`).each((index, elem) => {
 						if ($(elem).data("isnew")) {
-							set_chat_attachment({
+							set_story_attachment({
 								chatno: json.chatno || resp.chatno,
 								filetypeno: $(elem).data("filetypeno"),
 								shorttitle: $(elem).data("shorttitle"),
@@ -419,7 +448,7 @@ include_once "php/ui/login/check_session.php";
 			}, `json`);
 		}
 
-		function set_chat_attachment(json) {
+		function set_story_attachment(json) {
 			let formData = new FormData();
 			$.each(json, (key, value) => formData.append(key, value));
 			$.ajax({
@@ -442,7 +471,7 @@ include_once "php/ui/login/check_session.php";
 			});
 		}
 
-		function delete_chat_attachment(json) {
+		function delete_story_attachment(json) {
 			$.post(`php/ui/chat/remove_chatattachment.php`, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
@@ -473,7 +502,7 @@ include_once "php/ui/login/check_session.php";
 						shorttitle: this.files[0].name,
 						fileurl: this.files[0]
 					})
-					.appendTo(`#chat_attachment_container`);
+					.appendTo(`#story_attachment_container`);
 
 				$(`[name="shorttitle"]`, div).trigger(`focus`);
 
@@ -610,6 +639,110 @@ include_once "php/ui/login/check_session.php";
 				})(jQuery);
 			});
 		}
+
+
+		/**
+		 * Hanif
+		 * Showed the stories
+		 */
+		let story_log = {};
+
+		function show_task(data, targetContainer) {
+			let today = `<?= date('Y-m-d'); ?>`,
+				start = ``,
+				delay = {},
+				cardClass = ``;
+
+			$.each(data, (index, value) => {
+				start = value.deadlines.length ? value.deadlines[value.deadlines.length - 1].deadline : value.scheduledate;
+
+				if (value.progress.find(a => a.wstatusno == 4) != null) {
+					cardClass = ` border-left border-danger card-shadow-danger`;
+				} else if (value.progress.find(a => a.wstatusno == 3) != null) {
+					if (value.deadlines && value.deadlines.length > 1) {
+						cardClass = ` border-left border-warning card-shadow-warning`;
+					} else {
+						cardClass = ` border-left border-success card-shadow-success`;
+					}
+				} else if (value.progress.find(a => a.wstatusno == 2) != null) {
+					cardClass = ` border-left border-info card-shadow-info`;
+					delay = delayedDate(today, start);
+				} else {
+					cardClass = ``;
+					delay = delayedDate(today, start);
+				}
+
+				// console.log(`delay =>`, delay);
+
+			let card = $(`<div class="card mb-3${cardClass}">
+						<div class="card-header justify-content-between" style="height:auto;">
+							<div class="my-md-1">
+								<div class="d-flex flex-wrap justify-content-center justify-content-md-start">
+									<div class="bg-info text-white rounded text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${value.channeltitle}</div>
+									<div class="alert alert-info text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${value.priorityleveltitle} (${value.relativepriority})</div>
+									${delay.days_diff > 0
+										? `<div class="alert alert-danger text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${delay.days_diff} day(s) behind</div>`
+										: ``}
+									${(delay.days_diff <= 0 && delay.hours_diff > 0)
+										? `<div class="alert alert-danger text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${delay.hours_diff} hour(s) behind</div>`
+										: ``}
+								</div>
+								<div class="small mt-1">
+									<div style="text-transform:none;">
+										${value.storyphasetitle},
+										Points: ${value.points},
+										By: ${value.assignedby || ``}
+									</div>
+								</div>
+							</div>
+							${UCAT_NO == 19 || value.assignedto == USER_NO
+								? `<button class="status_button btn btn-sm btn-info custom_shadow" type="button">Update Status</button>`
+								: ``
+							}
+						</div>
+						<div class="card-body py-2">
+							<div>${value.story}</div>
+						</div>
+						<div class="card-footer p-2">
+							<div class="w-100 px-2 py-1">
+								${value.assignee ? `<div>Assignee: ${value.assignee}</div>` : ``}
+								<div class="d-flex justify-content-between">
+									<div>How to solve (Tips)</div>
+									<div>
+										[${formatDate(value.scheduledate)}
+										to
+										${value.deadlines.map((obj, i) => `<span class="${i != 0 ? `text-danger` : ``}">${formatDate(obj.deadline)}</span>`).join(", ")}]
+									</div>
+								</div>
+								<div>${deNormaliseUserInput(value.howto)}</div>
+								<hr>
+								${value.progress.length
+									? value.progress
+										.map(b => `<div class="media mb-3">
+											<div class="mr-2">${formatDateTime(b.progresstime)}</div>
+											<div class="media-body">
+												<div>${b.statustitle} (${b.entryby})</div>
+												<div>${deNormaliseUserInput(b.result)}</div>
+											</div>
+										</div>`)
+										.join("")
+									: ``
+								}
+							</div>
+						</div>
+					</div>`)
+					.appendTo(targetContainer);
+
+				(function($) {
+					$(`.status_button`, card).click(function(e) {
+						$("#status_update_modal").modal("show");
+						$(`#status_update_modal_form`).data("cblscheduleno", value.cblscheduleno).data("cblprogressno", -1);
+					});
+				})(jQuery);
+			});
+		}
+
+
 	</script>
 </body>
 

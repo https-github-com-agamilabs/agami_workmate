@@ -130,7 +130,7 @@
                     (SELECT backlogno, channelno, story, storyphaseno,storytype, prioritylevelno, relativepriority, lastupdatetime, userno
                     FROM asp_channelbacklog
                     WHERE channelno=?) as b
-                    INNER JOIN asp_cblschedule as s ON s.backlogno=b.backlogno
+                    LEFT JOIN asp_cblschedule as s ON s.backlogno=b.backlogno
                 ORDER BY s.cblscheduleno DESC
                 LIMIT ?,?
                 ";

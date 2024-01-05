@@ -372,7 +372,8 @@ include_once "php/ui/login/check_session.php";
 			e.preventDefault();
 			let json = Object.fromEntries((new FormData(this)).entries());
 			delete json.fileurl;
-			json.attachments = $('.attachment_url').map((i, f)=>$(f).data()).toArray();
+			delete json.shorttitle;
+			json.attachments = JSON.stringify($('.attachment_url').map((i, f)=>$(f).data()).toArray());
 
 			formSubmit(json, this, `php/ui/taskmanager/backlog/setup_backlog.php`);
 		});

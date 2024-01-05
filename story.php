@@ -220,6 +220,7 @@ include_once "php/ui/login/check_session.php";
 
 		const selected_channel = searchParams.has('channelno') ? searchParams.get('channelno') : '';
 
+		show_available_channels([]);
 		//get_channels_available_task();
 		get_channel_task_detail();
 
@@ -240,7 +241,7 @@ include_once "php/ui/login/check_session.php";
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
-					show_channels_available_task(resp.data);
+					// show_available_channels(resp.data);
 					show_task(resp.results, `#task_progress_container`);
 				}
 			}, `json`);
@@ -251,13 +252,13 @@ include_once "php/ui/login/check_session.php";
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
-					show_channels_available_task(resp.data);
+					// show_available_channels(resp.data);
 					load_channel_story_detail(resp.data);
 				}
 			}, `json`);
 		}
 
-		function show_channels_available_task(result) {
+		function show_available_channels(result){
 			let select1 = $(`#task_channel_select`).empty();
 			let select2 = $(`#task_manager_setup_modal_form [name="channelno"]`).empty();
 
@@ -270,6 +271,10 @@ include_once "php/ui/login/check_session.php";
 					$(`<option value="${valueOfSubChannels.channelno}">${valueOfSubChannels.channeltitle}</option>`).appendTo(optgroup2);
 				});
 			});
+			if ($(`option`, select1).length == 0) {
+				select1.append(`<option value='${selected_channel}'>Selected Channel</option>`);
+				select2.append(`<option value='${selected_channel}'>Selected Channel</option>`);
+			}
 
 			select1
 				.select2({
@@ -282,6 +287,8 @@ include_once "php/ui/login/check_session.php";
 					placeholder: "Select Channel...",
 					allowClear: true
 				});
+
+			
 
 			if (selected_channel.length) {
 				select1.val(selected_channel)
@@ -297,7 +304,9 @@ include_once "php/ui/login/check_session.php";
 				select1.parents(`.form_elem_parent`).hide();
 				select2.parents(`.form_elem_parent`).hide();
 			}
+		}
 
+		function show_channels_available_task() {
 			get_channel_backlogs(1);
 		}
 

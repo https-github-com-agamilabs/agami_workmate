@@ -679,23 +679,31 @@ include_once "php/ui/login/check_session.php";
 							<div class="my-md-1">
 								<div class="d-flex flex-wrap justify-content-center justify-content-md-start">
 									<div class="bg-info text-white rounded text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${value.channeltitle}</div>
-									<div class="alert alert-info text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${value.priorityleveltitle} (${value.relativepriority})</div>
-									${delay.days_diff > 0
-										? `<div class="alert alert-danger text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${delay.days_diff} day(s) behind</div>`
-										: ``}
-									${(delay.days_diff <= 0 && delay.hours_diff > 0)
-										? `<div class="alert alert-danger text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${delay.hours_diff} hour(s) behind</div>`
-										: ``}
+									${value.storytype==3 ? 
+										`<div class="alert alert-info text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${value.priorityleveltitle} (${value.relativepriority})</div>
+										${delay.days_diff > 0
+											? `<div class="alert alert-danger text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${delay.days_diff} day(s) behind</div>`
+											: ``}
+										${(delay.days_diff <= 0 && delay.hours_diff > 0)
+											? `<div class="alert alert-danger text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${delay.hours_diff} hour(s) behind</div>`
+											: ``}
+										` : ``
+									}
 								</div>
 								<div class="small mt-1">
 									<div style="text-transform:none;">
-										${value.storyphasetitle},
-										Points: ${value.points},
+										${value.storytype == 3 ? value.storyphasetitle:``}
 										By: ${value.assignedby || ``}
 									</div>
 								</div>
 							</div>
-							${UCAT_NO == 19 || value.assignedto == USER_NO
+
+							
+							${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13) 
+								? `<button class="assign_button btn btn-sm btn-info custom_shadow" type="button">Assign To</button>`
+								: ``
+							}
+							${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13 || value.assignedto == USER_NO)
 								? `<button class="status_button btn btn-sm btn-info custom_shadow" type="button">Update Status</button>`
 								: ``
 							}
@@ -703,7 +711,9 @@ include_once "php/ui/login/check_session.php";
 						<div class="card-body py-2">
 							<div>${value.story}</div>
 						</div>
+
 						<div class="card-footer p-2">
+							${value.storytype == 3 ? `
 							<div class="w-100 px-2 py-1">
 								${value.assignee ? `<div>Assignee: ${value.assignee}</div>` : ``}
 								<div class="d-flex justify-content-between">
@@ -728,7 +738,8 @@ include_once "php/ui/login/check_session.php";
 										.join("")
 									: ``
 								}
-							</div>
+							</div>` : ``
+							}
 						</div>
 					</div>`)
 					.appendTo(targetContainer);

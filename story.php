@@ -15,6 +15,9 @@ include_once "php/ui/login/check_session.php";
 			cursor: not-allowed;
 		}
 	</style>
+	<?php
+	require_once "configmanager/fileupload_configuration.php";
+	?>
 </head>
 
 <body>
@@ -53,7 +56,7 @@ include_once "php/ui/login/check_session.php";
 							<div class="row no-gutters">
 								<div class="col-4">
 									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="3" style="border-radius: 15px;">
-										<i class="fas fa-tasks text-warning mr-2"></i> 
+										<i class="fas fa-tasks text-warning mr-2"></i>
 										<span class="d-none d-sm-inline-block">Task</span>
 									</button>
 								</div>
@@ -368,6 +371,9 @@ include_once "php/ui/login/check_session.php";
 		$(`#task_manager_setup_modal_form`).submit(function(e) {
 			e.preventDefault();
 			let json = Object.fromEntries((new FormData(this)).entries());
+			delete json.fileurl;
+			json.attachments = $('.attachment_url').map((i, f)=>$(f).data()).toArray();
+
 			formSubmit(json, this, `php/ui/taskmanager/backlog/setup_backlog.php`);
 		});
 
@@ -484,16 +490,18 @@ include_once "php/ui/login/check_session.php";
 			}, `json`);
 		}
 
-		$(`#task_manager_setup_modal_form [name="fileurl"]`).change(function(e) {
+		$(`#task_manager_setup_modal_form [name="fileurl"]`).change(async function(e) {
 			if (this.files.length) {
 
 				for (let index = 0; index < this.files.length; index++) {
 					const aFile = this.files[index];
 
+					let fileupload_resp = await upload_file_in_server(aFile);
+
 					let filetypeno = $(this).data(`filetypeno`);
 					let filetypetitle = $(`#filetype_dropdown_menu [data-filetypeno="${filetypeno}"]`).html();
 
-					let div = $(`<div class="input-group input-group-sm mr-2 mb-2" style="width:max-content;">
+					let div = $(`<div class="attachment_url input-group input-group-sm mr-2 mb-2" style="width:max-content;">
 									<div class="input-group-prepend">
 										<span class="input-group-text shadow-sm">${filetypetitle}</span>
 									</div>
@@ -506,7 +514,8 @@ include_once "php/ui/login/check_session.php";
 							isnew: true,
 							filetypeno,
 							shorttitle: aFile.name,
-							fileurl: aFile
+							fileurl: aFile,
+							...fileupload_resp
 						})
 						.appendTo(`#story_attachment_container`);
 
@@ -517,9 +526,11 @@ include_once "php/ui/login/check_session.php";
 							div.remove();
 						});
 					})(jQuery);
+
+					console.log(div.data());
 				}
 
-				
+
 			}
 		});
 
@@ -535,18 +546,18 @@ include_once "php/ui/login/check_session.php";
 			submitButton.prop(`disabled`, this.value.length <= 0);
 		});
 
-		$(`#task_manager_setup_modal_form`).submit(function(e) {
-			e.preventDefault();
-			let json = Object.fromEntries((new FormData(this)).entries());
+		// $(`#task_manager_setup_modal_form`).submit(function(e) {
+		// 	e.preventDefault();
+		// 	let json = Object.fromEntries((new FormData(this)).entries());
 
-			$.post(`php/ui/`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					toastr.success(resp.message);
-				}
-			}, `json`);
-		});
+		// 	$.post(`php/ui/`, json, resp => {
+		// 		if (resp.error) {
+		// 			toastr.error(resp.message);
+		// 		} else {
+		// 			toastr.success(resp.message);
+		// 		}
+		// 	}, `json`);
+		// });
 
 		$(`#load_previous_task_progress_button`).click(function(e) {
 			let pageno = $(this).data(`pageno`);
@@ -683,7 +694,7 @@ include_once "php/ui/login/check_session.php";
 
 				// console.log(`delay =>`, delay);
 
-			let card = $(`<div class="card mb-3${cardClass}">
+				let card = $(`<div class="card mb-3${cardClass}">
 						<div class="card-header justify-content-between" style="height:auto;">
 							<div class="my-md-1">
 								<div class="d-flex flex-wrap justify-content-center justify-content-md-start">
@@ -760,8 +771,6 @@ include_once "php/ui/login/check_session.php";
 				})(jQuery);
 			});
 		}
-
-
 	</script>
 </body>
 

@@ -24,7 +24,8 @@
         if($ucatno>=19 || $my_permissionlevel>=7){
             $results = get_all_employee($dbcon);
         }elseif($my_permissionlevel==3){
-            $results = get_my_fellow($dbcon,$userno);
+            // $results = get_my_fellow($dbcon,$userno);
+            $results = get_all_employee($dbcon);
         }else{
             // $results = get_my_info($dbcon,$userno);
             $results = get_all_employee($dbcon);

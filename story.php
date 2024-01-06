@@ -15,6 +15,26 @@ include_once "php/ui/login/check_session.php";
 			cursor: not-allowed;
 		}
 	</style>
+
+	<style>
+		.bg-light-white {
+			background-color: #FFFFFF;
+		}
+
+		.bg-light-blue {
+			background-color: #89CFF0;
+		}
+
+		.bg-light-green {
+			background-color: #ACE1AF;
+
+		}
+
+		.bg-light-red {
+			background-color: #FA8072;
+
+		}
+	</style>
 	<?php
 	$base_path = dirname(__FILE__);
 	require_once($base_path . "/configmanager/fileupload_configuration.php");
@@ -261,7 +281,6 @@ include_once "php/ui/login/check_session.php";
 	</div>
 
 	<script>
-
 		const PERMISSION_LEVEL = `<?= $_SESSION['cogo_permissionlevel']; ?>`;
 
 		let howToSolveTextEditor;
@@ -787,9 +806,21 @@ include_once "php/ui/login/check_session.php";
 					}
 				}
 
+				let bgClass = ``;
+				if (value.storytype == 1) {
+					bgClass = `bg-light-blue`;
+
+				} else if (value.storytype == 2) {
+					bgClass = `bg-light-green`;
+
+				} else if (value.storytype == 3) {
+					bgClass = `bg-light-white`;
+
+				}
+
 				// console.log(`delay =>`, delay);
 
-				let card = $(`<div class="card mb-3${cardClass}">
+				let card = $(`<div class="card my-3 ${cardClass} ${bgClass}">
 						
 						<div class="d-flex justify-content-between p-2 px-3">
 							<div class="d-flex flex-row align-items-center"> 
@@ -838,8 +869,9 @@ include_once "php/ui/login/check_session.php";
 							<div>${value.story}</div>
 						</div>
 
-						<div class="card-footer p-2">
+						
 							${value.storytype == 3 && value.assignedto!=null ? `
+								<div class="card-footer p-2">
 							<div class="w-100 px-2 py-1">
 								${value.assignee ? `<div>Assignee: ${value.assignee}</div>` : ``}
 								<div class="d-flex justify-content-between">
@@ -864,7 +896,7 @@ include_once "php/ui/login/check_session.php";
 										.join("")
 									: ``
 								}
-							</div>` : ``
+								</div>` : ``
 							}
 						</div>
 					</div>`)
@@ -908,6 +940,20 @@ include_once "php/ui/login/check_session.php";
 					});
 				})(jQuery);
 			});
+		}
+
+		function delete_a_backlogs(json) {
+			$.post(`php/ui/taskmanager/backlog/remove_backlogs.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					$("#task_detail_modal").modal("hide");
+					let pageno = $("#task_manager_table_pageno_input").val();
+					get_channel_task_detail(pageno);
+					// get_channel_backlogs(pageno);
+				}
+			}, `json`);
 		}
 	</script>
 

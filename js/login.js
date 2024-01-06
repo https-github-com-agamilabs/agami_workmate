@@ -11,7 +11,7 @@ function complete_login(json) {
     json.action = "employee_login";
 
     grecaptcha.ready(function () {
-        grecaptcha.execute('6Ld1TUUpAAAAAPfUZlFrc5Hsf-TTGRVDP9wFeMbt', {
+        grecaptcha.execute('6Le-0EQpAAAAAHQlefT-hdZhSf7oWvLw77aAd_ZA', {
             action: json.action
         }).then(function (token) {
             json.captchatoken = token;

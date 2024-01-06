@@ -27,7 +27,7 @@ $langHeaderData = langConverter($jasonFilePath);
 
 ?>
 
-<script src='//www.google.com/recaptcha/api.js?render=6Ld1TUUpAAAAAPfUZlFrc5Hsf-TTGRVDP9wFeMbt'></script>
+<script src='//www.google.com/recaptcha/api.js?render=6Le-0EQpAAAAAHQlefT-hdZhSf7oWvLw77aAd_ZA'></script>
 
 <style>
     .form-control-sm {
@@ -265,7 +265,7 @@ $langHeaderData = langConverter($jasonFilePath);
         grecaptcha.ready(function() {
             // do request for recaptcha token
             // response is promise with passed token
-            grecaptcha.execute('6Ld1TUUpAAAAAPfUZlFrc5Hsf-TTGRVDP9wFeMbt', {
+            grecaptcha.execute('6Le-0EQpAAAAAHQlefT-hdZhSf7oWvLw77aAd_ZA', {
                 action: 'employee_login'
             }).then(function(token) {
                 // add token to form

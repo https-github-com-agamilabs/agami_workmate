@@ -16,7 +16,9 @@ include_once "php/ui/login/check_session.php";
 		}
 	</style>
 	<?php
-	require_once "configmanager/fileupload_configuration.php";
+		$base_path = dirname(__FILE__);
+		require_once($base_path."/configmanager/fileupload_configuration.php");
+		//require_once "configmanager/fileupload_configuration.php";
 	?>
 </head>
 

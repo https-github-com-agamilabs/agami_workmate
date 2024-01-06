@@ -148,7 +148,7 @@ include_once "php/ui/login/check_session.php";
 								</div>
 
 								<div class="col-4">
-									<button class="btn btn-outline-light btn-block border-0 font-size-lg text-danger" type="button" data-storytype="1" style="border-radius: 15px;">
+									<button class="btn btn-outline-light btn-block border-0 font-size-lg text-primary" type="button" data-storytype="1" style="border-radius: 15px;">
 										<i class="fas fa-comment-alt mr-2"></i>
 										<span class="d-none d-sm-inline-block">Chat</span>
 									</button>

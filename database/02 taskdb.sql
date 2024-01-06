@@ -95,7 +95,8 @@ INSERT INTO asp_prioritylevel(prioritylevelno,priorityleveltitle,prioritylevelde
 VALUES(1, 'VERY URGENT','Stop your other work, do it now', 1),
 (2, 'URGENT','Complete your handy work, then start this one',2),
 (3, 'NORMAL PRIORITY','We need it eventually',9),
-(4, 'LOW PRIORITY','If you have no work, do it.',3);
+(4, 'LOW PRIORITY','If you have no work, do it.',3),
+(5, 'NO PRIORITY','If you have no work, do it.',11);
 
 CREATE TABLE asp_storytype(
     storytypeno int NOT NULL,

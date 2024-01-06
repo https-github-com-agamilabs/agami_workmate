@@ -15,7 +15,11 @@
 	</div>
 
 
-	<?php require 'fileupload_configuration.php'; ?>
+	<?php 
+		$base_path = dirname(__FILE__);
+        require_once($base_path."/fileupload_configuration.php");
+		//require 'fileupload_configuration.php'; 
+	?>
 
 	<script type="text/javascript">
 		document.getElementById('fileupload').addEventListener('change', function() {

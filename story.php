@@ -726,9 +726,9 @@ include_once "php/ui/login/check_session.php";
 									<small class="mr-2">
 										${value.storytime || ``}
 										
-										${value.storytype == 3 ?
-											`${value.priorityleveltitle} (${value.relativepriority})
-											${delay.days_diff > 0 ? `${delay.days_diff} day(s) behind`: ``}
+										${value.storytype == 3 ? `${value.priorityleveltitle} (${value.relativepriority})`:``}
+										${value.storytype == 3 && value.assignedto!=null ?	
+											`${delay.days_diff > 0 ? `${delay.days_diff} day(s) behind`: ``}
 											${(delay.days_diff <= 0 && delay.hours_diff > 0) ? `${delay.hours_diff} hour(s) behind`: ``}
 											`:``
 										}
@@ -766,7 +766,7 @@ include_once "php/ui/login/check_session.php";
 						</div>
 
 						<div class="card-footer p-2">
-							${value.storytype == 3 ? `
+							${value.storytype == 3 && value.assignedto!=null ? `
 							<div class="w-100 px-2 py-1">
 								${value.assignee ? `<div>Assignee: ${value.assignee}</div>` : ``}
 								<div class="d-flex justify-content-between">

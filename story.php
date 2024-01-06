@@ -127,7 +127,7 @@ include_once "php/ui/login/check_session.php";
 											}
 											?>" onerror="this.onerror=null;this.src='assets/image/user_icon.png'" class="align-self-start img-fluid rounded-semi-circle mr-3" style="width:40px;height:40px;" alt="...">
 								<div class="media-body">
-									<input name="create_post" class="form-control shadow-sm rounded-pill cursor-pointer" type="text" placeholder="What's on your mind?" readonly>
+									<input name="create_post" class="form-control bg-white rounded-pill cursor-pointer" type="text" placeholder="What's on your mind?" readonly>
 								</div>
 							</div>
 							<hr class="my-2">
@@ -141,22 +141,22 @@ include_once "php/ui/login/check_session.php";
 
 							<div class="row no-gutters">
 								<div class="col-4">
-									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="3" style="border-radius: 15px;">
-										<i class="fas fa-tasks text-warning mr-2"></i>
+									<button class="btn btn-outline-light btn-block border-0 font-size-lg text-warning" type="button" data-storytype="3" style="border-radius: 15px;">
+										<i class="fas fa-tasks mr-2"></i>
 										<span class="d-none d-sm-inline-block">Task</span>
 									</button>
 								</div>
 
 								<div class="col-4">
-									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="1" style="border-radius: 15px;">
-										<i class="fas fa-comment-alt text-danger mr-2"></i>
+									<button class="btn btn-outline-light btn-block border-0 font-size-lg text-danger" type="button" data-storytype="1" style="border-radius: 15px;">
+										<i class="fas fa-comment-alt mr-2"></i>
 										<span class="d-none d-sm-inline-block">Chat</span>
 									</button>
 								</div>
 
 								<div class="col-4">
-									<button class="btn btn-outline-light btn-block border-0 font-size-lg" type="button" data-storytype="2" style="border-radius: 15px;">
-										<i class="fas fa-bullhorn text-success mr-2"></i>
+									<button class="btn btn-outline-light btn-block border-0 font-size-lg text-success" type="button" data-storytype="2" style="border-radius: 15px;">
+										<i class="fas fa-bullhorn mr-2"></i>
 										<span class="d-none d-sm-inline-block">Notification</span>
 									</button>
 								</div>

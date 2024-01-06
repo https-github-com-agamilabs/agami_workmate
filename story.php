@@ -84,7 +84,7 @@ include_once "php/ui/login/check_session.php";
 
 					<div id="task_progress_container"></div>
 
-					<div class="text-center mb-2">
+					<div class="col-md-6">
 						<button id="load_previous_task_progress_button" type="button" class="btn btn-primary font-weight-bold rounded-pill px-4 btn_shadow">
 							Load Previous Task Progress
 						</button>
@@ -696,57 +696,60 @@ include_once "php/ui/login/check_session.php";
 			$.each(data, (index, value) => {
 				start = value.deadlines.length ? value.deadlines[value.deadlines.length - 1].deadline : value.scheduledate;
 
-				if (value.progress.find(a => a.wstatusno == 4) != null) {
-					cardClass = ` border-left border-danger card-shadow-danger`;
-				} else if (value.progress.find(a => a.wstatusno == 3) != null) {
-					if (value.deadlines && value.deadlines.length > 1) {
-						cardClass = ` border-left border-warning card-shadow-warning`;
+				if(value.storytype == 3){
+					if (value.progress.find(a => a.wstatusno == 4) != null) {
+						cardClass = ` border-left border-danger card-shadow-danger`;
+					} else if (value.progress.find(a => a.wstatusno == 3) != null) {
+						if (value.deadlines && value.deadlines.length > 1) {
+							cardClass = ` border-left border-warning card-shadow-warning`;
+						} else {
+							cardClass = ` border-left border-success card-shadow-success`;
+						}
+					} else if (value.progress.find(a => a.wstatusno == 2) != null) {
+						cardClass = ` border-left border-info card-shadow-info`;
+						delay = delayedDate(today, start);
 					} else {
-						cardClass = ` border-left border-success card-shadow-success`;
+						cardClass = ``;
+						delay = delayedDate(today, start);
 					}
-				} else if (value.progress.find(a => a.wstatusno == 2) != null) {
-					cardClass = ` border-left border-info card-shadow-info`;
-					delay = delayedDate(today, start);
-				} else {
-					cardClass = ``;
-					delay = delayedDate(today, start);
 				}
 
 				// console.log(`delay =>`, delay);
 
 				let card = $(`<div class="card mb-3${cardClass}">
-						<div class="card-header justify-content-between" style="height:auto;">
-							<div class="my-md-1">
-								<div class="d-flex flex-wrap justify-content-center justify-content-md-start">
-									${value.storytype==3 ? 
-										`<div class="alert alert-info text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${value.priorityleveltitle} (${value.relativepriority})</div>
-										${delay.days_diff > 0
-											? `<div class="alert alert-danger text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${delay.days_diff} day(s) behind</div>`
-											: ``}
-										${(delay.days_diff <= 0 && delay.hours_diff > 0)
-											? `<div class="alert alert-danger text-center px-2 py-1 mb-0 mr-2" style="width: max-content;">${delay.hours_diff} hour(s) behind</div>`
-											: ``}
-										` : ``
-									}
-								</div>
-								<div class="small mt-1">
-									<div style="text-transform:none;">
-										By: ${value.assignedby || ``} at ${value.storytime || ``} 
-										${value.storytype == 3 ? value.storyphasetitle:``}
-									</div>
+						
+						<div class="d-flex justify-content-between p-2 px-3">
+							<div class="d-flex flex-row align-items-center"> 
+								<img src="https://i.imgur.com/UXdKE3o.jpg" width="30" class="rounded-circle">
+								<div class="d-flex flex-column ml-2"> 
+									<span class="font-weight-bold">${value.assignedby || ``}</span> 
+									<small class="mr-2">
+										${value.storytime || ``}(${value.storytype})
+										
+										${value.storytype == 3 ?
+											`${value.priorityleveltitle} (${value.relativepriority})
+											${delay.days_diff > 0 ? `${delay.days_diff} day(s) behind`: ``}
+											${(delay.days_diff <= 0 && delay.hours_diff > 0) ? `${delay.hours_diff} hour(s) behind`: ``}
+											`:``
+										}
+										
+									</small>  
 								</div>
 							</div>
 
-							
-							${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13) 
-								? `<button class="assign_button btn btn-sm btn-info custom_shadow" type="button">Assign To</button>`
-								: ``
-							}
-							${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13 || value.assignedto == USER_NO)
-								? `<button class="status_button btn btn-sm btn-info custom_shadow" type="button">Update Status</button>`
-								: ``
-							}
-						</div>
+							<div class="d-flex flex-row mt-1 ellipsis"> 
+								${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13) 
+									? `<button class="assign_button btn btn-sm btn-info custom_shadow" type="button">Assign</button>`
+									: ``
+								}
+								${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13 || value.assignedto == USER_NO)
+									? `<button class="status_button btn btn-sm btn-info custom_shadow" type="button">Status</button>`
+									: ``
+								}
+								<i class="fa fa-ellipsis-h"></i> 
+							</div>
+						</div> 
+
 						<div class="card-body py-2">
 							<div>${value.story}</div>
 						</div>

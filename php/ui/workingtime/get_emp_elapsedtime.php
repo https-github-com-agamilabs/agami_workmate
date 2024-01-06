@@ -43,7 +43,7 @@
             throw new \Exception("You must specify end date!", 1);
         }
 
-        if($ucatno>10){
+        if($ucatno>=19){
             $list = get_all_emp_elapsedtime($dbcon, $startdate, $enddate);
         }else{
             $list = get_emp_elapsedtime($dbcon, $empno, $startdate, $enddate);

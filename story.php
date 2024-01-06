@@ -21,6 +21,10 @@ include_once "php/ui/login/check_session.php";
 			background-color: #FFFFFF;
 		}
 
+		.bg-light-black {
+			background-color: #000000;
+		}
+
 		.bg-light-blue {
 			background-color: #89CFF0;
 		}
@@ -32,6 +36,28 @@ include_once "php/ui/login/check_session.php";
 
 		.bg-light-red {
 			background-color: #FA8072;
+
+		}
+
+		.border-light-white {
+			border: 1px solid #FFFFFF;
+		}
+
+		.border-light-black {
+			border: 1px solid #000000;
+		}
+
+		.border-light-blue {
+			border: 1px solid #89CFF0;
+		}
+
+		.border-light-green {
+			border: 1px solid #ACE1AF;
+
+		}
+
+		.border-light-red {
+			border: 1px solid #FA8072;
 
 		}
 
@@ -812,23 +838,23 @@ include_once "php/ui/login/check_session.php";
 
 				let bgClass = ``;
 				if (value.storytype == 1) {
-					bgClass = `bg-light-blue`;
+					bgClass = `bg-light-blue border border-primary`;
 
 				} else if (value.storytype == 2) {
-					bgClass = `bg-light-green`;
+					bgClass = `bg-light-green border border-success`;
 
 				} else if (value.storytype == 3) {
-					bgClass = `bg-light-white`;
+					bgClass = `bg-light-white border border-secondary`;
 
 				}
 
 				// console.log(`delay =>`, delay);
 
-				let card = $(`<div class="card my-3 ${cardClass} ${bgClass}">
+				let card = $(`<div class="card my-3 ${cardClass} ${bgClass}" style='border-radius:15px;'>
 						
 						<div class="d-flex flex-wrap justify-content-between p-2 px-3">
 							<div class="d-flex flex-row align-items-center"> 
-								<img src="https://i.imgur.com/UXdKE3o.jpg" width="40" style='border-radius: 25%;'>
+								<img class='rounded-semi-circle' src="https://i.imgur.com/UXdKE3o.jpg" width="40">
 								<div class="d-flex flex-column ml-2"> 
 									<div>
 										<span style='font-weight: bold; font-family: monospace; color:black'>${value.assignedby || ``}</span> 
@@ -875,8 +901,8 @@ include_once "php/ui/login/check_session.php";
 						</div>
 
 						
-							${value.storytype == 3 && value.assignedto!=null ? `
-								<div class="card-footer p-2">
+						${value.storytype == 3 && value.assignedto!=null ? `
+						<div class="card-footer p-2 bg-transparent">
 							<div class="w-100 px-2 py-1">
 								${value.assignee ? `<div>Assignee: ${value.assignee}</div>` : ``}
 								<div class="d-flex justify-content-between">

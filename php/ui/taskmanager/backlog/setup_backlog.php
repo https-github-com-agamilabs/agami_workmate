@@ -45,13 +45,13 @@
             $points = (int) $_POST['points'];
         }
 
-        $prioritylevelno=1;
-        if (isset($_POST['prioritylevelno'])) {
+        $prioritylevelno=5;
+        if (isset($_POST['prioritylevelno']) && strlen($_POST['prioritylevelno'])>0) {
             $prioritylevelno = (int) $_POST['prioritylevelno'];
         }
 
         $relativepriority=99;
-        if (isset($_POST['relativepriority'])) {
+        if (isset($_POST['relativepriority']) && strlen($_POST['relativepriority>0'])) {
             $relativepriority = (int) $_POST['relativepriority'];
         }
 

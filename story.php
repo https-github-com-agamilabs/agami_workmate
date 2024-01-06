@@ -74,10 +74,26 @@ include_once "php/ui/login/check_session.php";
 		.task-card:hover {
 			transform: scale(1.05);
 			cursor: pointer;
+			z-index: 2000;
 		}
 
+		.open_menu>.fa.fa-ellipsis-h {
+			display: inline;
+		}
 
-		
+		.open_menu.active>.fa.fa-ellipsis-h {
+			display: none;
+		}
+
+		.open_menu>.fa.fa-times {
+			display: none;
+
+		}
+
+		.open_menu.active>.fa.fa-times {
+			display: inline;
+
+		}
 	</style>
 	<?php
 	$base_path = dirname(__FILE__);
@@ -892,26 +908,33 @@ include_once "php/ui/login/check_session.php";
 							</div>
 
 							<div class="d-flex flex-row mt-1 ellipsis"> 
-								<div class="d-flex justify-content-center">
-									${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13) ?
-										`<button class="assign_task_button btn btn-sm btn-alternate rounded-semi-circle custom_shadow m-1" type="button" title="Assign task" data-toggle="tooltip" data-placement="top">
-											<i class="fas fa-user-plus"></i>
-										</button>
-										<button class="edit_button btn btn-sm btn-info rounded-semi-circle custom_shadow m-1" type="button" title="Edit task" data-toggle="tooltip" data-placement="top">
-											<i class="far fa-edit"></i>
-										</button>
-										
-										<button class="delete_button btn btn-sm btn-danger rounded-semi-circle custom_shadow m-1" type="button" title="Delete task" data-toggle="tooltip" data-placement="top">
-											<i class="fas fa-trash-alt"></i>
-										</button>`
-										:``}
-										${value.storytype==3 && value.assignedto!=null && (UCAT_NO == 19 || UCAT_NO == 13 || value.assignedto == USER_NO)
-											? `<button class="status_button btn btn-sm btn-warning custom_shadow  m-1" style='border-radius: 10px' type="button">Status</button>`
-											: ``
-										}
+								<div class="collapse" id="collapseExample_${value.backlogno}">
+									<div class="d-flex justify-content-center">
+										${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13) ?
+											`<button class="assign_task_button btn btn-sm btn-alternate rounded-semi-circle custom_shadow m-1" type="button" title="Assign task" data-toggle="tooltip" data-placement="top">
+												<i class="fas fa-user-plus"></i>
+											</button>
+											<button class="edit_button btn btn-sm btn-info rounded-semi-circle custom_shadow m-1" type="button" title="Edit task" data-toggle="tooltip" data-placement="top">
+												<i class="far fa-edit"></i>
+											</button>
+											
+											<button class="delete_button btn btn-sm btn-danger rounded-semi-circle custom_shadow m-1" type="button" title="Delete task" data-toggle="tooltip" data-placement="top">
+												<i class="fas fa-trash-alt"></i>
+											</button>`
+											:``}
+											${value.storytype==3 && value.assignedto!=null && (UCAT_NO == 19 || UCAT_NO == 13 || value.assignedto == USER_NO)
+												? `<button class="status_button btn btn-sm btn-warning custom_shadow  m-1" style='border-radius: 10px' type="button">Status</button>`
+												: ``
+											}
+									</div>
 								</div>
+
+								<button class="open_menu btn btn-sm" type="button" data-toggle0="collapse" data-target="#collapseExample_${value.backlogno}" aria-expanded="false" aria-controls="collapseExample_${value.backlogno}">
+									<i class="fa fa-ellipsis-h m-1"></i> 
+									<i class="fa fa-times m-1"></i> 
+								</button>
 								
-								<i class="fa fa-ellipsis-h m-1"></i> 
+								
 							</div>
 						</div> 
 
@@ -987,6 +1010,11 @@ include_once "php/ui/login/check_session.php";
 					$(`.status_button`, card).click(function(e) {
 						$("#status_update_modal").modal("show");
 						$(`#status_update_modal_form`).data("cblscheduleno", value.cblscheduleno).data("cblprogressno", -1);
+					});
+
+					$('.open_menu', card).click(function(e) {
+						$('.collapse', card).collapse('toggle');
+						$('.open_menu', card).toggleClass('active');
 					});
 				})(jQuery);
 			});

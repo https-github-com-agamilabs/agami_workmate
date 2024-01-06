@@ -25,7 +25,7 @@
             throw new \Exception("You must login first!", 1);
         }
 
-        if ($ucatno>10) {
+        if ($ucatno>=19) {
             $list=get_main_channels($dbcon);
         } else {
             $list = get_emp_main_channels($dbcon, $empno);
@@ -36,7 +36,7 @@
             while ($row = $list->fetch_array(MYSQLI_ASSOC)) {
                 $channelno=$row['channelno'];
 
-                if ($ucatno>10) {
+                if ($ucatno>=19) {
                     $subchannel=get_sub_channels($dbcon,$channelno);
                 }else{
                     $subchannel=get_emp_sub_channels($dbcon,$channelno,$empno);

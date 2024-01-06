@@ -1,11 +1,9 @@
 <style>
-    .app-theme-white .app-sidebar{
+    .app-theme-white .app-sidebar {
         background-color: transparent !important;
     }
-    .app-sidebar.sidebar-shadow{
-        
-    }
 
+    .app-sidebar.sidebar-shadow {}
 </style>
 <div class="app-sidebar sidebar-shadow0 d-print-none">
     <div class="app-header__logo">
@@ -224,6 +222,30 @@
                             </li>`)
                             .join("")}
                         </ul>`);
+        });
+
+
+        const searchParams = new URLSearchParams(window.location.search);
+		const selected_channel = searchParams.has('channelno') ? searchParams.get('channelno') : '';
+
+        // let select1 = $(`#task_channel_select`).empty();
+        // let select2 = $(`#task_manager_setup_modal_form [name="channelno"]`).empty();
+        let select3 = $(`.widget-content-left [name="channelno"]`).empty();
+
+        $.each(data, (index, value) => {
+            // let optgroup1 = $(`<optgroup label="${value.channeltitle}"></optgroup>`).appendTo(select1);
+            // let optgroup2 = $(`<optgroup label="${value.channeltitle}"></optgroup>`).appendTo(select2);
+            let optgroup3 = $(`<optgroup label="${value.channeltitle}"></optgroup>`).appendTo(select3);
+
+            $.each(value.subchannels, (indexInSubChannels, valueOfSubChannels) => {
+                // $(`<option value="${valueOfSubChannels.channelno}">${valueOfSubChannels.channeltitle}</option>`).appendTo(optgroup1);
+                // $(`<option value="${valueOfSubChannels.channelno}">${valueOfSubChannels.channeltitle}</option>`).appendTo(optgroup2);
+                $(`<option value="${valueOfSubChannels.channelno}" ${selected_channel==valueOfSubChannels.channelno?"selected":""}>${valueOfSubChannels.channeltitle}</option>`).appendTo(optgroup3);
+            });
+        });
+
+        $(select3).change(function(){
+            location.href = "story.php"+"?"+"channelno="+$(this).val();
         });
 
         setTimeout(function() {

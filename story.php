@@ -366,7 +366,7 @@ include_once "php/ui/login/check_session.php";
 				console.error(error);
 			});
 
-		const CHANNELNO = parseInt(window.location.search.split("=").pop(), 10) || -1;
+		// const CHANNELNO = parseInt(window.location.search.split("=").pop(), 10) || -1;
 		const LOGGEDIN_USERNO = parseInt(`<?= $userno; ?>`, 10) || -1;
 		const UCATNO = parseInt(`<?= $ucatno; ?>`, 10) || -1;
 
@@ -385,7 +385,7 @@ include_once "php/ui/login/check_session.php";
 			// }
 
 			let json = {
-				channelno: CHANNELNO,
+				channelno: selected_channel,
 				pageno,
 				limit: 10
 			};
@@ -839,7 +839,7 @@ include_once "php/ui/login/check_session.php";
 		 * Showed the stories
 		 */
 		$.post(`php/ui/notification/setup_lastvisit.php`, {
-			channelno: CHANNELNO
+			channelno: selected_channel
 		}, resp => {
 			if (resp.error) {
 				toastr.error(resp.message);

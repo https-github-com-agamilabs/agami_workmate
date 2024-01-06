@@ -75,6 +75,19 @@
             <div class="header-btn-lg pr-0">
                 <div class="widget-content p-0">
                     <div class="widget-content-wrapper">
+                        <div class="widget-content-left d-flex">
+                            
+                            <a href="time_keeper.php"><i class="fas fa-play-circle fa-2x mr-2 text-primary rounded-circle "></i></a>
+
+                            <select class="form-control-sm form-control mr-2 my-auto" name="channelno">
+
+                            </select>
+
+                            <a href="time_keeper_summary.php"><i class="fas fa-chart-bar fa-2x mr-2 text-primary rounded-circle"></i></a>
+
+                            
+                        </div>
+
                         <div class="widget-content-left d-flex mt-2">
 
                             <!-- <div class=" mr-3">

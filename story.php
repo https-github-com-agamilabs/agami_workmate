@@ -142,7 +142,7 @@ include_once "php/ui/login/check_session.php";
 						</div>
 
 						<div class="form-group">
-							<textarea name="message" class="form-control shadow-sm" placeholder="What's on your mind?" rows="3"></textarea>
+							<textarea name="story" class="form-control shadow-sm" placeholder="What's on your mind?" rows="3"></textarea>
 						</div>
 
 
@@ -242,6 +242,9 @@ include_once "php/ui/login/check_session.php";
 					toastr.error(resp.message);
 				} else {
 					// show_available_channels(resp.data);
+					if(json.pageno<=1){
+						$(`#task_progress_container`).empty();
+					}
 					show_task(resp.results, `#task_progress_container`);
 				}
 			}, `json`);
@@ -307,7 +310,8 @@ include_once "php/ui/login/check_session.php";
 		}
 
 		function show_channels_available_task() {
-			get_channel_backlogs(1);
+			// get_channel_backlogs(1);
+			get_channel_task_detail(1);
 		}
 
 		get_story_phase();
@@ -407,7 +411,8 @@ include_once "php/ui/login/check_session.php";
 					toastr.success(resp.message);
 					$(".modal.show").modal("hide");
 					let pageno = $("#task_manager_table_pageno_input").val();
-					get_channel_backlogs(pageno);
+					// get_channel_backlogs(pageno);
+					get_channel_task_detail(pageno);
 
 					$(`#story_attachment_container`).find(`.story_attachment`).each((index, elem) => {
 						if ($(elem).data("isnew")) {
@@ -450,7 +455,8 @@ include_once "php/ui/login/check_session.php";
 
 					$(`#task_manager_setup_modal`).modal("hide");
 					toastr.success(resp.message);
-					get_channel_backlogs();
+					// get_channel_backlogs();
+					get_channel_task_detail();
 				}
 			}, `json`);
 		}
@@ -551,7 +557,7 @@ include_once "php/ui/login/check_session.php";
 			$(`[name="storytype"]`, modal).trigger('change');
 		});
 
-		$(`[name="message"]`, `#task_manager_setup_modal_form`).on(`input`, function(e) {
+		$(`[name="story"]`, `#task_manager_setup_modal_form`).on(`input`, function(e) {
 			let submitButton = $(`#task_manager_setup_modal_form :submit`);
 			submitButton.prop(`disabled`, this.value.length <= 0);
 		});
@@ -578,12 +584,14 @@ include_once "php/ui/login/check_session.php";
 			}
 
 			$(this).data(`pageno`, pageno);
-			get_channel_backlogs(pageno);
+			// get_channel_backlogs(pageno);
+			get_channel_task_detail(pageno);
 		});
 
 		$(`#task_channel_select`).change(function(e) {
 			$(`#load_previous_task_progress_button`).data(`pageno`, 1);
-			get_channel_backlogs(1);
+			// get_channel_backlogs(1);
+			get_channel_task_detail(1);
 		});
 
 		$(`[name="storytype"]`, `#task_manager_setup_modal`).change(function(e) {

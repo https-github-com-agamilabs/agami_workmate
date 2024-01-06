@@ -73,6 +73,7 @@ include_once "php/ui/login/check_session.php";
 
 		.task-card:hover {
 			transform: scale(1.05);
+			cursor: pointer;
 		}
 
 

@@ -409,9 +409,9 @@ if (!defined("DB_USER")) {
                     <div class="section_services medica-about-content sticky-top pb-4" style="padding-top: 90px;">
                         <div class="px-3 py-4" style="background-color: #f2fff5;">
                             <h2 class="section_title">Services</h2>
-                            <h6 class="section_subtitle">We always put our patients first</h6>
+                            <h6 class="section_subtitle">We always put our customer first</h6>
                             <p class="section_description">
-                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing eli.
+                                
                             </p>
                             <a href="#" class="btn medilife-btn mt-50">View the services <span>+</span></a>
                         </div>
@@ -532,28 +532,28 @@ if (!defined("DB_USER")) {
     <section class="medilife-cool-facts-area section-padding-100-0">
         <div class="container">
             <div class="row">
-                <div class="col-12 col-sm-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-lg-4">
                     <div class="single-cool-fact-area text-center mb-100">
-                        <i class="fas fa-building-o"></i>
-                        <h2><span class="patient_qty counter">3+</span></h2>
+                        <i class="fas fa-building"></i>
+                        <h2><span class="company_qty">3+</span></h2>
                         <h6>Companies</h6>
                     </div>
                 </div>
-                <div class="col-12 col-sm-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-lg-4">
                     <div class="single-cool-fact-area text-center mb-100">
-                        <i class="fas fa-prescription"></i>
-                        <h2><span class="prescription_qty counter">10+</span></h2>
-                        <h6>Virtual Assistant</h6>
+                        <i class="fas fa-user"></i>
+                        <h2><span class="va_qty">10+</span></h2>
+                        <h6>Virtual Assistants</h6>
                     </div>
                 </div>
-                <div class="col-12 col-sm-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-lg-4">
                     <div class="single-cool-fact-area text-center mb-100">
-                        <i class="fa fa-hospital-alt"></i>
-                        <h2><span class="healthcenter_qty counter">19+</span></h2>
+                        <i class="fa fa-list"></i>
+                        <h2><span class="service_qty">19+</span></h2>
                         <h6>Services</h6>
                     </div>
                 </div>
-                <div class="col-12 col-sm-6 col-lg-3">
+                <!-- <div class="col-12 col-sm-6 col-lg-3">
                     <div class="single-cool-fact-area text-center mb-100">
                         <i class="fa fa-user-md"></i>
                         <h2><span class="doctor_qty counter">0</span></h2>
@@ -587,7 +587,7 @@ if (!defined("DB_USER")) {
                         <h2><span class="medicine_qty counter">0</span></h2>
                         <h6>Medicine</h6>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -619,7 +619,7 @@ if (!defined("DB_USER")) {
         <div class="container">
             <div class="row">
                 <!-- Single Blog Area -->
-                <div class="col-12 col-md-6 col-lg-4">
+                <!-- <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-blog-area mb-100">
                         <!-- Post Thumbnail -->
                         <div class="blog-post-thumbnail">
@@ -683,7 +683,7 @@ if (!defined("DB_USER")) {
                             <a href="#" class="comments">3 Comments</a>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

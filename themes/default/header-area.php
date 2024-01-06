@@ -172,14 +172,14 @@ $langHeaderData = langConverter($jasonFilePath);
                                         </li>
                                     </ul>
 
-                                    <div class="input-group col-sm-3 col-md-6">
-                                        <input type="text" class="search-query form-control" placeholder="<?= $langHeaderData[$lang]['lang_Search_doctor_by_name,_specialty_or_symptoms']; ?>" />
+                                    <!-- <div class="input-group col-sm-3 col-md-6">
+                                        <input type="text" class="search-query form-control" placeholder="<?= $langHeaderData[$lang]['lang_search_services']; ?>" />
                                         <span class="input-group-append">
                                             <button class="btn btn-danger" type="button">
                                                 <span class="fa fa-search"></span>
                                             </button>
                                         </span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </nav>
                         </div>

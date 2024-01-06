@@ -131,7 +131,7 @@
                     FROM asp_channelbacklog
                     WHERE channelno=?) as b
                     LEFT JOIN asp_cblschedule as s ON s.backlogno=b.backlogno
-                ORDER BY s.cblscheduleno DESC
+                ORDER BY s.cblscheduleno DESC, b.backlogno DESC 
                 LIMIT ?,?
                 ";
         $stmt = $dbcon->prepare($sql);

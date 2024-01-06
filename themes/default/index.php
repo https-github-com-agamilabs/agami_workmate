@@ -599,7 +599,7 @@ if (!defined("DB_USER")) {
             <div class="row align-items-center">
                 <div class="col-12 col-lg-6">
                     <div class="features-content">
-                        <h2>A new way to treat pacients in a revolutionary facility</h2>
+                        <h2>A new way to treat customer in a revolutionary facility</h2>
                         <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer adipiscing eli.Lorem ipsum dolor sit amet, consec tetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer.</p>
                         <a href="#" class="btn medilife-btn mt-50">View the services <span>+</span></a>
                     </div>
@@ -621,15 +621,12 @@ if (!defined("DB_USER")) {
                 <!-- Single Blog Area -->
                 <!-- <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-blog-area mb-100">
-                        <!-- Post Thumbnail -->
                         <div class="blog-post-thumbnail">
                             <img src="<?= $imgPath ?>blog-img/1.jpg" alt="">
-                            <!-- Post Date -->
                             <div class="post-date">
                                 <a href="#">Jan 23, 2018</a>
                             </div>
                         </div>
-                        <!-- Post Content -->
                         <div class="post-content">
                             <div class="post-author">
                                 <a href="#"><img src="<?= $imgPath ?>blog-img/p1.jpg" alt=""></a>
@@ -639,19 +636,16 @@ if (!defined("DB_USER")) {
                             <a href="#" class="comments">3 Comments</a>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- Single Blog Area -->
-                <div class="col-12 col-md-6 col-lg-4">
+                <!-- <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-blog-area mb-100">
-                        <!-- Post Thumbnail -->
                         <div class="blog-post-thumbnail">
                             <img src="<?= $imgPath ?>blog-img/2.jpg" alt="">
-                            <!-- Post Date -->
                             <div class="post-date">
                                 <a href="#">Jan 23, 2018</a>
                             </div>
                         </div>
-                        <!-- Post Content -->
                         <div class="post-content">
                             <div class="post-author">
                                 <a href="#"><img src="<?= $imgPath ?>blog-img/p2.jpg" alt=""></a>
@@ -661,19 +655,16 @@ if (!defined("DB_USER")) {
                             <a href="#" class="comments">3 Comments</a>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- Single Blog Area -->
-                <div class="col-12 col-md-6 col-lg-4">
+                <!-- <div class="col-12 col-md-6 col-lg-4">
                     <div class="single-blog-area mb-100">
-                        <!-- Post Thumbnail -->
                         <div class="blog-post-thumbnail">
                             <img src="<?= $imgPath ?>blog-img/3.jpg" alt="">
-                            <!-- Post Date -->
                             <div class="post-date">
                                 <a href="#">Jan 23, 2018</a>
                             </div>
                         </div>
-                        <!-- Post Content -->
                         <div class="post-content">
                             <div class="post-author">
                                 <a href="#"><img src="<?= $imgPath ?>blog-img/p3.jpg" alt=""></a>
@@ -978,19 +969,19 @@ if (!defined("DB_USER")) {
                 show_service_data(sections.service, `.section_services`, `.services_row`);
             }
 
-            if (sections[`home-service`] && sections[`home-service`].title && sections[`home-service`].title.length) {
-                $(`.home_services_row`).empty();
-                show_service_data(sections[`home-service`], `.section_home_services`, `.home_services_row`);
-            }
+            // if (sections[`home-service`] && sections[`home-service`].title && sections[`home-service`].title.length) {
+            //     $(`.home_services_row`).empty();
+            //     show_service_data(sections[`home-service`], `.section_home_services`, `.home_services_row`);
+            // }
 
-            if (sections.pharmacy && sections.pharmacy.title && sections.pharmacy.title.length) {
-                let section = $(`.section_pharmacy`);
-                let pharmacy = sections.pharmacy;
+            // if (sections.pharmacy && sections.pharmacy.title && sections.pharmacy.title.length) {
+            //     let section = $(`.section_pharmacy`);
+            //     let pharmacy = sections.pharmacy;
 
-                $(`.section_title`, section).html(pharmacy.title || ``);
-                $(`.section_subtitle`, section).html(pharmacy[`sub-title`] || ``);
-                $(`.section_description`, section).html(pharmacy.description || ``);
-            }
+            //     $(`.section_title`, section).html(pharmacy.title || ``);
+            //     $(`.section_subtitle`, section).html(pharmacy[`sub-title`] || ``);
+            //     $(`.section_description`, section).html(pharmacy.description || ``);
+            // }
         }
 
         function show_hero_carousel_data(data) {

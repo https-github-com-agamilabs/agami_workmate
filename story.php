@@ -61,7 +61,7 @@ include_once "php/ui/login/check_session.php";
 
 		}
 
-		.rounded-semi-circle{
+		.rounded-semi-circle {
 			border-radius: 25%;
 		}
 	</style>
@@ -143,6 +143,11 @@ include_once "php/ui/login/check_session.php";
 					</div>
 				</div>
 			</div>
+
+			<div style="width: 20%; max-width: 220px;">
+
+			</div>
+
 		</div>
 	</div>
 

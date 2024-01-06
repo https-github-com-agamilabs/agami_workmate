@@ -91,7 +91,6 @@ if ($debug) {
 
     $publicAccessUrl = $REQUEST_PROTOCOL . "://$host/";
     $projectPath = DIRECTORY_SEPARATOR . $projectName . DIRECTORY_SEPARATOR;
-    $publicAccessUrl .= $publicAccessUrl.$projectName;
     $authUrl = $REQUEST_PROTOCOL . "://$host/auth/?redirect=";
 } else {
     $err_msg =  "$host is not allowed in Production Mode. Please contact AGAMiLabs Ltd.";

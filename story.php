@@ -65,6 +65,19 @@ include_once "php/ui/login/check_session.php";
 			border-radius: 25%;
 		}
 	</style>
+
+	<style>
+		.task-card {
+			transition: all 0.3s;
+		}
+
+		.task-card:hover {
+			transform: scale(1.05);
+		}
+
+
+		
+	</style>
 	<?php
 	$base_path = dirname(__FILE__);
 	require_once($base_path . "/configmanager/fileupload_configuration.php");
@@ -855,7 +868,7 @@ include_once "php/ui/login/check_session.php";
 
 				// console.log(`delay =>`, delay);
 
-				let card = $(`<div class="card my-3 ${cardClass} ${bgClass}" style='border-radius:15px;'>
+				let card = $(`<div class="card task-card my-3 ${cardClass} ${bgClass}" style='border-radius:15px;'>
 						
 						<div class="d-flex flex-wrap justify-content-between p-2 px-3">
 							<div class="d-flex flex-row align-items-center"> 

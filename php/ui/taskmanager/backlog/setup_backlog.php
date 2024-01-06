@@ -22,7 +22,7 @@
 
     try {
 
-        //$backlogno, $channelno, $story, $points, $priorityno, $relativepriority, $storyphaseno, $userno
+        //$backlogno, $channelno, $story, $storytype, $priorityno, $relativepriority, $storyphaseno, $userno
         $backlogno=-1;
         if (isset($_POST['backlogno'])) {
             $backlogno = (int) $_POST['backlogno'];
@@ -40,9 +40,9 @@
             throw new \Exception("channel-backlog (story) cannot be empty!", 1);
         }
 
-        $points=10;
-        if (isset($_POST['points'])) {
-            $points = (int) $_POST['points'];
+        $storytype=1;
+        if (isset($_POST['storytype'])) {
+            $storytype = (int) $_POST['storytype'];
         }
 
         $prioritylevelno=5;
@@ -72,7 +72,7 @@
             $approved = 0;
 
         if($backlogno>0){
-            $result=update_channel($dbcon, $backlogno, $channelno, $story, $points, $prioritylevelno, $relativepriority, $storyphaseno, $userno);
+            $result=update_channel($dbcon, $backlogno, $channelno, $story, $storytype, $prioritylevelno, $relativepriority, $storyphaseno, $userno);
             if($result>0){
                 $response['error'] = false;
                 $response['message'] = "channel-backlog (Story) is Successfully Updated.";
@@ -80,7 +80,7 @@
                 throw new \Exception("Cannot Update channel-backlog (Story).", 1);
             }
         }else{
-            $result=create_channelbacklog($dbcon, $channelno, $story, $points, $prioritylevelno, $relativepriority, $storyphaseno, $parentbacklogno,$approved,$userno);
+            $result=create_channelbacklog($dbcon, $channelno, $story, $storytype, $prioritylevelno, $relativepriority, $storyphaseno, $parentbacklogno,$approved,$userno);
             if($result>0){
                 $response['error'] = false;
                 $response['message'] = "channel-backlog (story) is Successfully Added.";

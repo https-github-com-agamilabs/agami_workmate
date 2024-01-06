@@ -949,9 +949,9 @@ include_once "php/ui/login/check_session.php";
 									</button>
 									<div class="dropdown-menu">
 										<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign Task</a>
-										<a class="dropdown-item edit_button text-info"><i class="far fa-edit mr-2"></i> Edit</a>
-										<a class="dropdown-item delete_button text-danger"><i class="fas fa-trash-alt mr-2"></i> Delete</a>
-										<a class="dropdown-item status_button text-warning">Status</a>
+										<a class="dropdown-item edit_button text-info"><i class="far fa-edit mr-2"></i> Edit Task</a>
+										<a class="dropdown-item delete_button text-danger"><i class="fas fa-trash-alt mr-2"></i> Remove Task</a>
+										<a class="dropdown-item status_button text-warning">Update Status</a>
 									</div>
 								</div>
 								

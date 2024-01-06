@@ -26,7 +26,9 @@
         }elseif($my_permissionlevel==3){
             $results = get_my_fellow($dbcon,$userno);
         }else{
-            $results = get_my_info($dbcon,$userno);
+            // $results = get_my_info($dbcon,$userno);
+            $results = get_all_employee($dbcon);
+
         }
         $results_array = array();
         if ($results->num_rows > 0) {

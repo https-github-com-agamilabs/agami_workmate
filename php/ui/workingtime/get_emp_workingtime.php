@@ -41,7 +41,7 @@
         $elapsedtime=get_my_current_workingtime($dbcon, $empno);
         $response['elapsedtime'] = $elapsedtime;
 
-        if ($ucatno>10) {
+        if ($ucatno>=19) {
             $list=get_all_workingtime($dbcon, $startdate, $enddate);
         } else {
             $list = get_emp_workingtime($dbcon, $empno, $startdate, $enddate);

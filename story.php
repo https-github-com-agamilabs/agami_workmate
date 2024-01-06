@@ -26,16 +26,16 @@ include_once "php/ui/login/check_session.php";
 		}
 
 		.bg-light-blue {
-			background-color: #89CFF0;
+			background-color: #89CFF077;
 		}
 
 		.bg-light-green {
-			background-color: #ACE1AF;
+			background-color: #ACE1AF77;
 
 		}
 
 		.bg-light-red {
-			background-color: #FA8072;
+			background-color: #FA807277;
 
 		}
 

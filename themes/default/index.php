@@ -231,7 +231,7 @@ if (!defined("DB_USER")) {
                             <div class="col-12 col-lg-9">
                                 <div class="medilife-appointment-form">
                                     <div class="section_title h3 text-white mb-3">Try a VA for free</div>
-                                    <div class="section_subtitle h5 text-white mb-3">Doctor's Appointment</div>
+                                    <!-- <div class="section_subtitle h5 text-white mb-3">Doctor's Appointment</div>
                                     <form id="patient_appointment_form">
                                         <div class="doctor_and_schedule collapse show">
                                             <div class="row align-items-end">
@@ -362,7 +362,7 @@ if (!defined("DB_USER")) {
                                                 </button>
                                             </div>
                                         </div>
-                                    </form>
+                                    </form> -->
                                 </div>
                             </div>
                             <div class="col-12 col-lg-3">
@@ -473,7 +473,7 @@ if (!defined("DB_USER")) {
 
             <hr>
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-12 col-lg-8 section-padding-100-20">
                     <div class="home_services_row row"></div>
                 </div>
@@ -489,7 +489,7 @@ if (!defined("DB_USER")) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
     <!-- ***** About Us Area End ***** -->
@@ -534,23 +534,23 @@ if (!defined("DB_USER")) {
             <div class="row">
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="single-cool-fact-area text-center mb-100">
-                        <i class="fas fa-user-injured"></i>
-                        <h2><span class="patient_qty counter">0</span></h2>
-                        <h6>Patient</h6>
+                        <i class="fas fa-building-o"></i>
+                        <h2><span class="patient_qty counter">3+</span></h2>
+                        <h6>Companies</h6>
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="single-cool-fact-area text-center mb-100">
                         <i class="fas fa-prescription"></i>
-                        <h2><span class="prescription_qty counter">0</span></h2>
-                        <h6>Prescription</h6>
+                        <h2><span class="prescription_qty counter">10+</span></h2>
+                        <h6>Virtual Assistant</h6>
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="single-cool-fact-area text-center mb-100">
                         <i class="fa fa-hospital-alt"></i>
-                        <h2><span class="healthcenter_qty counter">0</span></h2>
-                        <h6>Health Center</h6>
+                        <h2><span class="healthcenter_qty counter">19+</span></h2>
+                        <h6>Services</h6>
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-lg-3">

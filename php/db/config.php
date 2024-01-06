@@ -83,7 +83,7 @@ if ($debug) {
     #MySQL Database User Name:
     define('DB_USER', 'workmate_admn');
     #MySQL Database Password:
-    define('DB_PASSWORD', ']H}gX{)XGnAf');
+    define('DB_PASSWORD', 'JI7@*na?h5Q|');
     #MySQL Hostname:
     define('DB_HOST', 'localhost');
 

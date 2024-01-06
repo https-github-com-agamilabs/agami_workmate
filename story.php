@@ -724,7 +724,7 @@ include_once "php/ui/login/check_session.php";
 								<div class="d-flex flex-column ml-2"> 
 									<span class="font-weight-bold">${value.assignedby || ``}</span> 
 									<small class="mr-2">
-										${value.storytime || ``}(${value.storytype})
+										${value.storytime || ``}
 										
 										${value.storytype == 3 ?
 											`${value.priorityleveltitle} (${value.relativepriority})
@@ -738,15 +738,26 @@ include_once "php/ui/login/check_session.php";
 							</div>
 
 							<div class="d-flex flex-row mt-1 ellipsis"> 
-								${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13) 
-									? `<button class="assign_button btn btn-sm btn-info custom_shadow" type="button">Assign</button>`
-									: ``
-								}
-								${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13 || value.assignedto == USER_NO)
-									? `<button class="status_button btn btn-sm btn-info custom_shadow" type="button">Status</button>`
-									: ``
-								}
-								<i class="fa fa-ellipsis-h"></i> 
+								<div class="d-flex justify-content-center">
+									${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13) ?
+										`<button class="assign_task_button btn btn-sm btn-alternate rounded-circle custom_shadow m-1" type="button" title="Assign task" data-toggle="tooltip" data-placement="top">
+											<i class="fas fa-user-plus"></i>
+										</button>
+										<button class="edit_button btn btn-sm btn-info rounded-circle custom_shadow m-1" type="button" title="Edit task" data-toggle="tooltip" data-placement="top">
+											<i class="far fa-edit"></i>
+										</button>
+										
+										<button class="delete_button btn btn-sm btn-danger rounded-circle custom_shadow m-1" type="button" title="Delete task" data-toggle="tooltip" data-placement="top">
+											<i class="fas fa-trash-alt"></i>
+										</button>`
+										:``}
+										${value.storytype==3 && value.assignedto!=null && (UCAT_NO == 19 || UCAT_NO == 13 || value.assignedto == USER_NO)
+											? `<button class="status_button btn btn-sm btn-info custom_shadow  m-1" type="button">Status</button>`
+											: ``
+										}
+								</div>
+								
+								<i class="fa fa-ellipsis-h m-1"></i> 
 							</div>
 						</div> 
 

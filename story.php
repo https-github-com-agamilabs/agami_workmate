@@ -16,9 +16,9 @@ include_once "php/ui/login/check_session.php";
 		}
 	</style>
 	<?php
-		$base_path = dirname(__FILE__);
-		require_once($base_path."/configmanager/fileupload_configuration.php");
-		//require_once "configmanager/fileupload_configuration.php";
+	$base_path = dirname(__FILE__);
+	require_once($base_path . "/configmanager/fileupload_configuration.php");
+	//require_once "configmanager/fileupload_configuration.php";
 	?>
 </head>
 
@@ -212,7 +212,72 @@ include_once "php/ui/login/check_session.php";
 		</div>
 	</div>
 
+	<div id="assign_task_modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog modal-xl" role="document">
+			<div class="modal-content">
+				<form id="assign_task_modal_form">
+					<div class="modal-header">
+						<h5 class="modal-title">Assign Task</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-4 form-group">
+								<label class="d-block mb-0">
+									Assigned To <span class="text-danger">*</span>
+									<select name="assignedto" class="form-control shadow-sm mt-2" required></select>
+								</label>
+							</div>
+
+							<div class="col-md-4 form-group">
+								<label class="d-block mb-0">
+									Start Date <span class="text-danger">*</span>
+									<input name="scheduledate" class="form-control shadow-sm mt-2" type="date" required>
+								</label>
+							</div>
+
+							<div class="col-md-4 form-group">
+								<label class="d-block mb-0">
+									Duration
+									<input name="duration" class="form-control shadow-sm mt-2" type="number" step="0.01">
+								</label>
+							</div>
+						</div>
+
+						<h5 class="font-weight-bold">How to solve (Tips)</h5>
+
+						<div id="task_how_to_solve_container">
+							<p></p>
+						</div>
+					</div>
+					<div class="modal-footer py-2">
+						<button type="submit" class="btn btn-primary rounded-pill px-4 shadow">Assign</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<script>
+
+		const PERMISSION_LEVEL = `<?= $_SESSION['cogo_permissionlevel']; ?>`;
+
+		let howToSolveTextEditor;
+
+		ClassicEditor
+			.create(document.querySelector("#task_how_to_solve_container"), {
+				// plugins: [Base64UploadAdapter]
+			})
+			.then(editor => {
+				howToSolveTextEditor = editor;
+				// console.log(editor);
+			})
+			.catch(error => {
+				console.error(error);
+			});
+
 		const CHANNELNO = parseInt(window.location.search.split("=").pop(), 10) || -1;
 		const LOGGEDIN_USERNO = parseInt(`<?= $userno; ?>`, 10) || -1;
 		const UCATNO = parseInt(`<?= $ucatno; ?>`, 10) || -1;
@@ -244,7 +309,7 @@ include_once "php/ui/login/check_session.php";
 					toastr.error(resp.message);
 				} else {
 					// show_available_channels(resp.data);
-					if(json.pageno<=1){
+					if (json.pageno <= 1) {
 						$(`#task_progress_container`).empty();
 					}
 					show_task(resp.results, `#task_progress_container`);
@@ -263,7 +328,7 @@ include_once "php/ui/login/check_session.php";
 			}, `json`);
 		}
 
-		function show_available_channels(result){
+		function show_available_channels(result) {
 			let select1 = $(`#task_channel_select`).empty();
 			let select2 = $(`#task_manager_setup_modal_form [name="channelno"]`).empty();
 
@@ -293,7 +358,7 @@ include_once "php/ui/login/check_session.php";
 					allowClear: true
 				});
 
-			
+
 
 			if (selected_channel.length) {
 				select1.val(selected_channel)
@@ -388,7 +453,7 @@ include_once "php/ui/login/check_session.php";
 			let json = Object.fromEntries((new FormData(this)).entries());
 			delete json.fileurl;
 			delete json.shorttitle;
-			json.attachments = JSON.stringify($('.attachment_url').map((i, f)=>$(f).data()).toArray());
+			json.attachments = JSON.stringify($('.attachment_url').map((i, f) => $(f).data()).toArray());
 
 			formSubmit(json, this, `php/ui/taskmanager/backlog/setup_backlog.php`);
 		});
@@ -692,7 +757,7 @@ include_once "php/ui/login/check_session.php";
 				toastr.error(resp.message);
 			}
 		}, `json`);
-		
+
 		let story_log = {};
 
 		function show_task(data, targetContainer) {
@@ -704,7 +769,7 @@ include_once "php/ui/login/check_session.php";
 			$.each(data, (index, value) => {
 				start = value.deadlines.length ? value.deadlines[value.deadlines.length - 1].deadline : value.scheduledate;
 
-				if(value.storytype == 3){
+				if (value.storytype == 3) {
 					if (value.progress.find(a => a.wstatusno == 4) != null) {
 						cardClass = ` border-left border-danger card-shadow-danger`;
 					} else if (value.progress.find(a => a.wstatusno == 3) != null) {
@@ -806,6 +871,37 @@ include_once "php/ui/login/check_session.php";
 					.appendTo(targetContainer);
 
 				(function($) {
+
+					$(`.assign_task_button`, card).click(function(e) {
+						$(`#assign_task_modal`).modal("show");
+						let form = $(`#assign_task_modal_form`).trigger("reset").data(`backlogno`, value.backlogno).data(`cblscheduleno`, -1);
+
+						if (PERMISSION_LEVEL == 1) {
+							$(`[name="assignedto"]`, form).val(USERNO).attr(`disabled`, true);
+						}
+					});
+
+					$(`.edit_button`, card).click(function(e) {
+						$(`#task_manager_setup_modal`).modal("show");
+						$(`#task_manager_setup_modal_form`).trigger("reset").data(`backlogno`, value.backlogno).data(`parentbacklogno`, value.parentbacklogno);
+
+						$(`#task_manager_setup_modal_form [name]`).each((index2, elem) => {
+							if (value[$(elem).attr("name")]) {
+								$(elem).val(value[$(elem).attr("name")]);
+							}
+						});
+
+						$(`#task_manager_setup_modal_form [name="channelno"]`).trigger("change");
+					});
+
+					$(`.delete_button`, card).click(function(e) {
+						if (confirm("Are you sure?")) {
+							delete_a_backlogs({
+								backlogno: value.backlogno
+							}, );
+						}
+					});
+
 					$(`.status_button`, card).click(function(e) {
 						$("#status_update_modal").modal("show");
 						$(`#status_update_modal_form`).data("cblscheduleno", value.cblscheduleno).data("cblprogressno", -1);
@@ -813,6 +909,85 @@ include_once "php/ui/login/check_session.php";
 				})(jQuery);
 			});
 		}
+	</script>
+
+	<script>
+		get_my_fellow();
+
+		function get_my_fellow() {
+			let select = $(`#assign_task_modal_form [name="assignedto"]`).empty();
+
+			$.post(`php/ui/taskmanager/selection/get_my_fellow.php`, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					$.each(resp.results, (index, value) => {
+						select.append(new Option(value.userfullname, value.userno));
+					});
+				}
+			}, `json`);
+		}
+
+		$(`#assign_task_modal_form`).submit(function(e) {
+			e.preventDefault();
+
+			$(`[name="assignedto"]`, this).attr(`disabled`, false);
+
+			let json = {
+				assignedto: $(`[name="assignedto"]`, this).val(),
+				scheduledate: $(`[name="scheduledate"]`, this).val(),
+				howto: howToSolveTextEditor.getData(),
+				duration: $(`[name="duration"]`, this).val()
+			};
+
+			let cblscheduleno = $(this).data(`cblscheduleno`);
+			if (cblscheduleno > 0) {
+				json.cblscheduleno = cblscheduleno;
+			}
+
+			let backlogno = $(this).data(`backlogno`);
+			if (backlogno > 0) {
+				json.backlogno = backlogno;
+			} else {
+				toastr.error(`Backlog cannot be empty!`);
+				return;
+			}
+
+			let schedule = $(`#assign_task_modal_form`).data(`schedule`);
+			if (cblscheduleno > 0 && schedule.scheduledate == json.scheduledate && schedule.duration == json.duration) {
+				delete json.scheduledate;
+				delete json.duration;
+			} else if (cblscheduleno > 0 && (schedule.scheduledate != json.scheduledate || schedule.duration != json.duration)) {
+				if (!confirm(`All old deadlines will deleted and a new deadline will be reinitialized. Are you sure?`)) {
+					return;
+				}
+			}
+
+			formSubmit(json, this, `php/ui/taskmanager/schedule/setup_schedule.php`);
+		});
+
+		// function formSubmit0(json, formElem, url) {
+		// 	let backlogno = $(formElem).data("backlogno");
+		// 	if (backlogno > 0) {
+		// 		json.backlogno = backlogno;
+		// 	}
+
+		// 	let parentbacklogno = $(formElem).data("parentbacklogno");
+		// 	if (parentbacklogno > 0) {
+		// 		json.parentbacklogno = parentbacklogno;
+		// 	}
+
+		// 	$.post(url, json, resp => {
+		// 		if (resp.error) {
+		// 			toastr.error(resp.message);
+		// 		} else {
+		// 			toastr.success(resp.message);
+		// 			$(".modal.show").modal("hide");
+		// 			let pageno = $("#task_manager_table_pageno_input").val();
+		// 			get_channel_backlogs(pageno);
+		// 		}
+		// 	}, `json`);
+		// }
 	</script>
 </body>
 

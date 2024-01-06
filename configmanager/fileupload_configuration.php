@@ -1,5 +1,6 @@
 <?php
-include_once(dirname(dirname(__FILE__)) . "/php/admin/db/config.php");
+	$base_path = dirname(dirname(__FILE__));
+	include_once($base_path . "/php/db/config.php");
 ?>
 <script>
 	const PUBLIC_ACCESS_URL = `<?= $publicAccessUrl; ?>`;

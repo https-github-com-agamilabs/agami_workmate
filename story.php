@@ -945,7 +945,7 @@ include_once "php/ui/login/check_session.php";
 								
 								<div class="dropdown">
 									<button class="open_dropdown btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-										<i class="fa fa-ellipsis-h m-1 fa-rotate-90"></i> 
+										<i class="fa fa-ellipsis-h m-1"></i> 
 									</button>
 									<div class="dropdown-menu">
 										<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign Task</a>

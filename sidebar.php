@@ -3,11 +3,11 @@
         background-color: transparent !important;
     }
     .app-sidebar.sidebar-shadow{
-
+        
     }
 
 </style>
-<div class="app-sidebar d-print-none">
+<div class="app-sidebar sidebar-shadow0 d-print-none">
     <div class="app-header__logo">
         <div class="logo-src"></div>
         <div class="header__pane ml-auto">

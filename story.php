@@ -826,7 +826,7 @@ include_once "php/ui/login/check_session.php";
 
 				let card = $(`<div class="card my-3 ${cardClass} ${bgClass}">
 						
-						<div class="d-flex justify-content-between p-2 px-3">
+						<div class="d-flex flex-wrap justify-content-between p-2 px-3">
 							<div class="d-flex flex-row align-items-center"> 
 								<img src="https://i.imgur.com/UXdKE3o.jpg" width="40" style='border-radius: 25%;'>
 								<div class="d-flex flex-column ml-2"> 

@@ -914,14 +914,19 @@ include_once "php/ui/login/check_session.php";
 											`<button class="assign_task_button btn btn-sm btn-alternate rounded-semi-circle custom_shadow m-1" type="button" title="Assign task" data-toggle="tooltip" data-placement="top">
 												<i class="fas fa-user-plus"></i>
 											</button>
+											
+											
+											`
+											:``}
+
 											<button class="edit_button btn btn-sm btn-info rounded-semi-circle custom_shadow m-1" type="button" title="Edit task" data-toggle="tooltip" data-placement="top">
 												<i class="far fa-edit"></i>
 											</button>
-											
+
 											<button class="delete_button btn btn-sm btn-danger rounded-semi-circle custom_shadow m-1" type="button" title="Delete task" data-toggle="tooltip" data-placement="top">
 												<i class="fas fa-trash-alt"></i>
-											</button>`
-											:``}
+											</button>
+
 											${value.storytype==3 && value.assignedto!=null && (UCAT_NO == 19 || UCAT_NO == 13 || value.assignedto == USER_NO)
 												? `<button class="status_button btn btn-sm btn-warning custom_shadow  m-1" style='border-radius: 10px' type="button">Status</button>`
 												: ``

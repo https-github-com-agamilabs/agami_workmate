@@ -12,7 +12,7 @@ class Database
   public function db_connect()
   {
     $this->dbName = constant('PREFIX') . constant('DB_NAME');
-    $this->userName = constant('DB_USER');
+    $this->userName = constant('PREFIX') .constant('DB_USER');
     $this->password = constant('DB_PASSWORD');
     $this->hostName = constant('DB_HOST');
 

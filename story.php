@@ -685,6 +685,14 @@ include_once "php/ui/login/check_session.php";
 		 * Hanif
 		 * Showed the stories
 		 */
+		$.post(`php/ui/notification/setup_lastvisit.php`, {
+			channelno: CHANNELNO
+		}, resp => {
+			if (resp.error) {
+				toastr.error(resp.message);
+			}
+		}, `json`);
+		
 		let story_log = {};
 
 		function show_task(data, targetContainer) {

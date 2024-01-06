@@ -887,7 +887,7 @@ include_once "php/ui/login/check_session.php";
 										</button>`
 										:``}
 										${value.storytype==3 && value.assignedto!=null && (UCAT_NO == 19 || UCAT_NO == 13 || value.assignedto == USER_NO)
-											? `<button class="status_button btn btn-sm btn-info custom_shadow  m-1" type="button">Status</button>`
+											? `<button class="status_button btn btn-sm btn-info custom_shadow  m-1" style='border-radius: 10px' type="button">Status</button>`
 											: ``
 										}
 								</div>

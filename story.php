@@ -152,6 +152,16 @@ include_once "php/ui/login/check_session.php";
 
 						<div class="row align-items-end">
 
+							<div class="col-sm-6">
+								<label class="d-block mb-0">
+									Type <span class="text-danger">*</span>
+									<select name="storytype" class="form-control shadow-sm mt-2" required>
+										<option value="3" data-extra-hide='' data-extra-show='#task_manager_setup_modal_form .prioritylevelno_root, #task_manager_setup_modal_form .relativepriority_root'>Task</option>
+										<option value="1" data-extra-show='' data-extra-hide='#task_manager_setup_modal_form .prioritylevelno_root, #task_manager_setup_modal_form .relativepriority_root'>Chat</option>
+										<option value="2" data-extra-show='' data-extra-hide='#task_manager_setup_modal_form .prioritylevelno_root, #task_manager_setup_modal_form .relativepriority_root'>Notification</option>
+									</select>
+								</label>
+							</div>
 
 							<div class="col-sm-6">
 								<label class="d-block mb-0">
@@ -160,16 +170,6 @@ include_once "php/ui/login/check_session.php";
 								</label>
 							</div>
 
-							<div class="col-sm-6">
-								<label class="d-block mb-0">
-									Type <span class="text-danger">*</span>
-									<select name="storytype" class="form-control shadow-sm mt-2" required>
-										<option value="1" data-extra-show='' data-extra-hide='#task_manager_setup_modal_form .prioritylevelno_root, #task_manager_setup_modal_form .relativepriority_root'>Chat</option>
-										<option value="2" data-extra-show='' data-extra-hide='#task_manager_setup_modal_form .prioritylevelno_root, #task_manager_setup_modal_form .relativepriority_root'>Notification</option>
-										<option value="3" data-extra-hide='' data-extra-show='#task_manager_setup_modal_form .prioritylevelno_root, #task_manager_setup_modal_form .relativepriority_root'>Task</option>
-									</select>
-								</label>
-							</div>
 
 							<div class="col-md-6 mt-3 prioritylevelno_root">
 								<label class="d-block mb-0">

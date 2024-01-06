@@ -45,7 +45,7 @@ if ($debug) {
     // define('DB_HOST', '127.0.0.1:3306');
     define('DB_HOST', 'localhost');
     #Table Prefix:
-    define('PREFIX', 'msg');
+    define('PREFIX', '');
 
     #Session Timeout Time:
     define('SESSION_TIMEOUT', 360000);

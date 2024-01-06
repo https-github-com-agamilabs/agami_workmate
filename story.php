@@ -94,6 +94,10 @@ include_once "php/ui/login/check_session.php";
 			display: inline;
 
 		}
+
+		.dropdown-toggle::after{
+			display: none;
+		}
 	</style>
 	<?php
 	$base_path = dirname(__FILE__);
@@ -934,11 +938,22 @@ include_once "php/ui/login/check_session.php";
 									</div>
 								</div>
 
-								<button class="open_menu btn btn-sm" type="button" data-toggle0="collapse" data-target="#collapseExample_${value.backlogno}" aria-expanded="false" aria-controls="collapseExample_${value.backlogno}">
+								<button class="open_menu d-none btn btn-sm" type="button" data-toggle0="collapse" data-target="#collapseExample_${value.backlogno}" aria-expanded="false" aria-controls="collapseExample_${value.backlogno}">
 									<i class="fa fa-ellipsis-h m-1"></i> 
 									<i class="fa fa-times m-1"></i> 
 								</button>
 								
+								<div class="dropdown">
+									<button class="open_dropdown btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+										<i class="fa fa-ellipsis-h m-1"></i> 
+									</button>
+									<div class="dropdown-menu">
+										<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign Task</a>
+										<a class="dropdown-item edit_button text-info"><i class="far fa-edit mr-2"></i> Edit</a>
+										<a class="dropdown-item delete_button text-danger"><i class="fas fa-trash-alt mr-2"></i> Delete</a>
+										<a class="dropdown-item status_button text-warning">Status</a>
+									</div>
+								</div>
 								
 							</div>
 						</div> 
@@ -1020,6 +1035,12 @@ include_once "php/ui/login/check_session.php";
 					$('.open_menu', card).click(function(e) {
 						$('.collapse', card).collapse('toggle');
 						$('.open_menu', card).toggleClass('active');
+					});
+
+
+					$('.open_dropdown', card).click(function(e) {
+						$('.dropdown-menu', card).dropdown('toggle');
+						$('.open_dropdown', card).toggleClass('active');
 					});
 				})(jQuery);
 			});

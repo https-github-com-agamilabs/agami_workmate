@@ -34,6 +34,10 @@ include_once "php/ui/login/check_session.php";
 			background-color: #FA8072;
 
 		}
+
+		.rounded-semi-circle{
+			border-radius: 25%;
+		}
 	</style>
 	<?php
 	$base_path = dirname(__FILE__);
@@ -61,7 +65,7 @@ include_once "php/ui/login/check_session.php";
 											} else {
 												echo 'assets/image/user_icon.png';
 											}
-											?>" onerror="this.onerror=null;this.src='assets/image/user_icon.png'" class="align-self-start img-fluid rounded-circle mr-3" style="width:40px;height:40px;" alt="...">
+											?>" onerror="this.onerror=null;this.src='assets/image/user_icon.png'" class="align-self-start img-fluid rounded-semi-circle mr-3" style="width:40px;height:40px;" alt="...">
 								<div class="media-body">
 									<input name="create_post" class="form-control shadow-sm rounded-pill cursor-pointer" type="text" placeholder="What's on your mind?" readonly>
 								</div>
@@ -134,7 +138,7 @@ include_once "php/ui/login/check_session.php";
 										} else {
 											echo 'assets/image/user_icon.png';
 										}
-										?>" onerror="this.onerror=null;this.src='assets/image/user_icon.png'" class="align-self-start img-fluid rounded-circle mr-3" style="width:40px;height:40px;" alt="...">
+										?>" onerror="this.onerror=null;this.src='assets/image/user_icon.png'" class="align-self-start img-fluid rounded-semi-circle mr-3" style="width:40px;height:40px;" alt="...">
 							<div class="media-body">
 								<div class="text-primary font-weight-bold">
 									<?php
@@ -733,10 +737,10 @@ include_once "php/ui/login/check_session.php";
 						<td></td>
 						<td>
 							<div class="d-flex justify-content-center p-0">
-								<button class="edit_button btn btn-sm btn-info rounded-circle custom_shadow m-1" type="button" title="Edit">
+								<button class="edit_button btn btn-sm btn-info rounded-semi-circle custom_shadow m-1" type="button" title="Edit">
 									<i class="fas fa-edit"></i>
 								</button>
-								<button class="delete_button btn btn-sm btn-danger rounded-circle custom_shadow m-1" type="button" title="Delete">
+								<button class="delete_button btn btn-sm btn-danger rounded-semi-circle custom_shadow m-1" type="button" title="Delete">
 									<i class="fas fa-trash"></i>
 								</button>
 							</div>
@@ -824,16 +828,17 @@ include_once "php/ui/login/check_session.php";
 						
 						<div class="d-flex justify-content-between p-2 px-3">
 							<div class="d-flex flex-row align-items-center"> 
-								<img src="https://i.imgur.com/UXdKE3o.jpg" width="30" class="rounded-circle">
+								<img src="https://i.imgur.com/UXdKE3o.jpg" width="40" style='border-radius: 25%;'>
 								<div class="d-flex flex-column ml-2"> 
-									<span class="font-weight-bold">${value.assignedby || ``}</span> 
+									<div>
+										<span style='font-weight: bold; font-family: monospace; color:black'>${value.assignedby || ``}</span> 
+										<small class='ml-2'>${value.storytype == 3 ? `${value.priorityleveltitle} (${value.relativepriority})`:``}</small>
+									</div>
 									<small class="mr-2">
 										${value.storytime || ``}
-										
-										${value.storytype == 3 ? `${value.priorityleveltitle} (${value.relativepriority})`:``}
 										${value.storytype == 3 && value.assignedto!=null ?	
-											`${delay.days_diff > 0 ? `${delay.days_diff} day(s) behind`: ``}
-											${(delay.days_diff <= 0 && delay.hours_diff > 0) ? `${delay.hours_diff} hour(s) behind`: ``}
+											`${delay.days_diff > 0 ? `<i class='fa fa-circle mx-2 text-danger'></i> ${delay.days_diff} day(s) behind`: ``}
+											${(delay.days_diff <= 0 && delay.hours_diff > 0) ? `<i class='fa fa-circle mx-2 text-danger'></i> ${delay.hours_diff} hour(s) behind`: ``}
 											`:``
 										}
 										
@@ -844,14 +849,14 @@ include_once "php/ui/login/check_session.php";
 							<div class="d-flex flex-row mt-1 ellipsis"> 
 								<div class="d-flex justify-content-center">
 									${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13) ?
-										`<button class="assign_task_button btn btn-sm btn-alternate rounded-circle custom_shadow m-1" type="button" title="Assign task" data-toggle="tooltip" data-placement="top">
+										`<button class="assign_task_button btn btn-sm btn-alternate rounded-semi-circle custom_shadow m-1" type="button" title="Assign task" data-toggle="tooltip" data-placement="top">
 											<i class="fas fa-user-plus"></i>
 										</button>
-										<button class="edit_button btn btn-sm btn-info rounded-circle custom_shadow m-1" type="button" title="Edit task" data-toggle="tooltip" data-placement="top">
+										<button class="edit_button btn btn-sm btn-info rounded-semi-circle custom_shadow m-1" type="button" title="Edit task" data-toggle="tooltip" data-placement="top">
 											<i class="far fa-edit"></i>
 										</button>
 										
-										<button class="delete_button btn btn-sm btn-danger rounded-circle custom_shadow m-1" type="button" title="Delete task" data-toggle="tooltip" data-placement="top">
+										<button class="delete_button btn btn-sm btn-danger rounded-semi-circle custom_shadow m-1" type="button" title="Delete task" data-toggle="tooltip" data-placement="top">
 											<i class="fas fa-trash-alt"></i>
 										</button>`
 										:``}

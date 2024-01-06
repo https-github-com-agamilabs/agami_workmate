@@ -58,7 +58,7 @@ if ($debug) {
     $publicAccessUrl = $REQUEST_PROTOCOL . "://$host/" . $projectName . "/";
     $projectPath = DIRECTORY_SEPARATOR . $projectName . DIRECTORY_SEPARATOR;
     $authUrl = $REQUEST_PROTOCOL . "://$host/" . $projectName . "/auth/?redirect=";
-} elseif (strcasecmp($host, "workmate.agamilabs.com")===0 || strcasecmp($host, "www.workmate.agamilabs.com")===0) {
+} elseif (strcasecmp($host, "workmate.agamilabs.com") === 0 || strcasecmp($host, "www.workmate.agamilabs.com") === 0) {
     $projectName = "workmate.agamilabs.com";
 
     #MySQL Database name:
@@ -75,7 +75,7 @@ if ($debug) {
     $publicAccessUrl = $REQUEST_PROTOCOL . "://$host/";
     $projectPath = DIRECTORY_SEPARATOR . $projectName . DIRECTORY_SEPARATOR;
     $authUrl = $REQUEST_PROTOCOL . "://$host/auth/?redirect=";
-} elseif (strcasecmp($host, "workmate.agamilab.com")===0 || strcasecmp($host, "www.workmate.agamilab.com")===0) {
+} elseif (strcasecmp($host, "agamilab.com") === 0 || strcasecmp($host, "www.agamilab.com") === 0 || strcasecmp($host, "workmate.agamilab.com") === 0 || strcasecmp($host, "www.workmate.agamilab.com") === 0) {
     $projectName = "workmate.agamilab.com";
 
     #MySQL Database name:
@@ -94,7 +94,7 @@ if ($debug) {
     $authUrl = $REQUEST_PROTOCOL . "://$host/auth/?redirect=";
 } else {
     $err_msg =  "$host is not allowed in Production Mode. Please contact AGAMiLabs Ltd.";
-    if ($_SERVER['REQUEST_METHOD']!='POST') {
+    if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         echo $err_msg;
     } else {
         $response = array();

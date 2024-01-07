@@ -45,7 +45,9 @@
 
         if($ucatno>=19){
             $list = get_all_emp_elapsedtime($dbcon, $startdate, $enddate);
-        }else{
+        }else if($ucatno>=13)
+            $list = get_emp_elapsedtime_workfor($dbcon, $empno, $startdate, $enddate);
+        else{
             $list = get_emp_elapsedtime($dbcon, $empno, $startdate, $enddate);
         }
 
@@ -145,6 +147,39 @@
                 ORDER BY empno,workingdate";
         $stmt = $dbcon->prepare($sql);
         $stmt->bind_param("ssss", $startdate, $enddate,$startdate, $enddate);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
+
+    function get_emp_elapsedtime_workfor($dbcon, $workfor, $startdate, $enddate)
+    {
+        $sql = "SELECT empno,
+                        (SELECT concat(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=dt.empno) as empfullname,
+                        workingdate,sum(elapsedtime) as dailyelapsedtime
+                FROM (
+                        (SELECT empno, date(starttime) as workingdate,
+                                CASE
+                                    WHEN day(starttime)!=day(endtime)
+                                        THEN TIMESTAMPDIFF(SECOND,starttime,date(endtime))
+                                    ELSE TIMESTAMPDIFF(SECOND,starttime, endtime)
+                                END as elapsedtime
+                        FROM emp_workingtime
+                        WHERE workfor=? AND (date(starttime) BETWEEN ? AND ?)
+                        )
+                        UNION ALL
+                        (SELECT empno, date(endtime) as workingdate,
+                                TIMESTAMPDIFF(SECOND,date(endtime),endtime) as elapsedtime
+                        FROM emp_workingtime
+                        WHERE workfor=? AND day(starttime)!=day(endtime) AND (date(endtime) BETWEEN ? AND ?)
+                        )
+                    ) as dt
+                GROUP BY empno,workingdate
+                ORDER BY empno,workingdate";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("ississ", $workfor,$startdate, $enddate,$workfor,$startdate, $enddate);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

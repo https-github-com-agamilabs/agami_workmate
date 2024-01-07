@@ -889,7 +889,8 @@ include_once "php/ui/login/check_session.php";
 
 				// console.log(`delay =>`, delay);
 
-				let card = $(`<div class="card task-card my-3 ${cardClass} ${bgClass}" style='border-radius:15px;'>
+				let card = $(`
+					<div class="card task-card my-3 ${cardClass} ${bgClass}" style='border-radius:15px;'>
 						
 						<div class="d-flex flex-wrap justify-content-between p-2 px-3">
 							<div class="d-flex flex-row align-items-center"> 
@@ -948,10 +949,10 @@ include_once "php/ui/login/check_session.php";
 										<i class="fa fa-ellipsis-h m-1"></i> 
 									</button>
 									<div class="dropdown-menu">
-										<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign Task</a>
+										${value.storytype == 3?`<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign Task</a>`:""}
 										<a class="dropdown-item edit_button text-info"><i class="far fa-edit mr-2"></i> Edit Task</a>
 										<a class="dropdown-item delete_button text-danger"><i class="fas fa-trash-alt mr-2"></i> Remove Task</a>
-										<a class="dropdown-item status_button text-warning">Update Status</a>
+										${value.storytype == 3?`<a class="dropdown-item status_button text-warning">Update Status</a>`:""}
 									</div>
 								</div>
 								
@@ -964,22 +965,30 @@ include_once "php/ui/login/check_session.php";
 
 						
 						${value.storytype == 3 && value.assignedto!=null ? `
-						<div class="card-footer p-2 bg-transparent">
+						<div class="card-footer p-2 bg-transparent d-flex flex-column">
 							<div class="w-100 px-2 py-1">
-								${value.assignee ? `<div>Assignee: ${value.assignee}</div>` : ``}
+								${value.assignee ? 
+								`<div>Assignee: 
+									${value.assignee}
+								</div>` : ``}
 								<div class="d-flex justify-content-between">
-									<div>How to solve (Tips)</div>
+									<div>
+										How to solve (Tips)
+									</div>
 									<div>
 										[${formatDate(value.scheduledate)}
 										to
 										${value.deadlines.map((obj, i) => `<span class="${i != 0 ? `text-danger` : ``}">${formatDate(obj.deadline)}</span>`).join(", ")}]
 									</div>
 								</div>
-								<div>${deNormaliseUserInput(value.howto)}</div>
+								<div>
+									${deNormaliseUserInput(value.howto)}
+								</div>
 								<hr>
 								${value.progress.length
 									? value.progress
-										.map(b => `<div class="media mb-3">
+										.map(b => 
+										`<div class="media mb-3">
 											<div class="mr-2">${formatDateTime(b.progresstime)}</div>
 											<div class="media-body">
 												<div>${b.statustitle} (${b.entryby})</div>
@@ -989,9 +998,21 @@ include_once "php/ui/login/check_session.php";
 										.join("")
 									: ``
 								}
-								</div>` : ``
-							}
-						</div>
+							</div>
+							
+							<div class='w-100 comments-box'>
+								<div class='d-flex'>
+									<input class='form-control form-control-sm' type='text' style='border-radius: 10px;'/>
+									<button class='btn btn-sm btn-rounded-circle'>
+										<i class='fa fa-paper-plane'></i>
+									</button>
+								</div>
+								<div class=''>
+									
+								</div>
+							</div>
+						</div>` : ``
+						}
 					</div>`)
 					.appendTo(targetContainer);
 

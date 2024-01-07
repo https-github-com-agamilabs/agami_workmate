@@ -61,6 +61,15 @@
                 }
                 $row['deadlines'] = $deadline_array;
 
+                $backlogno = $row['backlogno'];
+                $rs_comments=get_sub_comments($dbcon, $backlogno); 
+                $comment_array = array();
+                if ($rs_comments->num_rows > 0) {
+                    while ($drow = $rs_comments->fetch_array(MYSQLI_ASSOC)) {
+                        $comment_array[]=$drow;
+                    }
+                }
+                $row['comments'] = $comment_array;
                 $results_array[] = $row;
             }
         }
@@ -124,18 +133,37 @@
                         storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=b.storyphaseno) as storyphasetitle,
                         relativepriority,howto,assigntime,scheduledate,duration,
                         s.cblscheduleno,
-                        b.userno, (SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=b.userno) as assignedby,
+                        b.userno, b.assignedby,b.photo_url,
                         s.assignedto, (SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=s.assignedto) as assignee
                 FROM
-                    (SELECT backlogno, channelno, story, storyphaseno,storytype, prioritylevelno, relativepriority, lastupdatetime, userno
-                    FROM asp_channelbacklog
-                    WHERE channelno=?) as b
+                    (SELECT backlogno, channelno, story, storyphaseno,storytype, prioritylevelno, relativepriority, cb.lastupdatetime, 
+                            u.userno, CONCAT(firstname,' ',IFNULL(lastname,'')) as assignedby, photo_url
+                    FROM asp_channelbacklog as cb
+                        INNER JOIN hr_user as u ON cb.userno=u.userno
+                    WHERE parentbacklogno IS NULL AND channelno=?) as b
                     LEFT JOIN asp_cblschedule as s ON s.backlogno=b.backlogno
                 ORDER BY b.backlogno DESC, s.cblscheduleno DESC 
                 LIMIT ?,?
                 ";
         $stmt = $dbcon->prepare($sql);
         $stmt->bind_param("iii", $channelno,$startindex,$limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
+
+    function get_sub_comments($dbcon, $backlogno){
+        $sql = "SELECT backlogno, story, storyphaseno, storytype, b.lastupdatetime, 
+                    b.userno, CONCAT(u.firstname,' ',IFNULL(u.lastname,'')) as commentedby, u.photo_url
+                FROM asp_channelbacklog as b
+                    INNER JOIN hr_user as u ON b.userno=u.userno
+                WHERE parentbacklogno=?
+                ORDER BY backlogno
+                ";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("i", $backlogno);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

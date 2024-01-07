@@ -958,7 +958,7 @@ include_once "php/ui/login/check_session.php";
 
 
 				tpl.push(`
-						<div class="w-100 px-2 py-1 ${cardClass}" id='collapse_parent_${aSchedule.cblscheduleno}'>
+						<div class="w-100 px-2 py-0 ${cardClass}" id='collapse_parent_${aSchedule.cblscheduleno}'>
 							<div class='d-flex justify-content-between'>
 								<div>
 									Assignee ${schedules.length>1?`#${(index+1)}`:''}: ${aSchedule.assignee || ""}
@@ -974,69 +974,64 @@ include_once "php/ui/login/check_session.php";
 
 							<div class='row mt-1 flex-wrap'>
 
-								<div class='col-6 col-sm-3 text-center mb-1'>
-									<button class='btn btn-sm btn-outline-primary px-2' style='width: 100px' data-parent="#collapse_parent_${aSchedule.cblscheduleno}" data-toggle="collapse" href="#collapse_tips_${aSchedule.cblscheduleno}" role="button" aria-expanded="false" aria-controls="collapse_tips_${aSchedule.cblscheduleno}">Tips</button>
-								</div>
+								<div class='col-0 col-sm-1'></div>
 
-								<div class='col-6 col-sm-3 text-center mb-1'>
-									<button class='btn btn-sm btn-outline-danger px-2' style='width: 100px' data-parent="#collapse_parent_${aSchedule.cblscheduleno}"  data-toggle="collapse" href="#collapse_deadline_${aSchedule.cblscheduleno}" role="button" aria-expanded="false" aria-controls="collapse_deadline_${aSchedule.cblscheduleno}">Deadline</button>
-								</div>
+								<div class='col-12 col-sm-7'>
+									<div class=" mt-2" id='collapse_tips_and_deadline_${aSchedule.cblscheduleno}'>
+										<div>
+										How to solve (Tips)
+										</div>
+										<div class='mt-1 mb-2'>
+											${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
+										</div>
 
-								<div class='col-6 col-sm-3 text-center mb-1'>
-									<button class='btn btn-sm btn-outline-success px-2' style='width: 100px' data-parent="#collapse_parent_${aSchedule.cblscheduleno}"  data-toggle="collapse" href="#collapse_progress_${aSchedule.cblscheduleno}" role="button" aria-expanded="false" aria-controls="collapse_progress_${aSchedule.cblscheduleno}">Progress</button>
-								</div>
-
-								<div class='col-6 col-sm-3 text-center mb-1'>
-									<button class='btn btn-sm btn-outline-info px-2' style='width: 100px' data-parent="#collapse_parent_${aSchedule.cblscheduleno}"  data-toggle="collapse" href="#collapse_comments_${aSchedule.cblscheduleno}" role="button" aria-expanded="false" aria-controls="collapse_comments_${aSchedule.cblscheduleno}">Comments</button>
-								</div>
-
-							</div>
-
-							<div class="collapse mt-2" id='collapse_tips_${aSchedule.cblscheduleno}'>
-								<div>
-								How to solve (Tips)
-								</div>
-								<div class='mt-1 mb-2'>
-									${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
-								</div>
-							</div>
-
-							<div class="collapse mt-2" id='collapse_deadline_${aSchedule.cblscheduleno}'>
-								<div class='d-flex'>
-									<div>
-										Deadlines
+										<div class='d-flex'>
+											<div>
+												Deadlines
+											</div>
+											<div class='ml-2'>${formatDate(aSchedule.scheduledate)}</div>
+											<div class='mx-1'>to</div>
+											<div>
+												${aSchedule.deadlines.map((obj, i) => `<span class="${i != 0 ? `text-danger` : ``}">${formatDate(obj.deadline)}</span>`).join(", ")}
+											</div>								
+										</div>
 									</div>
-									[${formatDate(aSchedule.scheduledate)}
-									to
-									${aSchedule.deadlines.map((obj, i) => `<span class="${i != 0 ? `text-danger` : ``}">${formatDate(obj.deadline)}</span>`).join(", ")}]
-								</div>
-							</div>
 
-							<div class='collapse mt-2' id='collapse_progress_${aSchedule.cblscheduleno}'>
-								<div class='d-flex '>
-									<div class='my-auto'>
-										Progress
+									<div class=' mt-2 pb-2' id='collapse_progress_${aSchedule.cblscheduleno}'>
+										<div class='d-flex '>
+											<div class='my-auto'>
+												Progress
+											</div>
+											${aSchedule.progress.length
+												? aSchedule.progress
+													.map((b) =>{ 
+													
+													return `<div title='Time: ${b.progresstime}' style='min-width: 100px;' class='text-center border mx-2'>
+																<div><i class='fa fa-circle ${b.statustitle.split(" ").join('_')}'></i></div>
+																<div>${b.statustitle}</div>
+															</div>`;
+
+													// return `<div class="media mb-3 bg-info border border-info ">
+													// 			<div class="mr-2">${formatDateTime(b.progresstime)}</div>
+													// 			<div class="media-body">
+													// 				<div>${b.statustitle} (${b.entryby})</div>
+													// 				<div>${deNormaliseUserInput(b.result)}</div>
+													// 			</div>
+													// 		</div>`;
+													})
+													.join("<div class='my-auto'><i class='fa fa-arrow-right text-secondary'></i></div>")
+												: ``
+											}
+										</div>
 									</div>
-									${aSchedule.progress.length
-										? aSchedule.progress
-											.map((b) =>{ 
-											
-											return `<div style='width: 100px;' class='text-center border mx-2'>
-														<div><i class='fa fa-circle ${b.statustitle.split(" ").join('_')}'></i></div>
-														<div>${b.statustitle}</div>
-													</div>`;
+								</div>
 
-											// return `<div class="media mb-3 bg-info border border-info ">
-											// 			<div class="mr-2">${formatDateTime(b.progresstime)}</div>
-											// 			<div class="media-body">
-											// 				<div>${b.statustitle} (${b.entryby})</div>
-											// 				<div>${deNormaliseUserInput(b.result)}</div>
-											// 			</div>
-											// 		</div>`;
-											})
-											.join("<i class='fa fa-arrow-right text-secondary'></i>")
-										: ``
-									}
+								<div class='col-12 col-sm-4'>
+									<button data-cblscheduleno="${aSchedule.cblscheduleno}" class='status_button btn btn-sm btn-outline-primary px-2 mb-1' >Update Progress</button>
+									
+									<button class='btn btn-sm btn-outline-primary px-2 mb-1 d-none ' data-parent="#collapse_parent_${aSchedule.cblscheduleno}" data-toggle="collapse" href="#collapse_tips_and_deadline_${aSchedule.cblscheduleno}" role="button" aria-expanded="false" aria-controls="collapse_tips_and_deadline_${aSchedule.cblscheduleno}">Tips &amp; Deadline</button>
+
+									<button class='btn btn-sm btn-outline-success px-2 mb-1 d-none' data-parent="#collapse_parent_${aSchedule.cblscheduleno}"  data-toggle="collapse" href="#collapse_progress_${aSchedule.cblscheduleno}" role="button" aria-expanded="false" aria-controls="collapse_progress_${aSchedule.cblscheduleno}">Progress</button>
 								</div>
 							</div>
 						</div>`);
@@ -1166,7 +1161,7 @@ include_once "php/ui/login/check_session.php";
 
 					$(`.status_button`, card).click(function(e) {
 						$("#status_update_modal").modal("show");
-						$(`#status_update_modal_form`).data("cblscheduleno", value.cblscheduleno).data("cblprogressno", -1);
+						$(`#status_update_modal_form`).data("cblscheduleno", $(this).data('cblscheduleno')).data("cblprogressno", -1);
 					});
 
 					$('.open_menu', card).click(function(e) {

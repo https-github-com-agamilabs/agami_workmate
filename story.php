@@ -846,36 +846,267 @@ include_once "php/ui/login/check_session.php";
 			}
 		}, `json`);
 
+
+		function get_header(value){
+			return `<div class="d-flex flex-wrap justify-content-between p-2 px-3">
+						<div class="d-flex flex-row align-items-center"> 
+							<img class='rounded-semi-circle' src="${value.photo_url||"assets/image/user_icon.png"}" width="40">
+							<div class="d-flex flex-column ml-2"> 
+								<div>
+									<span style='font-weight: bold; font-family: monospace; color:black'>${value.postedby || value.assignedby || ``}</span> 
+									<small class='ml-2'>${value.storytype == 3 ? `${value.priorityleveltitle} (${value.relativepriority})`:``}</small>
+								</div>
+								<small class="mr-2">
+									${value.storytime || ``}
+								</small>  
+							</div>
+						</div>
+
+						<div class="d-flex flex-row mt-1 ellipsis"> 
+							<div class="collapse" id="collapseExample_${value.backlogno}">
+								<div class="d-flex justify-content-center">
+									${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13) ?
+										`<button class="assign_task_button btn btn-sm btn-alternate rounded-semi-circle custom_shadow m-1" type="button" title="Assign task" data-toggle="tooltip" data-placement="top">
+											<i class="fas fa-user-plus"></i>
+										</button>
+										`
+										:``}
+
+										<button class="edit_button btn btn-sm btn-info rounded-semi-circle custom_shadow m-1" type="button" title="Edit task" data-toggle="tooltip" data-placement="top">
+											<i class="far fa-edit"></i>
+										</button>
+
+										<button class="delete_button btn btn-sm btn-danger rounded-semi-circle custom_shadow m-1" type="button" title="Delete task" data-toggle="tooltip" data-placement="top">
+											<i class="fas fa-trash-alt"></i>
+										</button>
+
+										${value.storytype==3 && value.assignedto!=null && (UCAT_NO == 19 || UCAT_NO == 13 || value.assignedto == USER_NO)
+											? `<button class="status_button btn btn-sm btn-warning custom_shadow  m-1" style='border-radius: 10px' type="button">Status</button>`
+											: ``
+										}
+								</div>
+							</div>
+
+							<button class="open_menu d-none btn btn-sm" type="button" data-toggle0="collapse" data-target="#collapseExample_${value.backlogno}" aria-expanded="false" aria-controls="collapseExample_${value.backlogno}">
+								<i class="fa fa-ellipsis-h m-1"></i> 
+								<i class="fa fa-times m-1"></i> 
+							</button>
+							
+							<div class="dropdown">
+								<button class="open_dropdown btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+									<i class="fa fa-ellipsis-h m-1"></i> 
+								</button>
+								<div class="dropdown-menu">
+									${value.storytype == 3?`<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign Task</a>`:""}
+									<a class="dropdown-item edit_button text-info"><i class="far fa-edit mr-2"></i> Edit Task</a>
+									<a class="dropdown-item delete_button text-danger"><i class="fas fa-trash-alt mr-2"></i> Remove Task</a>
+									${value.storytype == 3?`<a class="dropdown-item status_button text-warning">Update Status</a>`:""}
+								</div>
+							</div>
+						</div>
+					</div>`;
+		}
+
+		function get_body(value){
+			return `<div class="card-body py-2">
+						<div>${value.story}</div>
+					</div>`;
+		}
+
+		function get_footer(value){
+
+			let tpl = ``;
+
+			if(value.storytype!=3){
+				return ``;	
+			}
+
+			if(!value.schedule){
+				return ``;
+			}
+
+			return `<div class="px-2 pb-0 d-flex flex-column">
+						${get_assignee(value, value.schedule)}
+					</div>`;
+		}
+
+		function get_assignee(value, schedules){
+			let today = `<?= date('Y-m-d'); ?>`;
+			let start = ``;
+			let delay = {};
+
+			let tpl = [];
+			for (let index = 0; index < schedules.length; index++) {
+				const aSchedule = schedules[index];
+
+				if (aSchedule.progress.find(a => a.wstatusno == 4) != null) {
+					cardClass = ` border-left border-danger card-shadow-danger`;
+				} else if (aSchedule.progress.find(a => a.wstatusno == 3) != null) {
+					if (aSchedule.deadlines && aSchedule.deadlines.length > 1) {
+						cardClass = ` border-left border-warning card-shadow-warning`;
+					} else {
+						cardClass = ` border-left border-success card-shadow-success`;
+					}
+				} else if (aSchedule.progress.find(a => a.wstatusno == 2) != null) {
+					cardClass = ` border-left border-info card-shadow-info`;
+					delay = delayedDate(today, start);
+				} else {
+					cardClass = ``;
+					delay = delayedDate(today, start);
+				}
+
+
+
+				tpl.push(`
+						<div class="w-100 px-2 py-1 ${cardClass}" id='collapse_parent_${aSchedule.cblscheduleno}'>
+							<div class='d-flex justify-content-between'>
+								<div>
+									Assignee ${schedules.length>1?`#${(index+1)}`:''}: ${aSchedule.assignee || ""}
+								</div>
+
+								<span>
+									${`
+										${delay.days_diff > 0 ? `<i class='fa fa-circle mx-2 text-danger'></i> ${delay.days_diff} day(s) behind`: ``}
+										${(delay.days_diff <= 0 && delay.hours_diff > 0) ? `<i class='fa fa-circle mx-2 text-danger'></i> ${delay.hours_diff} hour(s) behind`: ``}
+									`}
+								</span>
+							</div>
+
+							<div class='row mt-1 flex-wrap'>
+
+								<div class='col-6 col-sm-3 text-center mb-1'>
+									<button class='btn btn-sm btn-outline-primary px-2' style='width: 100px' data-parent="#collapse_parent_${aSchedule.cblscheduleno}" data-toggle="collapse" href="#collapse_tips_${aSchedule.cblscheduleno}" role="button" aria-expanded="false" aria-controls="collapse_tips_${aSchedule.cblscheduleno}">Tips</button>
+								</div>
+
+								<div class='col-6 col-sm-3 text-center mb-1'>
+									<button class='btn btn-sm btn-outline-danger px-2' style='width: 100px' data-parent="#collapse_parent_${aSchedule.cblscheduleno}"  data-toggle="collapse" href="#collapse_deadline_${aSchedule.cblscheduleno}" role="button" aria-expanded="false" aria-controls="collapse_deadline_${aSchedule.cblscheduleno}">Deadline</button>
+								</div>
+
+								<div class='col-6 col-sm-3 text-center mb-1'>
+									<button class='btn btn-sm btn-outline-success px-2' style='width: 100px' data-parent="#collapse_parent_${aSchedule.cblscheduleno}"  data-toggle="collapse" href="#collapse_progress_${aSchedule.cblscheduleno}" role="button" aria-expanded="false" aria-controls="collapse_progress_${aSchedule.cblscheduleno}">Progress</button>
+								</div>
+
+								<div class='col-6 col-sm-3 text-center mb-1'>
+									<button class='btn btn-sm btn-outline-info px-2' style='width: 100px' data-parent="#collapse_parent_${aSchedule.cblscheduleno}"  data-toggle="collapse" href="#collapse_comments_${aSchedule.cblscheduleno}" role="button" aria-expanded="false" aria-controls="collapse_comments_${aSchedule.cblscheduleno}">Comments</button>
+								</div>
+
+							</div>
+
+							<div class="collapse mt-2" id='collapse_tips_${aSchedule.cblscheduleno}'>
+								<div>
+								How to solve (Tips)
+								</div>
+								<div class='mt-1 mb-2'>
+									${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
+								</div>
+							</div>
+
+							<div class="collapse mt-2" id='collapse_deadline_${aSchedule.cblscheduleno}'>
+								<div class='d-flex'>
+									<div>
+										Deadlines
+									</div>
+									[${formatDate(aSchedule.scheduledate)}
+									to
+									${aSchedule.deadlines.map((obj, i) => `<span class="${i != 0 ? `text-danger` : ``}">${formatDate(obj.deadline)}</span>`).join(", ")}]
+								</div>
+							</div>
+
+							<div class='collapse mt-2' id='collapse_progress_${aSchedule.cblscheduleno}'>
+								<div class='d-flex '>
+									<div class='my-auto'>
+										Progress
+									</div>
+									${aSchedule.progress.length
+										? aSchedule.progress
+											.map((b) =>{ 
+											
+											return `<div style='width: 100px;' class='text-center border mx-2'>
+														<div><i class='fa fa-circle ${b.statustitle.split(" ").join('_')}'></i></div>
+														<div>${b.statustitle}</div>
+													</div>`;
+
+											// return `<div class="media mb-3 bg-info border border-info ">
+											// 			<div class="mr-2">${formatDateTime(b.progresstime)}</div>
+											// 			<div class="media-body">
+											// 				<div>${b.statustitle} (${b.entryby})</div>
+											// 				<div>${deNormaliseUserInput(b.result)}</div>
+											// 			</div>
+											// 		</div>`;
+											})
+											.join("<i class='fa fa-arrow-right text-secondary'></i>")
+										: ``
+									}
+								</div>
+							</div>
+						</div>`);
+			}
+			
+			return `<div class='py-1'>${tpl.join("<hr class='mt-2 my-0 py-0 w-25'/>")}</div>`;
+		}
+
+		function get_comments(value){
+
+			if([1,3].includes(value.storytype)){
+				return `
+					<div class='comments-box pb-3 px-2 w-100'>
+						
+						<div class='commentlist px-2 mt-2'>
+							${value.comments.map((aComment, _i)=>{
+								// console.log(aComment);
+								let commenttpl = '';
+								if(aComment.userno==value.userno){ // self
+									commenttpl = `
+										<div class='d-flex justify-content-end'>
+											<div class='mr-2 text-right'>
+												<div>${aComment.story}</div>
+												<small>${aComment.lastupdatetime}</small>
+											</div>
+											<div>
+												<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="25"/>
+											</div>
+										</div>
+										`;
+								}else{ // others
+									commenttpl = `
+										<div class='d-flex justify-content-start'>
+											<div>
+												<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="25"/>
+											</div>
+											<div class='ml-2 text-start'>
+												<div>${aComment.story}</div>
+												<small>${aComment.lastupdatetime}</small>
+											</div>
+										</div>
+										`;
+								}
+
+
+								return commenttpl;
+							}).join(`<hr class="my-0 py-1 px-2" style='opacity:0.3'/>`)}
+						</div>
+
+						<form name='comment-form' class='d-flex px-2 '>
+							<textarea rows='2' class='comment form-control form-control-sm' type='text' style='border-radius: 10px;' placeholder='Write your comment...' required></textarea>
+							<button class='btn btn-sm btn-rounded-circle' type='submit'>
+								<i class='fa fa-paper-plane'></i>
+							</button>
+						</form>
+					</div>
+					`;
+			}
+
+			return ``;
+		}
+
 		let story_log = {};
 
 		function show_task(data, targetContainer) {
-			let today = `<?= date('Y-m-d'); ?>`,
-				start = ``,
-				delay = {},
-				cardClass = ``;
+			let cardClass = ``;
+			let bgClass = ``;
 
 			$.each(data, (index, value) => {
-				start = value.deadlines.length ? value.deadlines[value.deadlines.length - 1].deadline : value.scheduledate;
 
-				if (value.storytype == 3) {
-					if (value.progress.find(a => a.wstatusno == 4) != null) {
-						cardClass = ` border-left border-danger card-shadow-danger`;
-					} else if (value.progress.find(a => a.wstatusno == 3) != null) {
-						if (value.deadlines && value.deadlines.length > 1) {
-							cardClass = ` border-left border-warning card-shadow-warning`;
-						} else {
-							cardClass = ` border-left border-success card-shadow-success`;
-						}
-					} else if (value.progress.find(a => a.wstatusno == 2) != null) {
-						cardClass = ` border-left border-info card-shadow-info`;
-						delay = delayedDate(today, start);
-					} else {
-						cardClass = ``;
-						delay = delayedDate(today, start);
-					}
-				}
-
-				let bgClass = ``;
 				if (value.storytype == 1) {
 					bgClass = `bg-light-blue border border-primary`;
 
@@ -887,168 +1118,16 @@ include_once "php/ui/login/check_session.php";
 
 				}
 
-				// console.log(`delay =>`, delay);
-
 				let card = $(`
 					<div class="card task-card my-3 ${cardClass} ${bgClass}" style='border-radius:15px;'>
 						
-						<div class="d-flex flex-wrap justify-content-between p-2 px-3">
-							<div class="d-flex flex-row align-items-center"> 
-								<img class='rounded-semi-circle' src="${value.photo_url||"assets/image/user_icon.png"}" width="40">
-								<div class="d-flex flex-column ml-2"> 
-									<div>
-										<span style='font-weight: bold; font-family: monospace; color:black'>${value.assignedby || ``}</span> 
-										<small class='ml-2'>${value.storytype == 3 ? `${value.priorityleveltitle} (${value.relativepriority})`:``}</small>
-									</div>
-									<small class="mr-2">
-										${value.storytime || ``}
-										${value.storytype == 3 && value.assignedto!=null ?	
-											`${delay.days_diff > 0 ? `<i class='fa fa-circle mx-2 text-danger'></i> ${delay.days_diff} day(s) behind`: ``}
-											${(delay.days_diff <= 0 && delay.hours_diff > 0) ? `<i class='fa fa-circle mx-2 text-danger'></i> ${delay.hours_diff} hour(s) behind`: ``}
-											`:``
-										}
-										
-									</small>  
-								</div>
-							</div>
+						${get_header(value)}
 
-							<div class="d-flex flex-row mt-1 ellipsis"> 
-								<div class="collapse" id="collapseExample_${value.backlogno}">
-									<div class="d-flex justify-content-center">
-										${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13) ?
-											`<button class="assign_task_button btn btn-sm btn-alternate rounded-semi-circle custom_shadow m-1" type="button" title="Assign task" data-toggle="tooltip" data-placement="top">
-												<i class="fas fa-user-plus"></i>
-											</button>
-											
-											
-											`
-											:``}
+						${get_body(value)}
+						<hr class='my-0 py-2'/>
+						${get_footer(value)}
 
-											<button class="edit_button btn btn-sm btn-info rounded-semi-circle custom_shadow m-1" type="button" title="Edit task" data-toggle="tooltip" data-placement="top">
-												<i class="far fa-edit"></i>
-											</button>
-
-											<button class="delete_button btn btn-sm btn-danger rounded-semi-circle custom_shadow m-1" type="button" title="Delete task" data-toggle="tooltip" data-placement="top">
-												<i class="fas fa-trash-alt"></i>
-											</button>
-
-											${value.storytype==3 && value.assignedto!=null && (UCAT_NO == 19 || UCAT_NO == 13 || value.assignedto == USER_NO)
-												? `<button class="status_button btn btn-sm btn-warning custom_shadow  m-1" style='border-radius: 10px' type="button">Status</button>`
-												: ``
-											}
-									</div>
-								</div>
-
-								<button class="open_menu d-none btn btn-sm" type="button" data-toggle0="collapse" data-target="#collapseExample_${value.backlogno}" aria-expanded="false" aria-controls="collapseExample_${value.backlogno}">
-									<i class="fa fa-ellipsis-h m-1"></i> 
-									<i class="fa fa-times m-1"></i> 
-								</button>
-								
-								<div class="dropdown">
-									<button class="open_dropdown btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-										<i class="fa fa-ellipsis-h m-1"></i> 
-									</button>
-									<div class="dropdown-menu">
-										${value.storytype == 3?`<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign Task</a>`:""}
-										<a class="dropdown-item edit_button text-info"><i class="far fa-edit mr-2"></i> Edit Task</a>
-										<a class="dropdown-item delete_button text-danger"><i class="fas fa-trash-alt mr-2"></i> Remove Task</a>
-										${value.storytype == 3?`<a class="dropdown-item status_button text-warning">Update Status</a>`:""}
-									</div>
-								</div>
-								
-							</div>
-						</div> 
-
-						<div class="card-body py-2">
-							<div>${value.story}</div>
-						</div>
-
-						${value.storytype == 3 && value.assignedto!=null ? `
-						<div class="card-footer px-2 pb-0 bg-transparent d-flex flex-column">
-							<div class="w-100 px-2 py-1">
-								${value.assignee ? 
-								`<div>Assignee: 
-									${value.assignee}
-								</div>` : ``}
-								<div class="d-flex justify-content-between">
-									<div>
-										How to solve (Tips)
-									</div>
-									<div>
-										[${formatDate(value.scheduledate)}
-										to
-										${value.deadlines.map((obj, i) => `<span class="${i != 0 ? `text-danger` : ``}">${formatDate(obj.deadline)}</span>`).join(", ")}]
-									</div>
-								</div>
-								<div>
-									${deNormaliseUserInput(value.howto)}
-								</div>
-								<hr>
-								${value.progress.length
-									? value.progress
-										.map(b => 
-										`<div class="media mb-3">
-											<div class="mr-2">${formatDateTime(b.progresstime)}</div>
-											<div class="media-body">
-												<div>${b.statustitle} (${b.entryby})</div>
-												<div>${deNormaliseUserInput(b.result)}</div>
-											</div>
-										</div>`)
-										.join("")
-									: ``
-								}
-							</div>
-						</div>` : ``
-						}
-
-						${[1,3].includes(value.storytype)?
-							`
-							<div class='comments-box pb-3 px-2 w-100'>
-								
-								<div class='commentlist px-2 mt-2'>
-									${value.comments.map((aComment, _i)=>{
-										// console.log(aComment);
-										let commenttpl = '';
-										if(aComment.userno==value.userno){ // self
-											commenttpl = `
-												<div class='d-flex justify-content-end'>
-													<div class='mr-2 text-right'>
-														<div>${aComment.story}</div>
-														<small>${aComment.lastupdatetime}</small>
-													</div>
-													<div>
-														<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="25"/>
-													</div>
-												</div>
-												`;
-										}else{ // others
-											commenttpl = `
-												<div class='d-flex justify-content-start'>
-													<div>
-														<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="25"/>
-													</div>
-													<div class='ml-2 text-start'>
-														<div>${aComment.story}</div>
-														<small>${aComment.lastupdatetime}</small>
-													</div>
-												</div>
-												`;
-										}
-
-
-										return commenttpl;
-									}).join(`<hr class="my-0 py-1 px-2" style='opacity:0.3'/>`)}
-								</div>
-
-								<form name='comment-form' class='d-flex px-2 '>
-									<textarea rows='2' class='comment form-control form-control-sm' type='text' style='border-radius: 10px;' placeholder='Write your comment...' required></textarea>
-									<button class='btn btn-sm btn-rounded-circle' type='submit'>
-										<i class='fa fa-paper-plane'></i>
-									</button>
-								</form>
-							</div>
-							`:``
-						}
+						${get_comments(value)}
 
 					</div>`)
 					.appendTo(targetContainer);

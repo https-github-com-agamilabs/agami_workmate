@@ -23,6 +23,24 @@
 </style>
 
 <style>
+    .IN_PROGRESS{
+        color: orange;
+    }
+
+    .TODO{
+        color: blue;
+    }
+
+    .COMPLETED{
+color: green;
+    }
+
+    .ABONDONED{
+color: red;
+    }
+</style>
+
+<style>
     .glass-modal {
         /* From https://css.glass */
         background: rgba(255, 255, 255, 0.25);

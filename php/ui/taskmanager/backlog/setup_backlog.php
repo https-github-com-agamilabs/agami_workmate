@@ -37,7 +37,7 @@
         if (isset($_POST['story'])) {
             $story = trim(strip_tags($_POST['story']));
         }else{
-            throw new \Exception("channel-backlog (story) cannot be empty!", 1);
+            throw new \Exception("Story cannot be empty!", 1);
         }
 
         $storytype=1;
@@ -75,17 +75,17 @@
             $result=update_channel($dbcon, $backlogno, $channelno, $story, $storytype, $prioritylevelno, $relativepriority, $storyphaseno, $userno);
             if($result>0){
                 $response['error'] = false;
-                $response['message'] = "channel-backlog (Story) is Successfully Updated.";
+                $response['message'] = "Successfully Updated.";
             }else{
-                throw new \Exception("Cannot Update channel-backlog (Story).", 1);
+                throw new \Exception("Cannot Update!", 1);
             }
         }else{
             $result=create_channelbacklog($dbcon, $channelno, $story, $storytype, $prioritylevelno, $relativepriority, $storyphaseno, $parentbacklogno,$approved,$userno);
             if($result>0){
                 $response['error'] = false;
-                $response['message'] = "channel-backlog (story) is Successfully Added.";
+                $response['message'] = "Successfully Added.";
             }else{
-                throw new \Exception("Cannot Add channel-backlog (Story).", 1);
+                throw new \Exception("Cannot Add!", 1);
             }
         }
 

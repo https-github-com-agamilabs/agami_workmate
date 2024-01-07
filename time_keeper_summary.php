@@ -67,7 +67,7 @@
 						</div>
 					</div>
 
-					<div class="card mb-3 <?= $_SESSION['ucatno']==13?'d-none':'' ?>">
+					<div class="card mb-3 <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">
 						<div class="card-header">
 							<h5 class="font-weight-bold">Summary</h5>
 						</div>
@@ -254,8 +254,8 @@
 					<th rowspan="2" class="text-right"><i class="fas fa-less-than"></i> 8h & <i class="fas fa-greater-than-equal"></i> 4h</th>
 					<th rowspan="2" class="text-right"><i class="fas fa-less-than"></i> 4h</th>
 					<th rowspan="2" class="text-center">Total <br>Time</th>
-					<th rowspan="2" class="text-center <?= $_SESSION['ucatno']==13?'d-none':'' ?>">Deficient <br>Time</th>
-					<th rowspan="2" class="text-center <?= $_SESSION['ucatno']==13?'d-none':'' ?>">Additional <br>Time</th>`);
+					<th rowspan="2" class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">Deficient <br>Time</th>
+					<th rowspan="2" class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">Additional <br>Time</th>`);
 
 			let totalElapsedTime = 0;
 			let successTimeCount = 0;
@@ -330,13 +330,13 @@
 				if (totalElapsedTime < totalWorkingTime) {
 					hr = parseInt((totalWorkingTime - totalElapsedTime) / 3600, 10) || 0;
 					min = parseInt(((totalWorkingTime - totalElapsedTime) % 3600) / 60, 10) || 0;
-					tbodyRow.append(`<td class="text-center <?= $_SESSION['ucatno']==13?'d-none':'' ?>">${padZero(hr)}h ${padZero(min)}m</td> <td class="text-center <?= $_SESSION['ucatno']==13?'d-none':'' ?>">-</td>`);
+					tbodyRow.append(`<td class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">${padZero(hr)}h ${padZero(min)}m</td> <td class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">-</td>`);
 				} else if (totalElapsedTime > totalWorkingTime) {
 					hr = parseInt((totalElapsedTime - totalWorkingTime) / 3600, 10) || 0;
 					min = parseInt(((totalElapsedTime - totalWorkingTime) % 3600) / 60, 10) || 0;
-					tbodyRow.append(`<td class="text-center <?= $_SESSION['ucatno']==13?'d-none':'' ?>">-</td> <td class="text-center <?= $_SESSION['ucatno']==13?'d-none':'' ?>">${padZero(hr)}h ${padZero(min)}m</td>`);
+					tbodyRow.append(`<td class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">-</td> <td class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">${padZero(hr)}h ${padZero(min)}m</td>`);
 				} else {
-					tbodyRow.append(`<td class="text-center <?= $_SESSION['ucatno']==13?'d-none':'' ?>">-</td> <td class="text-center <?= $_SESSION['ucatno']==13?'d-none':'' ?>">-</td>`);
+					tbodyRow.append(`<td class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">-</td> <td class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">-</td>`);
 				}
 			});
 

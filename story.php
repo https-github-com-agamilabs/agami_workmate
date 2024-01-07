@@ -379,9 +379,9 @@ display: inline;
 
 		// const CHANNELNO = parseInt(window.location.search.split("=").pop(), 10) || -1;
 		const LOGGEDIN_USERNO = parseInt(`<?= $userno; ?>`, 10) || -1;
-		const UCATNO = parseInt(`<?= $ucatno; ?>`, 10) || -1;
+		const UCATNO = parseInt(`<?= $_SESSION['cogo_ucatno']; ?>`, 10) || -1;
 
-		const ucatno = `<?= $ucatno; ?>`;
+		const ucatno = `<?= $_SESSION['cogo_ucatno']; ?>`;
 		const searchParams = new URLSearchParams(window.location.search);
 
 		const selected_channel = searchParams.has('channelno') ? searchParams.get('channelno') : '';
@@ -1067,7 +1067,7 @@ display: inline;
 										<div class='d-flex justify-content-end comment'>
 											<div class='mr-2 text-right'>
 												<div>${aComment.story}</div>
-												<small>${aComment.lastupdatetime} <span data-backlogno='${aComment.backlogno}' class='ml-2 cursor-pointer text-danger delete_comment ${aComment.userno==LOGGEDIN_USERNO?"":"d-none"}'>Delete</span></small>
+												<small>${aComment.lastupdatetime} <span data-backlogno='${aComment.backlogno}' class='ml-2 cursor-pointer text-danger delete_comment ${aComment.userno==LOGGEDIN_USERNO || UCATNO == 19?"":"d-none"}'>Delete</span></small>
 											</div>
 											<div>
 												<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="35"/>
@@ -1082,7 +1082,7 @@ display: inline;
 											</div>
 											<div class='ml-2 text-start'>
 												<div>${aComment.story}</div>
-												<small>${aComment.lastupdatetime} <span data-backlogno='${aComment.backlogno}' class='ml-2 cursor-pointer text-danger delete_comment ${aComment.userno==LOGGEDIN_USERNO?"":"d-none"}'>Delete</span></small>
+												<small>${aComment.lastupdatetime} <span data-backlogno='${aComment.backlogno}' class='ml-2 cursor-pointer text-danger delete_comment ${aComment.userno==LOGGEDIN_USERNO || UCATNO == 19?"":"d-none"}'>Delete</span></small>
 											</div>
 										</div>
 										`;

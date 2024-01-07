@@ -961,7 +961,7 @@ include_once "php/ui/login/check_session.php";
 						<div class="w-100 px-2 py-0 ${cardClass}" id='collapse_parent_${aSchedule.cblscheduleno}'>
 							<div class='d-flex justify-content-between'>
 								<div>
-									Assignee ${schedules.length>1?`#${(index+1)}`:''}: ${aSchedule.assignee || ""}
+									Assigned to ${schedules.length>1?`#${(index+1)}`:''}: ${aSchedule.assignee || ""}
 								</div>
 
 								<span>
@@ -973,31 +973,36 @@ include_once "php/ui/login/check_session.php";
 							</div>
 
 							<div class='row mt-1 flex-wrap'>
-
-								<div class='col-0 col-sm-1'></div>
-
-								<div class='col-12 col-sm-7'>
-									<div class=" mt-2" id='collapse_tips_and_deadline_${aSchedule.cblscheduleno}'>
-										<div>
+								<div class="col-9 mt-2" id='collapse_tips_and_deadline_${aSchedule.cblscheduleno}'>
+									<div>
 										How to solve (Tips)
-										</div>
-										<div class='mt-1 mb-2'>
-											${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
-										</div>
-
-										<div class='d-flex'>
-											<div>
-												Deadlines
-											</div>
-											<div class='ml-2'>${formatDate(aSchedule.scheduledate)}</div>
-											<div class='mx-1'>to</div>
-											<div>
-												${aSchedule.deadlines.map((obj, i) => `<span class="${i != 0 ? `text-danger` : ``}">${formatDate(obj.deadline)}</span>`).join(", ")}
-											</div>								
-										</div>
+									</div>
+									<div class='mt-1 mb-2'>
+										${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
 									</div>
 
-									<div class=' mt-2 pb-2' id='collapse_progress_${aSchedule.cblscheduleno}'>
+									<div class='d-flex'>
+										<div>
+											Deadlines:
+										</div>
+										<div class='ml-2'>${formatDate(aSchedule.scheduledate)}</div>
+										<div class='mx-1'>to</div>
+										<div>
+											${aSchedule.deadlines.map((obj, i) => `<span class="${i != 0 ? `text-danger` : ``}">${formatDate(obj.deadline)}</span>`).join(", ")}
+										</div>								
+									</div>
+								</div>
+
+								<div class='col-3 border-left text-center'>
+									<button data-cblscheduleno="${aSchedule.cblscheduleno}" class='status_button btn btn-sm btn-outline-primary px-2 mb-1' >Update Progress</button>
+								</div>
+
+								<div class='col-1 text-center'>
+									<div class='mt-2 text-center'><img title='${aSchedule.assignee}' class='rounded-semi-circle' src="${aSchedule.photo_url||"assets/image/user_icon.png"}" width="35"/></div>
+								</div>
+
+								<div class='col-11'>
+									<div class='mt-2 pb-2' id='collapse_progress_${aSchedule.cblscheduleno}'>
 										<div class='d-flex '>
 											<div class='my-auto'>
 												Progress
@@ -1026,13 +1031,7 @@ include_once "php/ui/login/check_session.php";
 									</div>
 								</div>
 
-								<div class='col-12 col-sm-4'>
-									<button data-cblscheduleno="${aSchedule.cblscheduleno}" class='status_button btn btn-sm btn-outline-primary px-2 mb-1' >Update Progress</button>
-									
-									<button class='btn btn-sm btn-outline-primary px-2 mb-1 d-none ' data-parent="#collapse_parent_${aSchedule.cblscheduleno}" data-toggle="collapse" href="#collapse_tips_and_deadline_${aSchedule.cblscheduleno}" role="button" aria-expanded="false" aria-controls="collapse_tips_and_deadline_${aSchedule.cblscheduleno}">Tips &amp; Deadline</button>
-
-									<button class='btn btn-sm btn-outline-success px-2 mb-1 d-none' data-parent="#collapse_parent_${aSchedule.cblscheduleno}"  data-toggle="collapse" href="#collapse_progress_${aSchedule.cblscheduleno}" role="button" aria-expanded="false" aria-controls="collapse_progress_${aSchedule.cblscheduleno}">Progress</button>
-								</div>
+								
 							</div>
 						</div>`);
 			}

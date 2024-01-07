@@ -1067,7 +1067,7 @@ display: inline;
 										<div class='d-flex justify-content-end comment'>
 											<div class='mr-2 text-right'>
 												<div>${aComment.story}</div>
-												<small>${aComment.lastupdatetime} <span data-backlogno='${aComment.backlogno}' class='ml-2 cursor-pointer text-danger delete_comment'>Delete</span></small>
+												<small>${aComment.lastupdatetime} <span data-backlogno='${aComment.backlogno}' class='ml-2 cursor-pointer text-danger delete_comment ${aComment.userno==LOGGEDIN_USERNO?"":"d-none"}'>Delete</span></small>
 											</div>
 											<div>
 												<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="35"/>
@@ -1076,13 +1076,13 @@ display: inline;
 										`;
 								}else{ // others
 									commenttpl = `
-										<div class='d-flex justify-content-start'>
+										<div class='d-flex justify-content-start comment'>
 											<div>
 												<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="35"/>
 											</div>
 											<div class='ml-2 text-start'>
 												<div>${aComment.story}</div>
-												<small>${aComment.lastupdatetime} <span data-backlogno='${aComment.backlogno}' class='ml-2 cursor-pointer text-danger delete_comment'>Delete</span></small>
+												<small>${aComment.lastupdatetime} <span data-backlogno='${aComment.backlogno}' class='ml-2 cursor-pointer text-danger delete_comment ${aComment.userno==LOGGEDIN_USERNO?"":"d-none"}'>Delete</span></small>
 											</div>
 										</div>
 										`;
@@ -1146,7 +1146,7 @@ display: inline;
 						let form = $(`#assign_task_modal_form`).trigger("reset").data(`backlogno`, value.backlogno).data(`cblscheduleno`, -1);
 
 						if (PERMISSION_LEVEL == 1) {
-							$(`[name="assignedto"]`, form).val(USERNO).attr(`disabled`, true);
+							$(`[name="assignedto"]`, form).val(LOGGEDIN_USERNO).attr(`disabled`, true);
 						}
 					});
 

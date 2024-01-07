@@ -75,7 +75,7 @@
                     }
                     $row['schedule'] = $schedule_array;    
                 }
-                
+
                 $rs_comments=get_sub_comments($dbcon, $backlogno); 
                 $comment_array = array();
                 if ($rs_comments->num_rows > 0) {
@@ -138,7 +138,7 @@
                 FROM asp_cblschedule as s
                     INNER JOIN hr_user as u ON s.assignedto=u.userno
                 WHERE backlogno=?
-                ORDER BY cblscheduleno DESC 
+                ORDER BY cblscheduleno 
                 ";
         $stmt = $dbcon->prepare($sql);
         $stmt->bind_param("i", $backlogno);
@@ -155,7 +155,7 @@
                     userno,(SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=p.userno) as entryby
                 FROM asp_cblprogress as p
                 WHERE cblscheduleno=?
-                ORDER BY cblprogressno DESC
+                ORDER BY cblprogressno
                 ";
         $stmt = $dbcon->prepare($sql);
         $stmt->bind_param("i", $cblscheduleno);

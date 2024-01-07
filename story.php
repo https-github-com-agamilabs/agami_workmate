@@ -908,7 +908,7 @@ display: inline;
 									<i class="fa fa-ellipsis-h m-1"></i> 
 								</button>
 								<div class="dropdown-menu">
-									${value.storytype == 3?`<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign ${}</a>`:""}
+									${value.storytype == 3?`<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign</a>`:""}
 									<a class="dropdown-item edit_button text-info"><i class="far fa-edit mr-2"></i> Edit </a>
 									<a class="dropdown-item delete_button text-danger"><i class="fas fa-trash-alt mr-2"></i> Remove </a>
 								</div>

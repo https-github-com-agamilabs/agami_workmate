@@ -987,11 +987,11 @@ include_once "php/ui/login/check_session.php";
 							<div class='row mt-1 flex-wrap'>
 								<div class="col-9" id='collapse_tips_and_deadline_${aSchedule.cblscheduleno}'>
 									
-									<div class='mt-1 mb-2'>
+									<div class='mt-1 mb-2 d-flex'>
 										<i class='fa fa-info mr-2'></i> 
-										<span class='ml-2'>
+										<div class='ml-2'>
 											${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
-										</span>
+										</div>
 									</div>
 								</div>
 

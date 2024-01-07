@@ -23,9 +23,9 @@ try {
 
     $dbcon->begin_transaction();
 
-    $holidayno = -1;
-    if (isset($_POST['holidayno'])) {
-        $holidayno = (int) $_POST['holidayno'];
+    $specialdayno = -1;
+    if (isset($_POST['specialdayno'])) {
+        $specialdayno = (int) $_POST['specialdayno'];
     }
 
     $delete_previous_weekends = 1;
@@ -33,15 +33,15 @@ try {
         $delete_previous_weekends = (int) $_POST['delete_previous_weekends'];
     }
 
-    if (isset($_POST['hdtypeid'])) {
-        $hdtypeid = trim(strip_tags($_POST['hdtypeid']));
+    if (isset($_POST['sdtypeid'])) {
+        $sdtypeid = trim(strip_tags($_POST['sdtypeid']));
     } else {
-        throw new \Exception("hdtypeid is not set", 1);
+        throw new \Exception("sdtypeid is not set", 1);
     }
     $insert_count = 0;
 
     $dbcon->begin_transaction();
-    if ($holidayno<=0 && isset($_POST['start_date']) && isset($_POST['end_date'])) {
+    if ($specialdayno<=0 && isset($_POST['start_date']) && isset($_POST['end_date'])) {
         if (!isset($_POST['weekend_date'])) {
             throw new \Exception("No initial weekend_date set", 1);
         }
@@ -64,30 +64,30 @@ try {
         }
 
         // this query may be taken inside the if block afterwards
-        //$current_holidays = get_holidays_in_range($dbcon, $start_date, $end_date, $hdtypeid);
+        //$current_specialdays = get_specialdays_in_range($dbcon, $start_date, $end_date, $sdtypeid);
         if ($delete_previous_weekends!=0) {
-            $deleted_holidays = delete_holidays_in_range($dbcon, $start_date, $end_date, $hdtypeid);
+            $deleted_specialdays = delete_specialdays_in_range($dbcon, $start_date, $end_date, $sdtypeid);
         }
 
-        $holidaydate = $weekend_date;
-        for ($i = 0; strtotime($holidaydate) <= strtotime($end_date); $i += 7) {
+        $specialdate = $weekend_date;
+        for ($i = 0; strtotime($specialdate) <= strtotime($end_date); $i += 7) {
 
-            if (strtotime($holidaydate) < strtotime($start_date)) {
-                $holidaydate = date('Y-m-d',  strtotime("+" . 7 . " days", strtotime($holidaydate)));
+            if (strtotime($specialdate) < strtotime($start_date)) {
+                $specialdate = date('Y-m-d',  strtotime("+" . 7 . " days", strtotime($specialdate)));
 
                 continue;
             }
-            if (strtotime($holidaydate) > strtotime($end_date)) {
+            if (strtotime($specialdate) > strtotime($end_date)) {
                 break;
             }
-            // echo $holidaydate;
+            // echo $specialdate;
             // $res = 1;
-            $res = insert_holiday($dbcon, $holidaydate, $hdtypeid, $hdtypeid);
+            $res = insert_specialday($dbcon, $specialdate, $sdtypeid, $sdtypeid);
 
             if ($res <= 0) {
-                throw new \Exception("Failed to insert holiday " . $hdtypeid, 1);
+                throw new \Exception("Failed to insert specialday " . $sdtypeid, 1);
             }
-            $holidaydate = date('Y-m-d',  strtotime("+" . 7 . " days", strtotime($holidaydate)));
+            $specialdate = date('Y-m-d',  strtotime("+" . 7 . " days", strtotime($specialdate)));
 
             // if ($i > 100) {
             //     break;
@@ -102,26 +102,26 @@ try {
             $reasontext = NULL;
         }
 
-        if (!isset($_POST['holidays'])) {
-            throw new \Exception("No holiday dates set", 1);
+        if (!isset($_POST['specialdays'])) {
+            throw new \Exception("No specialday dates set", 1);
         }
 
-        $holiday = json_decode(trim(strip_tags($_POST['holidays'])), true);
+        $specialday = json_decode(trim(strip_tags($_POST['specialdays'])), true);
 
-        if ($holidayno > 0 && count($holiday) == 1) {
-            $holidaydate = $holiday[0];
-            $res = update_holiday($dbcon, $holidayno, $holidaydate, $reasontext, $hdtypeid);
+        if ($specialdayno > 0 && count($specialday) == 1) {
+            $specialdate = $specialday[0];
+            $res = update_specialday($dbcon, $specialdayno, $specialdate, $reasontext, $sdtypeid);
 
             if ($res <= 0) {
-                throw new \Exception("Failed to update holiday " . $hdtypeid, 1);
+                throw new \Exception("Failed to update specialday " . $sdtypeid, 1);
             }
         } else {
-            for ($i = 0; $i < count($holiday); $i++) {
-                $holidaydate = $holiday[$i];
-                $res = insert_holiday($dbcon, $holidaydate, $reasontext, $hdtypeid);
+            for ($i = 0; $i < count($specialday); $i++) {
+                $specialdate = $specialday[$i];
+                $res = insert_specialday($dbcon, $specialdate, $reasontext, $sdtypeid);
 
                 if ($res <= 0) {
-                    throw new \Exception("Failed to insert holiday " . $hdtypeid, 1);
+                    throw new \Exception("Failed to insert specialday " . $sdtypeid, 1);
                 }
             }
         }
@@ -129,10 +129,10 @@ try {
 
     if ($dbcon->commit()) {
         $response['error'] = false;
-        if ($holidayno > 0 && count($holiday) == 1) {
-            $response['message'] = "Holidays updated Successfully. [" . $res . "] [" . $i . "]";
+        if ($specialdayno > 0 && count($specialday) == 1) {
+            $response['message'] = "specialdays updated Successfully. [" . $res . "] [" . $i . "]";
         } else {
-            $response['message'] = "Holidays inserted Successfully. [" . $insert_count . "] [" . $i . "]";
+            $response['message'] = "specialdays inserted Successfully. [" . $insert_count . "] [" . $i . "]";
         }
     } else {
         throw new \Exception("Failed! Please try again.", 1);
@@ -162,55 +162,55 @@ function validateDate($date, $format = 'Y-m-d')
 
 // -- emp_leaveapplication(lappno, empno, leavetypeno, reasontext, leavestatusno, createdatetime, updatetime)
 
-function update_holiday($dbcon, $holidayno, $holidaydate, $reasontext, $hdtypeid)
+function update_specialday($dbcon, $specialdayno, $specialdate, $reasontext, $sdtypeid)
 {
-    $sql = "UPDATE emp_holidays
-            SET holidaydate=?, reasontext=?, hdtypeid=?
-            WHERE holidayno=?";
+    $sql = "UPDATE emp_specialdays
+            SET specialdate=?, reasontext=?, sdtypeid=?
+            WHERE specialdayno=?";
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("sssi", $holidaydate, $reasontext, $hdtypeid, $holidayno);
+    $stmt->bind_param("sssi", $specialdate, $reasontext, $sdtypeid, $specialdayno);
     $stmt->execute();
     return $stmt->affected_rows;
 }
 
-// holidayno
-// holidaydate
+// specialdayno
+// specialdate
 // reasontext
-// hdtypeid
-function insert_holiday($dbcon, $holidaydate, $reasontext, $hdtypeid)
+// sdtypeid
+function insert_specialday($dbcon, $specialdate, $reasontext, $sdtypeid)
 {
-    $sql = "INSERT INTO emp_holidays
-            (holidaydate, reasontext, hdtypeid, minworkinghour)
+    $sql = "INSERT INTO emp_specialdays
+            (specialdate, reasontext, sdtypeid, minworkinghour)
             SELECT ?, ?, ?, minworkinghour
-            FROM emp_holidaytype WHERE hdtypeid=?";
+            FROM emp_specialdaytype WHERE sdtypeid=?";
     $stmt = $dbcon->prepare($sql);
     if ($dbcon->error) {
         echo $dbcon->error;
     }
-    $stmt->bind_param("ssss", $holidaydate, $reasontext, $hdtypeid, $hdtypeid);
+    $stmt->bind_param("ssss", $specialdate, $reasontext, $sdtypeid, $sdtypeid);
     $stmt->execute();
     return $stmt->insert_id;
 }
 
-function get_holidays_in_range($dbcon, $start_date, $end_date, $hdtypeid)
+function get_specialdays_in_range($dbcon, $start_date, $end_date, $sdtypeid)
 {
     $today = date('Y-m-d');
-    $sql = "SELECT * FROM emp_holidays
-            WHERE (holidaydate BETWEEN ? AND ?) AND hdtypeid=? ";
+    $sql = "SELECT * FROM emp_specialdays
+            WHERE (specialdate BETWEEN ? AND ?) AND sdtypeid=? ";
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("sss", $start_date, $end_date, $hdtypeid);
+    $stmt->bind_param("sss", $start_date, $end_date, $sdtypeid);
     $stmt->execute();
     return $stmt->get_result();
 }
 
 
-function delete_holidays_in_range($dbcon, $start_date, $end_date, $hdtypeid)
+function delete_specialdays_in_range($dbcon, $start_date, $end_date, $sdtypeid)
 {
     $today = date('Y-m-d');
-    $sql = "DELETE FROM emp_holidays
-            WHERE (holidaydate BETWEEN ? AND ?) AND hdtypeid=? ";
+    $sql = "DELETE FROM emp_specialdays
+            WHERE (specialdate BETWEEN ? AND ?) AND sdtypeid=? ";
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("sss", $start_date, $end_date, $hdtypeid);
+    $stmt->bind_param("sss", $start_date, $end_date, $sdtypeid);
     $stmt->execute();
     return $stmt->affected_rows;
 }

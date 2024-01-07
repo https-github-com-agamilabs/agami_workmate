@@ -90,8 +90,8 @@
                 </li> -->
 
                 <!-- <li>
-                    <a href="holiday_settings.php" class="menu-anchor menu-anchor-lvl-1">
-                        <i class="metismenu-icon fas fa-gifts"></i> Holiday Calender
+                    <a href="specialday_settings.php" class="menu-anchor menu-anchor-lvl-1">
+                        <i class="metismenu-icon fas fa-gifts"></i> specialday Calender
                     </a>
                 </li> -->
 

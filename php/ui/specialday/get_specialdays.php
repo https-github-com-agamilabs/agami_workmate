@@ -30,7 +30,22 @@ try {
         $ucatno = (int) $_SESSION['cogo_ucatno'];
     }
 
-    $result = get_holidaytypes($dbcon);
+    $yyyy_mm = date('Y-m');
+    $start = date('Y-m-01', strtotime($yyyy_mm));
+    $end = date('Y-m-t', strtotime($yyyy_mm));
+    if (isset($_POST['yyyy_mm'])) {
+        $yyyy_mm = trim(strip_tags($_POST['yyyy_mm']));
+
+        $start = date('Y-m-01', strtotime($yyyy_mm));
+        $end = date('Y-m-t', strtotime($yyyy_mm));
+    } else if (isset($_POST['start_date']) && isset($_POST['end_date'])) {
+        $start = trim(strip_tags($_POST['start_date']));
+        $end = trim(strip_tags($_POST['end_date']));
+    } else {
+        throw new \Exception("Please send start date end date or a month of year as YYYY-mm format!", 1);
+    }
+
+    $result = get_specialdays($dbcon, $start, $end);
 
     $notfication_array = array();
     if ($result->num_rows > 0) {
@@ -53,16 +68,34 @@ $dbcon->close();
     *   LOCAL FUNCTIONS
     */
 
-function get_holidaytypes($dbcon)
+function get_specialdays($dbcon, $start, $end)
 {
+
+    if (!validateDate($start)) {
+        $start = date('Y-m-01');
+    }
+    if (!validateDate($end)) {
+        $end = date('Y-m-t');
+    }
+
     $sql = "SELECT *
-            FROM emp_holidaytype
-            WHERE 1
-            ORDER BY minworkinghour ASC, hdtypeid DESC";
+            FROM emp_specialdays
+            WHERE specialdate BETWEEN ? AND ? ";
     $stmt = $dbcon->prepare($sql);
+    if ($dbcon->error) {
+        echo $dbcon->error;
+    }
+    $stmt->bind_param('ss', $start, $end);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();
 
     return $result;
+}
+
+function validateDate($date, $format = 'Y-m-d')
+{
+    $d = DateTime::createFromFormat($format, $date);
+    // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
+    return $d && $d->format($format) === $date;
 }

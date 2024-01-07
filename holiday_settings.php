@@ -33,12 +33,12 @@ exit();
 
 					<div class="card mb-3">
 						<div class="card-body">
-							<div id="range_holiday_container" class=" d-flex flex-wrap justify-content-center"></div>
+							<div id="range_specialday_container" class=" d-flex flex-wrap justify-content-center"></div>
 
 							<?php if ($ucatno === 19) : ?>
 								<form id="set_weekend_form">
 									<fieldset class="custom_fieldset pb-0 mb-3">
-										<legend class="legend-label shadow-sm">Set Range Holiday</legend>
+										<legend class="legend-label shadow-sm">Set Range specialday</legend>
 
 										<div class="row">
 											<div class="col-md-6 form-group">
@@ -101,7 +101,7 @@ exit();
 												<button type="button" tabindex="0" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle btn btn-primary btn-sm rounded-pill px-4 shadow">
 													Set As
 												</button>
-												<div id="hdtypeid_dropdown_menu" role="menu" aria-hidden="true" class="dropdown-menu"></div>
+												<div id="sdtypeid_dropdown_menu" role="menu" aria-hidden="true" class="dropdown-menu"></div>
 											</div>
 										</div>
 									</fieldset>
@@ -112,7 +112,7 @@ exit();
 
 					<div class="main-card mb-3 card">
 						<div class="card-body">
-							<div id="holiday_calendar"></div>
+							<div id="specialday_calendar"></div>
 						</div>
 					</div>
 				</div>
@@ -120,12 +120,12 @@ exit();
 		</div>
 	</div>
 
-	<div id="setup_holiday_modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+	<div id="setup_specialday_modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<form id="setup_holiday_modal_form">
+				<form id="setup_specialday_modal_form">
 					<div class="modal-header">
-						<h5 class="modal-title">Setup Holiday</h5>
+						<h5 class="modal-title">Setup specialday</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -133,15 +133,15 @@ exit();
 					<div class="modal-body">
 						<div class="form-group">
 							<label class="d-block mb-0">
-								Holiday Date <span class="text-danger">*</span>
-								<textarea name="holidaydate" class="form-control shadow-sm mt-2" rows="1" readonly required></textarea>
+								specialday Date <span class="text-danger">*</span>
+								<textarea name="specialdate" class="form-control shadow-sm mt-2" rows="1" readonly required></textarea>
 							</label>
 						</div>
 
 						<div class="form-group">
 							<label class="d-block mb-0">
-								Holiday Type
-								<select name="hdtypeid" class="form-control shadow-sm mt-2"></select>
+								specialday Type
+								<select name="sdtypeid" class="form-control shadow-sm mt-2"></select>
 							</label>
 						</div>
 
@@ -158,8 +158,8 @@ exit();
 						</label>
 					</div>
 					<div class="modal-footer py-2">
-						<button id="delete_holiday_button" type="button" class="btn btn-danger rounded-pill px-4 shadow">Delete Holiday</button>
-						<button type="submit" class="btn btn-primary rounded-pill px-4 shadow">Save Holiday</button>
+						<button id="delete_specialday_button" type="button" class="btn btn-danger rounded-pill px-4 shadow">Delete specialday</button>
+						<button type="submit" class="btn btn-primary rounded-pill px-4 shadow">Save specialday</button>
 					</div>
 				</form>
 			</div>
@@ -210,31 +210,31 @@ exit();
 
 		$(`#set_weekend_form [name="start_date"]`).change(() => set_weekend_date());
 
-		get_holidaytypes();
+		get_specialdaytypes();
 
-		function get_holidaytypes() {
-			$(`#hdtypeid_dropdown_menu, #setup_holiday_modal_form [name="hdtypeid"]`).empty();
+		function get_specialdaytypes() {
+			$(`#sdtypeid_dropdown_menu, #setup_specialday_modal_form [name="sdtypeid"]`).empty();
 
-			$.post(`php/ui/holiday/get_holidaytypes.php`, resp => {
+			$.post(`php/ui/specialday/get_specialdaytypes.php`, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
-					pageSettingsFunc(`holidaytypes`, resp.data);
-					show_holidaytypes(resp.data);
+					pageSettingsFunc(`specialdaytypes`, resp.data);
+					show_specialdaytypes(resp.data);
 				}
 			}, `json`);
 		}
 
-		function show_holidaytypes(data) {
-			let select = $(`#setup_holiday_modal_form [name="hdtypeid"]`);
-			let target = $(`#hdtypeid_dropdown_menu`);
+		function show_specialdaytypes(data) {
+			let select = $(`#setup_specialday_modal_form [name="sdtypeid"]`);
+			let target = $(`#sdtypeid_dropdown_menu`);
 
 			$.each(data, (index, value) => {
-				// if (value.hdtypeid != `WEEK_END`) {
+				// if (value.sdtypeid != `WEEK_END`) {
 
 				// }
 
-				$(`<option value="${value.hdtypeid}">${value.displaytitle}</option>`)
+				$(`<option value="${value.sdtypeid}">${value.displaytitle}</option>`)
 					.data(value)
 					.appendTo(select);
 
@@ -249,9 +249,9 @@ exit();
 						$('[data-toggle="dropdown"]').dropdown('hide');
 
 						let json = Object.fromEntries((new FormData($(`#set_weekend_form`)[0])).entries());
-						json.hdtypeid = $(this).data(`hdtypeid`);
+						json.sdtypeid = $(this).data(`sdtypeid`);
 						json.delete_previous_weekends = Number(json.delete_previous_weekends == "on");
-						setup_holidays(json);
+						setup_specialdays(json);
 					});
 
 				})(template, value);
@@ -266,13 +266,13 @@ exit();
 		// 	// $(this).dropdown('toggle');
 		// });
 
-		$(`#setup_holiday_modal_form [name="hdtypeid"]`).change(function(e) {
-			let elem = $(`#setup_holiday_modal_form [name="minworkinghour"]`);
+		$(`#setup_specialday_modal_form [name="sdtypeid"]`).change(function(e) {
+			let elem = $(`#setup_specialday_modal_form [name="minworkinghour"]`);
 			let minworkinghour = Number($(`option:selected`, this).data(`minworkinghour`)) || 0;
 			elem.val(minworkinghour);
 		});
 
-		const calendarEl = document.getElementById('holiday_calendar');
+		const calendarEl = document.getElementById('specialday_calendar');
 
 		const calendar = new FullCalendar.Calendar(calendarEl, {
 			headerToolbar: {
@@ -286,7 +286,7 @@ exit();
 			moreLinkClick: "day",
 			datesSet: (dateInfo) => {
 				calendar.removeAllEvents();
-				get_holidays({
+				get_specialdays({
 					start_date: formatDateToYYYYMMDD(calendar.view.activeStart),
 					end_date: formatDateToYYYYMMDD(calendar.view.activeEnd)
 				});
@@ -294,9 +294,9 @@ exit();
 			select: (info) => {
 				<?php
 				if ($ucatno === 19) : ?>
-					$(`#setup_holiday_modal`).modal("show").find(`.modal-title`).html(`Add Holiday`);
-					$(`#setup_holiday_modal_form`).trigger("reset").data("holidayno", -1);
-					$(`#delete_holiday_button`).hide();
+					$(`#setup_specialday_modal`).modal("show").find(`.modal-title`).html(`Add specialday`);
+					$(`#setup_specialday_modal_form`).trigger("reset").data("specialdayno", -1);
+					$(`#delete_specialday_button`).hide();
 
 					let currentDate = new Date(info.startStr),
 						end = new Date(info.endStr),
@@ -306,22 +306,22 @@ exit();
 						between = [...between, formatDateToYYYYMMDD(currentDate)];
 						currentDate.setDate(currentDate.getDate() + 1);
 					}
-					$(`#setup_holiday_modal_form [name="holidaydate"]`).val(between.join());
+					$(`#setup_specialday_modal_form [name="specialdate"]`).val(between.join());
 				<?php endif; ?>
 			},
 			eventClick: (info) => {
 				<?php
 				if ($ucatno === 19) : ?>
 					let extendedProps = info.event.extendedProps;
-					// if (extendedProps.hdtypeid == `WEEK_END`) {
+					// if (extendedProps.sdtypeid == `WEEK_END`) {
 					// 	toastr.error(`You can only change Week-End above form.`);
 					// 	return;
 					// }
-					$(`#setup_holiday_modal`).modal("show").find(`.modal-title`).html(`Update/Delete Holiday`);
-					$(`#setup_holiday_modal_form`).trigger("reset").data("holidayno", extendedProps.holidayno);
-					$(`#delete_holiday_button`).show();
+					$(`#setup_specialday_modal`).modal("show").find(`.modal-title`).html(`Update/Delete specialday`);
+					$(`#setup_specialday_modal_form`).trigger("reset").data("specialdayno", extendedProps.specialdayno);
+					$(`#delete_specialday_button`).show();
 
-					$(`#setup_holiday_modal_form [name]`).each((index, elem) => {
+					$(`#setup_specialday_modal_form [name]`).each((index, elem) => {
 						console.log(extendedProps);
 						$(elem).val(extendedProps[$(elem).attr("name")]);
 					});
@@ -331,54 +331,54 @@ exit();
 
 		calendar.render();
 
-		function get_holidays(json) {
-			$(`#range_holiday_container`).empty();
+		function get_specialdays(json) {
+			$(`#range_specialday_container`).empty();
 
-			$.post("php/ui/holiday/get_holidays.php", json, resp => {
+			$.post("php/ui/specialday/get_specialdays.php", json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
-					check_holiday_Types_loaded_then_add_event(resp.data);
+					check_specialday_Types_loaded_then_add_event(resp.data);
 				}
 			}, "json");
 		}
 
-		function check_holiday_Types_loaded_then_add_event(data) {
-			let holidayTypes = pageSettingsFunc(`holidaytypes`);
+		function check_specialday_Types_loaded_then_add_event(data) {
+			let specialdayTypes = pageSettingsFunc(`specialdaytypes`);
 
-			if (holidayTypes && holidayTypes.length) {
-				addCalendarEvent(data, holidayTypes);
+			if (specialdayTypes && specialdayTypes.length) {
+				addCalendarEvent(data, specialdayTypes);
 			} else {
-				let holidayTypesID = setInterval(() => {
-					if (holidayTypes && holidayTypes.length) {
-						addCalendarEvent(data, holidayTypes);
-						clearInterval(holidayTypesID);
+				let specialdayTypesID = setInterval(() => {
+					if (specialdayTypes && specialdayTypes.length) {
+						addCalendarEvent(data, specialdayTypes);
+						clearInterval(specialdayTypesID);
 					}
 				}, 500);
 			}
 		}
 
-		function addCalendarEvent(data, holidayTypes) {
+		function addCalendarEvent(data, specialdayTypes) {
 			let WEEK_ENDS = [];
 			let HALF_DAYS = [];
-			let target = $(`#range_holiday_container`);
+			let target = $(`#range_specialday_container`);
 
 			$.each(data, (index, value) => {
-				value.title = value.reasontext || value.hdtypeid;
-				value.start = value.holidaydate;
+				value.title = value.reasontext || value.sdtypeid;
+				value.start = value.specialdate;
 
-				let holidayType = holidayTypes.find(a => a.hdtypeid == value.hdtypeid);
-				if (holidayType && holidayType.color) {
-					value.color = holidayType.color;
+				let specialdayType = specialdayTypes.find(a => a.sdtypeid == value.sdtypeid);
+				if (specialdayType && specialdayType.color) {
+					value.color = specialdayType.color;
 				}
 
-				if (value.hdtypeid == `WEEK_END`) {
-					let dayName = WEEK_DAY[(new Date(value.holidaydate)).getDay()];
+				if (value.sdtypeid == `WEEK_END`) {
+					let dayName = WEEK_DAY[(new Date(value.specialdate)).getDay()];
 					if (WEEK_ENDS.indexOf(dayName) < 0) {
 						WEEK_ENDS = [...WEEK_ENDS, dayName];
 					}
-				} else if (value.hdtypeid == "HALF_DAY") {
-					let dayName = WEEK_DAY[(new Date(value.holidaydate)).getDay()];
+				} else if (value.sdtypeid == "HALF_DAY") {
+					let dayName = WEEK_DAY[(new Date(value.specialdate)).getDay()];
 					if (HALF_DAYS.indexOf(dayName) < 0) {
 						HALF_DAYS = [...HALF_DAYS, dayName];
 					}
@@ -404,37 +404,37 @@ exit();
 
 		<?php
 		if ($ucatno === 19) : ?>
-			$(document).on(`click`, `#hdtypeid_dropdown_menu .dropdown-item`, function(e) {
+			$(document).on(`click`, `#sdtypeid_dropdown_menu .dropdown-item`, function(e) {
 				// let json = Object.fromEntries((new FormData($(`#set_weekend_form`)[0])).entries());
-				// json.hdtypeid = $(this).data(`hdtypeid`);
+				// json.sdtypeid = $(this).data(`sdtypeid`);
 				// json.delete_previous_weekends = Number(json.delete_previous_weekends == "on");
-				// setup_holidays(json);
+				// setup_specialdays(json);
 			});
 
-			$(`#setup_holiday_modal_form`).submit(function(e) {
+			$(`#setup_specialday_modal_form`).submit(function(e) {
 				e.preventDefault();
 				let json = Object.fromEntries((new FormData(this)).entries());
 
-				json.holidays = JSON.stringify(json.holidaydate.split(","));
-				delete json.holidaydate;
+				json.specialdays = JSON.stringify(json.specialdate.split(","));
+				delete json.specialdate;
 
-				let holidayno = $(this).data("holidayno");
-				if (holidayno > 0) {
-					json.holidayno = holidayno;
+				let specialdayno = $(this).data("specialdayno");
+				if (specialdayno > 0) {
+					json.specialdayno = specialdayno;
 				}
 
-				setup_holidays(json);
+				setup_specialdays(json);
 			});
 
-			function setup_holidays(json) {
-				$.post("php/ui/holiday/setup_holidays.php", json, (resp) => {
+			function setup_specialdays(json) {
+				$.post("php/ui/specialday/setup_specialdays.php", json, (resp) => {
 					if (resp.error) {
 						toastr.error(resp.message);
 					} else {
 						toastr.success(resp.message);
-						$(`#setup_holiday_modal`).modal("hide");
+						$(`#setup_specialday_modal`).modal("hide");
 						calendar.removeAllEvents();
-						get_holidays({
+						get_specialdays({
 							start_date: formatDateToYYYYMMDD(calendar.view.activeStart),
 							end_date: formatDateToYYYYMMDD(calendar.view.activeEnd)
 						});
@@ -442,22 +442,22 @@ exit();
 				}, "json");
 			}
 
-			$(`#delete_holiday_button`).click(function(e) {
-				if (!confirm("Are you sure? You are going to delete this holiday.")) return;
+			$(`#delete_specialday_button`).click(function(e) {
+				if (!confirm("Are you sure? You are going to delete this specialday.")) return;
 
 				let json = {
-					holidayno: $(`#setup_holiday_modal_form`).data("holidayno")
+					specialdayno: $(`#setup_specialday_modal_form`).data("specialdayno")
 				};
 
-				if (json.holidayno > 0) {
-					$.post("php/ui/holiday/remove_holidays.php", json, (resp) => {
+				if (json.specialdayno > 0) {
+					$.post("php/ui/specialday/remove_specialdays.php", json, (resp) => {
 						if (resp.error) {
 							toastr.error(resp.message);
 						} else {
 							toastr.success(resp.message);
-							$(`#setup_holiday_modal`).modal("hide");
+							$(`#setup_specialday_modal`).modal("hide");
 							calendar.removeAllEvents();
-							get_holidays({
+							get_specialdays({
 								start_date: formatDateToYYYYMMDD(calendar.view.activeStart),
 								end_date: formatDateToYYYYMMDD(calendar.view.activeEnd)
 							});

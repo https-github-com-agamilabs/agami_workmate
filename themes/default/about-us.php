@@ -48,7 +48,7 @@ if (!defined("DB_USER")) {
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Holistic Online Health Care System | About Us</title>
+    <title>specialstic Online Health Care System | About Us</title>
 
     <!-- Favicon  -->
     <link rel="icon" href="<?= $publicAccessUrl . $response['orglogourl']; ?>">

@@ -81,9 +81,9 @@
 											<th id="working_day_cell">0d</th>
 										</tr>
 										<tr>
-											<th>Holiday</th>
+											<th>specialday</th>
 											<th>:</th>
-											<th id="holiday_cell">0d</th>
+											<th id="specialday_cell">0d</th>
 										</tr>
 										<tr>
 											<th>Working Hour</th>
@@ -154,14 +154,14 @@
 
 			$("#time_keeper_summary_table").empty();
 			$(`#working_day_cell`).html(`0d`);
-			$(`#holiday_cell`).html(`0d`);
+			$(`#specialday_cell`).html(`0d`);
 			$(`#working_hour_cell`).html(`0h`);
 
 			$.post(`php/ui/workingtime/get_emp_elapsedtime.php`, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
-					get_holidays({
+					get_specialdays({
 						start_date: json.startdate,
 						end_date: json.enddate
 					}, resp.data);
@@ -171,10 +171,10 @@
 
 		const FOUR_HOUR = 14400; //4*60*60
 		const EIGHT_HOUR = 28800; //8*60*60
-		const HOLIDAY_TYPE = [``];
+		const specialDAY_TYPE = [``];
 
-		function get_holidays(json, empElapsedTime) {
-			$.post("php/ui/holiday/get_holidays.php", json, (resp) => {
+		function get_specialdays(json, empElapsedTime) {
+			$.post("php/ui/specialday/get_specialdays.php", json, (resp) => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				}
@@ -183,7 +183,7 @@
 			}, "json");
 		}
 
-		function show_employee_elapsedtime(startDateStr, endDateStr, data, holidays = []) {
+		function show_employee_elapsedtime(startDateStr, endDateStr, data, specialdays = []) {
 			$("#time_keeper_summary_table")
 				.append(`<thead>
 						<tr>
@@ -218,9 +218,9 @@
 				let date = new Date(value);
 				let dayOfWeek = date.getDay();
 				let monthIndex = date.getMonth();
-				let holiday = holidays.find(a => a.holidaydate == value && a.minworkinghour == 0);
+				let specialday = specialdays.find(a => a.specialdate == value && a.minworkinghour == 0);
 
-				if (!holiday) {
+				if (!specialday) {
 					if (dayOfWeek == 4) {
 						totalWorkingTime += FOUR_HOUR;
 						halfDay++;
@@ -241,9 +241,9 @@
 
 				$("#time_keeper_summary_table")
 					.find("thead>tr:nth-child(2)")
-					.append(`<th class="text-center${holiday ? ` table-alternate` : ``}"
+					.append(`<th class="text-center${specialday ? ` table-alternate` : ``}"
 						data-toggle="tooltip" data-html="true" data-placement="top"
-						title="${formatDate(date)} (${WEEK_DAY[dayOfWeek]})${holiday ? `<br>${holiday.reasontext || holiday.hdtypeid}` : ``}">
+						title="${formatDate(date)} (${WEEK_DAY[dayOfWeek]})${specialday ? `<br>${specialday.reasontext || specialday.sdtypeid}` : ``}">
 							${padZero(date.getDate())}
 						</th>`);
 			});
@@ -278,7 +278,7 @@
 				$.each(workingdates, (index2, value2) => {
 					let timeData = value.find(a => a.workingdate == value2);
 					let isFriday = ((new Date(value2)).getDay() == 5);
-					let holiday = holidays.find(a => a.holidaydate == value2 && a.minworkinghour == 0);
+					let specialday = specialdays.find(a => a.specialdate == value2 && a.minworkinghour == 0);
 
 					if (timeData) {
 						if (timeData.dailyelapsedtime >= EIGHT_HOUR) {
@@ -292,7 +292,7 @@
 							separetorClass = `table-danger`;
 						}
 
-						if (holiday) {
+						if (specialday) {
 							separetorClass = `table-alternate`;
 						}
 
@@ -305,15 +305,15 @@
 								${padZero(hr)}h ${padZero(min)}m
 							</td>`);
 					} else {
-						if (holiday) {
+						if (specialday) {
 							separetorClass = `table-alternate`;
 						} else {
 							separetorClass = ``;
 						}
 
 						tbodyRow
-							.append(`<td class="${separetorClass} text-center"${holiday ? ` data-holidayno="${holiday.holidayno}"` : ``}>
-								${holiday ? `<div class="vertical_text">${holiday.reasontext || holiday.hdtypeid}</div>` : `-`}
+							.append(`<td class="${separetorClass} text-center"${specialday ? ` data-specialdayno="${specialday.specialdayno}"` : ``}>
+								${specialday ? `<div class="vertical_text">${specialday.reasontext || specialday.sdtypeid}</div>` : `-`}
 							</td>`);
 					}
 				});
@@ -340,8 +340,8 @@
 				}
 			});
 
-			$.each(holidays, (index, value) => {
-				let cells = $(`#time_keeper_summary_table>tbody [data-holidayno="${value.holidayno}"]`);
+			$.each(specialdays, (index, value) => {
+				let cells = $(`#time_keeper_summary_table>tbody [data-specialdayno="${value.specialdayno}"]`);
 
 				if (Object.keys(groupedData).length == cells.length) {
 					$(cells[0]).attr(`rowspan`, cells.length);
@@ -350,7 +350,7 @@
 			});
 
 			$(`#working_day_cell`).html(`${halfDay + fullDay}d (${halfDay} + ${fullDay})`);
-			$(`#holiday_cell`).html(`${holidays.filter(a => a.minworkinghour == 0).length}d`);
+			$(`#specialday_cell`).html(`${specialdays.filter(a => a.minworkinghour == 0).length}d`);
 			$(`#working_hour_cell`).html(`${halfDay * 4 + fullDay * 8}h (${halfDay} * 4 + ${fullDay} * 8)`);
 		}
 

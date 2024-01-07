@@ -20,20 +20,20 @@ try {
         throw new \Exception("Database is not connected!", 1);
     }
 
-    if (isset($_POST['holidayno'])) {
-        $holidayno = (int) $_POST['holidayno'];
+    if (isset($_POST['specialdayno'])) {
+        $specialdayno = (int) $_POST['specialdayno'];
     } else {
-        throw new \Exception("No Holiday Selected!", 1);
+        throw new \Exception("No specialday Selected!", 1);
     }
 
-    $status = delete_holiday($dbcon, $holidayno);
+    $status = delete_specialday($dbcon, $specialdayno);
 
     if ($status > 0) {
         $response['error'] = false;
-        $response['message'] = "Holiday is removed.";
+        $response['message'] = "specialday is removed.";
     } else {
         $response['error'] = true;
-        $response['message'] = "Cannot Delete Holiday!";
+        $response['message'] = "Cannot Delete specialday!";
     }
 } catch (Exception $e) {
     $response['error'] = true;
@@ -44,13 +44,13 @@ echo json_encode($response);
 
 $dbcon->close();
 
-function delete_holiday($dbcon, $holidayno)
+function delete_specialday($dbcon, $specialdayno)
 {
     $sql = "DELETE
-                FROM emp_holidays
-                WHERE holidayno=?";
+                FROM emp_specialdays
+                WHERE specialdayno=?";
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("i", $holidayno);
+    $stmt->bind_param("i", $specialdayno);
     $stmt->execute();
     return $stmt->affected_rows;
 }

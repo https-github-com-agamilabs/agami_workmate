@@ -180,7 +180,7 @@ if (!defined("DB_USER")) {
                     <div class="row h-100 align-items-center">
                         <div class="col-12">
                             <div class="hero-slides-content">
-                                <h2 data-animation="fadeInUp" data-delay="100ms">Holistic & Online<br>Health-care Services</h2>
+                                <h2 data-animation="fadeInUp" data-delay="100ms">specialstic & Online<br>Health-care Services</h2>
                                 <h3 data-animation="fadeInUp" data-delay="200ms">That you can Trust 100%</h3>
                                 <h6 data-animation="fadeInUp" data-delay="400ms">The system is dedicated to <br> patients, doctors, care-givers, medicine company, pharmacy, and diagnostics service.</h6>
                                 <a href="#" class="btn medilife-btn mt-50" data-animation="fadeInUp" data-delay="700ms">Which Doctor I Should See <span>AI</span></a>

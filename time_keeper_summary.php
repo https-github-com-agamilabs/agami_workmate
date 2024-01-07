@@ -67,7 +67,7 @@
 						</div>
 					</div>
 
-					<div class="card mb-3">
+					<div class="card mb-3 <?= $_SESSION['ucatno']!=13?'d-none':'' ?>">
 						<div class="card-header">
 							<h5 class="font-weight-bold">Summary</h5>
 						</div>

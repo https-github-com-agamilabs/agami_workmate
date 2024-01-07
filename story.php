@@ -99,6 +99,17 @@ include_once "php/ui/login/check_session.php";
 			display: none;
 		}
 	</style>
+
+	<style>
+		.comment .delete_comment{
+display: none;
+transition: .3s all;
+		}
+
+		.comment:hover .delete_comment{
+display: inline;
+		}
+	</style>
 	<?php
 	$base_path = dirname(__FILE__);
 	require_once($base_path . "/configmanager/fileupload_configuration.php");
@@ -1053,10 +1064,10 @@ include_once "php/ui/login/check_session.php";
 								let commenttpl = '';
 								if(aComment.userno==value.userno){ // self
 									commenttpl = `
-										<div class='d-flex justify-content-end'>
+										<div class='d-flex justify-content-end comment'>
 											<div class='mr-2 text-right'>
 												<div>${aComment.story}</div>
-												<small>${aComment.lastupdatetime}</small>
+												<small>${aComment.lastupdatetime} <span data-backlogno='${aComment.backlogno}' class='ml-2 cursor-pointer text-danger delete_comment'>Delete</span></small>
 											</div>
 											<div>
 												<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="35"/>
@@ -1071,7 +1082,7 @@ include_once "php/ui/login/check_session.php";
 											</div>
 											<div class='ml-2 text-start'>
 												<div>${aComment.story}</div>
-												<small>${aComment.lastupdatetime}</small>
+												<small>${aComment.lastupdatetime} <span data-backlogno='${aComment.backlogno}' class='ml-2 cursor-pointer text-danger delete_comment'>Delete</span></small>
 											</div>
 										</div>
 										`;
@@ -1197,6 +1208,15 @@ include_once "php/ui/login/check_session.php";
 							story: comment
 						};
 						formSubmit(json, this, `php/ui/taskmanager/backlog/setup_backlog.php`);
+					});
+
+					$('.delete_comment', card).click(function(){
+						let backlogno = $(this).data('backlogno');
+						if (confirm("Are you sure?")) {
+							delete_a_backlogs({
+								backlogno: backlogno
+							}, );
+						}
 					});
 				})(jQuery);
 			});

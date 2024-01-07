@@ -24,6 +24,7 @@ CREATE TABLE hr_user(
 	username varchar(63) NOT NULL,
 	firstname varchar(63) NOT NULL,
 	lastname varchar(63) DEFAULT NULL,
+	photo_url varchar(255) DEFAULT NULL,
 	affiliation varchar(127) DEFAULT NULL,
 	jobtitle varchar(63) DEFAULT NULL,
 	email varchar(255) DEFAULT NULL,
@@ -40,6 +41,9 @@ CREATE TABLE hr_user(
 	CONSTRAINT fk_user_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,
 	CONSTRAINT fk_user_supervisor FOREIGN KEY(supervisor) REFERENCES hr_user(userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE hr_user
+-- ADD COLUMN photo_url varchar(255) DEFAULT NULL;
 
 CREATE TABLE msg_channel(
 	channelno int AUTO_INCREMENT,

@@ -988,7 +988,10 @@ include_once "php/ui/login/check_session.php";
 								<div class="col-9" id='collapse_tips_and_deadline_${aSchedule.cblscheduleno}'>
 									
 									<div class='mt-1 mb-2'>
-										<i class='fa fa-road mr-2'></i> ${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
+										<i class='fa fa-info mr-2'></i> 
+										<span class='ml-2'>
+											${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
+										</span>
 									</div>
 								</div>
 
@@ -997,14 +1000,14 @@ include_once "php/ui/login/check_session.php";
 								</div>
 
 								<div class='col-1 p-0 text-right'>
-									<div class='mt-0'><img title='${aSchedule.assignee}' class='rounded-semi-circle' src="${aSchedule.photo_url||"assets/image/user_icon.png"}" width="35"/></div>
+									<div class='mt-0 d-none'><img title='${aSchedule.assignee}' class='rounded-semi-circle' src="${aSchedule.photo_url||"assets/image/user_icon.png"}" width="35"/></div>
 								</div>
 
 								<div class='col-11'>
 									<div class='mt-1 pb-2' id='collapse_progress_${aSchedule.cblscheduleno}'>
 										<div class='d-flex '>
 											<div class='my-auto'>
-												Progress
+												${aSchedule.progress.length?"Progress":'No Progress'}
 											</div>
 											${aSchedule.progress.length
 												? aSchedule.progress

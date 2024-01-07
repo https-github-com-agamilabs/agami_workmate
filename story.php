@@ -988,7 +988,7 @@ include_once "php/ui/login/check_session.php";
 								<div class="col-9" id='collapse_tips_and_deadline_${aSchedule.cblscheduleno}'>
 									
 									<div class='mt-1 mb-2 d-flex'>
-										<i class='fa fa-info mr-2' style='font-style: italic;'></i> 
+										<i class='fa fa-info-circle fa-info1 text-primary mx-1' style='font-style: italic;'></i> 
 										<div class='ml-2'>
 											${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
 										</div>

@@ -32,9 +32,9 @@
         $result=remove_a_backlog($dbcon, $backlogno);
         if($result>0){
             $response['error'] = false;
-            $response['message'] ="Product story is removed successfully";
+            $response['message'] ="Removed successfully";
         }else{
-            throw new \Exception("Cannot remove product backlog story!", 1);
+            throw new \Exception("Cannot Remove!", 1);
         }
 
 

@@ -1001,15 +1001,10 @@ include_once "php/ui/login/check_session.php";
 						</div>` : ``
 						}
 
-						${[1,2,3].includes(value.storytype)?
+						${[1,3].includes(value.storytype)?
 							`
 							<div class='comments-box pb-3 px-2 w-100'>
-								<form name='comment-form' class='d-flex px-2 '>
-									<textarea rows='1' class='comment form-control form-control-sm' type='text' style='border-radius: 10px;' placeholder='Write your comment...' required></textarea>
-									<button class='btn btn-sm btn-rounded-circle' type='submit'>
-										<i class='fa fa-paper-plane'></i>
-									</button>
-								</form>
+								
 								<div class='commentlist px-2 mt-2'>
 									${value.comments.map((aComment, _i)=>{
 										console.log(aComment);
@@ -1017,12 +1012,12 @@ include_once "php/ui/login/check_session.php";
 										if(aComment.userno==value.userno){ // self
 											commenttpl = `
 												<div class='d-flex justify-content-end'>
-													<div class='mr-2 text-end'>
+													<div class='mr-2 text-right'>
 														<div>${aComment.story}</div>
 														<small>${aComment.lastupdatetime}</small>
 													</div>
 													<div>
-														<img class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="25"/>
+														<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="25"/>
 													</div>
 												</div>
 												`;
@@ -1030,7 +1025,7 @@ include_once "php/ui/login/check_session.php";
 											commenttpl = `
 												<div class='d-flex justify-content-start'>
 													<div>
-														<img class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="25"/>
+														<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="25"/>
 													</div>
 													<div class='ml-2 text-start'>
 														<div>${aComment.story}</div>
@@ -1044,6 +1039,13 @@ include_once "php/ui/login/check_session.php";
 										return commenttpl;
 									}).join(`<hr class="my-0 py-1 px-2" style='opacity:0.3'/>`)}
 								</div>
+
+								<form name='comment-form' class='d-flex px-2 '>
+									<textarea rows='1' class='comment form-control form-control-sm' type='text' style='border-radius: 10px;' placeholder='Write your comment...' required></textarea>
+									<button class='btn btn-sm btn-rounded-circle' type='submit'>
+										<i class='fa fa-paper-plane'></i>
+									</button>
+								</form>
 							</div>
 							`:``
 						}

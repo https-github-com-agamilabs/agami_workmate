@@ -977,7 +977,7 @@ display: inline;
 								<div>
 									<div class='d-flex'>
 										<div>
-											Deadlines:
+											From
 										</div>
 										<div class='ml-2'>${formatDate(aSchedule.scheduledate)}</div>
 										<div class='mx-1'>to</div>

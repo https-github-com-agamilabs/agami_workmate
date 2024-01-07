@@ -1001,14 +1001,14 @@ include_once "php/ui/login/check_session.php";
 							</div>
 							
 							<div class='w-100 comments-box'>
-								<div class='d-flex'>
-									<input class='form-control form-control-sm' type='text' style='border-radius: 10px;'/>
+								<form name='comment-form' class='d-flex'>
+									<textarea rows='1' class='comment form-control form-control-sm' type='text' style='border-radius: 10px;' placeholder='Write your comment...'></textarea>
 									<button class='btn btn-sm btn-rounded-circle'>
 										<i class='fa fa-paper-plane'></i>
 									</button>
-								</div>
-								<div class=''>
-									
+								</form>
+								<div class='commentlist'>
+
 								</div>
 							</div>
 						</div>` : ``
@@ -1062,6 +1062,16 @@ include_once "php/ui/login/check_session.php";
 					$('.open_dropdown', card).click(function(e) {
 						$('.dropdown-menu', card).dropdown('toggle');
 						$('.open_dropdown', card).toggleClass('active');
+					});
+
+					$('.comment-form', card).submit(function(e){
+						e.preventDefault();
+						let comment = $('input.comment', card).val();
+
+						send_comment({
+							backlogno: value.backlogno,
+							comment: comment
+						});
 					});
 				})(jQuery);
 			});

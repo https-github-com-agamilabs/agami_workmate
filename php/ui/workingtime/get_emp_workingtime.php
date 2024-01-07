@@ -43,7 +43,9 @@
 
         if ($ucatno>=19) {
             $list=get_all_workingtime($dbcon, $startdate, $enddate);
-        } else {
+        } else if($ucatno>=13){
+            $list = get_workfor_workingtime($dbcon, $empno, $startdate, $enddate);
+        }else {
             $list = get_emp_workingtime($dbcon, $empno, $startdate, $enddate);
         }
 
@@ -118,6 +120,30 @@
                 ORDER BY starttime DESC";
         $stmt = $dbcon->prepare($sql);
         $stmt->bind_param("sss", $now, $startdate, $enddate);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
+
+    function get_workfor_workingtime($dbcon, $workfor, $startdate, $enddate)
+    {
+        date_default_timezone_set("Asia/Dhaka");
+        $now = date('Y-m-d H:i:s');
+        $sql = "SELECT timeno,
+                    empno, (SELECT concat(firstname, ' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=t.empno) as userfullname,
+                    starttime, endtime, comment, isaccepted,
+                    CASE
+                        WHEN endtime IS NULL
+                            THEN TIMESTAMPDIFF(SECOND,starttime,?)
+                        ELSE TIMESTAMPDIFF(SECOND,starttime, endtime)
+                    END as elapsedtime
+                FROM emp_workingtime as t
+                WHERE workfor=? AND date(starttime) BETWEEN ? AND ?
+                ORDER BY starttime DESC";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("siss", $now, $workfor, $startdate, $enddate);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

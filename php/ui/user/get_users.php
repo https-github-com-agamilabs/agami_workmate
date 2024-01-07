@@ -78,7 +78,7 @@
             $types .= 'i';
         }
 
-        $sql = "SELECT userno,username,firstname,lastname,
+        $sql = "SELECT userno,username,firstname,lastname,photo_url,
                         affiliation,jobtitle,email,primarycontact,
                         ucatno,(SELECT ucattitle FROM hr_usercat WHERE ucatno=u.ucatno) as ucattitle,
                         supervisor,(SELECT CONCAT(firstname,' ', lastname) FROM hr_user s WHERE s.userno=u.supervisor) as supervisor_name,

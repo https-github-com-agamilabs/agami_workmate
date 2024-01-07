@@ -1047,7 +1047,7 @@ include_once "php/ui/login/check_session.php";
 				return `
 					<div class='comments-box pb-3 px-2 w-100'>
 						
-						<div class='commentlist px-2 mt-2'>
+						<div class='commentlist px-2 mt-2 mb-1'>
 							${value.comments.map((aComment, _i)=>{
 								// console.log(aComment);
 								let commenttpl = '';
@@ -1059,7 +1059,7 @@ include_once "php/ui/login/check_session.php";
 												<small>${aComment.lastupdatetime}</small>
 											</div>
 											<div>
-												<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="25"/>
+												<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="35"/>
 											</div>
 										</div>
 										`;
@@ -1067,7 +1067,7 @@ include_once "php/ui/login/check_session.php";
 									commenttpl = `
 										<div class='d-flex justify-content-start'>
 											<div>
-												<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="25"/>
+												<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="35"/>
 											</div>
 											<div class='ml-2 text-start'>
 												<div>${aComment.story}</div>
@@ -1122,7 +1122,7 @@ include_once "php/ui/login/check_session.php";
 						${get_body(value)}
 						<hr class='my-0 py-2'/>
 						${get_footer(value)}
-
+						<hr class='mt-2 my-0 py-1'/>
 						${get_comments(value)}
 
 					</div>`)

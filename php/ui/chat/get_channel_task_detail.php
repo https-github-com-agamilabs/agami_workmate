@@ -43,36 +43,38 @@
         if ($results->num_rows > 0) {
             while ($row = $results->fetch_array(MYSQLI_ASSOC)) {
                 $backlogno = $row['backlogno'];
+                $storytype = $row['storytype'];
 
-                $rs_cbschedule=get_task_schedule($dbcon, $backlogno);
-                $schedule_array = array();
-                if ($rs_cbschedule->num_rows > 0) {
-                    while ($srow = $rs_cbschedule->fetch_array(MYSQLI_ASSOC)) {
-                        $cblscheduleno=$srow['cblscheduleno'];
-
-                        $rs_progress=get_progress_detail($dbcon, $cblscheduleno);
-                        $progress_array = array();
-                        if ($rs_progress->num_rows > 0) {
-                            while ($prow = $rs_progress->fetch_array(MYSQLI_ASSOC)) {
-                                $progress_array[]=$prow;
+                if($storytype == 3){
+                    $rs_cbschedule=get_task_schedule($dbcon, $backlogno);
+                    $schedule_array = array();
+                    if ($rs_cbschedule->num_rows > 0) {
+                        while ($srow = $rs_cbschedule->fetch_array(MYSQLI_ASSOC)) {
+                            $cblscheduleno=$srow['cblscheduleno'];
+    
+                            $rs_progress=get_progress_detail($dbcon, $cblscheduleno);
+                            $progress_array = array();
+                            if ($rs_progress->num_rows > 0) {
+                                while ($prow = $rs_progress->fetch_array(MYSQLI_ASSOC)) {
+                                    $progress_array[]=$prow;
+                                }
                             }
-                        }
-                        $srow['progress'] = $progress_array;
-
-                        $rs_deadline=get_all_deadlines($dbcon, $cblscheduleno);
-                        $deadline_array = array();
-                        if ($rs_deadline->num_rows > 0) {
-                            while ($drow = $rs_deadline->fetch_array(MYSQLI_ASSOC)) {
-                                $deadline_array[]=$drow;
+                            $srow['progress'] = $progress_array;
+    
+                            $rs_deadline=get_all_deadlines($dbcon, $cblscheduleno);
+                            $deadline_array = array();
+                            if ($rs_deadline->num_rows > 0) {
+                                while ($drow = $rs_deadline->fetch_array(MYSQLI_ASSOC)) {
+                                    $deadline_array[]=$drow;
+                                }
                             }
+                            $srow['deadlines'] = $deadline_array;
+    
+                            $schedule_array[]=$srow;
                         }
-                        $srow['deadlines'] = $deadline_array;
-
-                        $schedule_array[]=$srow;
                     }
+                    $row['schedule'] = $schedule_array;    
                 }
-
-                $row['schedule'] = $schedule_array;
                 
                 $rs_comments=get_sub_comments($dbcon, $backlogno); 
                 $comment_array = array();

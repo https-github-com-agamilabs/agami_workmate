@@ -70,7 +70,7 @@ $langHeaderData = langConverter($jasonFilePath);
                         <div>
                             <p id="nav_title">
                                 <?= $langHeaderData[$lang]['lang_welcome_to']; ?>
-                                <span><?= $langHeaderData[$lang]['lang_specialstic_online_health_care_system']; ?> </span>
+                                <span><?= $langHeaderData[$lang]['lang_holistic_online_health_care_system']; ?> </span>
                             </p>
                         </div>
                         <div>

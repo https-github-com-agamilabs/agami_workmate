@@ -96,6 +96,7 @@
 								<table id="users_table" class="table table-sm table-striped table-hover table-bordered mb-0">
 									<thead class="table-secondary">
 										<tr>
+											<th>Photo</th>
 											<th>Username</th>
 											<th>Name</th>
 											<th>Supervisor </th>
@@ -342,7 +343,12 @@
 			dataTable = $("#users_table").DataTable({
 				"data": data,
 				"ordering": false,
-				"columns": [{
+				"columns": [
+					{
+						"data":"photo_url",
+						"render":(data, type, row)=>`<div class='text-center'><img src='${row.photo_url||"assets/image/user_icon.png"}' width="40"/></div>`
+					},
+					{
 						"data": "username",
 						"render": (data, type, row) => `${row.username || ""} <br> ${row.isactive == 0 ? `<div class="badge badge-danger">INACTIVE</div>` : `<div class="badge badge-success">ACTIVE</div>`}`
 					},

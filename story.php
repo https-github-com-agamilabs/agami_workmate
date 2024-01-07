@@ -893,7 +893,7 @@ include_once "php/ui/login/check_session.php";
 						
 						<div class="d-flex flex-wrap justify-content-between p-2 px-3">
 							<div class="d-flex flex-row align-items-center"> 
-								<img class='rounded-semi-circle' src="assets/image/user_icon.png" width="40">
+								<img class='rounded-semi-circle' src="${value.photo_url||"assets/image/user_icon.png"}" width="40">
 								<div class="d-flex flex-column ml-2"> 
 									<div>
 										<span style='font-weight: bold; font-family: monospace; color:black'>${value.assignedby || ``}</span> 

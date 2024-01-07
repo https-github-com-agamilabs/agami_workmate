@@ -72,7 +72,7 @@ include_once "php/ui/login/check_session.php";
 		}
 
 		.task-card:hover {
-			transform: scale(1.05);
+			transform: scale(1.01);
 			cursor: pointer;
 			z-index: 2000;
 		}
@@ -900,7 +900,6 @@ include_once "php/ui/login/check_session.php";
 									${value.storytype == 3?`<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign Task</a>`:""}
 									<a class="dropdown-item edit_button text-info"><i class="far fa-edit mr-2"></i> Edit Task</a>
 									<a class="dropdown-item delete_button text-danger"><i class="fas fa-trash-alt mr-2"></i> Remove Task</a>
-									${value.storytype == 3?`<a class="dropdown-item status_button text-warning">Update Status</a>`:""}
 								</div>
 							</div>
 						</div>
@@ -958,29 +957,13 @@ include_once "php/ui/login/check_session.php";
 
 
 				tpl.push(`
-						<div class="w-100 px-2 py-0 ${cardClass}" id='collapse_parent_${aSchedule.cblscheduleno}'>
+						<div class="w-100 px-2 py-2 ${cardClass}" id='collapse_parent_${aSchedule.cblscheduleno}'>
 							<div class='d-flex justify-content-between'>
 								<div>
-									Assigned to ${schedules.length>1?`#${(index+1)}`:''}: ${aSchedule.assignee || ""}
+									Assigned to ${schedules.length>1?`#${(index+1)}`:''}: <span style='font-weight: bold; color:black'>${aSchedule.assignee || ""}</span>
 								</div>
 
-								<span>
-									${`
-										${delay.days_diff > 0 ? `<i class='fa fa-circle mx-2 text-danger'></i> ${delay.days_diff} day(s) behind`: ``}
-										${(delay.days_diff <= 0 && delay.hours_diff > 0) ? `<i class='fa fa-circle mx-2 text-danger'></i> ${delay.hours_diff} hour(s) behind`: ``}
-									`}
-								</span>
-							</div>
-
-							<div class='row mt-1 flex-wrap'>
-								<div class="col-9 mt-2" id='collapse_tips_and_deadline_${aSchedule.cblscheduleno}'>
-									<div>
-										How to solve (Tips)
-									</div>
-									<div class='mt-1 mb-2'>
-										${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
-									</div>
-
+								<div>
 									<div class='d-flex'>
 										<div>
 											Deadlines:
@@ -991,18 +974,34 @@ include_once "php/ui/login/check_session.php";
 											${aSchedule.deadlines.map((obj, i) => `<span class="${i != 0 ? `text-danger` : ``}">${formatDate(obj.deadline)}</span>`).join(", ")}
 										</div>								
 									</div>
+
+									<div>
+										${`
+											${delay.days_diff > 0 ? `<i class='fa fa-circle mx-2 text-danger'></i> ${delay.days_diff} day(s) behind`: ``}
+											${(delay.days_diff <= 0 && delay.hours_diff > 0) ? `<i class='fa fa-circle mx-2 text-danger'></i> ${delay.hours_diff} hour(s) behind`: ``}
+										`}
+									</div>
+								</div>
+							</div>
+
+							<div class='row mt-1 flex-wrap'>
+								<div class="col-9" id='collapse_tips_and_deadline_${aSchedule.cblscheduleno}'>
+									
+									<div class='mt-1 mb-2'>
+										<i class='fa fa-road mr-2'></i> ${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
+									</div>
 								</div>
 
 								<div class='col-3 border-left text-center'>
-									<button data-cblscheduleno="${aSchedule.cblscheduleno}" class='status_button btn btn-sm btn-outline-primary px-2 mb-1' >Update Progress</button>
+									<button data-cblscheduleno="${aSchedule.cblscheduleno}" class='status_button mt-1 btn btn-sm btn-outline-primary px-2 mb-1' >Update Progress</button>
 								</div>
 
-								<div class='col-1 text-center'>
-									<div class='mt-2 text-center'><img title='${aSchedule.assignee}' class='rounded-semi-circle' src="${aSchedule.photo_url||"assets/image/user_icon.png"}" width="35"/></div>
+								<div class='col-1 p-0 text-right'>
+									<div class='mt-0'><img title='${aSchedule.assignee}' class='rounded-semi-circle' src="${aSchedule.photo_url||"assets/image/user_icon.png"}" width="35"/></div>
 								</div>
 
 								<div class='col-11'>
-									<div class='mt-2 pb-2' id='collapse_progress_${aSchedule.cblscheduleno}'>
+									<div class='mt-1 pb-2' id='collapse_progress_${aSchedule.cblscheduleno}'>
 										<div class='d-flex '>
 											<div class='my-auto'>
 												Progress
@@ -1011,9 +1010,9 @@ include_once "php/ui/login/check_session.php";
 												? aSchedule.progress
 													.map((b) =>{ 
 													
-													return `<div title='Time: ${b.progresstime}' style='min-width: 100px;' class='text-center border mx-2'>
+													return `<div title='Time: ${b.progresstime}' style='min-width: 100px;' class='text-center border mx-2 px-2 d-flex'>
 																<div><i class='fa fa-circle ${b.statustitle.split(" ").join('_')}'></i></div>
-																<div>${b.statustitle}</div>
+																<div class='ml-1'>${b.statustitle}</div>
 															</div>`;
 
 													// return `<div class="media mb-3 bg-info border border-info ">

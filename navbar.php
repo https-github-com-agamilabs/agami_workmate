@@ -1036,6 +1036,10 @@ color: red;
                     get_filtered_task();
                 }
 
+                if (typeof get_channel_task_detail === 'function') {
+                    get_channel_task_detail();
+                }
+
                 if (typeof get_my_incomplete_task_alltime === 'function') {
                     get_my_incomplete_task_alltime();
                 }

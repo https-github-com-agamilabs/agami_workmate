@@ -1007,7 +1007,7 @@ include_once "php/ui/login/check_session.php";
 								
 								<div class='commentlist px-2 mt-2'>
 									${value.comments.map((aComment, _i)=>{
-										console.log(aComment);
+										// console.log(aComment);
 										let commenttpl = '';
 										if(aComment.userno==value.userno){ // self
 											commenttpl = `
@@ -1041,7 +1041,7 @@ include_once "php/ui/login/check_session.php";
 								</div>
 
 								<form name='comment-form' class='d-flex px-2 '>
-									<textarea rows='1' class='comment form-control form-control-sm' type='text' style='border-radius: 10px;' placeholder='Write your comment...' required></textarea>
+									<textarea rows='2' class='comment form-control form-control-sm' type='text' style='border-radius: 10px;' placeholder='Write your comment...' required></textarea>
 									<button class='btn btn-sm btn-rounded-circle' type='submit'>
 										<i class='fa fa-paper-plane'></i>
 									</button>
@@ -1101,8 +1101,18 @@ include_once "php/ui/login/check_session.php";
 						$('.open_dropdown', card).toggleClass('active');
 					});
 
-					$('[name="comment-form"]', card).submit(function(e){
-						e.preventDefault();
+					const comment_form = $('[name="comment-form"]', card);
+
+					// $('textarea', comment_form).keypress(function (e) {
+					// 	if(e.which === 13 && !e.shiftKey) {
+					// 		e.preventDefault();
+						
+					// 		comment_form.submit();
+					// 	}
+					// });
+					
+					$(comment_form).submit(function(event){	
+						event.preventDefault();
 						let comment = $('textarea.comment', card).val();
 						let json = {
 							channelno: selected_channel,
@@ -1115,6 +1125,23 @@ include_once "php/ui/login/check_session.php";
 					});
 				})(jQuery);
 			});
+		}
+
+		function getCaret(el) { 
+			if (el.selectionStart) { 
+				return el.selectionStart; 
+			} else if (document.selection) { 
+				el.focus();
+				var r = document.selection.createRange(); 
+				if (r == null) { 
+					return 0;
+				}
+				var re = el.createTextRange(), rc = re.duplicate();
+				re.moveToBookmark(r.getBookmark());
+				rc.setEndPoint('EndToStart', re);
+				return rc.text.length;
+			}  
+			return 0; 
 		}
 
 		function delete_a_backlogs(json) {

@@ -39,9 +39,9 @@
         $result=approve_backlog($dbcon, $backlogno);
         if($result>0){
             $response['error'] = false;
-            $response['message'] = "channel-backlog (Story) is Successfully Updated.";
+            $response['message'] = "Successfully Updated.";
         }else{
-            throw new \Exception("Cannot Update channel-backlog (Story).", 1);
+            throw new \Exception("Cannot Update!", 1);
         }
 
     } catch (Exception $e) {

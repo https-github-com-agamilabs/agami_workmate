@@ -72,7 +72,7 @@
                     }
                 }
 
-                $row['progress'] = $schedule_array;
+                $row['schedule'] = $schedule_array;
                 
                 $rs_comments=get_sub_comments($dbcon, $backlogno); 
                 $comment_array = array();

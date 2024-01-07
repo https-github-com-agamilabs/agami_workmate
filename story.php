@@ -999,15 +999,15 @@ include_once "php/ui/login/check_session.php";
 									<button data-cblscheduleno="${aSchedule.cblscheduleno}" class='status_button mt-1 btn btn-sm btn-outline-primary px-2 mb-1' >Update Progress</button>
 								</div>
 
-								<div class='col-1 p-0 text-right'>
+								<div class='col-1 p-0 text-right border-top'>
 									<div class='mt-0 d-none'><img title='${aSchedule.assignee}' class='rounded-semi-circle' src="${aSchedule.photo_url||"assets/image/user_icon.png"}" width="35"/></div>
 								</div>
 
-								<div class='col-11'>
+								<div class='col-11 border-top'>
 									<div class='mt-1 pb-2' id='collapse_progress_${aSchedule.cblscheduleno}'>
-										<div class='d-flex '>
+										<div class='d-flex flex-wrap'>
 											<div class='my-auto'>
-												${aSchedule.progress.length?"Progress":'No Progress'}
+												${aSchedule.progress.length?"Progress":'<i>No Progress Yet.</i>'}
 											</div>
 											${aSchedule.progress.length
 												? aSchedule.progress

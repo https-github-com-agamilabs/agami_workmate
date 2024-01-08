@@ -39,16 +39,19 @@
                 $response['message'] = "Cannot End Time!";
             }
         } else {
+            $workfor=NULL;
             if (isset($_POST['workfor'])) {
                 $workfor=(int) $_POST['workfor'];
-            } else {
-                throw new \Exception("Missing: whom you are working for!", 1);
             }
 
             $userno=start_workingtime($dbcon, $empno,$workfor);
             if ($userno>0) {
                 $response['error'] = false;
-                $response['message'] = "Time is Started.";
+                if($workfor){
+                    $response['message'] = "Time is Started for client.";
+                }else{
+                    $response['message'] = "Time is Started for AGAMiLabs.";
+                }
             } else {
                 $response['error'] = true;
                 $response['message'] = "Cannot Start Time!";

@@ -23,20 +23,20 @@
 </style>
 
 <style>
-    .IN_PROGRESS{
+    .IN_PROGRESS {
         color: orange;
     }
 
-    .TODO{
+    .TODO {
         color: blue;
     }
 
-    .COMPLETED{
-color: green;
+    .COMPLETED {
+        color: green;
     }
 
-    .ABONDONED{
-color: red;
+    .ABONDONED {
+        color: red;
     }
 </style>
 
@@ -94,7 +94,7 @@ color: red;
                 <div class="widget-content p-0">
                     <div class="widget-content-wrapper">
                         <div class="widget-content-left d-flex">
-                            
+
                             <a href="time_keeper.php"><i class="fas fa-play-circle fa-2x mr-2 text-primary rounded-circle "></i></a>
 
                             <select class="form-control-sm form-control mr-2 my-auto" name="channelno">
@@ -103,7 +103,7 @@ color: red;
 
                             <a href="time_keeper_summary.php"><i class="fas fa-chart-bar fa-2x mr-2 text-primary rounded-circle"></i></a>
 
-                            
+
                         </div>
 
                         <div class="widget-content-left d-flex mt-2">
@@ -388,8 +388,8 @@ color: red;
                 </div>
                 <div class="modal-body">
                     <label class="d-block mb-0">
-                        Work For <span class="text-danger">*</span>
-                        <select name="workfor" class="form-control shadow-sm mt-2" required></select>
+                        Work For
+                        <select name="workfor" class="form-control shadow-sm mt-2"></select>
                     </label>
                 </div>
                 <div class="modal-footer py-2">
@@ -498,7 +498,7 @@ color: red;
     }
 
     function show_va_owner_users(data) {
-        let select1 = $(`#workingtime_workfor_modal_form [name="workfor"]`).append(`<option value="">Select employer...</option>`);
+        let select1 = $(`#workingtime_workfor_modal_form [name="workfor"]`).append(`<option value="">AGAMiLabs Ltd.</option>`);
 
         $.each(data, (index, value) => {
             $(`<option value="${value.userno}">

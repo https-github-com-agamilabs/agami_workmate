@@ -80,6 +80,7 @@
         $now = date('Y-m-d H:i:s');
         $sql = "SELECT timeno,
                     empno, (SELECT concat(firstname, ' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=t.empno) as userfullname,
+                    workfor, (SELECT concat(firstname, ' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=t.workfor) as workfor_name,
                     starttime, endtime, comment, isaccepted,
                     CASE
                         WHEN endtime IS NULL
@@ -109,6 +110,7 @@
         $now = date('Y-m-d H:i:s');
         $sql = "SELECT timeno,
                     empno, (SELECT concat(firstname, ' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=t.empno) as userfullname,
+                    workfor, (SELECT concat(firstname, ' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=t.workfor) as workfor_name,
                     starttime, endtime, comment, isaccepted,
                     CASE
                         WHEN endtime IS NULL
@@ -133,6 +135,7 @@
         $now = date('Y-m-d H:i:s');
         $sql = "SELECT timeno,
                     empno, (SELECT concat(firstname, ' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=t.empno) as userfullname,
+                    workfor, (SELECT concat(firstname, ' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=t.workfor) as workfor_name,
                     starttime, endtime, comment, isaccepted,
                     CASE
                         WHEN endtime IS NULL

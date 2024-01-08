@@ -126,6 +126,7 @@
 									<th>Out</th>
 									<th>h:m:s</th>
 									<th>People Name</th>
+									<th>Work For</th>
 									<th>Admin Comment</th>
 								</tr>
 							</thead>
@@ -241,13 +242,14 @@
 
 				let hmsTimeCell = $("<td>").attr("name", "hmsTimeCell").attr("class", value.endtime ? "" : `bg-danger text-white`).append(value.endtime ? `${padZero(hr)}:${padZero(min)}:${padZero(sec)}` : `--:--`);
 				let peopleNameCell = $("<td>").append(value.userfullname);
+				let workFowCell = $("<td>").append(value.workfor_name ?? `AGAMiLabs Ltd.`);
 				let commentCell = $("<td>").append(value.comment || "");
 
 				let row = $("<tr>").appendTo("#time_keeper_table_tbody");
 				if (ucatno == 19) {
 					row.append(actionCell);
 				}
-				row.append(dateCell, inTimeCell, outTimeCell, hmsTimeCell, peopleNameCell, commentCell);
+				row.append(dateCell, inTimeCell, outTimeCell, hmsTimeCell, peopleNameCell, workFowCell, commentCell);
 
 				(function($) {
 					toggleStatusButton.click(function(e) {

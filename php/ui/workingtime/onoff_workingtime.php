@@ -40,7 +40,7 @@
             }
         } else {
             $workfor=NULL;
-            if (isset($_POST['workfor'])) {
+            if (isset($_POST['workfor']) && strlen($_POST['workfor'])>0) {
                 $workfor=(int) $_POST['workfor'];
             }
 

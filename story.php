@@ -95,19 +95,19 @@ include_once "php/ui/login/check_session.php";
 
 		}
 
-		.dropdown-toggle::after{
+		.dropdown-toggle::after {
 			display: none;
 		}
 	</style>
 
 	<style>
-		.comment .delete_comment{
-display: none;
-transition: .3s all;
+		.comment .delete_comment {
+			display: none;
+			transition: .3s all;
 		}
 
-		.comment:hover .delete_comment{
-display: inline;
+		.comment:hover .delete_comment {
+			display: inline;
 		}
 	</style>
 	<?php
@@ -171,8 +171,6 @@ display: inline;
 										<span class="d-none d-sm-inline-block">Notification</span>
 									</button>
 								</div>
-
-
 							</div>
 						</div>
 					</div>
@@ -189,9 +187,7 @@ display: inline;
 				</div>
 			</div>
 
-			<div style="width: 20%; max-width: 220px;">
-
-			</div>
+			<div style="width:20%;max-width: 220px;"></div>
 
 		</div>
 	</div>
@@ -354,6 +350,32 @@ display: inline;
 					</div>
 					<div class="modal-footer py-2">
 						<button type="submit" class="btn btn-primary rounded-pill px-4 shadow">Assign</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div id="deadline_add_modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form id="deadline_add_modal_form">
+					<div class="modal-header">
+						<h5 class="modal-title">Modify Deadline</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="d-block mb-0">
+								Deadline <span class="text-danger">*</span>
+								<input name="deadline" class="form-control shadow-sm mt-2" type="date" required>
+							</label>
+						</div>
+					</div>
+					<div class="modal-footer py-2">
+						<button type="submit" class="btn btn-primary rounded-pill px-4 shadow">Save</button>
 					</div>
 				</form>
 			</div>
@@ -684,14 +706,14 @@ display: inline;
 					let filetypetitle = $(`#filetype_dropdown_menu [data-filetypeno="${filetypeno}"]`).html();
 
 					let div = $(`<div class="attachment_url input-group input-group-sm mr-2 mb-2" style="width:max-content;">
-									<div class="input-group-prepend">
-										<span class="input-group-text shadow-sm">${filetypetitle}</span>
-									</div>
-									<input name="shorttitle" value="${aFile.name}" class="form-control shadow-sm" type="text" placeholder="Short title for file..." title="Short title for file">
-									<div class="input-group-append">
-										<button class="delete_button btn btn-light shadow-sm" type="button"> <i class="fas fa-times"></i></button>
-									</div>
-								</div>`)
+							<div class="input-group-prepend">
+								<span class="input-group-text shadow-sm">${filetypetitle}</span>
+							</div>
+							<input name="shorttitle" value="${aFile.name}" class="form-control shadow-sm" type="text" placeholder="Short title for file..." title="Short title for file">
+							<div class="input-group-append">
+								<button class="delete_button btn btn-light shadow-sm" type="button"> <i class="fas fa-times"></i></button>
+							</div>
+						</div>`)
 						.data({
 							isnew: true,
 							filetypeno,
@@ -708,15 +730,12 @@ display: inline;
 							div.remove();
 						});
 					})(jQuery);
-
-					console.log(div.data());
 				}
-
-
 			}
 		});
 
 		$(`[name="create_post"], button[data-storytype]`).on(`click`, function(e) {
+			$(`#task_manager_setup_modal_form`).trigger("reset").data(`backlogno`, -1).data(`parentbacklogno`, -1);
 			let modal = $(`#task_manager_setup_modal`).modal(`show`);
 			let storytype = $(this).data(`storytype`) || 3;
 			$(`[name="storytype"]`, modal).val(storytype);
@@ -858,22 +877,22 @@ display: inline;
 		}, `json`);
 
 
-		function get_header(value){
+		function get_header(value) {
 			return `<div class="d-flex flex-wrap justify-content-between p-2 px-3">
-						<div class="d-flex flex-row align-items-center"> 
+						<div class="d-flex flex-row align-items-center">
 							<img class='rounded-semi-circle' src="${value.photo_url||"assets/image/user_icon.png"}" width="40">
-							<div class="d-flex flex-column ml-2"> 
+							<div class="d-flex flex-column ml-2">
 								<div>
-									<span style='font-weight: bold; font-family: monospace; color:black'>${value.postedby || value.assignedby || ``}</span> 
+									<span style='font-weight: bold; font-family: monospace; color:black'>${value.postedby || value.assignedby || ``}</span>
 									<small class='ml-2'>${value.storytype == 3 ? `${value.priorityleveltitle} (${value.relativepriority})`:``}</small>
 								</div>
 								<small class="mr-2">
 									${value.storytime || ``}
-								</small>  
+								</small>
 							</div>
 						</div>
 
-						<div class="d-flex flex-row mt-1 ellipsis"> 
+						<div class="d-flex flex-row mt-1 ellipsis">
 							<div class="collapse" id="collapseExample_${value.backlogno}">
 								<div class="d-flex justify-content-center">
 									${value.storytype==3 && (UCAT_NO == 19 || UCAT_NO == 13) ?
@@ -899,13 +918,13 @@ display: inline;
 							</div>
 
 							<button class="open_menu d-none btn btn-sm" type="button" data-toggle0="collapse" data-target="#collapseExample_${value.backlogno}" aria-expanded="false" aria-controls="collapseExample_${value.backlogno}">
-								<i class="fa fa-ellipsis-h m-1"></i> 
-								<i class="fa fa-times m-1"></i> 
+								<i class="fa fa-ellipsis-h m-1"></i>
+								<i class="fa fa-times m-1"></i>
 							</button>
-							
+
 							<div class="dropdown">
 								<button class="open_dropdown btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-									<i class="fa fa-ellipsis-h m-1"></i> 
+									<i class="fa fa-ellipsis-h m-1"></i>
 								</button>
 								<div class="dropdown-menu">
 									${value.storytype == 3?`<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign</a>`:""}
@@ -917,21 +936,21 @@ display: inline;
 					</div>`;
 		}
 
-		function get_body(value){
+		function get_body(value) {
 			return `<div class="card-body py-2">
 						<div>${value.story}</div>
 					</div>`;
 		}
 
-		function get_footer(value){
+		function get_footer(value) {
 
 			let tpl = ``;
 
-			if(value.storytype!=3){
-				return ``;	
+			if (value.storytype != 3) {
+				return ``;
 			}
 
-			if(!value.schedule){
+			if (!value.schedule) {
 				return ``;
 			}
 
@@ -940,7 +959,7 @@ display: inline;
 					</div>`;
 		}
 
-		function get_assignee(value, schedules){
+		function get_assignee(value, schedules) {
 			let today = `<?= date('Y-m-d'); ?>`;
 			let start = ``;
 			let delay = {};
@@ -968,22 +987,32 @@ display: inline;
 
 
 				tpl.push(`
-						<div class="w-100 px-2 py-2 ${cardClass}" id='collapse_parent_${aSchedule.cblscheduleno}'>
+						<div class="single_schedule w-100 px-2 py-2 ${cardClass}" id='collapse_parent_${aSchedule.cblscheduleno}'>
 							<div class='d-flex justify-content-between'>
 								<div>
-									Assigned to ${schedules.length>1?`#${(index+1)}`:''}: <span style='font-weight: bold; color:black'>${aSchedule.assignee || ""}</span>
+									Assigned to
+									${schedules.length > 1 ? `#${(index+1)}` : ''}:
+									<span class="mr-2" style='font-weight: bold; color:black'>${aSchedule.assignee || ""}</span>
+									<div class="dropdown d-inline-block">
+										<button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+											<i class="fa fa-ellipsis-h text-primary"></i>
+										</button>
+										<div class="dropdown-menu">
+											<a data-cblscheduleno="${aSchedule.cblscheduleno}" class="modify_deadline_button dropdown-item text-info"><i class="far fa-edit mr-2"></i> Modify Deadline </a>
+											<a data-cblscheduleno="${aSchedule.cblscheduleno}" class="schedule_edit_button dropdown-item text-info"><i class="far fa-edit mr-2"></i> Edit </a>
+											<a data-cblscheduleno="${aSchedule.cblscheduleno}" class="schedule_delete_button dropdown-item text-danger"><i class="fas fa-trash-alt mr-2"></i> Remove </a>
+										</div>
+									</div>
 								</div>
 
 								<div>
 									<div class='d-flex'>
-										<div>
-											From
-										</div>
+										<div>From</div>
 										<div class='ml-2'>${formatDate(aSchedule.scheduledate)}</div>
 										<div class='mx-1'>to</div>
 										<div>
 											${aSchedule.deadlines.map((obj, i) => `<span class="${i != 0 ? `text-danger` : ``}">${formatDate(obj.deadline)}</span>`).join(", ")}
-										</div>								
+										</div>
 									</div>
 
 									<div>
@@ -997,9 +1026,9 @@ display: inline;
 
 							<div class='row mt-1 flex-wrap'>
 								<div class="col-9" id='collapse_tips_and_deadline_${aSchedule.cblscheduleno}'>
-									
+
 									<div class='mt-1 mb-2 d-flex'>
-										<i class='fa fa-info-circle fa-info1 text-primary mx-1' style='font-style: italic;'></i> 
+										<i class='fa fa-info-circle fa-info1 text-primary mx-1' style='font-style: italic;'></i>
 										<div class='ml-2'>
 											${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
 										</div>
@@ -1022,11 +1051,14 @@ display: inline;
 											</div>
 											${aSchedule.progress.length
 												? aSchedule.progress
-													.map((b) =>{ 
-													
-													return `<div title='Time: ${b.progresstime}' style='min-width: 100px;' class='text-center border mx-2 px-2 d-flex'>
+													.map((b) => {
+
+														return `<div title='Time: ${b.progresstime}' style='min-width: 100px;' class='progress_parent_div text-center border mx-2 px-2 d-flex position-relative'>
 																<div><i class='fa fa-circle ${b.statustitle.split(" ").join('_')}'></i></div>
 																<div class='ml-1'>${b.statustitle}</div>
+																<div class="position-absolute" style="top:-12px;right:-4px;">
+																	<i data-cblprogressno="${b.cblprogressno}" class="progress_delete_button fas fa-times cursor-pointer text-danger"></i>
+																</div>
 															</div>`;
 
 													// return `<div class="media mb-3 bg-info border border-info ">
@@ -1038,72 +1070,78 @@ display: inline;
 													// 		</div>`;
 													})
 													.join("<div class='my-auto'><i class='fa fa-arrow-right text-secondary'></i></div>")
-												: ``
+												: `
+					`
 											}
 										</div>
 									</div>
 								</div>
-
-								
 							</div>
 						</div>`);
 			}
-			
-			return `<div class='py-1'>${tpl.join("<hr class='mt-2 my-0 py-0 w-25'/>")}</div>`;
+
+			return `<div class='py-1'>${tpl.join(`<hr class="mt-2 my-0 py-0 w-25" />`)}</div>`;
 		}
 
-		function get_comments(value){
+		function get_comments(value) {
+			let allowedCommentStoryTypes = [1, 3]; // story type that allowed to have comments
+			let commentsHtml = ``;
 
-			if([1,3].includes(value.storytype)){
-				return `
-					<div class='comments-box pb-3 px-2 w-100'>
-						
-						<div class='commentlist px-2 mt-2 mb-1'>
-							${value.comments.map((aComment, _i)=>{
-								// console.log(aComment);
-								let commenttpl = '';
-								if(aComment.userno==value.userno){ // self
-									commenttpl = `
-										<div class='d-flex justify-content-end comment'>
-											<div class='mr-2 text-right'>
-												<div>${aComment.story}</div>
-												<small>${aComment.lastupdatetime} <span data-backlogno='${aComment.backlogno}' class='ml-2 cursor-pointer text-danger delete_comment ${aComment.userno==LOGGEDIN_USERNO || UCATNO == 19?"":"d-none"}'>Delete</span></small>
-											</div>
-											<div>
-												<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="35"/>
-											</div>
-										</div>
-										`;
-								}else{ // others
-									commenttpl = `
-										<div class='d-flex justify-content-start comment'>
-											<div>
-												<img title='${aComment.commentedby}' class='rounded-semi-circle' src="${aComment.photo_url||"assets/image/user_icon.png"}" width="35"/>
-											</div>
-											<div class='ml-2 text-start'>
-												<div>${aComment.story}</div>
-												<small>${aComment.lastupdatetime} <span data-backlogno='${aComment.backlogno}' class='ml-2 cursor-pointer text-danger delete_comment ${aComment.userno==LOGGEDIN_USERNO || UCATNO == 19?"":"d-none"}'>Delete</span></small>
-											</div>
-										</div>
-										`;
-								}
+			if (allowedCommentStoryTypes.includes(value.storytype)) {
+				let commentlist = value.comments.map((aComment, _i) => {
+					// console.log(aComment);
+					let commenttpl = ``;
+					let userImgSrc = aComment.photo_url || `assets/image/user_icon.png`;
+					let isSelfComment = aComment.userno == value.userno;
+					let isDeleteAllowed = aComment.userno == LOGGEDIN_USERNO || UCATNO == 19;
 
+					if (isSelfComment) { // self
+						commenttpl = `<div class="d-flex justify-content-end comment">
+								<div class="text-right mr-2">
+									<div>${aComment.story}</div>
+									<small>
+										${aComment.lastupdatetime}
+										<span data-backlogno="${aComment.backlogno}" class="delete_comment ${isDeleteAllowed ? `` : `d-none`} cursor-pointer text-danger ml-2">
+											Delete
+										</span>
+									</small>
+								</div>
+								<div>
+									<img class="rounded-semi-circle" src="${userImgSrc}" width="35" title="${aComment.commentedby}" />
+								</div>
+							</div>`;
+					} else { // others
+						commenttpl = `<div class="d-flex justify-content-start comment">
+								<div>
+									<img class="rounded-semi-circle" src="${userImgSrc}" width="35" title="${aComment.commentedby}" />
+								</div>
+								<div class="text-left ml-2">
+									<div>${aComment.story}</div>
+									<small>
+										${aComment.lastupdatetime}
+										<span data-backlogno="${aComment.backlogno}" class="delete_comment ${isDeleteAllowed ? `` : `d-none`} cursor-pointer text-danger ml-2">
+											Delete
+										</span>
+									</small>
+								</div>
+							</div>`;
+					}
 
-								return commenttpl;
-							}).join(`<hr class="my-0 py-1 px-2" style='opacity:0.3'/>`)}
-						</div>
+					return commenttpl;
+				}).join(`<hr class="my-0 py-1 px-2" style="opacity:0.3;"/>`);
 
-						<form name='comment-form' class='d-flex px-2 '>
-							<textarea rows='2' class='comment form-control form-control-sm' type='text' style='border-radius: 10px;' placeholder='Write your comment...' required></textarea>
-							<button class='btn btn-sm btn-rounded-circle' type='submit'>
-								<i class='fa fa-paper-plane'></i>
+				commentsHtml = `<div class="comments-box pb-3 px-2 w-100">
+						<div class="commentlist px-2 mt-2 mb-1">${commentlist}</div>
+						<form name="comment-form" class="d-flex px-2">
+							<textarea class="comment form-control form-control-sm" style="border-radius:10px;" type="text" rows="2" placeholder="Write your comment..." required></textarea>
+							<button class="btn btn-sm btn-rounded-circle" type="submit">
+								<i class="fas fa-paper-plane"></i>
 							</button>
 						</form>
-					</div>
-					`;
+					</div>`;
 			}
 
-			return ``;
+			return commentsHtml;
 		}
 
 		let story_log = {};
@@ -1113,34 +1151,25 @@ display: inline;
 			let bgClass = ``;
 
 			$.each(data, (index, value) => {
-
 				if (value.storytype == 1) {
 					bgClass = `bg-light-blue border border-primary`;
-
 				} else if (value.storytype == 2) {
 					bgClass = `bg-light-green border border-success`;
-
 				} else if (value.storytype == 3) {
 					bgClass = `bg-light-white border border-secondary`;
-
 				}
 
-				let card = $(`
-					<div class="card task-card my-3 ${cardClass} ${bgClass}" style='border-radius:15px;'>
-						
+				let card = $(`<div class="card task-card my-3 ${cardClass} ${bgClass}" style='border-radius:15px;'>
 						${get_header(value)}
-
 						${get_body(value)}
 						<hr class='my-0 py-2'/>
 						${get_footer(value)}
 						<hr class='mt-2 my-0 py-1'/>
 						${get_comments(value)}
-
 					</div>`)
 					.appendTo(targetContainer);
 
 				(function($) {
-
 					$(`.assign_task_button`, card).click(function(e) {
 						$(`#assign_task_modal`).modal("show");
 						let form = $(`#assign_task_modal_form`).trigger("reset").data(`backlogno`, value.backlogno).data(`cblscheduleno`, -1);
@@ -1176,6 +1205,43 @@ display: inline;
 						$(`#status_update_modal_form`).data("cblscheduleno", $(this).data('cblscheduleno')).data("cblprogressno", -1);
 					});
 
+					$(`.modify_deadline_button`, card).click(function(e) {
+						$("#deadline_add_modal").modal("show");
+						$("#deadline_add_modal_form").trigger("reset").data(`cblscheduleno`, $(this).data(`cblscheduleno`));
+					});
+
+					$(`.schedule_edit_button`, card).click(function(e) {
+						$(`#assign_task_modal`).modal("show");
+						$(`#assign_task_modal_form`).trigger("reset").data(`backlogno`, value.backlogno).data(`cblscheduleno`, $(this).data(`cblscheduleno`));
+
+						let schedule = value.schedule.find(a => a.cblscheduleno == $(this).data(`cblscheduleno`));
+
+						$(`#assign_task_modal_form [name]`).each((index2, elem) => {
+							if (schedule[$(elem).attr("name")]) {
+								$(elem).val(schedule[$(elem).attr("name")]);
+							}
+						});
+
+						howToSolveTextEditor.setData(deNormaliseUserInput(schedule.howto));
+						$(`#assign_task_modal_form`).data(`schedule`, schedule);
+					});
+
+					$(`.schedule_delete_button`, card).click(function(e) {
+						if (confirm("Are you sure?")) {
+							delete_schedule({
+								cblscheduleno: $(this).data(`cblscheduleno`)
+							}, $(this).parents(`.single_schedule`));
+						}
+					});
+
+					$(`.progress_delete_button`, card).click(function(e) {
+						if (confirm("Are you sure?")) {
+							delete_progress({
+								cblprogressno: $(this).data(`cblprogressno`)
+							}, $(this).parents(`.progress_parent_div`));
+						}
+					});
+
 					$('.open_menu', card).click(function(e) {
 						$('.collapse', card).collapse('toggle');
 						$('.open_menu', card).toggleClass('active');
@@ -1192,12 +1258,12 @@ display: inline;
 					// $('textarea', comment_form).keypress(function (e) {
 					// 	if(e.which === 13 && !e.shiftKey) {
 					// 		e.preventDefault();
-						
+
 					// 		comment_form.submit();
 					// 	}
 					// });
-					
-					$(comment_form).submit(function(event){	
+
+					$(comment_form).submit(function(event) {
 						event.preventDefault();
 						let comment = $('textarea.comment', card).val();
 						let json = {
@@ -1210,7 +1276,7 @@ display: inline;
 						formSubmit(json, this, `php/ui/taskmanager/backlog/setup_backlog.php`);
 					});
 
-					$('.delete_comment', card).click(function(){
+					$('.delete_comment', card).click(function() {
 						let backlogno = $(this).data('backlogno');
 						if (confirm("Are you sure?")) {
 							delete_a_backlogs({
@@ -1222,21 +1288,57 @@ display: inline;
 			});
 		}
 
-		function getCaret(el) { 
-			if (el.selectionStart) { 
-				return el.selectionStart; 
-			} else if (document.selection) { 
+		$(`#deadline_add_modal_form`).submit(function(e) {
+			e.preventDefault();
+			let json = Object.fromEntries((new FormData(this)).entries());
+
+			let cblscheduleno = $(this).data("cblscheduleno");
+			if (cblscheduleno > 0) {
+				json.cblscheduleno = cblscheduleno;
+			}
+
+			$.post(`php/ui/taskmanager/schedule/add_deadline.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					$("#deadline_add_modal").modal("hide");
+					let pageno = $("#task_manager_table_pageno_input").val();
+					get_channel_task_detail(pageno);
+					// get_channel_backlogs(pageno);
+				}
+			}, `json`);
+		});
+
+		function delete_deadline(json) {
+			$.post(`php/ui/taskmanager/schedule/remove_deadline.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					let pageno = $("#task_manager_table_pageno_input").val();
+					get_channel_task_detail(pageno);
+					// get_channel_backlogs(pageno);
+				}
+			}, `json`);
+		}
+
+		function getCaret(el) {
+			if (el.selectionStart) {
+				return el.selectionStart;
+			} else if (document.selection) {
 				el.focus();
-				var r = document.selection.createRange(); 
-				if (r == null) { 
+				var r = document.selection.createRange();
+				if (r == null) {
 					return 0;
 				}
-				var re = el.createTextRange(), rc = re.duplicate();
+				var re = el.createTextRange(),
+					rc = re.duplicate();
 				re.moveToBookmark(r.getBookmark());
 				rc.setEndPoint('EndToStart', re);
 				return rc.text.length;
-			}  
-			return 0; 
+			}
+			return 0;
 		}
 
 		function delete_a_backlogs(json) {
@@ -1246,6 +1348,21 @@ display: inline;
 				} else {
 					toastr.success(resp.message);
 					$("#task_detail_modal").modal("hide");
+					let pageno = $("#task_manager_table_pageno_input").val();
+					get_channel_task_detail(pageno);
+					// get_channel_backlogs(pageno);
+				}
+			}, `json`);
+		}
+
+		function delete_progress(json, parentContainer) {
+			$.post(`php/ui/taskmanager/progress/remove_progress.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					$(parentContainer).next(`.fa-arrow-right`).remove();
+					$(parentContainer).remove();
 					let pageno = $("#task_manager_table_pageno_input").val();
 					get_channel_task_detail(pageno);
 					// get_channel_backlogs(pageno);

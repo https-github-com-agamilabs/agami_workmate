@@ -411,7 +411,7 @@ if (!defined("DB_USER")) {
                             <h2 class="section_title">Services</h2>
                             <h6 class="section_subtitle">We always put our customer first</h6>
                             <p class="section_description">
-                                
+
                             </p>
                             <a href="#" class="btn medilife-btn mt-50">View the services <span>+</span></a>
                         </div>
@@ -685,7 +685,7 @@ if (!defined("DB_USER")) {
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-4 text-lg-center mb-3">
-                    <i class="icon-smartphone fa-10x text-white"></i>
+                    <i class="icon-monitor fa-10x text-white"></i>
                 </div>
                 <div class="col-12 col-lg-8">
                     <div class="emergency-content">

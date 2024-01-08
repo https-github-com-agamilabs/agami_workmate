@@ -66,7 +66,7 @@ CREATE TABLE msg_channelmember(
 CREATE TABLE emp_workingtime(
 	timeno int AUTO_INCREMENT,
 	empno int NOT NULL,
-	workfor int NOT NULL,
+	workfor int DEFAULT NULL,
 	starttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	endtime DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
 	comment varchar(511) DEFAULT NULL,
@@ -75,6 +75,9 @@ CREATE TABLE emp_workingtime(
 	CONSTRAINT fk_workingtime_empno FOREIGN KEY(empno) REFERENCES hr_user(userno) ON UPDATE CASCADE,
 	CONSTRAINT fk_workingtime_workfor FOREIGN KEY(workfor) REFERENCES hr_user(userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE emp_workingtime
+-- MODIFY COLUMN workfor int DEFAULT NULL;
 
 CREATE TABLE msg_lastvisit(
 	userno int NOT NULL,

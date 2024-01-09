@@ -124,7 +124,9 @@
                                 <select class="form-control-sm form-control my-auto" name="channelno"></select>
                             
                                 <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"> -->
-                                <button type="submit" class="btn btn-outline-light btn-sm my-auto" type="button">Go</button>
+                                <button type="submit" class="btn btn-outline-light btn-sm my-auto text-primary" type="button">
+                                    Go <i class='fa fa-arrow-right'></i>
+                                </button>
                             </form>
 
 

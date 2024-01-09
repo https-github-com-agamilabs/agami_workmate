@@ -118,9 +118,9 @@
                     <div class="widget-content-wrapper">
                         <div class="widget-content-left d-flex">
 
-                            <a href="time_keeper.php"><i class="fas fa-play-circle fa-2x mr-2 text-primary rounded-circle"></i></a>
+                            <a href="time_keeper.php"><i class="fas fa-play-circle fa-2x text-primary rounded-circle"></i></a>
 
-                            <form name='channel_select_form' class="input-group mr-2 my-auto">
+                            <form name='channel_select_form' class="input-group mx-3 my-auto">
                                 <select class="form-control-sm form-control my-auto" name="channelno"></select>
                             
                                 <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"> -->

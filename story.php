@@ -130,6 +130,10 @@ include_once "php/ui/login/check_session.php";
 
 		pre{
 			margin-bottom: 0;
+
+			/* max-width: 100%; */
+			white-space: break-spaces;
+
 		}
 		pre p{
 			margin-bottom: 0;

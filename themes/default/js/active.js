@@ -177,7 +177,7 @@
 
     // :: wow Active Code
     if ($window.width() > 767) {
-        if(wondow.WOW){
+        if(window.WOW){
             new WOW().init();
         }
     }

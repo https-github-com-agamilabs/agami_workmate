@@ -244,7 +244,7 @@
             });
         });
 
-        $(select3).change(function(){
+        $(select3).input(function(){
             location.href = "story.php"+"?"+"channelno="+$(this).val();
         });
 

@@ -128,7 +128,7 @@
                             </form>
 
 
-                            <a href="time_keeper_summary.php"><i class="fas fa-chart-bar fa-2x mr-2 text-primary rounded-circle"></i></a>
+                            <a href="time_keeper_summary.php"><i class="fas fa-chart-bar fa-2x mr-3 text-primary rounded-circle"></i></a>
                         </div>
 
                         <div class="widget-content-left d-flex mt-2">

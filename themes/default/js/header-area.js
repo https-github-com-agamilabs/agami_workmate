@@ -1,26 +1,24 @@
-document.addEventListener("DOMContentLoaded", (event) => {
+$(document).ready(function () {
   let langSelect = document.getElementsByName(`lang`)[0];
   langSelect.value = lang;
 
-  document
-    .getElementById("login_form")
-    .addEventListener("submit", function (e) {
-      e.preventDefault();
-      var username = document.getElementById("username").value;
-      var password = document.getElementById("password").value;
+  $(document).on("submit", "#login_form", function (e) {
+    e.preventDefault();
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
 
-      if (username.length < 3) {
-        alert("Username should be at least 3 characters long!");
-        return;
-      }
+    if (username.length < 3) {
+      alert("Username should be at least 3 characters long!");
+      return;
+    }
 
-      if (password.length < 6) {
-        alert("Password should be at least 6 characters long!");
-        return;
-      }
+    if (password.length < 6) {
+      alert("Password should be at least 6 characters long!");
+      return;
+    }
 
-      complete_login(username, password);
-    });
+    complete_login(username, password);
+  });
 
   langSelect.addEventListener(`change`, function (e) {
     if (location.search.length) {

@@ -40,7 +40,7 @@ function complete_login(json) {
     });
 }
 
-$(`#login_form`).submit(function (e) {
+$(document).on('submit', '#login_form', function (e) {
     e.preventDefault();
     let json = Object.fromEntries((new FormData(this)).entries());
 
@@ -57,11 +57,11 @@ $(`#login_form`).submit(function (e) {
     complete_login(json);
 });
 
-$(`#create_new_account_button`).click(function (e) {
+$(document).on('click', '#create_new_account_button', function (e) {
     $(`#signup_modal`).modal(`show`);
 });
 
-$(`#signup_modal_form`).submit(function (e) {
+$(document).on('submit', '#signup_modal_form', function (e) {
     e.preventDefault();
     let json = Object.fromEntries((new FormData(this)).entries());
 
@@ -207,12 +207,12 @@ $(`#signup_modal_form [name="username_type"]`).on(`change`, function (e) {
     }
 });
 
-$(`.forgotten_password`).click(function (e) {
+$(document).on('click' , `.forgotten_password`, function (e) {
     e.preventDefault();
     $(`#forgotten_password_modal`).modal(`show`);
 });
 
-$(`#forgotten_password_modal_form`).submit(function (e) {
+$(document).on('submit', `#forgotten_password_modal_form`, function (e) {
     e.preventDefault();
     let json = Object.fromEntries((new FormData(this)).entries());
 

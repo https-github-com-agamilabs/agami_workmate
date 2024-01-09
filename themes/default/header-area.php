@@ -44,12 +44,12 @@ $langHeaderData = langConverter($jasonFilePath);
                         </div>
                         <div>
                             <div>
-                                <a href="#" class="btn-sm btn-light"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a>
+                                <!-- <a href="#" class="btn-sm btn-light"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a>
                                 <a href="#" class="btn-sm btn-light"><i class="fab fa-pinterest-p px-1" aria-hidden="true"></i></a>
                                 <a href="#" class="btn-sm btn-light"><i class="fab fa-facebook-f px-1" aria-hidden="true"></i></a>
-                                <a href="#" class="btn-sm btn-light mr-3"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                                <a href="#" class="btn-sm btn-light mr-3"><i class="fab fa-twitter" aria-hidden="true"></i></a> -->
 
-                                <select name="lang" title="Language" style="padding: 2px 0 4px;">
+                                <select class="d-none" name="lang" title="Language" style="padding: 2px 0 4px;">
                                     <option value="en">EN</option>
                                     <option value="bn">BN</option>
                                 </select>

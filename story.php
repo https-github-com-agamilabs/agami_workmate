@@ -10,6 +10,16 @@ include_once "php/ui/login/check_session.php";
 	include_once("header.php");
 	date_default_timezone_set("Asia/Dhaka"); ?>
 
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+	<!-- Include stylesheet -->
+	<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+	<!-- Include the Quill library -->
+	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+
 	<style>
 		[type="submit"]:disabled {
 			cursor: not-allowed;
@@ -108,6 +118,14 @@ include_once "php/ui/login/check_session.php";
 
 		.comment:hover .delete_comment {
 			display: inline;
+		}
+
+		pre{
+			margin-bottom: 0;
+		}
+		pre p{
+			margin-bottom: 0;
+			padding-bottom: 0;
 		}
 	</style>
 	<?php
@@ -1098,7 +1116,7 @@ include_once "php/ui/login/check_session.php";
 					if (isSelfComment) { // self
 						commenttpl = `<div class="d-flex justify-content-end comment">
 								<div class="text-right mr-2">
-									<div>${aComment.story}</div>
+									<pre>${aComment.story}</pre>
 									<small>
 										${aComment.lastupdatetime}
 										<span data-backlogno="${aComment.backlogno}" class="delete_comment ${isDeleteAllowed ? `` : `d-none`} cursor-pointer text-danger ml-2">
@@ -1116,7 +1134,7 @@ include_once "php/ui/login/check_session.php";
 									<img class="rounded-semi-circle" src="${userImgSrc}" width="35" title="${aComment.commentedby}" />
 								</div>
 								<div class="text-left ml-2">
-									<div>${aComment.story}</div>
+									<pre>${aComment.story}</pre>
 									<small>
 										${aComment.lastupdatetime}
 										<span data-backlogno="${aComment.backlogno}" class="delete_comment ${isDeleteAllowed ? `` : `d-none`} cursor-pointer text-danger ml-2">
@@ -1133,8 +1151,11 @@ include_once "php/ui/login/check_session.php";
 				commentsHtml = `<div class="comments-box pb-3 px-2 w-100">
 						<div class="commentlist px-2 mt-2 mb-1">${commentlist}</div>
 						<form name="comment-form" class="d-flex px-2">
-							<textarea class="comment form-control form-control-sm" style="border-radius:10px;" type="text" rows="2" placeholder="Write your comment..." required></textarea>
-							<button class="btn btn-sm btn-rounded-circle" type="button">
+							<div class='w-100'>
+								<div class='comment-area-${value.backlogno} form-control form-control-sm h-auto'></div>
+							</div>
+							<textarea class="d-none comment-textarea-${value.backlogno} form-control form-control-sm" style="border-radius:10px; white-space: pre-wrap;" placeholder="Write your comment..."></textarea>
+							<button class="comment-send btn btn-sm btn-rounded-circle" type="button">
 								<i class="fas fa-paper-plane"></i>
 							</button>
 						</form>
@@ -1255,6 +1276,15 @@ include_once "php/ui/login/check_session.php";
 
 					const comment_form = $('[name="comment-form"]', card);
 
+
+					// <!-- Initialize Quill editor -->
+					var quill = new Quill(`.comment-area-${value.backlogno}`, {
+						theme: 'snow'
+					});
+					// $('textarea', comment_form).emojioneArea({
+					// 	// useSprite: false
+					// });
+
 					// $('textarea', comment_form).keypress(function (e) {
 					// 	if(e.which === 13 && !e.shiftKey) {
 					// 		e.preventDefault();
@@ -1262,13 +1292,19 @@ include_once "php/ui/login/check_session.php";
 					// 		comment_form.submit();
 					// 	}
 					// });
-					$('button', comment_form).click(function(){
+					$('button.comment-send', comment_form).click(function(){
 						$(comment_form).trigger('submit');
 					});
 
 					$(comment_form).submit(function(event) {
 						event.preventDefault();
-						let comment = $('textarea.comment', card).val();
+						// let comment = quill.getText();
+						let comment = quill.container.firstChild.innerHTML;
+
+						// let comment = $('textarea.comment', card).val();
+						// let commentText = $('textarea.comment', card).emojioneArea();
+
+						console.log(comment, quill.getContents());
 						let json = {
 							channelno: selected_channel,
 							parentbacklogno: value.backlogno,

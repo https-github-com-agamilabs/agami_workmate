@@ -35,7 +35,9 @@ try {
     }
 
     if (isset($_POST['story'])) {
-        $story = trim(strip_tags($_POST['story']));
+        // $story = trim(strip_tags($_POST['story']));
+        $story = $dbcon->real_escape_string($_POST['story']);
+        // $story = $_POST['story'];
     } else {
         throw new \Exception("Story cannot be empty!", 1);
     }

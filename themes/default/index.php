@@ -94,8 +94,8 @@ if (!defined("DB_USER")) {
     <link rel="stylesheet" href="<?= $publicAccessUrl ?>themes/default/css/header-area.css">
 
     <!-- index, header-area js  -->
-    <script src="<?= $publicAccessUrl ?>themes/default/js/index.js"></script>
-    <script src="<?= $publicAccessUrl ?>themes/default/js/header-area.js"></script>
+    <script src="<?= $publicAccessUrl ?>themes/default/js/index.js" async defer></script>
+    <script src="<?= $publicAccessUrl ?>themes/default/js/header-area.js" async defer></script>
 
     <script>
         toastr.options = {

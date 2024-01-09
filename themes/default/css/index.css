@@ -1,0 +1,55 @@
+.main-header-area .search-query::placeholder {
+    color: #081f3e;
+}
+
+.is-sticky .main-header-area .search-query::placeholder {
+    color: #868e96;
+}
+
+.main-header-area .search-query:focus {
+    border-color: #113f71;
+}
+
+.is-sticky .main-header-area .search-query:focus {
+    border-color: #80bdff;
+}
+
+.shadow-3-strong {
+    box-shadow: 0 2px 6px -1px rgba(0, 0, 0, .16), 0 6px 18px -1px rgba(0, 0, 0, .1) !important;
+}
+
+#medicine_store_section .select2-selection__rendered {
+    font-size: .75rem;
+}
+
+#patient_appointment_form .select2-container .select2-selection--single {
+    height: 38px !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+#patient_appointment_form .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 35px !important;
+}
+
+#patient_appointment_form .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 38px !important;
+}
+
+#patient_appointment_form input[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: #fff !important;
+    border-radius: 0.2rem;
+}
+
+#patient_appointment_form .form-control[disabled],
+#patient_appointment_form .form-control[disabled]:focus,
+#patient_appointment_form .form-control[disabled]:hover,
+#patient_appointment_form .form-control[readonly],
+#patient_appointment_form .form-control[readonly]:focus,
+#patient_appointment_form .form-control[readonly]:hover {
+    color: #081f3e;
+    background-color: #fff;
+}
+
+#patient_appointment_form .form-control:not(select, [disabled], [readonly]):focus {
+    color: #fff;
+}

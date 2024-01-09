@@ -532,6 +532,7 @@ img {
     z-index: 1021;
     width: 100%;
     height: auto;
+    top:0;
     @include trans-duration(500ms);
 }
 

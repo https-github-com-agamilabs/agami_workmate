@@ -244,8 +244,14 @@
             });
         });
 
-        $(select3).input(function(){
+        $(select3).change(function(){
             location.href = "story.php"+"?"+"channelno="+$(this).val();
+        });
+
+        $('.widget-content-left [name="channel_select_form"]').submit(function(e){
+            e.preventDefault();
+            let channelno = $('.widget-content-left [name="channelno"]').val();
+            location.href = "story.php"+"?"+"channelno="+channelno;
         });
 
         setTimeout(function() {

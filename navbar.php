@@ -120,7 +120,13 @@
 
                             <a href="time_keeper.php"><i class="fas fa-play-circle fa-2x mr-2 text-primary rounded-circle"></i></a>
 
-                            <select class="form-control-sm form-control mr-2 my-auto" name="channelno"></select>
+                            <form name='channel_select_form' class="input-group mb-3">
+                                <select class="form-control-sm form-control mr-2 my-auto" name="channelno"></select>
+                            
+                                <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"> -->
+                                <button type="submit" class="btn btn-outline-secondary" type="button">Go</button>
+                            </form>
+
 
                             <a href="time_keeper_summary.php"><i class="fas fa-chart-bar fa-2x mr-2 text-primary rounded-circle"></i></a>
                         </div>

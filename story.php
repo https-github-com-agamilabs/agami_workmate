@@ -87,6 +87,14 @@ include_once "php/ui/login/check_session.php";
 			z-index: 2000;
 		}
 
+		.progress_parent_div .progress_delete_button_root{
+			display: none;
+		}
+
+		.progress_parent_div:hover .progress_delete_button_root{
+			display: inline;
+		}
+
 		.open_menu>.fa.fa-ellipsis-h {
 			display: inline;
 		}
@@ -1071,13 +1079,13 @@ include_once "php/ui/login/check_session.php";
 												? aSchedule.progress
 													.map((b) => {
 
-														return `<div title='Time: ${b.progresstime}' style='min-width: 100px;' class='progress_parent_div text-center border mx-2 px-2 d-flex position-relative'>
-																<div><i class='fa fa-circle ${b.statustitle.split(" ").join('_')}'></i></div>
-																<div class='ml-1'>${b.statustitle}</div>
-																<div class="position-absolute" style="top:-12px;right:-4px;">
-																	<i data-cblprogressno="${b.cblprogressno}" class="progress_delete_button fas fa-times cursor-pointer text-danger"></i>
-																</div>
-															</div>`;
+														return `<div title='Time: ${b.progresstime}' style='min-width: 100px;' class='progress_parent_div text-center border mx-2 pl-2 d-flex position-relative'>
+																	<div><i class='fa fa-circle ${b.statustitle.split(" ").join('_')}'></i></div>
+																	<div class='ml-1 mr-1'>${b.statustitle}</div>
+																	<div class="progress_delete_button_root px-2 border-left bg-danger text-white" style0="top:-12px;right:-4px;">
+																		<i data-cblprogressno="${b.cblprogressno}" class="progress_delete_button fas fa-times cursor-pointer"></i>
+																	</div>
+																</div>`;
 
 													// return `<div class="media mb-3 bg-info border border-info ">
 													// 			<div class="mr-2">${formatDateTime(b.progresstime)}</div>

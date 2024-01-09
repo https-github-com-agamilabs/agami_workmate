@@ -1134,7 +1134,7 @@ include_once "php/ui/login/check_session.php";
 						<div class="commentlist px-2 mt-2 mb-1">${commentlist}</div>
 						<form name="comment-form" class="d-flex px-2">
 							<textarea class="comment form-control form-control-sm" style="border-radius:10px;" type="text" rows="2" placeholder="Write your comment..." required></textarea>
-							<button class="btn btn-sm btn-rounded-circle" type="submit">
+							<button class="btn btn-sm btn-rounded-circle" type="button">
 								<i class="fas fa-paper-plane"></i>
 							</button>
 						</form>
@@ -1262,6 +1262,9 @@ include_once "php/ui/login/check_session.php";
 					// 		comment_form.submit();
 					// 	}
 					// });
+					$('button', comment_form).click(function(){
+						$(comment_form).trigger('submit');
+					});
 
 					$(comment_form).submit(function(event) {
 						event.preventDefault();

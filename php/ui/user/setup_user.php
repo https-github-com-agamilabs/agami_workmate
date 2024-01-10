@@ -30,13 +30,17 @@
         if (isset($_POST['username']) && strlen($_POST['username'])>0) {
             $username = trim(strip_tags($_POST['username']));
         }else{
-            throw new \Exception("User Name cannot be Empty!", 1);
+            if($userno<=0){
+                throw new \Exception("User Name cannot be Empty!", 1);
+            }
         }
 
         if (isset($_POST['firstname']) && strlen($_POST['firstname'])>0) {
             $firstname = trim(strip_tags($_POST['firstname']));
         }else{
-            throw new \Exception("User First Name cannot be Empty!", 1);
+            if($userno<=0){
+                throw new \Exception("User First Name cannot be Empty!", 1);
+            }
         }
 
         $lastname=NULL;

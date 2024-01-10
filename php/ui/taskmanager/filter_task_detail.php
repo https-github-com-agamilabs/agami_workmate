@@ -1,7 +1,7 @@
 <?php
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+    // ini_set('display_errors', 1);
+    // ini_set('display_startup_errors', 1);
+    // error_reporting(E_ALL);
 
     $base_path = dirname(dirname(dirname(__FILE__)));
     include_once  $base_path."/ui/login/check_session.php";
@@ -38,18 +38,18 @@
         }
 
         //TIME MANAGEMENT
-        $startdate = NULL;
-        if (isset($_POST['startdate']) && strlen($_POST['startdate'])>0) {
-            $startdate = trim(strip_tags($_POST['startdate']));
-        }
+        // $startdate = NULL;
+        // if (isset($_POST['startdate']) && strlen($_POST['startdate'])>0) {
+        //     $startdate = trim(strip_tags($_POST['startdate']));
+        // }
 
-        $enddate = NULL;
-        if (isset($_POST['enddate']) && strlen($_POST['enddate'])>0) {
-            $enddate = trim(strip_tags($_POST['enddate']));
-        }else if($startdate != NULL){
-            date_default_timezone_set("Asia/Dhaka");
-            $enddate = date("Y-m-d");
-        }
+        // $enddate = NULL;
+        // if (isset($_POST['enddate']) && strlen($_POST['enddate'])>0) {
+        //     $enddate = trim(strip_tags($_POST['enddate']));
+        // }else if($startdate != NULL){
+        //     date_default_timezone_set("Asia/Dhaka");
+        //     $enddate = date("Y-m-d");
+        // }
 
         // STATUS MANAGEMENT
         $wstatusno = -1;
@@ -68,7 +68,7 @@
             $limit = (int) $_POST['limit'];
         }
 
-        $results = get_task_info($dbcon, $assignedto, $startdate,$enddate,$wstatusno,$pageno,$limit,$userno);
+        $results = get_task_info($dbcon, $assignedto,$wstatusno,$pageno,$limit,$userno);
         $results_array = array();
         if ($results->num_rows > 0) {
             while ($row = $results->fetch_array(MYSQLI_ASSOC)) {
@@ -138,7 +138,7 @@
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
     //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
     
-    function get_task_info($dbcon, $assignedto, $startdate,$enddate,$wstatusno,$pageno,$limit,$login_userno){
+    function get_task_info($dbcon, $assignedto, $wstatusno,$pageno,$limit,$login_userno){
         $startindex=($pageno-1)*$limit;
 
         $params = array();
@@ -148,17 +148,17 @@
         /**
          * Schedule Filter
          */
-        $schedule_filter = " 1 ";
-        if($startdate != NULL){
-            $schedule_filter .= " (
-                                ? <= DATE_ADD(scheduledate, INTERVAL (duration-1) DAY) AND
-                                ? >= scheduledate
-                            )";
-            $params[] = &$startdate;
-            $types .= 's';
-            $params[] = &$enddate;
-            $types .= 's';
-        }
+        // $schedule_filter = " 1 ";
+        // if($startdate != NULL){
+        //     $schedule_filter .= " (
+        //                         ? <= DATE_ADD(scheduledate, INTERVAL (duration-1) DAY) AND
+        //                         ? >= scheduledate
+        //                     )";
+        //     $params[] = &$startdate;
+        //     $types .= 's';
+        //     $params[] = &$enddate;
+        //     $types .= 's';
+        // }
 
         /**
          * Progress_filter
@@ -203,8 +203,7 @@
             $filter .= " AND b.backlogno IN 
                             (SELECT DISTINCT backlogno
                             FROM asp_cblschedule as cs
-                            WHERE $schedule_filter 
-                                AND $progress_filter
+                            WHERE $progress_filter
                                 AND assignedto = ?) ";
             $params[] = &$assignedto;
             $types .= 'i';
@@ -214,8 +213,7 @@
             $filter .= "  AND b.backlogno IN 
                             (SELECT DISTINCT backlogno
                             FROM asp_cblschedule as cs
-                            WHERE $schedule_filter 
-                                AND $progress_filter
+                            WHERE $progress_filter
                                 AND assignedto IN (
                                     SELECT DISTINCT userno
                                     FROM hr_user

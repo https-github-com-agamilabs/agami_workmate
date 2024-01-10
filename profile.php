@@ -170,12 +170,12 @@ if (!defined("DB_USER")) {
 												<label class="d-block mb-0">
 													<?= $arrayData[$lang]['lang_mobile_number']; ?><span class="text-danger">*</span>
 													<div class="input-group input-group-sm mt-1">
-														<div class="input-group-prepend">
+														<!-- <div class="input-group-prepend">
 															<span class="input-group-text shadow-sm bg-white border-right-0 pr-1" style="font-size:.875rem;font-weight: 400;line-height: 1.55;padding-bottom: .2rem;">
 																+880
 															</span>
-														</div>
-														<input name="primarycontact" class="form-control shadow-sm border-left-0 pl-1" type="tel" placeholder="Mobile number..." required>
+														</div> -->
+														<input name="primarycontact" class="form-control shadow-sm" type="tel" placeholder="Mobile number..." required>
 													</div>
 												</label>
 											</div>

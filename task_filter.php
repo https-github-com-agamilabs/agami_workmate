@@ -164,7 +164,7 @@
 			json.startdate = drp.startDate.format('YYYY-MM-DD');
 			json.enddate = drp.endDate.format('YYYY-MM-DD');
 
-			$.post(`php/ui/taskmanager/get_channel_task_detail.php`, json, resp => {
+			$.post(`php/ui/taskmanager/filter_task_detail.php`, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 					reject(resp.message);

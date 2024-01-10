@@ -236,7 +236,7 @@
                     INNER JOIN hr_user as u ON b.userno=u.userno
                 WHERE parentbacklogno IS NULL 
                     AND $filter
-                ORDER BY b.backlogno DESC 
+                ORDER BY prioritylevelno, relativepriority, b.backlogno DESC 
                 LIMIT ?,?
                 ";
 

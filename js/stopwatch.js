@@ -27,7 +27,8 @@ class StopWatch {
 
     getCurrentMenuTitle() {
         let filename = window.location.pathname.split("/").pop();
-        filename = (filename == `channels.php`) ? filename + window.location.search : filename;
+        // filename = (filename == `channels.php`) ? filename + window.location.search : filename;
+        filename = (filename == `story.php`) ? filename + window.location.search : filename;
         return $(`.scrollbar-sidebar a[href=\"${filename}\"]`).text().trim();
     }
 

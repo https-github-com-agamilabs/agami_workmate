@@ -171,9 +171,16 @@
                                         </div>
                                         <span id="dark_theme" class="badge badge-dark shadow-sm border grow cursor-pointer">Dark</span>
                                     </h6>
-                                    <button id="change_password_anchor" type="button" tabindex="0" class="dropdown-item">Change Password</button>
+                                    <a href="profile.php" tabindex="0" class="dropdown-item">
+                                        <i class="fas fa-user-cog mr-2 d-none d-sm-inline-block"></i> Update Information
+                                    </a>
+                                    <button id="change_password_anchor" type="button" tabindex="0" class="dropdown-item">
+                                        <i class="fas fa-user-lock mr-2 d-none d-sm-inline-block"></i> Change Password
+                                    </button>
                                     <div tabindex="-1" class="dropdown-divider"></div>
-                                    <a href='logout.php' tabindex="0" class="dropdown-item">Logout</a>
+                                    <a href='logout.php' tabindex="0" class="dropdown-item">
+                                        <i class="fas fa-sign-out-alt mr-2 d-none d-sm-inline-block"></i> Logout
+                                    </a>
                                 </div>
                             </div>
                         </div>

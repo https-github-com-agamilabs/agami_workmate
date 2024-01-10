@@ -50,17 +50,6 @@ $(`#people_detail_update_form`).submit(function (e) {
     let json = Object.fromEntries((new FormData(this)).entries());
     json.userno = $(this).data(`userno`);
 
-    if (json.primarycontact.length == 14 && json.primarycontact.startsWith(`+8801`)) {
-
-    } else if (json.primarycontact.length == 11 && json.primarycontact.startsWith(`01`)) {
-        json.primarycontact = `+88${json.primarycontact}`;
-    } else if (json.primarycontact.length == 10 && json.primarycontact.startsWith(`1`)) {
-        json.primarycontact = `+880${json.primarycontact}`;
-    } else {
-        toastr.error(`Invalid mobile no!`);
-        return
-    }
-
     $.post(`${publicAccessUrl}php/ui/user/setup_user.php`, json, (resp) => {
         if (resp.error) {
             toastr.error(resp.message);
@@ -77,13 +66,7 @@ $(`#people_detail_edit_profile_button`).click(function (e) {
     const data = $(`#people_detail_update_form`).data();
     $(`#people_detail_update_form [name]`).each((index, elem) => {
         let elemName = $(elem).attr("name");
-        if (elemName == `primarycontact`) {
-            let primarycontact = ``;
-            if (data.primarycontact.length == 14 && data.primarycontact.startsWith(`+8801`)) {
-                primarycontact = data.primarycontact.substring(4);
-            }
-            $(elem).val(primarycontact);
-        } else if (data[elemName] != null) {
+        if (data[elemName] != null) {
             $(elem).val(data[elemName]);
             // if ($(elem).hasClass(`select2-hidden-accessible`)) {
             //     $(elem).trigger(`change`);

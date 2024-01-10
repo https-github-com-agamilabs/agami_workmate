@@ -157,15 +157,86 @@
     function update_user($dbcon, $username,$firstname,$lastname,$affiliation,
                                 $jobtitle,$email,$primarycontact,
                                 $ucatno,$supervisor,$permissionlevel,$userno){
+
+        $params = array();
+        $types = array();
+        $dataset = "";
+        if(strlen($username)){
+            $dataset .="username=?";
+            $params[] = &$username;
+            $types[] = "s";
+        }
+
+        if(strlen($firstname)){
+            $dataset .="firstname=?";
+            $params[] = &$firstname;
+            $types[] = "s";
+        }
+
+        if(strlen($lastname)){
+            $dataset .="lastname=?";
+            $params[] = &$lastname;
+            $types[] = "s";
+        }
+
+        if(strlen($affiliation)){
+            $dataset .="affiliation=?";
+            $params[] = &$affiliation;
+            $types[] = "s";
+        }
+
+        if(strlen($jobtitle)){
+            $dataset .="jobtitle=?";
+            $params[] = &$jobtitle;
+            $types[] = "s";
+        }
+
+        if(strlen($email)){
+            $dataset .="email=?";
+            $params[] = &$email;
+            $types[] = "s";
+        }
+
+        if(strlen($primarycontact)){
+            $dataset .="primarycontact=?";
+            $params[] = &$primarycontact;
+            $types[] = "s";
+        }
+
+        if(strlen($ucatno)){
+            $dataset .="ucatno=?";
+            $params[] = &$ucatno;
+            $types[] = "s";
+        }
+
+        if(strlen($supervisor)){
+            $dataset .="supervisor=?";
+            $params[] = &$supervisor;
+            $types[] = "s";
+        }
+
+        if(strlen($permissionlevel)){
+            $dataset .="permissionlevel=?";
+            $params[] = &$permissionlevel;
+            $types[] = "s";
+        }
+
+        if(strlen($userno)){
+            // $dataset .="userno=?";
+            $params[] = &$userno;
+            $types[] = "s";
+        }
+
+        if(!strlen($dataset)){
+            return -1;
+        }
+
+
         $sql = "UPDATE hr_user
-                SET username=?,firstname=?,lastname=?,affiliation=?,
-                    jobtitle=?,email=?,primarycontact=?,
-                    ucatno=?, supervisor=?,permissionlevel=?
+                SET $dataset
                 WHERE userno=?";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("sssssssiiii", $username,$firstname,$lastname,$affiliation,
-                                $jobtitle,$email,$primarycontact,
-                                $ucatno,$supervisor,$permissionlevel,$userno);
+        $stmt->bind_param(implode("", $types), ...$params);
         $stmt->execute();
         return $stmt->affected_rows;
     }

@@ -73,21 +73,21 @@ $(`#people_detail_update_form`).submit(function (e) {
     }, "json");
 });
 
-// $(`#people_detail_edit_profile_button`).click(function (e) {
-//     const data = $(`#people_detail_update_form`).data();
-//     $(`#people_detail_update_form [name]`).each((index, elem) => {
-//         let elemName = $(elem).attr("name");
-//         if (elemName == `gender`) {
-//             let gender = data[elemName] == ``;
-//             $(elem).val();
-//         } else if (data[elemName] != null) {
-//             $(elem).val(data[elemName]);
-//             if ($(elem).hasClass(`select2-hidden-accessible`)) {
-//                 $(elem).trigger(`change`);
-//             }
-//         }
-//     });
-// });
+$(`#people_detail_edit_profile_button`).click(function (e) {
+    const data = $(`#people_detail_update_form`).data();
+    $(`#people_detail_update_form [name]`).each((index, elem) => {
+        let elemName = $(elem).attr("name");
+        if (elemName == `gender`) {
+            let gender = data.gender == ``;
+            $(elem).val();
+        } else if (data[elemName] != null) {
+            $(elem).val(data[elemName]);
+            // if ($(elem).hasClass(`select2-hidden-accessible`)) {
+            //     $(elem).trigger(`change`);
+            // }
+        }
+    });
+});
 
 $(`#people_detail_edit_profile_button, #people_detail_form_cancel_button`).click(function (e) {
     $(`.people_detail_collapse`).collapse("toggle");

@@ -10,22 +10,6 @@
         exit();
     }
 
-    if (isset($_POST['channelno'])) {
-        $channelno = (int) $_POST['channelno'];
-    } else {
-        throw new \Exception("No Message Thread Selected!", 1);
-    }
-
-    $pageno=1;
-    if (isset($_POST['pageno'])) {
-        $pageno = (int) $_POST['pageno'];
-    }
-
-    $limit = 10;
-    if (isset($_POST['limit'])) {
-        $limit = (int) $_POST['limit'];
-    }
-
     require_once($base_path."/db/Database.php");
     $db = new Database();
     $dbcon=$db->db_connect();
@@ -36,7 +20,50 @@
         exit();
     }
 
+
     try {
+
+        //USER MANAGEMENT
+        $assignedto = -1;
+        if (isset($_POST['assignedto']) && strlen($_POST['assignedto'])>0) {
+            $assignedto = (int) $_POST['assignedto'];
+        }
+
+        if($assignedto<0 && $ucatno==19){
+            $assignedto = 0;
+        }
+
+        //TIME MANAGEMENT
+        $startdate = NULL;
+        if (isset($_POST['startdate']) && strlen($_POST['startdate'])>0) {
+            $startdate = trim(strip_tags($_POST['startdate']));
+        }
+
+        if (isset($_POST['enddate']) && strlen($_POST['enddate'])>0) {
+            $enddate = trim(strip_tags($_POST['enddate']));
+        }else if($startdate != NULL){
+            date_default_timezone_set("Asia/Dhaka");
+            $enddate = date("Y-m-d");
+        }else{
+            $enddate = NULL;
+        }
+
+        // STATUS MANAGEMENT
+        $wstatusno = -1;
+        if (isset($_POST['wstatusno'])) {
+            $wstatusno = trim(strip_tags($_POST['wstatusno']));
+        }
+
+        // PAGE MANAGEMENT
+        $pageno=1;
+        if (isset($_POST['pageno'])) {
+            $pageno = (int) $_POST['pageno'];
+        }
+
+        $limit=25;
+        if (isset($_POST['limit'])) {
+            $limit = (int) $_POST['limit'];
+        }
 
         $results = get_channel_task_update($dbcon, $channelno, $pageno, $limit);
         $results_array = array();
@@ -108,8 +135,96 @@
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
     //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
     
-    function get_channel_task_update($dbcon, $channelno, $pageno, $limit){
+    function get_task_info($dbcon, $channelno, $pageno, $limit){
         $startindex=($pageno-1)*$limit;
+
+        $params = array();
+        $types = "";
+
+        
+        /**
+         * Schedule Filter
+         */
+        $schedule_filter = " 1 ";
+        if($startdate != NULL){
+            $filter .= " (
+                                ? <= DATE_ADD(scheduledate, INTERVAL (duration-1) DAY) AND
+                                ? >= scheduledate
+                            )";
+            $params[] = &$startdate;
+            $types .= 's';
+            $params[] = &$enddate;
+            $types .= 's';
+        }
+
+        /**
+         * Progress_filter
+         */
+        $progress_filter = " 1 ";
+        if($wstatusno<0){
+            //No Operation, i.e. No Filter
+        } else if($wstatusno<=2){
+            $progress_filter .= " AND (cblscheduleno NOT IN(
+                                SELECT DISTINCT cblscheduleno
+                                FROM asp_cblprogress
+                                )
+                                OR
+                                cblscheduleno IN(
+                                SELECT DISTINCT cblscheduleno
+                                FROM asp_cblprogress
+                                WHERE wstatusno <=2
+                                    AND cblprogressno IN
+                                        (SELECT max(cblprogressno)
+                                        FROM asp_cblprogress
+                                        GROUP BY cblscheduleno)
+                                )
+                            )";
+        }else{
+            $progress_filter .= " AND cblscheduleno IN(
+                        SELECT DISTINCT cblscheduleno
+                        FROM asp_cblprogress
+                        WHERE wstatusno = ?
+                            AND cblprogressno IN
+                                (SELECT max(cblprogressno)
+                                FROM asp_cblprogress
+                                GROUP BY cblscheduleno
+                                )
+                        )";
+
+            $params[] = &$wstatusno;
+            $types .= 'i';
+        }
+
+        $filter = " 1 ";
+        if($assignedto>0){
+            $filter .= " AND b.backlogno IN 
+                            (SELECT DISTINCT backlogno
+                            FROM asp_cblschedule as cs
+                            WHERE $schedule_filter 
+                                AND $progress_filter
+                                AND assignedto = ?) ";
+            $params[] = &$assignedto;
+            $types .= 'i';
+        }else if($assignedto==0){
+            //ADMIN, SO NO FILTER, ALL USERS WILL BE SHOWN
+        }else{
+            $filter .= "  AND b.backlogno IN 
+                            (SELECT DISTINCT backlogno
+                            FROM asp_cblschedule as cs
+                            WHERE $schedule_filter 
+                                AND $progress_filter
+                                AND assignedto IN (
+                                    SELECT DISTINCT userno
+                                    FROM hr_user
+                                    WHERE supervisor=? OR userno=?
+                                    )
+                            ) ";
+            $params[] = &$login_userno;
+            $types .= 'i';
+            $params[] = &$login_userno;
+            $types .= 'i';
+        }
+
         $sql = "SELECT channelno,(SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
                         b.backlogno,story,storytype, b.lastupdatetime as storytime,
                         prioritylevelno,(SELECT priorityleveltitle FROM asp_prioritylevel WHERE prioritylevelno=b.prioritylevelno) as priorityleveltitle,
@@ -118,12 +233,23 @@
                         b.userno, CONCAT(firstname,' ',IFNULL(lastname,'')) as postedby, photo_url
                 FROM asp_channelbacklog as b
                     INNER JOIN hr_user as u ON b.userno=u.userno
-                WHERE parentbacklogno IS NULL AND channelno=?
+                WHERE parentbacklogno IS NULL 
+                    AND $filter
                 ORDER BY b.backlogno DESC 
                 LIMIT ?,?
                 ";
-        $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("iii", $channelno,$startindex,$limit);
+
+        $params[] = &$startindex;
+        $types .= 'i';
+
+        $params[] = &$limit;
+        $types .= 'i';
+
+        if (!$stmt = $dbcon->prepare($sql))
+            throw new Exception("Prepare statement failed: " . $dbcon->error);
+
+        call_user_func_array(array($stmt, "bind_param"), array_merge(array($types), $params));
+
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

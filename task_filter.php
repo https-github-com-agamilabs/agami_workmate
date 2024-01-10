@@ -163,7 +163,7 @@
 							<legend class="legend-label bg-white text-dark shadow-sm">Task Filter Form</legend>
 
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<div class="form-group">
 										<label class="d-block mb-0">
 											<div class="mb-2">Task Filter For</div>
@@ -174,7 +174,7 @@
 									</div>
 								</div>
 
-								<div class="col-md-6">
+								<!-- <div class="col-md-6">
 									<div class="form-group">
 										<label class="d-block mb-0">
 											Date
@@ -184,7 +184,7 @@
 											</div>
 										</label>
 									</div>
-								</div>
+								</div> -->
 
 								<div class="col-md-8">
 									<div class="position-relative form-check form-check-inline">
@@ -225,28 +225,28 @@
 	</div>
 
 	<script>
-		var start = moment().subtract(6, 'days');
-		var end = moment();
+		// var start = moment().subtract(6, 'days');
+		// var end = moment();
 
-		function cb(start, end) {
-			$('#task_filter_date_input span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-		}
+		// function cb(start, end) {
+		// 	$('#task_filter_date_input span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+		// }
 
-		$('#task_filter_date_input').daterangepicker({
-			startDate: start,
-			endDate: end,
-			ranges: {
-				'Today': [moment(), moment()],
-				'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-				'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-				'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-				'Last 90 Days': [moment().subtract(89, 'days'), moment()],
-				'This Month': [moment().startOf('month'), moment().endOf('month')],
-				'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-			}
-		}, cb);
+		// $('#task_filter_date_input').daterangepicker({
+		// 	startDate: start,
+		// 	endDate: end,
+		// 	ranges: {
+		// 		'Today': [moment(), moment()],
+		// 		'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+		// 		'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+		// 		'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+		// 		'Last 90 Days': [moment().subtract(89, 'days'), moment()],
+		// 		'This Month': [moment().startOf('month'), moment().endOf('month')],
+		// 		'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+		// 	}
+		// }, cb);
 
-		cb(start, end);
+		// cb(start, end);
 
 		get_my_fellow();
 
@@ -281,7 +281,7 @@
 			$(`#task_filter_container`).empty();
 
 			let json = Object.fromEntries((new FormData($(`#task_filter_form`)[0])).entries());
-			let drp = $('#task_filter_date_input').data('daterangepicker');
+			// let drp = $('#task_filter_date_input').data('daterangepicker');
 			// json.startdate = drp.startDate.format('YYYY-MM-DD');
 			// json.enddate = drp.endDate.format('YYYY-MM-DD');
 

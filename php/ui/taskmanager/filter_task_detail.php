@@ -65,7 +65,7 @@
             $limit = (int) $_POST['limit'];
         }
 
-        $results = get_channel_task_update($dbcon, $channelno, $pageno, $limit);
+        $results = get_task_info($dbcon, $assignedto, $startdate,$enddate,$wstatusno,$pageno,$limit,$login_userno);
         $results_array = array();
         if ($results->num_rows > 0) {
             while ($row = $results->fetch_array(MYSQLI_ASSOC)) {
@@ -135,7 +135,7 @@
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
     //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
     
-    function get_task_info($dbcon, $channelno, $pageno, $limit){
+    function get_task_info($dbcon, $assignedto, $startdate,$enddate,$wstatusno,$pageno,$limit,$login_userno){
         $startindex=($pageno-1)*$limit;
 
         $params = array();

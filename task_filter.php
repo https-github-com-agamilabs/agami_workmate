@@ -270,7 +270,8 @@
 
 					select.select2({
 						placeholder: "Select Employee...",
-						allowClear: true
+						allowClear: true,
+						width: '100%'
 					});
 
 					get_filtered_task();

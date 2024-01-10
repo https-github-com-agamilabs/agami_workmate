@@ -125,7 +125,8 @@
 
                                 <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"> -->
                                 <button type="submit" class="btn btn-outline-light btn-sm my-auto text-primary" type="button">
-                                    Go <i class='fa fa-arrow-right'></i>
+                                    Go 
+                                    <!-- <i class='fa fa-arrow-right'></i> -->
                                 </button>
                             </form>
 

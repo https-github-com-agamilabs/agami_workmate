@@ -89,7 +89,7 @@ function loadImageCropper(ratioWidth, ratioHeight, imageWidth, imageHeight, call
 
 						$.ajax({
 							type: 'POST',
-							url: `${publicAccessUrl}php/ui/profile/update_primary.php`,
+							url: `${publicAccessUrl}php/ui/user/setup_user.php`,
 							data: json,
 							success: (resp) => {
 								avatar.src = canvas.toDataURL();

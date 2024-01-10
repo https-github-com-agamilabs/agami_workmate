@@ -163,6 +163,11 @@
                     </li> -->
                 <?php endif; ?>
 
+                <li>
+                    <a href="task_filter.php" class="menu-anchor menu-anchor-lvl-1">
+                        <i class="metismenu-icon fas fa-plus-square"></i> Task Filter
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- <div class="sticky-top text-center bg-light w-100" style="bottom:0; padding: 10px 0 10px 0;">

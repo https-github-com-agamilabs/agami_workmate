@@ -68,7 +68,7 @@
             $limit = (int) $_POST['limit'];
         }
 
-        $results = get_task_info($dbcon, $assignedto, $startdate,$enddate,$wstatusno,$pageno,$limit,$login_userno);
+        $results = get_task_info($dbcon, $assignedto, $startdate,$enddate,$wstatusno,$pageno,$limit,$userno);
         $results_array = array();
         if ($results->num_rows > 0) {
             while ($row = $results->fetch_array(MYSQLI_ASSOC)) {

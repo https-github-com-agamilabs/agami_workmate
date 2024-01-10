@@ -144,7 +144,7 @@
 
 			<div class="app-main__outer">
 				<div class="app-main__inner">
-					<div class="app-page-title mb-0">
+					<!-- <div class="app-page-title mb-0">
 						<div class="page-title-wrapper">
 							<div class="page-title-heading">
 								<div class="page-title-icon">
@@ -156,7 +156,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 					<form id="task_filter_form">
 						<fieldset class="custom_fieldset bg-night-sky text-white shadow-sm pb-0">

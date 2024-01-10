@@ -82,7 +82,7 @@ function loadImageCropper(ratioWidth, ratioHeight, imageWidth, imageHeight, call
 					response => {
 						console.log("image upload response", response);
 						let json = {
-							peopleno: $(`#people_detail_update_form`).data(`peopleno`),
+							userno: $(`#people_detail_update_form`).data(`userno`),
 							// photoactualname: response.fileactualname,
 							photo_url: response.fileurl,
 						};

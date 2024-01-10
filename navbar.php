@@ -21,7 +21,7 @@
         border-left-width: 3px !important;
     }
 
-    .cogo_photoname {
+    .cogo_photo_url {
         width: 42px;
     }
 
@@ -39,7 +39,7 @@
             padding: 0;
         }
 
-        .cogo_photoname {
+        .cogo_photo_url {
             width: 30px;
         }
     }
@@ -153,9 +153,9 @@
                             <!-- Time keeper end -->
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                    <img class="rounded-circle cogo_photoname" src="<?php
-                                                                                    if (!empty($_SESSION["cogo_photoname"])) {
-                                                                                        echo $_SESSION["cogo_photoname"];
+                                    <img class="rounded-circle cogo_photo_url" src="<?php
+                                                                                    if (!empty($_SESSION["cogo_photo_url"])) {
+                                                                                        echo $_SESSION["cogo_photo_url"];
                                                                                     } else {
                                                                                         echo 'assets/image/user_icon.png';
                                                                                     }

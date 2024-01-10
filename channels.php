@@ -874,7 +874,7 @@
 
 			$(`#load_previous_task_progress_button`).hide().siblings().hide();
 
-			$.post(`php/ui/chat/get_channel_task_detail.php`, json, resp => {
+			$.post(`php/ui/taskmanager/get_channel_task_detail.php`, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {

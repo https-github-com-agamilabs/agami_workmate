@@ -225,6 +225,12 @@
 	</div>
 
 	<script>
+		const LOGGEDIN_USERNO = parseInt(`<?= $userno; ?>`, 10) || -1;
+		const UCATNO = parseInt(`<?= $_SESSION['cogo_ucatno']; ?>`, 10) || -1;
+
+		const ucatno = `<?= $_SESSION['cogo_ucatno']; ?>`;
+	</script>
+	<script>
 		// var start = moment().subtract(6, 'days');
 		// var end = moment();
 

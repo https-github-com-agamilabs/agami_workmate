@@ -108,6 +108,7 @@ error_reporting(E_ALL);
             $_SESSION['cogo_userno'] = $row['userno'];
             $_SESSION['cogo_firstname'] = $row['firstname'];
             $_SESSION['cogo_lastname'] = $row['lastname'];
+            $_SESSION['cogo_photo_url'] = $row['photo_url'];
             $_SESSION['cogo_ucatno'] = $row['ucatno'];
             $_SESSION['cogo_ucattitle'] = $row['ucattitle'];
             $_SESSION['cogo_email'] = $row['email'];
@@ -136,7 +137,7 @@ error_reporting(E_ALL);
      */
 
     function get_user_info($dbcon,$username){
-        $sql="SELECT userno,username,firstname,lastname,
+        $sql= "SELECT userno,username,firstname,lastname,photo_url,
                     affiliation,jobtitle,email,primarycontact,
                     passphrase,createtime,lastupdatetime,
                     ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=u.ucatno) as ucattitle,

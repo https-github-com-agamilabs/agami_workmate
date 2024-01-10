@@ -24,7 +24,7 @@ $arrayData = langConverter($jasonFilePath);
 // echo $jasonFilePath;
 // print_r($arrayData);
 
-include_once $basePath . "/configmanager/firebase_configuration.php";
+include_once $basePath . "/configmanager/fileupload_configuration.php";
 if (!defined("DB_USER")) {
 	include_once $basePath . '/php/db/config.php';
 }
@@ -138,7 +138,7 @@ if (!defined("DB_USER")) {
 								<div class="profile">
 									<div class="avatar">
 										<label for="people_profile_pic_input" style="cursor: pointer;">
-											<img id="tchrProPic" src="assets/image/profile_pic.png" onerror="this.onerror=null;this.src='assets/image/profile_pic.png';" alt="Profile Picture" class="img-raised rounded img-fluid">
+											<img id="tchrProPic" src="assets/image/user_icon.png" onerror="this.onerror=null;this.src='assets/image/user_icon.png';" alt="Profile Picture" class="img-raised rounded img-fluid">
 										</label>
 										<input type="file" class="sr-only" id="people_profile_pic_input" name="image" accept="image/*">
 									</div>

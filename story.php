@@ -208,12 +208,12 @@ include_once "php/ui/login/check_session.php";
 
 					<div id="task_progress_container"></div>
 
-					<div class="col-md-6">
+					<div class="text-center">
 						<button id="load_previous_task_progress_button" type="button" class="btn btn-primary font-weight-bold rounded-pill px-4 btn_shadow">
 							Load Previous Task Progress
 						</button>
 
-						<div class="alert alert-info py-2" style="display: none;">No info available.</div>
+						<div class="alert alert-info px-3 py-2 mx-auto" style="display: none;width: max-content;">No info available.</div>
 					</div>
 				</div>
 			</div>
@@ -468,12 +468,18 @@ include_once "php/ui/login/check_session.php";
 				limit: 10
 			};
 
-			//$(`#load_previous_task_progress_button`).hide().siblings().hide();
+			$(`#load_previous_task_progress_button`).hide().siblings().hide();
 
 			$.post(`php/ui/chat/get_channel_task_detail.php`, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
+					if (resp.results.length >= 10) {
+						$(`#load_previous_task_progress_button`).show();
+					} else {
+						$(`#load_previous_task_progress_button`).siblings().html(`No${pageno > 1 ? ` more` : ``} info available.`).show();
+					}
+
 					// show_available_channels(resp.data);
 					if (json.pageno <= 1) {
 						$(`#task_progress_container`).empty();

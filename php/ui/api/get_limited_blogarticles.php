@@ -61,7 +61,7 @@ if (isset($_POST['query'])) {
 
 $posts = array();
 
-$result = getBlogPosts($dbcon,$filter_doctno, $pageno, $limit, $tags, $query);
+$result = getBlogPosts($dbcon, $filter_doctno, $pageno, $limit, $tags, $query);
 
 if ($result->num_rows < 1) {
     $response['error'] = true;
@@ -102,7 +102,7 @@ exit();
 //===   End of Output in JSON  ===//
 $dbcon->close();
 
-function getBlogPosts($dbcon,$filter_doctno, $pageno, $limit, $tags, $query)
+function getBlogPosts($dbcon, $filter_doctno, $pageno, $limit, $tags, $query)
 {
 
     if (strlen($tags)) {
@@ -114,20 +114,19 @@ function getBlogPosts($dbcon,$filter_doctno, $pageno, $limit, $tags, $query)
 
         // sql injection safe
         // $tagSelection = ` AND postno in (SELECT postno FROM blg_blogposttags WHERE tagno in ("'" + REPLACE( ? ,',',''',''') + "'") )`;
-        $tagSelection = " AND postno in (SELECT postno FROM blg_blogposttags WHERE tagno in (".implode(",", $tags_arr).") )";
-        
+        $tagSelection = " AND postno in (SELECT postno FROM blg_blogposttags WHERE tagno in (" . implode(",", $tags_arr) . ") )";
     } else {
         $tagSelection = "";
     }
 
-    if (isset($filter_doctno) && $filter_doctno>0) {
+    if (isset($filter_doctno) && $filter_doctno > 0) {
         $doctorFilterSql = " WHERE doctno='$filter_doctno'";
     } else {
         $doctorFilterSql = "";
     }
 
-    $keys=explode(" ",$query);
-    $search=implode("%", $keys);;
+    $keys = explode(" ", $query);
+    $search = implode("%", $keys);;
     $search = '%' . $search . '%';
 
     $start = ($pageno - 1) * $limit;
@@ -137,7 +136,7 @@ function getBlogPosts($dbcon,$filter_doctno, $pageno, $limit, $tags, $query)
             (select doctno, peopleno, designation, affiliation, diploma from drrx_doctorinfo $doctorFilterSql) as di
             on bp.postauthorno=di.doctno
             inner join
-            (select peopleno, concat(ifnull(firstname, ''), ' ', ifnull(lastname, '')) as fullname, firstname, lastname, contactno, profilepicurl from gen_peopleprimary) as pp
+            (select peopleno, concat(ifnull(firstname, ''), ' ', ifnull(lastname, '')) as fullname, firstname, lastname, contactno, photo_url from gen_peopleprimary) as pp
             on pp.peopleno=di.peopleno
             WHERE post LIKE ? $tagSelection
             order by posttime desc

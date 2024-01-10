@@ -122,7 +122,7 @@
 
                             <form name='channel_select_form' class="input-group mx-3 my-auto">
                                 <select class="form-control-sm form-control my-auto" name="channelno"></select>
-                            
+
                                 <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"> -->
                                 <button type="submit" class="btn btn-outline-light btn-sm my-auto text-primary" type="button">
                                     Go <i class='fa fa-arrow-right'></i>
@@ -947,7 +947,7 @@
         }, `json`);
     }
 
-    function show_task(data, targetContainer) {
+    function show_task2(data, targetContainer) {
         let today = `<?= date('Y-m-d'); ?>`,
             start = ``,
             delay = {},

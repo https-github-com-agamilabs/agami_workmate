@@ -77,9 +77,12 @@ $(`#people_detail_edit_profile_button`).click(function (e) {
     const data = $(`#people_detail_update_form`).data();
     $(`#people_detail_update_form [name]`).each((index, elem) => {
         let elemName = $(elem).attr("name");
-        if (elemName == `gender`) {
-            let gender = data.gender == ``;
-            $(elem).val();
+        if (elemName == `primarycontact`) {
+            let primarycontact = ``;
+            if (data.primarycontact.length == 14 && data.primarycontact.startsWith(`+8801`)) {
+                primarycontact = data.primarycontact.substring(4);
+            }
+            $(elem).val(primarycontact);
         } else if (data[elemName] != null) {
             $(elem).val(data[elemName]);
             // if ($(elem).hasClass(`select2-hidden-accessible`)) {

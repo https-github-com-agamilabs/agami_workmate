@@ -161,8 +161,8 @@
 
 			let json = Object.fromEntries((new FormData($(`#task_filter_form`)[0])).entries());
 			let drp = $('#task_filter_date_input').data('daterangepicker');
-			json.startdate = drp.startDate.format('YYYY-MM-DD');
-			json.enddate = drp.endDate.format('YYYY-MM-DD');
+			// json.startdate = drp.startDate.format('YYYY-MM-DD');
+			// json.enddate = drp.endDate.format('YYYY-MM-DD');
 
 			$.post(`php/ui/taskmanager/filter_task_detail.php`, json, resp => {
 				if (resp.error) {

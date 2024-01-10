@@ -19,6 +19,120 @@
 	<!-- Include the Quill library -->
 	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
+	<style>
+		.bg-light-white {
+			background-color: #FFFFFF;
+		}
+
+		.bg-light-black {
+			background-color: #000000;
+		}
+
+		.bg-light-blue {
+			background-color: #89CFF077;
+		}
+
+		.bg-light-green {
+			background-color: #ACE1AF77;
+
+		}
+
+		.bg-light-red {
+			background-color: #FA807277;
+
+		}
+
+		.border-light-white {
+			border: 1px solid #FFFFFF;
+		}
+
+		.border-light-black {
+			border: 1px solid #000000;
+		}
+
+		.border-light-blue {
+			border: 1px solid #89CFF0;
+		}
+
+		.border-light-green {
+			border: 1px solid #ACE1AF;
+
+		}
+
+		.border-light-red {
+			border: 1px solid #FA8072;
+
+		}
+
+		.rounded-semi-circle {
+			border-radius: 25%;
+		}
+	</style>
+	<style>
+		.task-card {
+			transition: all 0.3s;
+		}
+
+		.task-card:hover {
+			transform: scale(1.01);
+			cursor: pointer;
+			z-index: 2000;
+		}
+
+		.progress_parent_div .progress_delete_button_root {
+			display: none;
+		}
+
+		.progress_parent_div:hover .progress_delete_button_root {
+			display: inline;
+		}
+
+		.open_menu>.fa.fa-ellipsis-h {
+			display: inline;
+		}
+
+		.open_menu.active>.fa.fa-ellipsis-h {
+			display: none;
+		}
+
+		.open_menu>.fa.fa-times {
+			display: none;
+
+		}
+
+		.open_menu.active>.fa.fa-times {
+			display: inline;
+
+		}
+
+		.dropdown-toggle::after {
+			display: none;
+		}
+	</style>
+
+	<style>
+		.comment .delete_comment {
+			display: none;
+			transition: .3s all;
+		}
+
+		.comment:hover .delete_comment {
+			display: inline;
+		}
+
+		pre {
+			margin-bottom: 0;
+
+			/* max-width: 100%; */
+			white-space: break-spaces;
+
+		}
+
+		pre p {
+			margin-bottom: 0;
+			padding-bottom: 0;
+		}
+	</style>
 </head>
 
 <body>

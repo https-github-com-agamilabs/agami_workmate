@@ -44,6 +44,11 @@
             $lastname = trim(strip_tags($_POST['lastname']));
         }
 
+        $photo_url=NULL;
+        if (isset($_POST['photo_url']) && strlen($_POST['photo_url'])>0) {
+            $photo_url = trim(strip_tags($_POST['photo_url']));
+        }
+
         $affiliation=NULL;
         if (isset($_POST['affiliation']) && strlen($_POST['affiliation'])>0) {
             $affiliation = trim(strip_tags($_POST['affiliation']));
@@ -99,8 +104,8 @@
         }
 
         if($userno>0){
-            $nos=update_user($dbcon, $username,$firstname,$lastname,$affiliation,
-                                    $jobtitle,$email,$primarycontact,
+            $nos=update_user($dbcon, $username,$firstname,$lastname,$photo_url,
+                                    $affiliation, $jobtitle,$email,$primarycontact,
                                     $ucatno, $supervisor,$permissionlevel,$userno);
             if($nos>0){
                 $response['error'] = false;
@@ -110,8 +115,8 @@
                 $response['message'] = "Cannot Update User!";
             }
         }else{
-            $userno=insert_user($dbcon, $username,$firstname,$lastname,$affiliation,
-                                        $jobtitle,$email,$primarycontact,$passphrase,
+            $userno=insert_user($dbcon, $username,$firstname,$lastname,$photo_url,
+                                    $affiliation, $jobtitle,$email,$primarycontact,$passphrase,
                                         $supervisor,$permissionlevel,$ucatno);
             if($userno>0){
                 $response['error'] = false;
@@ -134,18 +139,18 @@
      * Local Function
      */
 
-    function insert_user($dbcon, $username,$firstname,$lastname,$affiliation,
+    function insert_user($dbcon, $username,$firstname,$lastname,$photo_url, $affiliation,
                                 $jobtitle,$email,$primarycontact,$passphrase,
                                 $supervisor,$permissionlevel,$ucatno){
 
         $sql = "INSERT INTO hr_user(
-                                username,firstname,lastname,affiliation,
+                                username,firstname,lastname,photo_url,affiliation,
                                 jobtitle,email,primarycontact,passphrase,
                                 supervisor,permissionlevel,ucatno
                             )
-                VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("ssssssssiii",$username,$firstname,$lastname,$affiliation,
+        $stmt->bind_param("sssssssssiii",$username,$firstname,$lastname,$photo_url,$affiliation,
                             $jobtitle,$email,$primarycontact,$passphrase,
                             $supervisor,$permissionlevel,$ucatno);
         $stmt->execute();
@@ -154,68 +159,74 @@
 
     }
 
-    function update_user($dbcon, $username,$firstname,$lastname,$affiliation,
+    function update_user($dbcon, $username,$firstname,$lastname, $photo_url, $affiliation,
                                 $jobtitle,$email,$primarycontact,
                                 $ucatno,$supervisor,$permissionlevel,$userno){
 
         $params = array();
         $types = array();
         $dataset = "";
-        if(strlen($username)){
+        if(!is_null($username)){
             $dataset .="username=?";
             $params[] = &$username;
             $types[] = "s";
         }
 
-        if(strlen($firstname)){
+        if(!is_null($firstname)){
             $dataset .="firstname=?";
             $params[] = &$firstname;
             $types[] = "s";
         }
 
-        if(strlen($lastname)){
+        if(!is_null($lastname)){
             $dataset .="lastname=?";
             $params[] = &$lastname;
             $types[] = "s";
         }
 
-        if(strlen($affiliation)){
+        if(!is_null($photo_url)){
+            $dataset .="photo_url=?";
+            $params[] = &$photo_url;
+            $types[] = "s";
+        }
+
+        if(!is_null($affiliation)){
             $dataset .="affiliation=?";
             $params[] = &$affiliation;
             $types[] = "s";
         }
 
-        if(strlen($jobtitle)){
+        if(!is_null($jobtitle)){
             $dataset .="jobtitle=?";
             $params[] = &$jobtitle;
             $types[] = "s";
         }
 
-        if(strlen($email)){
+        if(!is_null($email)){
             $dataset .="email=?";
             $params[] = &$email;
             $types[] = "s";
         }
 
-        if(strlen($primarycontact)){
+        if(!is_null($primarycontact)){
             $dataset .="primarycontact=?";
             $params[] = &$primarycontact;
             $types[] = "s";
         }
 
-        if(strlen($ucatno)){
+        if(!is_null($ucatno)){
             $dataset .="ucatno=?";
             $params[] = &$ucatno;
             $types[] = "s";
         }
 
-        if(strlen($supervisor)){
+        if(!is_null($supervisor)){
             $dataset .="supervisor=?";
             $params[] = &$supervisor;
             $types[] = "s";
         }
 
-        if(strlen($permissionlevel)){
+        if(!is_null($permissionlevel)){
             $dataset .="permissionlevel=?";
             $params[] = &$permissionlevel;
             $types[] = "s";

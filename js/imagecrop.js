@@ -101,7 +101,7 @@ function loadImageCropper(ratioWidth, ratioHeight, imageWidth, imageHeight, call
 								let prevphoto_url = $(`#tchrProPic`).data(`photo_url`);
 
 								if (!resp.error && prevphoto_url) {
-									(delete_file_from_firebase({
+									(delete_file_from_server({
 										url: decodeURIComponent(prevphoto_url)
 									})).then(
 										result => console.log(result),

@@ -1,0 +1,142 @@
+/* The icon */
+.help-tip {
+    position: relative;
+    top: 12px;
+    left: 20px;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    text-align: center;
+    border: 2px solid #444;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-size: 15px;
+    line-height: 24px;
+    cursor: help;
+    z-index: 99;
+}
+
+.help-tip:before {
+    content: '?';
+    font-family: sans-serif;
+    font-weight: normal;
+    color: #444;
+}
+
+.help-tip:hover p {
+    z-index: 1000;
+    display: block;
+    transform-origin: 100% 0%;
+    -webkit-animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.3s ease;
+}
+
+/* The tooltip */
+.help-tip p {
+    display: none;
+    font-family: sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    text-align: left;
+    background-color: #FFFFFF;
+    padding: 12px 16px;
+    width: 367px;
+    height: auto;
+    top: 12px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 5%);
+    border-radius: 3px;
+    border: 1px solid #E0E0E0;
+    /* box-shadow: 0 0px 20px 0 rgba(0, 0, 0, 0.1); */
+    color: #37393D;
+    font-size: 12px;
+    line-height: 18px;
+    z-index: 1000;
+}
+
+.help-tip p a {
+    color: #067df7;
+    text-decoration: none;
+}
+
+.help-tip p a:hover {
+    text-decoration: underline;
+}
+
+/* The pointer of the tooltip */
+.help-tip p:before {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-bottom-color: #FFFFFF;
+    top: -9px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Prevents the tooltip from being hidden */
+.help-tip p:after {
+    width: auto;
+    height: auto;
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 0;
+}
+
+/* CSS animation */
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 100%;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 100%;
+    }
+}
+
+@media (max-width:768px) {
+    .help-tip {
+        left: 12px;
+    }
+}
+
+@media (max-width:400px) {
+    .help-tip p {
+
+        width: 298px;
+        height: auto;
+        top: 2px;
+
+    }
+}
+
+@media (max-width:320px) {
+    .help-tip p {
+        width: 252px;
+        height: auto;
+        top: 2px;
+        left: 13px;
+    }
+}
+
+
+/* p {
+    margin-top: 4px;
+    margin-bottom: 1rem;
+    color: black;
+    font-family: sans-serif;
+} */

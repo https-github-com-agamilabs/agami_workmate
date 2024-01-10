@@ -78,7 +78,7 @@ function loadImageCropper(ratioWidth, ratioHeight, imageWidth, imageHeight, call
 			initialAvatarURL = avatar.src;
 
 			canvas.toBlob(function (blob) {
-				(upload_file_in_firebase(blob, "files/people/")).then(
+				(upload_file_in_server(blob, "files/people/")).then(
 					response => {
 						console.log("image upload response", response);
 						let json = {

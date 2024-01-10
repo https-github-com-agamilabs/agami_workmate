@@ -27,6 +27,7 @@
 
         //username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase
 
+        $username = NULL;
         if (isset($_POST['username']) && strlen($_POST['username'])>0) {
             $username = trim(strip_tags($_POST['username']));
         }else{
@@ -35,6 +36,7 @@
             }
         }
 
+        $firstname = NULL;
         if (isset($_POST['firstname']) && strlen($_POST['firstname'])>0) {
             $firstname = trim(strip_tags($_POST['firstname']));
         }else{

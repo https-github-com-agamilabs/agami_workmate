@@ -171,69 +171,69 @@
 
         $params = array();
         $types = array();
-        $dataset = "";
+        $dataset = array();
         if(!is_null($username)){
-            $dataset .="username=?";
+            $dataset[] ="username=?";
             $params[] = &$username;
             $types[] = "s";
         }
 
         if(!is_null($firstname)){
-            $dataset .="firstname=?";
+            $dataset[] ="firstname=?";
             $params[] = &$firstname;
             $types[] = "s";
         }
 
         if(!is_null($lastname)){
-            $dataset .="lastname=?";
+            $dataset[] ="lastname=?";
             $params[] = &$lastname;
             $types[] = "s";
         }
 
         if(!is_null($photo_url)){
-            $dataset .="photo_url=?";
+            $dataset[] ="photo_url=?";
             $params[] = &$photo_url;
             $types[] = "s";
         }
 
         if(!is_null($affiliation)){
-            $dataset .="affiliation=?";
+            $dataset[] ="affiliation=?";
             $params[] = &$affiliation;
             $types[] = "s";
         }
 
         if(!is_null($jobtitle)){
-            $dataset .="jobtitle=?";
+            $dataset[] ="jobtitle=?";
             $params[] = &$jobtitle;
             $types[] = "s";
         }
 
         if(!is_null($email)){
-            $dataset .="email=?";
+            $dataset[] ="email=?";
             $params[] = &$email;
             $types[] = "s";
         }
 
         if(!is_null($primarycontact)){
-            $dataset .="primarycontact=?";
+            $dataset[] ="primarycontact=?";
             $params[] = &$primarycontact;
             $types[] = "s";
         }
 
         if(!is_null($ucatno)){
-            $dataset .="ucatno=?";
+            $dataset[] ="ucatno=?";
             $params[] = &$ucatno;
             $types[] = "s";
         }
 
         if(!is_null($supervisor)){
-            $dataset .="supervisor=?";
+            $dataset[] ="supervisor=?";
             $params[] = &$supervisor;
             $types[] = "s";
         }
 
         if(!is_null($permissionlevel)){
-            $dataset .="permissionlevel=?";
+            $dataset[] ="permissionlevel=?";
             $params[] = &$permissionlevel;
             $types[] = "s";
         }
@@ -244,11 +244,11 @@
             $types[] = "s";
         }
 
-        if(!strlen($dataset)){
+        if(!count($dataset)){
             return -1;
         }
 
-
+        $dataset = implode(", ", $dataset);
         $sql = "UPDATE hr_user
                 SET $dataset
                 WHERE userno=?";

@@ -131,7 +131,7 @@
                             </form>
 
 
-                            <a href="task_filter.php"><i class="fas fa-list-ol fa-2x mr-3 text-primary rounded-circle"></i></a>
+                            <a href="task_filter.php"><i class="fas fa-tasks fa-2x mr-3 text-primary rounded-circle"></i></a>
                             
                             <a href="time_keeper_summary.php"><i class="fas fa-chart-bar fa-2x mr-3 text-primary rounded-circle"></i></a>
                         </div>

@@ -39,13 +39,12 @@
             $startdate = trim(strip_tags($_POST['startdate']));
         }
 
+        $enddate = NULL;
         if (isset($_POST['enddate']) && strlen($_POST['enddate'])>0) {
             $enddate = trim(strip_tags($_POST['enddate']));
         }else if($startdate != NULL){
             date_default_timezone_set("Asia/Dhaka");
             $enddate = date("Y-m-d");
-        }else{
-            $enddate = NULL;
         }
 
         // STATUS MANAGEMENT

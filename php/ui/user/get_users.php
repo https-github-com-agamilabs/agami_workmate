@@ -29,7 +29,17 @@
             $isactive = (int) $_POST['isactive'];
         }
 
-        $list = get_all_users($dbcon, $ucatno, $isactive);
+        $showmyinfo=0;
+        if (isset($_POST['showmyinfo'])) {
+            $showmyinfo = (int) $_POST['showmyinfo'];
+        }
+
+        $selected_user = -1;
+        if($showmyinfo>0){
+            $selected_user = $userno;
+        }
+
+        $list = get_all_users($dbcon, $ucatno, $selected_user, $isactive);
 
         if ($list->num_rows > 0) {
             $meta_array = array();
@@ -57,7 +67,7 @@
     *   LOCAL FUNCTIONS
     */
 
-    function get_all_users($dbcon, $ucatno, $isactive){
+    function get_all_users($dbcon, $ucatno, $selected_user, $isactive){
 
         $params = array();
         $types = "";
@@ -68,6 +78,13 @@
             $params[] = &$ucatno;
             $count++;
             $dataset .= " AND ucatno=?";
+            $types .= 'i';
+        }
+
+        if($selected_user>0){
+            $params[] = &$selected_user;
+            $count++;
+            $dataset .= " AND userno=?";
             $types .= 'i';
         }
 

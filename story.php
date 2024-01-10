@@ -10,7 +10,7 @@ include_once "php/ui/login/check_session.php";
 	include_once("header.php");
 	date_default_timezone_set("Asia/Dhaka"); ?>
 
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
 	<!-- Include stylesheet -->
@@ -87,11 +87,11 @@ include_once "php/ui/login/check_session.php";
 			z-index: 2000;
 		}
 
-		.progress_parent_div .progress_delete_button_root{
+		.progress_parent_div .progress_delete_button_root {
 			display: none;
 		}
 
-		.progress_parent_div:hover .progress_delete_button_root{
+		.progress_parent_div:hover .progress_delete_button_root {
 			display: inline;
 		}
 
@@ -128,14 +128,15 @@ include_once "php/ui/login/check_session.php";
 			display: inline;
 		}
 
-		pre{
+		pre {
 			margin-bottom: 0;
 
 			/* max-width: 100%; */
 			white-space: break-spaces;
 
 		}
-		pre p{
+
+		pre p {
 			margin-bottom: 0;
 			padding-bottom: 0;
 		}
@@ -437,6 +438,20 @@ include_once "php/ui/login/check_session.php";
 		const searchParams = new URLSearchParams(window.location.search);
 
 		const selected_channel = searchParams.has('channelno') ? searchParams.get('channelno') : '';
+
+		function formatDateTime(d) {
+			d = new Date(d);
+			let month_short = d.toLocaleString('default', {
+				month: 'short'
+			});
+
+			let date = d.getDate().toString().padStart(2, 0);
+
+			return `${date} ${month_short} ${d.getFullYear()} ${d.toLocaleString('default', {
+				timeStyle: 'short',
+				hour12: true
+			})}`;
+		}
 
 		show_available_channels([]);
 		//get_channels_available_task();
@@ -917,7 +932,7 @@ include_once "php/ui/login/check_session.php";
 									<small class='ml-2'>${value.storytype == 3 ? `${value.priorityleveltitle} (${value.relativepriority})`:``}</small>
 								</div>
 								<small class="mr-2">
-									${value.storytime || ``}
+									${value.storytime ? formatDateTime(value.storytime) : ``}
 								</small>
 							</div>
 						</div>
@@ -1130,7 +1145,7 @@ include_once "php/ui/login/check_session.php";
 								<div class="text-right mr-2">
 									<pre>${aComment.story}</pre>
 									<small>
-										${aComment.lastupdatetime}
+										${formatDateTime(aComment.lastupdatetime)}
 										<span data-backlogno="${aComment.backlogno}" class="delete_comment ${isDeleteAllowed ? `` : `d-none`} cursor-pointer text-danger ml-2">
 											Delete
 										</span>
@@ -1148,7 +1163,7 @@ include_once "php/ui/login/check_session.php";
 								<div class="text-left ml-2">
 									<pre>${aComment.story}</pre>
 									<small>
-										${aComment.lastupdatetime}
+										${formatDateTime(aComment.lastupdatetime)}
 										<span data-backlogno="${aComment.backlogno}" class="delete_comment ${isDeleteAllowed ? `` : `d-none`} cursor-pointer text-danger ml-2">
 											Delete
 										</span>
@@ -1304,7 +1319,7 @@ include_once "php/ui/login/check_session.php";
 					// 		comment_form.submit();
 					// 	}
 					// });
-					$('button.comment-send', comment_form).click(function(){
+					$('button.comment-send', comment_form).click(function() {
 						$(comment_form).trigger('submit');
 					});
 

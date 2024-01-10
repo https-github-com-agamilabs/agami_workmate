@@ -2,7 +2,7 @@
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-    
+
     $base_path = dirname(dirname(dirname(__FILE__)));
     include_once  $base_path."/ui/login/check_session.php";
 
@@ -150,7 +150,7 @@
          */
         $schedule_filter = " 1 ";
         if($startdate != NULL){
-            $filter .= " (
+            $schedule_filter .= " (
                                 ? <= DATE_ADD(scheduledate, INTERVAL (duration-1) DAY) AND
                                 ? >= scheduledate
                             )";

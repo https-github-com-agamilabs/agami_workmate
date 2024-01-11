@@ -125,14 +125,14 @@
 
                                 <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"> -->
                                 <button type="submit" class="btn btn-outline-light btn-sm my-auto text-primary" type="button">
-                                    Go 
+                                    Go
                                     <!-- <i class='fa fa-arrow-right'></i> -->
                                 </button>
                             </form>
 
 
                             <a href="task_filter.php"><i class="fas fa-tasks fa-2x mr-3 text-primary rounded-circle"></i></a>
-                            
+
                             <a href="time_keeper_summary.php"><i class="fas fa-chart-bar fa-2x mr-3 text-primary rounded-circle"></i></a>
                         </div>
 
@@ -477,16 +477,18 @@
         return value.toString().padStart(2, 0);
     }
 
-    function formatDateTime(dateTime) {
-        let date = new Date(dateTime);
-        let hours = date.getHours();
-        let minutes = date.getMinutes();
-        let ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // the hour '0' should be '12'
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        let strTime = hours + ':' + minutes + ' ' + ampm;
-        return padZero(date.getDate()) + "-" + padZero(date.getMonth() + 1) + "-" + date.getFullYear() + "  " + strTime;
+    function formatDateTime(d) {
+        d = new Date(d);
+        let month_short = d.toLocaleString('default', {
+            month: 'short'
+        });
+
+        let date = d.getDate().toString().padStart(2, 0);
+
+        return `${date} ${month_short} ${d.getFullYear()} ${d.toLocaleString('default', {
+				timeStyle: 'short',
+				hour12: true
+			})}`;
     }
 
     function formatDateToYYYYMMDD(date = new Date()) {

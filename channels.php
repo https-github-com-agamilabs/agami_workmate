@@ -242,18 +242,6 @@
 			return (value < 10) ? `0${value}` : value;
 		}
 
-		function formatDateTime(dateTime) {
-			let date = new Date(dateTime);
-			let hours = date.getHours();
-			let minutes = date.getMinutes();
-			let ampm = hours >= 12 ? 'PM' : 'AM';
-			hours = hours % 12;
-			hours = hours ? hours : 12; // the hour '0' should be '12'
-			minutes = minutes < 10 ? '0' + minutes : minutes;
-			let strTime = hours + ':' + minutes + ' ' + ampm;
-			return padWithZero(date.getDate()) + "-" + padWithZero(date.getMonth() + 1) + "-" + date.getFullYear() + "  " + strTime;
-		}
-
 		function formatTime(timeString = "00:00:00") {
 			let H = +timeString.substr(0, 2);
 			let h = H % 12 || 12;

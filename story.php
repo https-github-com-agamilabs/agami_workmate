@@ -439,20 +439,6 @@ include_once "php/ui/login/check_session.php";
 
 		const selected_channel = searchParams.has('channelno') ? searchParams.get('channelno') : '';
 
-		function formatDateTime(d) {
-			d = new Date(d);
-			let month_short = d.toLocaleString('default', {
-				month: 'short'
-			});
-
-			let date = d.getDate().toString().padStart(2, 0);
-
-			return `${date} ${month_short} ${d.getFullYear()} ${d.toLocaleString('default', {
-				timeStyle: 'short',
-				hour12: true
-			})}`;
-		}
-
 		show_available_channels([]);
 		//get_channels_available_task();
 		get_channel_task_detail();

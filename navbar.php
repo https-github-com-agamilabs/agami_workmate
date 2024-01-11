@@ -116,28 +116,32 @@
             <div class="header-btn-lg pr-0">
                 <div class="widget-content p-0">
                     <div class="widget-content-wrapper">
-                        <div class="widget-content-left d-flex">
+                        <div class="widget-content-left d-flex align-items-center">
 
-                            <a href="time_keeper.php"><i class="fas fa-play-circle fa-2x text-primary rounded-circle"></i></a>
+                            <a href="time_keeper.php" class="rounded-circle p-1 px-sm-3 px-md-2">
+                                <i class="fas fa-play-circle fa-2x text-primary" style="line-height:1;"></i>
+                            </a>
+                            <a href="time_keeper_summary.php" class="rounded-circle p-1 px-sm-3 px-md-2">
+                                <i class="fas fa-chart-bar fa-2x text-primary" style="line-height:1;"></i>
+                            </a>
+                            <a href="task_filter.php" class="rounded-circle p-1 px-sm-3 px-md-2 mr-sm-2">
+                                <i class="fas fa-tasks fa-2x text-primary" style="line-height:1;"></i>
+                            </a>
 
-                            <form name='channel_select_form' class="input-group mx-3 my-auto">
-                                <select class="form-control-sm form-control my-auto" name="channelno"></select>
-
-                                <!-- <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2"> -->
-                                <button type="submit" class="btn btn-outline-light btn-sm my-auto text-primary" type="button">
-                                    Go
-                                    <!-- <i class='fa fa-arrow-right'></i> -->
-                                </button>
+                            <form name="channel_select_form" class="mb-0 mr-1 mr-sm-3">
+                                <div class="input-group input-group-sm">
+                                    <select name="channelno" class="form-control form-control-sm"></select>
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-outline-light text-primary px-1 px-sm-2" type="button">
+                                            Go
+                                            <!-- <i class='fa fa-arrow-right'></i> -->
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
-
-
-                            <a href="task_filter.php"><i class="fas fa-tasks fa-2x mr-3 text-primary rounded-circle"></i></a>
-
-                            <a href="time_keeper_summary.php"><i class="fas fa-chart-bar fa-2x mr-3 text-primary rounded-circle"></i></a>
                         </div>
 
-                        <div class="widget-content-left d-flex mt-2">
-
+                        <div class="widget-content-left d-flex">
                             <!-- <div class=" mr-3">
                                 <button id="leave_application_button" class="d-flex alert alert-primary shadow-sm border border-primary btn btn-sm btn-default border px-2 shadow-sm py-1" type="button" data-toggle="tooltip" data-placement="bottom" title="Leave Application">
                                     <img src="assets/image/exit.png" width="33" alt="">
@@ -147,8 +151,8 @@
                                 </button>
                             </div> -->
                             <!-- Timekeppeer Start -->
-                            <div class="mr-1 mr-sm-2 mr-md-4">
-                                <div class="alert alert-primary d-flex shadow-sm text-center px-0 px-sm-1 px-md-3 py-0 mb-0" style="height:max-content; border-radius: 15px;">
+                            <div class="mt-lg-2 mr-1 mr-sm-2 mr-md-4">
+                                <div class="alert alert-primary d-flex shadow-sm text-center px-0 px-sm-1 px-md-2 py-0 mb-0" style="height:max-content; border-radius: 15px;">
                                     <h5 class="stopwatch border-secondary border-right mb-0 px-1" style="line-height: unset;">00:00:00</h5>
                                     <i data-hideontimerpage="true" class="timer_button far btn-sm fa-play-circle text-success px-1" style="line-height:1;font-size:1.4rem;"></i>
                                 </div>
@@ -163,7 +167,7 @@
                                                                                         echo 'assets/image/user_icon.png';
                                                                                     }
                                                                                     ?>" onerror="this.onerror=null;this.src='assets/image/user_icon.png'" alt="">
-                                    <i class="fa fa-angle-down ml-2 opacity-8"></i>
+                                    <i class="fa fa-angle-down ml-lg-2 opacity-8 d-none d-sm-inline-block"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-180px, 44px, 0px);">
                                     <h6 tabindex="-1" class="dropdown-header d-flex justify-content-between align-self-center">

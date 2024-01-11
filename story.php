@@ -1084,13 +1084,13 @@ include_once "php/ui/login/check_session.php";
 									<div class='mt-1 pb-2' id='collapse_progress_${aSchedule.cblscheduleno}'>
 										<div class='d-flex flex-wrap'>
 											<div class='my-auto'>
-												${aSchedule.progress.length?"Progress":'<i>No Progress Yet.</i>'}
+												${aSchedule.progress.length ? `Progress` : `<i>No Progress Yet.</i>`}
 											</div>
 											${aSchedule.progress.length
 												? aSchedule.progress
 													.map((b) => {
 
-														return `<div title='Time: ${b.progresstime}' style='min-width: 100px;' class='progress_parent_div text-center border mx-2 pl-2 d-flex position-relative'>
+														return `<div title='Time: ${formatDateTime(b.progresstime)}' style='min-width: 100px;' class='progress_parent_div text-center border mx-2 pl-2 d-flex position-relative'>
 																	<div><i class='fa fa-circle ${b.statustitle.split(" ").join('_')}'></i></div>
 																	<div class='ml-1 mr-1'>${b.statustitle}</div>
 																	<div class="progress_delete_button_root px-2 border-left bg-danger text-white" style0="top:-12px;right:-4px;">

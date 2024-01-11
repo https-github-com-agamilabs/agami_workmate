@@ -254,6 +254,20 @@
 
 		// cb(start, end);
 
+		function formatDateTime(d) {
+			d = new Date(d);
+			let month_short = d.toLocaleString('default', {
+				month: 'short'
+			});
+
+			let date = d.getDate().toString().padStart(2, 0);
+
+			return `${date} ${month_short} ${d.getFullYear()} ${d.toLocaleString('default', {
+				timeStyle: 'short',
+				hour12: true
+			})}`;
+		}
+
 		get_my_fellow();
 
 		function get_my_fellow() {
@@ -306,7 +320,6 @@
 	</script>
 
 	<script>
-
 		function get_header(value) {
 			return `<div class="d-flex flex-wrap justify-content-between p-2 px-3">
 						<div class="d-flex flex-row align-items-center">

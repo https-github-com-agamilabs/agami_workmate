@@ -208,30 +208,31 @@
 
     function show_channels(data) {
         $.each(data, (index, value) => {
-            let listTag = $(`<li>`)
-                .appendTo(`#channels_container`)
-                .append(`<a href="javascript:void(0);" class="menu-anchor menu-anchor-lvl-1">
-                            <i class="metismenu-icon fas fa-layer-group"></i> ${value.channeltitle}
-                            <span class="chat_badge badge badge-info rounded-circle p-1"></span>
-                            <span class="task_badge badge badge-warning rounded-circle p-1"></span>
-                            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                        </a>
-                        <ul class="mm-collapse">
-                            ${value.subchannels.map(a =>
-                            `<li>
-                                <a href="story.php?channelno=${a.channelno}" class="menu-anchor menu-anchor-lvl-2">
-                                    <i class="metismenu-icon"></i> <i class="fas fa-comments opacity-6 mr-2"></i> ${a.channeltitle}
-                                    <span class="chat_badge badge badge-info rounded-circle p-1"></span>
-                                    <span class="task_badge badge badge-warning rounded-circle p-1"></span>
-                                </a>
-                            </li>`)
-                            .join("")}
-                        </ul>`);
+            let listTag = $(`<li class="mm-active">
+                    <a href="javascript:void(0);" class="menu-anchor menu-anchor-lvl-1" aria-expanded="true">
+                        <i class="metismenu-icon fas fa-layer-group"></i> ${value.channeltitle}
+                        <span class="chat_badge badge badge-info rounded-circle p-1"></span>
+                        <span class="task_badge badge badge-warning rounded-circle p-1"></span>
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul class="mm-collapse mm-show">
+                        ${value.subchannels.map(a =>
+                        `<li>
+                            <a href="story.php?channelno=${a.channelno}" class="menu-anchor menu-anchor-lvl-2">
+                                <i class="metismenu-icon"></i> <i class="fas fa-comments opacity-6 mr-2"></i> ${a.channeltitle}
+                                <span class="chat_badge badge badge-info rounded-circle p-1"></span>
+                                <span class="task_badge badge badge-warning rounded-circle p-1"></span>
+                            </a>
+                        </li>`)
+                        .join("")}
+                    </ul>
+                </li>`)
+                .appendTo(`#channels_container`);
         });
 
 
         const searchParams = new URLSearchParams(window.location.search);
-		const selected_channel = searchParams.has('channelno') ? searchParams.get('channelno') : '';
+        const selected_channel = searchParams.has('channelno') ? searchParams.get('channelno') : '';
 
         // let select1 = $(`#task_channel_select`).empty();
         // let select2 = $(`#task_manager_setup_modal_form [name="channelno"]`).empty();
@@ -249,14 +250,14 @@
             });
         });
 
-        $(select3).change(function(){
-            location.href = "story.php"+"?"+"channelno="+$(this).val();
+        $(select3).change(function() {
+            location.href = "story.php" + "?" + "channelno=" + $(this).val();
         });
 
-        $('.widget-content-left [name="channel_select_form"]').submit(function(e){
+        $('.widget-content-left [name="channel_select_form"]').submit(function(e) {
             e.preventDefault();
             let channelno = $('.widget-content-left [name="channelno"]').val();
-            location.href = "story.php"+"?"+"channelno="+channelno;
+            location.href = "story.php" + "?" + "channelno=" + channelno;
         });
 
         setTimeout(function() {
@@ -273,9 +274,7 @@
             type: "POST",
             url: "php/ui/notification/get_channel_notification.php",
             success: (result) => {
-                // console.log("GET_CHANNEL_NOTIFICATION RESULT=>", result);
                 let resp = $.parseJSON(result);
-                // console.log("GET_CHANNEL_NOTIFICATION RESP=>", resp);
 
                 if (resp.error) {
                     toastr.error(resp.message);

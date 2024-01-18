@@ -37,14 +37,21 @@
 					<div class="card mb-3">
 						<div class="card-body">
 							<div class="row">
-								<div class="col-md-6 input-group mb-3">
+								<div class="col-md-4 input-group mb-3">
+									<div class="input-group-prepend">
+										<span class="input-group-text shadow-sm">Work For</span>
+									</div>
+									<select id="time_keeper_workfor_select" name="startdate" class="form-control shadow-sm"></select>
+								</div>
+
+								<div class="col-md-4 input-group mb-3">
 									<div class="input-group-prepend">
 										<span class="input-group-text shadow-sm">Start Date</span>
 									</div>
 									<input id="time_keeper_startdate_input" name="startdate" class="form-control shadow-sm" type="date" value="<?= date('Y-m-d'); ?>" required>
 								</div>
 
-								<div class="col-md-6 input-group mb-3">
+								<div class="col-md-4 input-group mb-3">
 									<div class="input-group-prepend">
 										<span class="input-group-text shadow-sm">End Date</span>
 									</div>
@@ -67,7 +74,7 @@
 						</div>
 					</div>
 
-					<div class="card mb-3 <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">
+					<div class="card mb-3 <?= $_SESSION['cogo_ucatno'] == 13 ? 'd-none' : '' ?>">
 						<div class="card-header">
 							<h5 class="font-weight-bold">Summary</h5>
 						</div>
@@ -136,14 +143,42 @@
 			$("#time_keeper_enddate_input").val(localStorage.getItem(`enddate`));
 		}
 
-		$("#time_keeper_startdate_input, #time_keeper_enddate_input").on("input", function(e) {
+		get_tk_owner();
+
+		function get_tk_owner() {
+			$(`#time_keeper_workfor_select`).empty().append(`<option value="">AGAMiLabs Ltd.</option>`);
+
+			$.post(`php/ui/user/get_tk_owner.php`, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					show_tk_owner(resp.results);
+				}
+			}, `json`);
+		}
+
+		function show_tk_owner(data) {
+			let target = $(`#time_keeper_workfor_select`);
+
+			$.each(data, (index, value) => {
+				$(`<option value="${value.userno}">
+						${value.firstname}
+						${value.lastname ?? ``}
+						${value.email ? `(${value.email})` : ``}
+					</option>`)
+					.appendTo(target);
+			});
+
+			get_employee_elapsedtime();
+		}
+
+		$(`#time_keeper_workfor_select, #time_keeper_startdate_input, #time_keeper_enddate_input`).on("input", function(e) {
 			get_employee_elapsedtime();
 		});
 
-		get_employee_elapsedtime();
-
 		function get_employee_elapsedtime() {
 			let json = {
+				workfor: $("#time_keeper_workfor_select").val(),
 				startdate: $("#time_keeper_startdate_input").val(),
 				enddate: $("#time_keeper_enddate_input").val()
 			};
@@ -254,8 +289,8 @@
 					<th rowspan="2" class="text-right"><i class="fas fa-less-than"></i> 8h & <i class="fas fa-greater-than-equal"></i> 4h</th>
 					<th rowspan="2" class="text-right"><i class="fas fa-less-than"></i> 4h</th>
 					<th rowspan="2" class="text-center">Total <br>Time</th>
-					<th rowspan="2" class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">Deficient <br>Time</th>
-					<th rowspan="2" class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">Additional <br>Time</th>`);
+					<th rowspan="2" class="text-center <?= $_SESSION['cogo_ucatno'] == 13 ? 'd-none' : '' ?>">Deficient <br>Time</th>
+					<th rowspan="2" class="text-center <?= $_SESSION['cogo_ucatno'] == 13 ? 'd-none' : '' ?>">Additional <br>Time</th>`);
 
 			let totalElapsedTime = 0;
 			let successTimeCount = 0;
@@ -330,13 +365,13 @@
 				if (totalElapsedTime < totalWorkingTime) {
 					hr = parseInt((totalWorkingTime - totalElapsedTime) / 3600, 10) || 0;
 					min = parseInt(((totalWorkingTime - totalElapsedTime) % 3600) / 60, 10) || 0;
-					tbodyRow.append(`<td class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">${padZero(hr)}h ${padZero(min)}m</td> <td class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">-</td>`);
+					tbodyRow.append(`<td class="text-center <?= $_SESSION['cogo_ucatno'] == 13 ? 'd-none' : '' ?>">${padZero(hr)}h ${padZero(min)}m</td> <td class="text-center <?= $_SESSION['cogo_ucatno'] == 13 ? 'd-none' : '' ?>">-</td>`);
 				} else if (totalElapsedTime > totalWorkingTime) {
 					hr = parseInt((totalElapsedTime - totalWorkingTime) / 3600, 10) || 0;
 					min = parseInt(((totalElapsedTime - totalWorkingTime) % 3600) / 60, 10) || 0;
-					tbodyRow.append(`<td class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">-</td> <td class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">${padZero(hr)}h ${padZero(min)}m</td>`);
+					tbodyRow.append(`<td class="text-center <?= $_SESSION['cogo_ucatno'] == 13 ? 'd-none' : '' ?>">-</td> <td class="text-center <?= $_SESSION['cogo_ucatno'] == 13 ? 'd-none' : '' ?>">${padZero(hr)}h ${padZero(min)}m</td>`);
 				} else {
-					tbodyRow.append(`<td class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">-</td> <td class="text-center <?= $_SESSION['cogo_ucatno']==13?'d-none':'' ?>">-</td>`);
+					tbodyRow.append(`<td class="text-center <?= $_SESSION['cogo_ucatno'] == 13 ? 'd-none' : '' ?>">-</td> <td class="text-center <?= $_SESSION['cogo_ucatno'] == 13 ? 'd-none' : '' ?>">-</td>`);
 				}
 			});
 

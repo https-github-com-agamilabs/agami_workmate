@@ -165,7 +165,7 @@
 
                 <li>
                     <a href="task_filter.php" class="menu-anchor menu-anchor-lvl-1">
-                        <i class="metismenu-icon fas fa-plus-square"></i> Task Filter
+                        <i class="metismenu-icon fas fa-tasks"></i> Task Filter
                     </a>
                 </li>
             </ul>

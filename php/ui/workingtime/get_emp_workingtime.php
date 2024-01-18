@@ -42,7 +42,13 @@
         $response['elapsedtime'] = $elapsedtime;
 
         if ($ucatno>=19) {
-            $list=get_all_workingtime($dbcon, $startdate, $enddate);
+            if (isset($_POST['workfor']) && strlen($_POST['workfor'])>0) {
+                $workfor=(int) $_POST['workfor'];
+                if($workfor>0)
+                    $list = get_workfor_workingtime($dbcon, $workfor, $startdate, $enddate);
+            }else{
+                $list=get_all_workingtime($dbcon, $startdate, $enddate);
+            }
         } else if($ucatno>=13){
             $list = get_workfor_workingtime($dbcon, $empno, $startdate, $enddate);
         }else {

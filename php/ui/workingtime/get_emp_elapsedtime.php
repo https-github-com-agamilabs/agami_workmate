@@ -46,8 +46,7 @@
         if ($ucatno>=19) {
             if (isset($_POST['workfor']) && strlen($_POST['workfor'])>0) {
                 $workfor=(int) $_POST['workfor'];
-                if($workfor>0)
-                    $list = get_emp_elapsedtime_workfor($dbcon, $workfor, $startdate, $enddate);
+                $list = get_emp_elapsedtime_workfor($dbcon, $workfor, $startdate, $enddate);
             }else{
                 $list= get_all_emp_elapsedtime($dbcon, $startdate, $enddate);
             }

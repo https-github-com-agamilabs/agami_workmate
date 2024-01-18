@@ -43,13 +43,27 @@
             throw new \Exception("You must specify end date!", 1);
         }
 
-        if($ucatno>=19){
-            $list = get_all_emp_elapsedtime($dbcon, $startdate, $enddate);
-        }else if($ucatno>=13){
+        if ($ucatno>=19) {
+            if (isset($_POST['workfor']) && strlen($_POST['workfor'])>0) {
+                $workfor=(int) $_POST['workfor'];
+                if($workfor>0)
+                    $list = get_emp_elapsedtime_workfor($dbcon, $workfor, $startdate, $enddate);
+            }else{
+                $list= get_all_emp_elapsedtime($dbcon, $startdate, $enddate);
+            }
+        } else if($ucatno>=13){
             $list = get_emp_elapsedtime_workfor($dbcon, $empno, $startdate, $enddate);
-        }else{
+        }else {
             $list = get_emp_elapsedtime($dbcon, $empno, $startdate, $enddate);
         }
+
+        // if($ucatno>=19){
+        //     $list = get_all_emp_elapsedtime($dbcon, $startdate, $enddate);
+        // }else if($ucatno>=13){
+        //     $list = get_emp_elapsedtime_workfor($dbcon, $empno, $startdate, $enddate);
+        // }else{
+        //     $list = get_emp_elapsedtime($dbcon, $empno, $startdate, $enddate);
+        // }
 
 
         if ($list->num_rows > 0) {

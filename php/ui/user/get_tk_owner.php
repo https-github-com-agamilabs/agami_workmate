@@ -55,7 +55,7 @@
     */
 
     function get_tk_owner($dbcon){  
-        $sql = "SELECT userno,CONCAT(firstname,' ', IFNULL(lastname,''),'(',email,')') as fullname
+        $sql = "SELECT userno,CONCAT(firstname,' ', IFNULL(lastname,''),'(',IFNULL(email,''),')') as fullname
                 FROM hr_user as u
                 WHERE isactive>=1 AND ucatno>=13
                 ORDER BY userno DESC";

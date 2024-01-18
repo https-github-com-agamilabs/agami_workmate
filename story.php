@@ -83,7 +83,7 @@ include_once "php/ui/login/check_session.php";
 
 		.task-card:hover {
 			transform: scale(1.01);
-			cursor: pointer;
+			/* cursor: pointer; */
 			z-index: 2000;
 		}
 
@@ -119,11 +119,13 @@ include_once "php/ui/login/check_session.php";
 	</style>
 
 	<style>
+		.comment .edit_comment,
 		.comment .delete_comment {
 			display: none;
 			transition: .3s all;
 		}
 
+		.comment:hover .edit_comment,
 		.comment:hover .delete_comment {
 			display: inline;
 		}
@@ -670,9 +672,13 @@ include_once "php/ui/login/check_session.php";
 				} else {
 					toastr.success(resp.message);
 					$(".modal.show").modal("hide");
+
 					let pageno = $("#task_manager_table_pageno_input").val();
 					// get_channel_backlogs(pageno);
 					get_channel_task_detail(pageno);
+
+					$(formElem).data("backlogno", -1);
+					$(formElem).data("parentbacklogno", -1);
 
 					$(`#story_attachment_container`).find(`.story_attachment`).each((index, elem) => {
 						if ($(elem).data("isnew")) {
@@ -1166,15 +1172,19 @@ include_once "php/ui/login/check_session.php";
 					let commenttpl = ``;
 					let userImgSrc = aComment.photo_url || `assets/image/user_icon.png`;
 					let isSelfComment = aComment.userno == value.userno;
+					let isEditAllowed = aComment.userno == LOGGEDIN_USERNO || UCATNO == 19;
 					let isDeleteAllowed = aComment.userno == LOGGEDIN_USERNO || UCATNO == 19;
 
 					if (isSelfComment) { // self
 						commenttpl = `<div class="d-flex justify-content-end comment">
 								<div class="text-right mr-2">
 									<div class="text-primary font-weight-bold line-height-1" style="font-family: monospace;">${aComment.commentedby}</div>
-									<pre>${aComment.story}</pre>
+									<pre class="comment_story">${aComment.story}</pre>
 									<small>
-										<span data-backlogno="${aComment.backlogno}" class="delete_comment ${isDeleteAllowed ? `` : `d-none`} cursor-pointer text-danger ml-2">
+										<span data-backlogno="${aComment.backlogno}" class="edit_comment ${isEditAllowed ? `` : `d-none`} cursor-pointer text-info ml-2">
+											Edit
+										</span>
+										<span data-backlogno="${aComment.backlogno}" class="delete_comment ${isDeleteAllowed ? `` : `d-none`} cursor-pointer text-danger mx-2">
 											Delete
 										</span>
 										${formatDateTime(aComment.lastupdatetime)}
@@ -1191,10 +1201,13 @@ include_once "php/ui/login/check_session.php";
 								</div>
 								<div class="text-left ml-2">
 									<div class="text-primary font-weight-bold line-height-1" style="font-family: monospace;">${aComment.commentedby}</div>
-									<pre>${aComment.story}</pre>
+									<pre class="comment_story">${aComment.story}</pre>
 									<small>
 										${formatDateTime(aComment.lastupdatetime)}
-										<span data-backlogno="${aComment.backlogno}" class="delete_comment ${isDeleteAllowed ? `` : `d-none`} cursor-pointer text-danger ml-2">
+										<span data-backlogno="${aComment.backlogno}" class="edit_comment ${isEditAllowed ? `` : `d-none`} cursor-pointer text-info ml-2">
+											Edit
+										</span>
+										<span data-backlogno="${aComment.backlogno}" class="delete_comment ${isDeleteAllowed ? `` : `d-none`} cursor-pointer text-danger mx-2">
 											Delete
 										</span>
 									</small>
@@ -1242,8 +1255,11 @@ include_once "php/ui/login/check_session.php";
 						${get_body(value)}
 						<hr class='my-0 py-2'/>
 						${get_footer(value)}
-						<hr class='mt-2 my-0 py-1'/>
-						${get_comments(value)}
+						${value.storytype != 2
+							? `<hr class='mt-2 my-0 py-1'/>
+								${get_comments(value)}`
+							: ``
+						}
 					</div>`)
 					.appendTo(targetContainer);
 
@@ -1279,7 +1295,7 @@ include_once "php/ui/login/check_session.php";
 						if (confirm("Are you sure?")) {
 							delete_a_backlogs({
 								backlogno: value.backlogno
-							}, );
+							});
 						}
 					});
 
@@ -1374,7 +1390,17 @@ include_once "php/ui/login/check_session.php";
 							storytype: 1,
 							story: comment
 						};
+
 						formSubmit(json, this, `php/ui/taskmanager/backlog/setup_backlog.php`);
+					});
+
+					$('.edit_comment', card).click(function() {
+						let backlogno = $(this).data('backlogno');
+						comment_form.data(`backlogno`, backlogno);
+
+						let comment_story = $(this).parents(`.comment`).find(`.comment_story`);
+						const delta = quill.clipboard.convert(comment_story.html());
+						quill.setContents(delta, 'silent');
 					});
 
 					$('.delete_comment', card).click(function() {

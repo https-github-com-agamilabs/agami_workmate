@@ -78,13 +78,22 @@ include_once "php/ui/login/check_session.php";
 
 	<style>
 		.task-card {
-			transition: all 0.3s;
+			/* transition: all 0.3s; */
+			transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
 		}
 
 		.task-card:hover {
-			transform: scale(1.01);
+			/* transform: scale(1.005); */
 			/* cursor: pointer; */
 			z-index: 2000;
+		}
+
+		.deadline_parent_div .deadline_delete_button_root {
+			display: none;
+		}
+
+		.deadline_parent_div:hover .deadline_delete_button_root {
+			display: inline;
 		}
 
 		.progress_parent_div .progress_delete_button_root {
@@ -956,13 +965,13 @@ include_once "php/ui/login/check_session.php";
 
 
 		function get_header(value) {
-			return `<div class="d-flex flex-wrap justify-content-between p-2 px-3">
+			return `<div class="d-flex justify-content-between px-3 py-2">
 						<div class="d-flex flex-row align-items-center">
-							<img class='rounded-semi-circle' src="${value.photo_url||"assets/image/user_icon.png"}" width="40">
-							<div class="d-flex flex-column ml-2">
-								<div>
-									<span style='font-weight: bold; font-family: monospace; color:black'>${value.postedby || value.assignedby || ``}</span>
-									<small class='ml-2'>${value.storytype == 3 ? `${value.priorityleveltitle} (${value.relativepriority})`:``}</small>
+							<img class='rounded-semi-circle mr-2' src="${value.photo_url||"assets/image/user_icon.png"}" width="40">
+							<div class="d-flex flex-column">
+								<div class="d-flex flex-wrap align-items-center">
+									<div class="mr-2" style='font-weight: bold;font-family: monospace;color:black'>${value.postedby || value.assignedby || ``}</div>
+									<div class="small">${value.storytype == 3 ? `${value.priorityleveltitle} (${value.relativepriority})`:``}</div>
 								</div>
 								<small class="mr-2">
 									${value.storytime ? formatDateTime(value.storytime) : ``}
@@ -1005,10 +1014,22 @@ include_once "php/ui/login/check_session.php";
 									<i class="fa fa-ellipsis-h m-1"></i>
 								</button>
 								<div class="dropdown-menu">
-									${value.storytype == 3?`<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign</a>`:""}
-									<a class="dropdown-item edit_button text-info"><i class="far fa-edit mr-2"></i> Edit </a>
-									<a class="dropdown-item move_button text-alternate"><i class="fas fa-dolly mr-2"></i> Move </a>
-									<a class="dropdown-item delete_button text-danger"><i class="fas fa-trash-alt mr-2"></i> Remove </a>
+									${value.storytype == 3?`<a class="dropdown-item assign_task_button text-primary">
+											<i class="fas fa-user-plus btn btn-primary btn-sm custom_shadow rounded-semi-circle mr-2"></i>
+											<span class="font-weight-bold">Assign</span>
+										</a>` : ``}
+									<a class="dropdown-item edit_button text-info">
+										<i class="far fa-edit btn btn-info btn-sm custom_shadow rounded-semi-circle mr-2"></i>
+										<span class="font-weight-bold">Edit</span>
+									</a>
+									<a class="dropdown-item move_button text-alternate">
+										<i class="fas fa-dolly btn btn-alternate btn-sm custom_shadow rounded-semi-circle mr-2"></i>
+										<span class="font-weight-bold">Move</span>
+									</a>
+									<a class="dropdown-item delete_button text-danger">
+										<i class="fas fa-trash-alt btn btn-danger btn-sm custom_shadow rounded-semi-circle mr-2"></i>
+										<span class="font-weight-bold">Remove</span>
+									</a>
 								</div>
 							</div>
 						</div>
@@ -1067,7 +1088,7 @@ include_once "php/ui/login/check_session.php";
 
 				tpl.push(`
 						<div class="single_schedule w-100 px-2 py-2 ${cardClass}" id='collapse_parent_${aSchedule.cblscheduleno}'>
-							<div class='d-flex justify-content-between'>
+							<div class='d-flex flex-wrap justify-content-between'>
 								<div>
 									Assigned to
 									${schedules.length > 1 ? `#${(index+1)}` : ''}:
@@ -1077,9 +1098,18 @@ include_once "php/ui/login/check_session.php";
 											<i class="fa fa-ellipsis-h text-primary"></i>
 										</button>
 										<div class="dropdown-menu">
-											<a data-cblscheduleno="${aSchedule.cblscheduleno}" class="modify_deadline_button dropdown-item text-info"><i class="far fa-edit mr-2"></i> Modify Deadline </a>
-											<a data-cblscheduleno="${aSchedule.cblscheduleno}" class="schedule_edit_button dropdown-item text-info"><i class="far fa-edit mr-2"></i> Edit </a>
-											<a data-cblscheduleno="${aSchedule.cblscheduleno}" class="schedule_delete_button dropdown-item text-danger"><i class="fas fa-trash-alt mr-2"></i> Remove </a>
+											<a data-cblscheduleno="${aSchedule.cblscheduleno}" class="modify_deadline_button dropdown-item text-info">
+												<i class="far fa-edit btn btn-info btn-sm custom_shadow rounded-semi-circle mr-2"></i>
+												<span class="font-weight-bold">Modify Deadline</span>
+											</a>
+											<a data-cblscheduleno="${aSchedule.cblscheduleno}" class="schedule_edit_button dropdown-item text-info">
+												<i class="far fa-edit btn btn-info btn-sm custom_shadow rounded-semi-circle mr-2"></i>
+												<span class="font-weight-bold">Edit</span>
+											</a>
+											<a data-cblscheduleno="${aSchedule.cblscheduleno}" class="schedule_delete_button dropdown-item text-danger">
+												<i class="fas fa-trash-alt btn btn-danger btn-sm custom_shadow rounded-semi-circle mr-2"></i>
+												<span class="font-weight-bold">Remove</span>
+											</a>
 										</div>
 									</div>
 								</div>
@@ -1090,7 +1120,14 @@ include_once "php/ui/login/check_session.php";
 										<div class='ml-2'>${formatDate(aSchedule.scheduledate)}</div>
 										<div class='mx-1'>to</div>
 										<div>
-											${aSchedule.deadlines.map((obj, i) => `<span class="${i != 0 ? `text-danger` : ``}">${formatDate(obj.deadline)}</span>`).join(", ")}
+											${aSchedule.deadlines
+												.map((obj, i) => `<span class="deadline_parent_div ${i != 0 ? `text-danger` : ``}">
+														${formatDate(obj.deadline)}
+														<div class="deadline_delete_button_root bg-danger text-white px-1 shadow-sm">
+															<i data-dno="${obj.dno}" class="deadline_delete_button fas fa-times cursor-pointer"></i>
+														</div>
+													</span>`)
+												.join(", ")}
 										</div>
 									</div>
 
@@ -1104,7 +1141,7 @@ include_once "php/ui/login/check_session.php";
 							</div>
 
 							<div class='row mt-1 flex-wrap'>
-								<div class="col-9" id='collapse_tips_and_deadline_${aSchedule.cblscheduleno}'>
+								<div class="col-sm-9" id='collapse_tips_and_deadline_${aSchedule.cblscheduleno}'>
 
 									<div class='mt-1 mb-2 d-flex'>
 										<i class='fa fa-info-circle fa-info1 text-primary mx-1' style='font-style: italic;'></i>
@@ -1114,12 +1151,14 @@ include_once "php/ui/login/check_session.php";
 									</div>
 								</div>
 
-								<div class='col-3 border-left text-center'>
+								<div class='col-sm-3 border-left text-center'>
 									<button data-cblscheduleno="${aSchedule.cblscheduleno}" class='status_button mt-1 btn btn-sm btn-outline-primary px-2 mb-1' >Update Progress</button>
 								</div>
 
 								<div class='col-1 p-0 text-right border-top'>
-									<div class='mt-0 d-none'><img title='${aSchedule.assignee}' class='rounded-semi-circle' src="${aSchedule.photo_url||"assets/image/user_icon.png"}" width="35"/></div>
+									<div class='mt-0 d-none'>
+										<img title='${aSchedule.assignee}' class='rounded-semi-circle' src="${aSchedule.photo_url || "assets/image/user_icon.png"}" width="35"/>
+									</div>
 								</div>
 
 								<div class='col-11 border-top'>
@@ -1238,16 +1277,41 @@ include_once "php/ui/login/check_session.php";
 		let story_log = {};
 
 		function show_task(data, targetContainer) {
-			let cardClass = ``;
-			let bgClass = ``;
-
 			$.each(data, (index, value) => {
+				let cardClass = ``;
+				let bgClass = ``;
+
 				if (value.storytype == 1) {
 					bgClass = `bg-light-blue border border-primary`;
 				} else if (value.storytype == 2) {
 					bgClass = `bg-light-green border border-success`;
 				} else if (value.storytype == 3) {
-					bgClass = `bg-light-white border border-secondary`;
+					// bgClass = `bg-light-white border border-secondary`;
+
+					let schedule = value.schedule || [];
+					let progress;
+
+					if (schedule.length) {
+						progress = schedule[schedule.length - 1].progress || [];
+
+						if (progress.length) {
+							progress = progress[progress.length - 1];
+						}
+					}
+
+					if (progress && progress.wstatusno == 4) {
+						cardClass = `border-left border-danger card-shadow-danger`;
+					} else if (progress && progress.wstatusno == 3) {
+						let deadlines = schedule[schedule.length - 1].deadlines || [];
+
+						if (deadlines.length > 1) {
+							cardClass = `border-left border-warning card-shadow-warning`;
+						} else {
+							cardClass = `border-left border-success card-shadow-success`;
+						}
+					} else if (progress && progress.wstatusno == 2) {
+						cardClass = `border-left border-info card-shadow-info`;
+					}
 				}
 
 				let card = $(`<div class="card task-card my-3 ${cardClass} ${bgClass}" style='border-radius:15px;'>
@@ -1307,6 +1371,14 @@ include_once "php/ui/login/check_session.php";
 					$(`.modify_deadline_button`, card).click(function(e) {
 						$("#deadline_add_modal").modal("show");
 						$("#deadline_add_modal_form").trigger("reset").data(`cblscheduleno`, $(this).data(`cblscheduleno`));
+					});
+
+					$(`.deadline_delete_button`, card).click(function(e) {
+						if (confirm(`You are going to delete the deadline. Are you sure to proceed?`)) {
+							delete_deadline({
+								dno: $(this).data(`dno`)
+							});
+						}
 					});
 
 					$(`.schedule_edit_button`, card).click(function(e) {

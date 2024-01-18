@@ -22,7 +22,9 @@
         if ($ucatno<=13) {
             $meta_array=array();
             $meta_array[0]['userno']=$userno;
-            $meta_array[0]['fullname']=$_SESSION['cogo_firstname'].' '.$_SESSION['cogo_lastname'].'('.$_SESSION['cogo_email'].')';
+            $meta_array[0]['firstname']=$_SESSION['cogo_firstname'];
+            $meta_array[0]['lastname']=$_SESSION['cogo_lastname'];
+            $meta_array[0]['email']=$_SESSION['cogo_email'];
             $response['results'] = $meta_array;
         }
 
@@ -55,7 +57,7 @@
     */
 
     function get_tk_owner($dbcon){  
-        $sql = "SELECT userno,CONCAT(firstname,' ', IFNULL(lastname,''),'(',IFNULL(email,''),')') as fullname
+        $sql = "SELECT userno,firstname,lastname,email
                 FROM hr_user as u
                 WHERE isactive>=1 AND ucatno>=13
                 ORDER BY userno DESC";

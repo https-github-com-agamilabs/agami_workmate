@@ -387,6 +387,27 @@ include_once "php/ui/login/check_session.php";
 		</div>
 	</div>
 
+	<div id="move_story_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form id="move_story_modal_form">
+					<div class="modal-header">
+						<h5 class="modal-title">Move Story</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<select name="channelno" class="form-control form-control-sm"></select>
+					</div>
+					<div class="modal-footer py-2">
+						<button type="submit" class="btn btn-primary rounded-pill px-5 ripple custom_shadow">Confirm</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<div id="deadline_add_modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -439,7 +460,16 @@ include_once "php/ui/login/check_session.php";
 
 		const selected_channel = searchParams.has('channelno') ? searchParams.get('channelno') : '';
 
-		show_available_channels([]);
+		// show_available_channels([]);
+		let channelInterval = setInterval(() => {
+			let channel_data = $(`#channels_container`).data(`channel_data`);
+
+			if (channel_data && channel_data.length) {
+				show_available_channels(channel_data);
+				clearInterval(channelInterval);
+			}
+		}, 500);
+
 		//get_channels_available_task();
 		get_channel_task_detail();
 
@@ -489,42 +519,47 @@ include_once "php/ui/login/check_session.php";
 		function show_available_channels(result) {
 			let select1 = $(`#task_channel_select`).empty();
 			let select2 = $(`#task_manager_setup_modal_form [name="channelno"]`).empty();
+			let select3 = $(`#move_story_modal_form [name="channelno"]`).empty();
 
 			$.each(result, (index, value) => {
 				let optgroup1 = $(`<optgroup label="${value.channeltitle}"></optgroup>`).appendTo(select1);
 				let optgroup2 = $(`<optgroup label="${value.channeltitle}"></optgroup>`).appendTo(select2);
+				let optgroup3 = $(`<optgroup label="${value.channeltitle}"></optgroup>`).appendTo(select3);
 
 				$.each(value.subchannels, (indexInSubChannels, valueOfSubChannels) => {
 					$(`<option value="${valueOfSubChannels.channelno}">${valueOfSubChannels.channeltitle}</option>`).appendTo(optgroup1);
 					$(`<option value="${valueOfSubChannels.channelno}">${valueOfSubChannels.channeltitle}</option>`).appendTo(optgroup2);
+					$(`<option value="${valueOfSubChannels.channelno}">${valueOfSubChannels.channeltitle}</option>`).appendTo(optgroup3);
 				});
 			});
+
 			if ($(`option`, select1).length == 0) {
 				select1.append(`<option value='${selected_channel}'>Selected Channel</option>`);
 				select2.append(`<option value='${selected_channel}'>Selected Channel</option>`);
+				select3.append(`<option value='${selected_channel}'>Selected Channel</option>`);
 			}
 
-			select1
-				.select2({
-					placeholder: "Select Channel...",
-					allowClear: true
-				});
+			select1.select2({
+				placeholder: "Select Channel...",
+				allowClear: true
+			});
 
-			select2
-				.select2({
-					placeholder: "Select Channel...",
-					allowClear: true
-				});
+			select2.select2({
+				placeholder: "Select Channel...",
+				allowClear: true
+			});
 
-
+			select3.select2({
+				placeholder: "Select Channel...",
+				allowClear: true,
+				width: `100%`
+			});
 
 			if (selected_channel.length) {
-				select1.val(selected_channel)
-					.trigger('change');
+				select1.val(selected_channel).trigger('change');
 				select1.parents(`.form_elem_parent`).hide();
 
-				select2.val(selected_channel)
-					.trigger('change');
+				select2.val(selected_channel).trigger('change');
 				select2.parents(`.form_elem_parent`).hide();
 			}
 
@@ -966,6 +1001,7 @@ include_once "php/ui/login/check_session.php";
 								<div class="dropdown-menu">
 									${value.storytype == 3?`<a class="dropdown-item assign_task_button text-primary"><i class="fas fa-user-plus mr-2"></i> Assign</a>`:""}
 									<a class="dropdown-item edit_button text-info"><i class="far fa-edit mr-2"></i> Edit </a>
+									<a class="dropdown-item move_button text-alternate"><i class="fas fa-dolly mr-2"></i> Move </a>
 									<a class="dropdown-item delete_button text-danger"><i class="fas fa-trash-alt mr-2"></i> Remove </a>
 								</div>
 							</div>
@@ -1230,6 +1266,11 @@ include_once "php/ui/login/check_session.php";
 						});
 
 						$(`#task_manager_setup_modal_form [name="channelno"]`).trigger("change");
+					});
+
+					$(`.move_button`, card).click(function(e) {
+						$(`#move_story_modal`).modal("show");
+						$(`#move_story_modal_form`).trigger("reset").data(`backlogno`, value.backlogno).data(`parentbacklogno`, value.parentbacklogno);
 					});
 
 					$(`.delete_button`, card).click(function(e) {
@@ -1507,6 +1548,29 @@ include_once "php/ui/login/check_session.php";
 		// 	}, `json`);
 		// }
 	</script>
+
+	<script>
+		$(`#move_story_modal_form`).submit(function(e) {
+			e.preventDefault();
+			let json = Object.fromEntries((new FormData(this)).entries());
+			let backlogno = $(this).data(`backlogno`) || 0;
+			if (backlogno > 0) {
+				json.backlogno = backlogno;
+			} else {
+				toastr.error(`Invalid story.`);
+			}
+
+			$.post(`php/ui/taskmanager/backlog/update_backlog_channel.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					$(`#move_story_modal`).modal("hide");
+				}
+			}, `json`);
+		});
+	</script>
+
 </body>
 
 </html>

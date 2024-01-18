@@ -62,7 +62,7 @@
     function get_tk_owner($dbcon){  
         $sql = "SELECT userno,firstname,lastname,email
                 FROM hr_user as u
-                WHERE isactive>=1 AND ucatno IN (13,17)
+                WHERE isactive>=1 AND ucatno IN (13,18)
                 ORDER BY userno DESC";
 
         $stmt = $dbcon->prepare($sql);

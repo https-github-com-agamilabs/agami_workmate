@@ -21,11 +21,14 @@
 
         if ($ucatno<=13) {
             $meta_array=array();
-            $meta_array[0]['userno']=$userno;
-            $meta_array[0]['firstname']=$_SESSION['cogo_firstname'];
-            $meta_array[0]['lastname']=$_SESSION['cogo_lastname'];
-            $meta_array[0]['email']=$_SESSION['cogo_email'];
-            $response['results'] = $meta_array;
+            $meta_array['userno']=$userno;
+            $meta_array['firstname']=$_SESSION['cogo_firstname'];
+            $meta_array['lastname']=$_SESSION['cogo_lastname'];
+            $meta_array['email']=$_SESSION['cogo_email'];
+            $response['results'][] = $meta_array;
+            echo json_encode($response);
+            $dbcon->close();
+            exit();
         }
 
         $list = get_tk_owner($dbcon);

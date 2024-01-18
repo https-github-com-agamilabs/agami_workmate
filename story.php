@@ -1171,12 +1171,13 @@ include_once "php/ui/login/check_session.php";
 					if (isSelfComment) { // self
 						commenttpl = `<div class="d-flex justify-content-end comment">
 								<div class="text-right mr-2">
+									<div class="text-primary font-weight-bold line-height-1" style="font-family: monospace;">${aComment.commentedby}</div>
 									<pre>${aComment.story}</pre>
 									<small>
-										${formatDateTime(aComment.lastupdatetime)}
 										<span data-backlogno="${aComment.backlogno}" class="delete_comment ${isDeleteAllowed ? `` : `d-none`} cursor-pointer text-danger ml-2">
 											Delete
 										</span>
+										${formatDateTime(aComment.lastupdatetime)}
 									</small>
 								</div>
 								<div>
@@ -1189,6 +1190,7 @@ include_once "php/ui/login/check_session.php";
 									<img class="rounded-semi-circle" src="${userImgSrc}" width="35" title="${aComment.commentedby}" />
 								</div>
 								<div class="text-left ml-2">
+									<div class="text-primary font-weight-bold line-height-1" style="font-family: monospace;">${aComment.commentedby}</div>
 									<pre>${aComment.story}</pre>
 									<small>
 										${formatDateTime(aComment.lastupdatetime)}
@@ -1566,6 +1568,7 @@ include_once "php/ui/login/check_session.php";
 				} else {
 					toastr.success(resp.message);
 					$(`#move_story_modal`).modal("hide");
+					get_channel_task_detail();
 				}
 			}, `json`);
 		});

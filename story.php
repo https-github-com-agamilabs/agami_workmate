@@ -1009,7 +1009,9 @@ include_once "php/ui/login/check_session.php";
 								<i class="fa fa-times m-1"></i>
 							</button>
 
-							<div class="dropdown">
+							${value.storytype == 3?"<i class='my-auto far fa-bookmark px-2'></i>":""}
+
+							<div class="my-auto dropdown">
 								<button class="open_dropdown btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
 									<i class="fa fa-ellipsis-h m-1"></i>
 								</button>

@@ -27,6 +27,17 @@
         background-color: green !important;
     }
 </style>
+
+<style>
+    .card-body .remove_watch_list{
+        display:none;
+    }
+
+    .card-body:hover .remove_watch_list{
+        display:inline;
+    }
+</style>
+
 <div class="app-sidebar sidebar-shadow0 d-print-none">
     <div class="app-header__logo">
         <div class="logo-src"></div>
@@ -357,36 +368,87 @@
         const my_watchlist = $('.my_watchlist').empty();
 
         $.each(result, function(index, elm){
-            let tpl = `
-            <div class='card mt-1' style='border-radius:10px 0px 0 10px;'>
-                <div class='card-body pl-2 pr-2 py-2'>
-                    <div style='color:black;'>
-                        ${elm.channeltitle}                    
-                    </div>
-                    <div style='font-size:10px;' title='${elm.story||""}'>
-                        ${(elm.story||"").substr(0, 100)} ${elm.story.length>100?"...":""}
-                    </div>
-                    <div class='card-footer pt-2 pb-0 px-0 w-100' style='overflow: scroll;'>
-                    ${elm.schedule_progress.map((prg, i)=>{
-                        return `
-                        <div class='mr-1'>
-                            <a class='position-relative cursor-pointer' title='${prg.assignee}'>
-                                <div class='bg-danger bg-parcent-${prg.percentile||0} rounded-circle' style='width:34px; height:34px;'></div>
-                                <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>                            
-                            </a>
-                            <div style='font-size:10px;' class='text-center'>${prg.percentile||0}%</div>
-                        </div>
-                        
-                        `;
-                    }).join("")}
-                    ${elm.schedule_progress.length==0?"<i>No progress yet!</i>":""}
-                    </div>
+            let tpl = $('<div>')
+            .attr({'class':'card mt-1', 'style':'border-radius:10px 0px 0 10px;'})
+            .append(`
+            <div class='card-body pl-2 pr-2 py-2'>
+                <div style='color:black;'>
+                    <i class='cursor-pointer remove_watch_list fa fa-window-close text-danger'></i> ${elm.channeltitle}                    
                 </div>
-                
-            </div>`;
+                <div style='font-size:10px;' title='${elm.story||""}'>
+                    ${(elm.story||"").substr(0, 100)} ${elm.story.length>100?"...":""}
+                </div>
+                <div class='card-footer pt-2 pb-0 px-0 w-100' style='overflow: scroll;'>
+                ${elm.schedule_progress.map((prg, i)=>{
+                    return `
+                    <div class='mr-1'>
+                        <a class='position-relative cursor-pointer' title='${prg.assignee}'>
+                            <div class='bg-danger bg-parcent-${prg.percentile||0} rounded-circle' style='width:34px; height:34px;'></div>
+                            <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>                            
+                        </a>
+                        <div style='font-size:10px;' class='text-center'>${prg.percentile||0}%</div>
+                    </div>
+                    
+                    `;
+                }).join("")}
+                ${elm.schedule_progress.length==0?"<i>No progress yet!</i>":""}
+                </div>
+            </div>`);
             my_watchlist.append(tpl);
+
+            (function(){
+                $('.remove_watch_list', tpl).click(function(){
+                    if (confirm("Are you sure?")) {
+                        remove_my_watchlist({
+                            backlogno: elm.backlogno
+                        }, $(this).parents(`.progress_parent_div`));
+                    }
+                });
+            })();
+
+       
         });
     }
+
+    function add_my_watchlist(json, parentContainer) {
+			$.post(`php/ui/watchlist/add_my_watchlist.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					$(parentContainer).next(`.fa-arrow-right`).remove();
+					$(parentContainer).remove();
+					let pageno = $("#task_manager_table_pageno_input").val();
+					get_channel_task_detail(pageno);
+					// get_channel_backlogs(pageno);
+				}
+
+				(get_my_watchlist()).then(
+					result => show_watchlist(result),
+					error => console.log(error)
+				);
+			}, `json`);
+		}
+
+		function remove_my_watchlist(json, parentContainer) {
+			$.post(`php/ui/watchlist/remove_my_watchlist.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					$(parentContainer).next(`.fa-arrow-right`).remove();
+					$(parentContainer).remove();
+					let pageno = $("#task_manager_table_pageno_input").val();
+					get_channel_task_detail(pageno);
+					// get_channel_backlogs(pageno);
+				}
+
+				(get_my_watchlist()).then(
+					result => show_watchlist(result),
+					error => console.log(error)
+				);
+			}, `json`);
+		}
 </script>
 
 <script type="text/javascript">

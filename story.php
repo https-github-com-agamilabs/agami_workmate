@@ -1601,45 +1601,7 @@ include_once "php/ui/login/check_session.php";
 			}, `json`);
 		}
 
-		function add_my_watchlist(json, parentContainer) {
-			$.post(`php/ui/watchlist/add_my_watchlist.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					toastr.success(resp.message);
-					$(parentContainer).next(`.fa-arrow-right`).remove();
-					$(parentContainer).remove();
-					let pageno = $("#task_manager_table_pageno_input").val();
-					get_channel_task_detail(pageno);
-					// get_channel_backlogs(pageno);
-				}
-
-				(get_my_watchlist()).then(
-					result => show_watchlist(result),
-					error => console.log(error)
-				);
-			}, `json`);
-		}
-
-		function remove_my_watchlist(json, parentContainer) {
-			$.post(`php/ui/watchlist/remove_my_watchlist.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					toastr.success(resp.message);
-					$(parentContainer).next(`.fa-arrow-right`).remove();
-					$(parentContainer).remove();
-					let pageno = $("#task_manager_table_pageno_input").val();
-					get_channel_task_detail(pageno);
-					// get_channel_backlogs(pageno);
-				}
-
-				(get_my_watchlist()).then(
-					result => show_watchlist(result),
-					error => console.log(error)
-				);
-			}, `json`);
-		}
+		
 	</script>
 
 	<script>

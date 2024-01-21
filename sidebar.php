@@ -5,6 +5,28 @@
 
     .app-sidebar.sidebar-shadow {}
 </style>
+
+<style>
+    .bg-parcent-0{
+        background-color: red;
+    }
+
+    .bg-parcent-25{
+        background-color: orange;
+    }
+
+    .bg-parcent-50{
+        background-color: blue;
+    }
+
+    .bg-parcent-75{
+        background-color: pink;
+    }
+
+    .bg-parcent-100{
+        background-color: green;
+    }
+</style>
 <div class="app-sidebar sidebar-shadow0 d-print-none">
     <div class="app-header__logo">
         <div class="logo-src"></div>
@@ -349,7 +371,7 @@
                         return `
                         <div class='mr-1'>
                             <a class='position-relative' title='${prg.assignee}'>
-                                <div class='bg-danger rounded-circle' style='width:34px; height:34px;'></div>
+                                <div class='bg-danger bg-parcent-${prg.percentile||0} rounded-circle' style='width:34px; height:34px;'></div>
                                 <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>                            
                             </a>
                             <div style='font-size:10px;' class='text-center'>${prg.percentile||0}%</div>

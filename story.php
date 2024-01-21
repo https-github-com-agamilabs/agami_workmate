@@ -1009,7 +1009,7 @@ include_once "php/ui/login/check_session.php";
 								<i class="fa fa-times m-1"></i>
 							</button>
 
-							${value.storytype == 3?"<i class='my-auto far fa-bookmark px-2' title='Add to watchlist'></i>":""}
+							${value.storytype == 3? (value.createwatchlisttime?"<i class='add_to_watchlist cursor-pointer my-auto text-danger fas fa-bookmark px-2' title='Add to watchlist'></i>":"<i class='add_to_watchlist cursor-pointer my-auto text-secondary far fa-bookmark px-2' title='Add to watchlist'></i>"):""}
 
 							<div class="my-auto dropdown">
 								<button class="open_dropdown btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
@@ -1415,6 +1415,20 @@ include_once "php/ui/login/check_session.php";
 						}
 					});
 
+					$('.add_to_watchlist', card).click(function(){
+						if(value.createwatchlisttime){
+							if (confirm("Are you sure?")) {
+								remove_my_watchlist({
+									backlogno: value.backlogno
+								}, $(this).parents(`.progress_parent_div`));
+							}
+						}else{
+							add_my_watchlist({
+								backlogno: value.backlogno
+							}, $(this).parents(`.progress_parent_div`));
+						}
+					});
+
 					$('.open_menu', card).click(function(e) {
 						$('.collapse', card).collapse('toggle');
 						$('.open_menu', card).toggleClass('active');
@@ -1558,6 +1572,36 @@ include_once "php/ui/login/check_session.php";
 
 		function delete_progress(json, parentContainer) {
 			$.post(`php/ui/taskmanager/progress/remove_progress.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					$(parentContainer).next(`.fa-arrow-right`).remove();
+					$(parentContainer).remove();
+					let pageno = $("#task_manager_table_pageno_input").val();
+					get_channel_task_detail(pageno);
+					// get_channel_backlogs(pageno);
+				}
+			}, `json`);
+		}
+
+		function add_my_watchlist(json, parentContainer) {
+			$.post(`php/ui/watchlist/add_my_watchlist.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					$(parentContainer).next(`.fa-arrow-right`).remove();
+					$(parentContainer).remove();
+					let pageno = $("#task_manager_table_pageno_input").val();
+					get_channel_task_detail(pageno);
+					// get_channel_backlogs(pageno);
+				}
+			}, `json`);
+		}
+
+		function remove_my_watchlist(json, parentContainer) {
+			$.post(`php/ui/watchlist/remove_my_watchlist.php`, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {

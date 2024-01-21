@@ -1586,7 +1586,7 @@ include_once "php/ui/login/check_session.php";
 		}
 
 		function add_my_watchlist(json, parentContainer) {
-			$.post(`php/ui/taskmanager/watchlist/add_my_watchlist.php`, json, resp => {
+			$.post(`php/ui/watchlist/add_my_watchlist.php`, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
@@ -1601,7 +1601,7 @@ include_once "php/ui/login/check_session.php";
 		}
 
 		function remove_my_watchlist(json, parentContainer) {
-			$.post(`php/ui/taskmanager/watchlist/remove_my_watchlist.php`, json, resp => {
+			$.post(`php/ui/watchlist/remove_my_watchlist.php`, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {

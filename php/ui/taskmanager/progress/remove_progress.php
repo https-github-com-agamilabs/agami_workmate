@@ -50,7 +50,7 @@
      * Local Function
      */
 
-    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentileuserno)
+    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile,userno)
     function remove_a_progress($dbcon, $cblprogressno){
         $sql = "DELETE
                 FROM asp_cblprogress

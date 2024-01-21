@@ -106,7 +106,7 @@
     //wstatusno<3@progress on different-day
     //asp_channelbacklog(backlogno, channelno, story, points, prioritylevelno, relativepriority, storytypeno, lastupdatetime, userno)
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
-    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
+    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile,userno)
     
     function get_channel_task_update($dbcon, $channelno, $pageno, $limit){
         $startindex=($pageno-1)*$limit;
@@ -150,7 +150,7 @@
     }
 
     function get_progress_detail($dbcon, $cblscheduleno){
-        $sql = "SELECT cblprogressno,cblscheduleno,progresstime,result,
+        $sql = "SELECT cblprogressno,cblscheduleno,progresstime,result,percentile,
                     wstatusno,(SELECT statustitle FROM asp_workstatus WHERE wstatusno=p.wstatusno) as statustitle,
                     userno,(SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=p.userno) as entryby
                 FROM asp_cblprogress as p

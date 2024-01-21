@@ -67,7 +67,7 @@
     //wstatusno<3@progress on different-day
     //asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
-    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
+    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile,userno)
     function get_schedule_data($dbcon, $startdate,$enddate){
         $sql = "SELECT s.backlogno,
                     b.channelno, (SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,

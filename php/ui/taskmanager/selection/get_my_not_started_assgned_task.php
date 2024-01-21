@@ -50,7 +50,7 @@
     //wstatusno<3@progress on different-day
     //asp_channelbacklog(backlogno,channelno,story,points,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
-    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
+    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile,userno)
 
     function get_my_not_started_assigned_task($dbcon, $userno){
         $sql = "SELECT channelno,(SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,

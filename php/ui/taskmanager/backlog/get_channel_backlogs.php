@@ -137,7 +137,7 @@
 
     //asp_channelbacklog(backlogno,channelno,story,points,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
-    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
+    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile,userno)
 
     function get_my_backlog($dbcon,$channelno,$userno,$pageno,$limit)//,$pageno,$limit,$search_key)
     {
@@ -203,7 +203,7 @@
     }
 
     function get_progress($dbcon,$cblscheduleno){
-        $sql = "SELECT cblprogressno,progresstime,result,
+        $sql = "SELECT cblprogressno,progresstime,result,percentile,
                         wstatusno,(SELECT statustitle FROM asp_workstatus WHERE wstatusno=p.wstatusno) as statustitle,
                         userno, (SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=p.userno) as entryby
                 FROM asp_cblprogress as p

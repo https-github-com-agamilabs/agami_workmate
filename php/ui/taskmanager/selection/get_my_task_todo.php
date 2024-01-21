@@ -53,7 +53,7 @@
     */
     //task-to-do-today={wstatusno<3@progress on today,to-do backlog@schedule for him but not@progress}
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
-    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
+    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile,userno)
     function get_my_task_todo($dbcon, $assignedto, $scheduledate){
         $sql = "SELECT DISTINCT cblscheduleno
                 FROM

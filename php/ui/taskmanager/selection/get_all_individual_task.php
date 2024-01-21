@@ -138,7 +138,7 @@
     }
 
     function get_progress_detail($dbcon, $cblscheduleno){
-        $sql = "SELECT cblprogressno,cblscheduleno,progresstime,result,
+        $sql = "SELECT cblprogressno,cblscheduleno,progresstime,result,percentile,
                     wstatusno,(SELECT statustitle FROM asp_workstatus WHERE wstatusno=p.wstatusno) as statustitle,
                     userno,(SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=p.userno) as entryby
                 FROM asp_cblprogress as p

@@ -22,7 +22,7 @@
 
     try {
 
-        //userno,cblprogressno,result,iscompleted
+        //userno,cblprogressno,result,iscompleted,percentile
         //$userno=1;
 
         $cblprogressno=-1;
@@ -47,8 +47,13 @@
             throw new \Exception("Work Status cannot be empty!", 1);
         }
 
+        $percentile = 0;
+        if (isset($_POST['percentile'])) {
+            $percentile = (int) $_POST['percentile'];
+        }
+
         if($cblprogressno>0){
-            $result=update_schedule($dbcon, $cblscheduleno,$result,$wstatusno,$userno,$cblprogressno);
+            $result=update_schedule($dbcon, $cblscheduleno,$result,$wstatusno,$percentile,$userno,$cblprogressno);
             if($result>0){
                 $response['error'] = false;
                 $response['message'] = "Progress is Successfully Updated.";
@@ -57,7 +62,7 @@
             }
         }else{
             if(is_approved($dbcon,$cblscheduleno)){
-                $result=create_progress($dbcon, $cblscheduleno,$result,$wstatusno,$userno);
+                $result=create_progress($dbcon, $cblscheduleno,$result,$wstatusno,$percentile,$userno);
                 if($result>0){
                     $response['error'] = false;
                     $response['message'] = "Progress is Successfully Added.";
@@ -92,31 +97,31 @@
         return $result->num_rows>0;
     }
 
-    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
-    function create_progress($dbcon, $cblscheduleno,$result,$wstatusno,$userno){
+    //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile,userno)
+    function create_progress($dbcon, $cblscheduleno,$result,$wstatusno,$percentile,$userno){
         date_default_timezone_set("Asia/Dhaka");
         $progresstime = date("Y-m-d H:i:s");
 
-        $sql = "INSERT INTO asp_cblprogress(cblscheduleno,progresstime,result,wstatusno,userno)
-                VALUES(?,?,?,?,?)";
+        $sql = "INSERT INTO asp_cblprogress(cblscheduleno,progresstime,result,wstatusno,percentile,userno)
+                VALUES(?,?,?,?,?,?)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("issii", $cblscheduleno,$progresstime,$result,$wstatusno,$userno);
+        $stmt->bind_param("issiii", $cblscheduleno,$progresstime,$result,$wstatusno,$percentile,$userno);
         $stmt->execute();
         $result=$stmt->insert_id;
         $stmt->close();
         return $result;
     }
 
-    function update_schedule($dbcon, $cblscheduleno,$result,$wstatusno,$userno,$cblprogressno){
+    function update_schedule($dbcon, $cblscheduleno,$result,$wstatusno,$percentile,$userno,$cblprogressno){
         date_default_timezone_set("Asia/Dhaka");
         $progresstime = date("Y-m-d H:i:s");
 
         $sql = "UPDATE asp_cblprogress
-                SET cblscheduleno=?, progresstime=?, result=?, wstatusno=?, userno=?
+                SET cblscheduleno=?, progresstime=?, result=?, wstatusno=?, percentile=?,userno=?
                 WHERE cblprogressno=?";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("issiii", $cblscheduleno,$progresstime, $result,
-                                    $wstatusno, $userno,$cblprogressno);
+        $stmt->bind_param("issiiii", $cblscheduleno,$progresstime, $result,
+                                    $wstatusno, $percentile,$userno,$cblprogressno);
         $stmt->execute();
         $result=$stmt->affected_rows;
         $stmt->close();

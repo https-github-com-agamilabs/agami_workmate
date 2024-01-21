@@ -235,7 +235,7 @@
                 FROM asp_channelbacklog as b
                     INNER JOIN hr_user as u ON b.userno=u.userno
                     LEFT JOIN (
-                        SELECT createtime as createwatchlisttime
+                        SELECT backlogno,createtime as createwatchlisttime
                         FROM asp_watchlist 
                         WHERE userno=$login_userno) as w ON  b.backlogno=w.backlogno
                 WHERE parentbacklogno IS NULL 

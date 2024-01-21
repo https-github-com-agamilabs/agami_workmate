@@ -446,7 +446,7 @@
                 <div style='font-size:10px;' title='${elm.story||""}'>
                     ${(elm.story||"").substr(0, 100)} ${elm.story.length>100?"...":""}
                 </div>
-                <div class='card-footer pt-2 pb-0 px-0 w-100' style='overflow: scroll;'>
+                <div class='card-footer pt-2 pb-0 px-0 w-100' style='overflow-x: auto;'>
                 ${elm.schedule_progress.map((prg, i)=>{
                     let percentile = (Math.round( ( prg.percentile || 0 ) % 101 / 10 ) * 10).toFixed(0);
 

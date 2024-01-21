@@ -111,13 +111,17 @@
     function get_channel_task_update($dbcon, $channelno, $pageno, $limit){
         $startindex=($pageno-1)*$limit;
         $sql = "SELECT channelno,(SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
-                        b.backlogno,story,b.points,storytype, b.lastupdatetime as storytime,
+                        b.backlogno,story,b.points,storytype, b.lastupdatetime as storytime,createwatchlisttime,
                         prioritylevelno,(SELECT priorityleveltitle FROM asp_prioritylevel WHERE prioritylevelno=b.prioritylevelno) as priorityleveltitle,
                         storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=b.storyphaseno) as storyphasetitle,
                         relativepriority,
                         b.userno, CONCAT(firstname,' ',IFNULL(lastname,'')) as postedby, photo_url
                 FROM asp_channelbacklog as b
                     INNER JOIN hr_user as u ON b.userno=u.userno
+                    LEFT JOIN (
+                        SELECT backlogno,createtime as createwatchlisttime
+                        FROM asp_watchlist 
+                        WHERE userno=$login_userno) as w ON  b.backlogno=w.backlogno
                 WHERE parentbacklogno IS NULL AND channelno=?
                 ORDER BY b.backlogno DESC 
                 LIMIT ?,?

@@ -8,23 +8,23 @@
 
 <style>
     .bg-parcent-0{
-        background-color: red;
+        background-color: red !important;
     }
 
     .bg-parcent-25{
-        background-color: orange;
+        background-color: orange !important;
     }
 
     .bg-parcent-50{
-        background-color: blue;
+        background-color: blue !important;
     }
 
     .bg-parcent-75{
-        background-color: pink;
+        background-color: pink !important;
     }
 
     .bg-parcent-100{
-        background-color: green;
+        background-color: green !important;
     }
 </style>
 <div class="app-sidebar sidebar-shadow0 d-print-none">

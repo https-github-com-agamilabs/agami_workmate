@@ -7,25 +7,90 @@
 </style>
 
 <style>
-    .bg-parcent-0{
+    .bg-percent-0 {
         background-color: red !important;
     }
 
-    .bg-parcent-25{
+    .bg-percent-5 {
         background-color: orange !important;
     }
 
-    .bg-parcent-50{
+    .bg-percent-10 {
+        background-color: yellow !important;
+    }
+
+    .bg-percent-15 {
+        background-color: green !important;
+    }
+
+    .bg-percent-20 {
         background-color: blue !important;
     }
 
-    .bg-parcent-75{
+    .bg-percent-25 {
+        background-color: indigo !important;
+    }
+
+    .bg-percent-30 {
+        background-color: violet !important;
+    }
+
+    .bg-percent-35 {
+        background-color: brown !important;
+    }
+
+    .bg-percent-40 {
+        background-color: gray !important;
+    }
+
+    .bg-percent-45 {
         background-color: pink !important;
     }
 
-    .bg-parcent-100{
-        background-color: green !important;
+    .bg-percent-50 {
+        background-color: lightblue !important;
     }
+
+    .bg-percent-55 {
+        background-color: lightgreen !important;
+    }
+
+    .bg-percent-60 {
+        background-color: lightcoral !important;
+    }
+
+    .bg-percent-65 {
+        background-color: lightsalmon !important;
+    }
+
+    .bg-percent-70 {
+        background-color: lightseagreen !important;
+    }
+
+    .bg-percent-75 {
+        background-color: lightsteelblue !important;
+    }
+
+    .bg-percent-80 {
+        background-color: lightskyblue !important;
+    }
+
+    .bg-percent-85 {
+        background-color: lightyellow !important;
+    }
+
+    .bg-percent-90 {
+        background-color: mediumaquamarine !important;
+    }
+
+    .bg-percent-95 {
+        background-color: mediumorchid !important;
+    }
+
+    .bg-percent-100 {
+        background-color: mediumspringgreen !important;
+    }
+
 </style>
 
 <style>
@@ -370,7 +435,6 @@
 
         $.each(result, function(index, elm){
 
-            let percentile = parseInt( Math.round( ( prg.percentile || 0 ) % 101) / 10 ) * 10;
 
             let tpl = $('<div>')
             .attr({'class':'card mt-1', 'style':'border-radius:10px 0px 0 10px;'})
@@ -384,10 +448,12 @@
                 </div>
                 <div class='card-footer pt-2 pb-0 px-0 w-100' style='overflow: scroll;'>
                 ${elm.schedule_progress.map((prg, i)=>{
+                    let percentile = (Math.round( ( prg.percentile || 0 ) % 101 / 10 ) * 10).toFixed(0);
+
                     return `
                     <div class='mr-1'>
                         <a class='position-relative cursor-pointer' title='${prg.assignee}'>
-                            <div class='bg-danger bg-parcent-${percentile} rounded-circle' style='width:34px; height:34px;'></div>
+                            <div class='bg-percent-${percentile} rounded-circle' style='width:34px; height:34px;'></div>
                             <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>                            
                         </a>
                         <div style='font-size:10px;' class='text-center'>${prg.percentile||0}%</div>

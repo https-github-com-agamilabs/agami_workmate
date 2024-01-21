@@ -341,7 +341,7 @@
                     <div style='color:black;'>
                         ${elm.channeltitle}                    
                     </div>
-                    <div style='font-size:10px;'>
+                    <div style='font-size:10px;' title='${elm.story||""}'>
                         ${(elm.story||"").substr(0, 150)} ${elm.story.length>150?"...":""}
                     </div>
                     <div class='card-footer pt-2 pb-0 px-0 w-100' style='overflow: scroll;'>

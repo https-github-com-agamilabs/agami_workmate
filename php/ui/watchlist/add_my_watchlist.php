@@ -57,7 +57,7 @@ function insert_watchlist($dbcon, $userno,$backlogno)
     date_default_timezone_set("Asia/Dhaka");
     $createtime = date('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO asp_watchlist(userno,backlogno)
+    $sql = "INSERT INTO asp_watchlist(userno,backlogno,createtime)
             VALUES(?,?,?)";
     $stmt = $dbcon->prepare($sql);
     if ($dbcon->error) {

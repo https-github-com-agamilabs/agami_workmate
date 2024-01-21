@@ -359,7 +359,7 @@
         $.each(result, function(index, elm){
             let tpl = `
             <div class='card mt-1' style='border-radius:10px 0px 0 10px;'>
-                <div class='card-body pl-2 pr-1 py-1'>
+                <div class='card-body pl-2 pr-2 py-2'>
                     <div style='color:black;'>
                         ${elm.channeltitle}                    
                     </div>

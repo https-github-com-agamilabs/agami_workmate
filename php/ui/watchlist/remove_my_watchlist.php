@@ -29,7 +29,7 @@ try {
     
     $rs_watchlist = remove_watchlist($dbcon, $userno,$backlogno);
 
-    if ($rs_watchlist->num_rows > 0) {
+    if ($rs_watchlist > 0) {
         $response['error'] = false;
         $response['message'] = "Removed Successfully.";
     }else{

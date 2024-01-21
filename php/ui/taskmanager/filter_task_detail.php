@@ -227,13 +227,17 @@
         }
 
         $sql = "SELECT channelno,(SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
-                        b.backlogno,story,b.points,storytype, b.lastupdatetime as storytime,
+                        b.backlogno,story,b.points,storytype, b.lastupdatetime as storytime, createwatchlisttime,
                         prioritylevelno,(SELECT priorityleveltitle FROM asp_prioritylevel WHERE prioritylevelno=b.prioritylevelno) as priorityleveltitle,
                         storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=b.storyphaseno) as storyphasetitle,
                         relativepriority,
                         b.userno, CONCAT(firstname,' ',IFNULL(lastname,'')) as postedby, photo_url
                 FROM asp_channelbacklog as b
                     INNER JOIN hr_user as u ON b.userno=u.userno
+                    LEFT JOIN (
+                        SELECT createtime as createwatchlisttime
+                        FROM asp_watchlist 
+                        WHERE userno=$login_userno) as w ON  b.backlogno=w.backlogno
                 WHERE parentbacklogno IS NULL 
                     AND $filter
                 ORDER BY prioritylevelno, relativepriority, b.backlogno DESC 

@@ -396,11 +396,21 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label class="d-block mb-0">
-                            Status <span class="text-danger">*</span>
-                            <select name="wstatusno" class="form-control shadow-sm mt-2" required></select>
-                        </label>
+                                
+                    <div class='row'>
+                        <div class="col-12 col-md-6 form-group">
+                            <label class="d-block mb-0">
+                                Status <span class="text-danger">*</span>
+                                <select name="wstatusno" class="form-control shadow-sm mt-2" required></select>
+                            </label>
+                        </div>
+
+                        <div class="col-12 col-md-6 form-group">
+                            <label class="d-block mb-0">
+                                Percentage of Completion <span class="text-danger">*</span>
+                                <input name="percentile" type='number' class="form-control shadow-sm mt-2" required/>
+                            </label>
+                        </div>
                     </div>
 
                     <label>Result <span class="text-danger">*</span></label>
@@ -1062,6 +1072,7 @@
         e.preventDefault();
         let json = {
             wstatusno: $(`[name="wstatusno"]`, this).val(),
+            percentile: $(`[name="percentile"]`, this).val(),
             result: normaliseUserInput(taskResultTextEditor.getData())
         };
 

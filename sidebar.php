@@ -31,6 +31,7 @@
 <style>
     .card-body .remove_watch_list{
         display:none;
+        transition: .3s all;
     }
 
     .card-body:hover .remove_watch_list{

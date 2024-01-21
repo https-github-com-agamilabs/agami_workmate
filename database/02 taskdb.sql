@@ -3,9 +3,9 @@
 -- asp_workstatus(wstatusno, statustitle, colorno)
 -- asp_prioritylevel(prioritylevelno, priorityleveltitle, priorityleveldescription, colorno)
 
--- asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
+-- asp_channelbacklog(backlogno,channelno,story,storytype,points,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
 -- asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,duration,userno)
--- asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
+-- asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile, userno)
 -- asp_deadlines(dno,cblscheduleno,deadline,entrytime,userno)
 
 CREATE TABLE asp_filetype(
@@ -116,6 +116,7 @@ CREATE TABLE asp_channelbacklog(
     channelno int NOT NULL,
     story VARCHAR(512) NOT NULL,
     storytype int DEFAULT 3,
+    points INT DEFAULT 1,
     prioritylevelno int DEFAULT 4,
     relativepriority int DEFAULT 0,
     storyphaseno int NOT NULL,
@@ -131,6 +132,9 @@ CREATE TABLE asp_channelbacklog(
     CONSTRAINT fk_channelbacklog_parentbacklogno FOREIGN KEY (parentbacklogno) REFERENCES asp_channelbacklog(backlogno) ON UPDATE CASCADE,
     CONSTRAINT fk_channelbacklog_userno FOREIGN KEY (userno) REFERENCES hr_user(userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE asp_channelbacklog
+-- ADD COLUMN points INT DEFAULT 1;
 
 -- asp_logattachment(attachno,chatno,shorttitle,fileurl,filetypeno,uploadtime)
 CREATE TABLE asp_logattachment(
@@ -149,7 +153,6 @@ CREATE TABLE asp_cblschedule(
     cblscheduleno int AUTO_INCREMENT,
     backlogno int NOT NULL,
     howto TEXT DEFAULT NULL,
-    points int DEFAULT 1,
     assignedto int NOT NULL,
     assigntime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     scheduledate Date NOT NULL,
@@ -159,6 +162,9 @@ CREATE TABLE asp_cblschedule(
     CONSTRAINT fk_cblschedule_backlogno FOREIGN KEY (backlogno) REFERENCES asp_channelbacklog(backlogno) ON UPDATE CASCADE,
     CONSTRAINT fk_cblschedule_userno FOREIGN KEY (userno) REFERENCES hr_user(userno) ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE asp_cblschedule
+-- DROP COLUMN points;
 
 CREATE TABLE asp_deadlines(
     dno int AUTO_INCREMENT,
@@ -177,9 +183,13 @@ CREATE TABLE asp_cblprogress(
     progresstime DateTime DEFAULT CURRENT_TIMESTAMP,
     result TEXT DEFAULT NULL,
     wstatusno int DEFAULT 1,
+    percentile INT DEFAULT 0,
     userno int NOT NULL,
     PRIMARY KEY(cblprogressno),
     CONSTRAINT fk_cblprogress_cblscheduleno FOREIGN KEY (cblscheduleno) REFERENCES asp_cblschedule(cblscheduleno) ON UPDATE CASCADE,
     CONSTRAINT fk_cblprogress_userno FOREIGN KEY (userno) REFERENCES hr_user(userno) ON UPDATE CASCADE,
     CONSTRAINT fk_cblprogress_wstatusno FOREIGN KEY (wstatusno) REFERENCES asp_workstatus(wstatusno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE asp_cblprogress
+-- ADD COLUMN percentile INT DEFAULT 0;

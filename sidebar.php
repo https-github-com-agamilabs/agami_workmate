@@ -369,6 +369,9 @@
         const my_watchlist = $('.my_watchlist').empty();
 
         $.each(result, function(index, elm){
+
+            let percentile = parseInt( Math.round( ( prg.percentile || 0 ) % 101) / 10 ) * 10;
+
             let tpl = $('<div>')
             .attr({'class':'card mt-1', 'style':'border-radius:10px 0px 0 10px;'})
             .append(`
@@ -384,7 +387,7 @@
                     return `
                     <div class='mr-1'>
                         <a class='position-relative cursor-pointer' title='${prg.assignee}'>
-                            <div class='bg-danger bg-parcent-${prg.percentile||0} rounded-circle' style='width:34px; height:34px;'></div>
+                            <div class='bg-danger bg-parcent-${percentile} rounded-circle' style='width:34px; height:34px;'></div>
                             <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>                            
                         </a>
                         <div style='font-size:10px;' class='text-center'>${prg.percentile||0}%</div>

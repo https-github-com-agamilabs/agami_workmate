@@ -370,7 +370,7 @@
                     ${elm.schedule_progress.map((prg, i)=>{
                         return `
                         <div class='mr-1'>
-                            <a class='position-relative' title='${prg.assignee}'>
+                            <a class='position-relative cursor-pointer' title='${prg.assignee}'>
                                 <div class='bg-danger bg-parcent-${prg.percentile||0} rounded-circle' style='width:34px; height:34px;'></div>
                                 <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>                            
                             </a>

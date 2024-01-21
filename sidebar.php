@@ -302,6 +302,57 @@
     }, 600000);
 </script>
 
+<script>
+     function get_my_watchlist() {
+        return new Promise((resolve, reject) => {
+            let channel_data = $(`#watchlist_container`).data(`watchlist_data`);
+
+            if (channel_data && channel_data.length) {
+                resolve(channel_data);
+            } else {
+                try {
+                    $.post(`php/ui/watchlist/get_my_watchlist.php`, resp => {
+                        if (resp.error) {
+                            toastr.error(resp.message);
+                        } else {
+                            $(`#watchlist_container`).data(`watchlist_data`, resp.data);
+                            resolve(resp.data);
+                        }
+                    }, `json`);
+                } catch (error) {
+                    reject(error);
+                }
+            }
+        });
+    };
+
+    (get_my_watchlist()).then(
+        result => show_watchlist(result),
+        error => console.log(error)
+    );
+
+    function show_watchlist(result){
+        const my_watchlist = $('.my_watchlist').empty();
+
+        $.each(result, function(index, elm){
+            let tpl = `
+            <div class='card mt-1' style='border-radius:10px 0px 0 10px;'>
+                <div class='card-body pl-2 pr-1 py-1'>
+                ${elm.channeltitle}
+                    <div class='card-footer py-1'>
+                    ${elm.schedule_progress.map((prg, i)=>{
+                        return `<img height='30' class="rounded-circle" src="${prg.photo_url}"/>`;
+                    }).join("")}
+                    ${elm.schedule_progress.length==0?"<i>No progress yet!</i>":""}
+                    </div>
+                </div>
+                
+            </div>`;
+            my_watchlist.append(tpl);
+        });
+    }
+</script>
+
 <script type="text/javascript">
     function sidebar_menu_activate() {
         let filename = window.location.pathname.split("/").pop();

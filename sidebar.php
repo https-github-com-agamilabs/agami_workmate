@@ -341,11 +341,14 @@
                     <div style='color:black;'>
                         ${elm.channeltitle}                    
                     </div>
+                    <div style='font-size:10px;'>
+                        ${elm.story}
+                    </div>
                     <div class='card-footer pt-2 pb-0 px-0'>
                     ${elm.schedule_progress.map((prg, i)=>{
                         return `
                         <div class='mr-1'>
-                            <a class='position-relative' title='${assignee}'>
+                            <a class='position-relative' title='${prg.assignee}'>
                                 <div class='bg-danger rounded-circle' style='width:34px; height:34px;'></div>
                                 <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>                            
                             </a>

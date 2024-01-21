@@ -1416,6 +1416,22 @@ include_once "php/ui/login/check_session.php";
 					});
 
 					$('.add_to_watchlist', card).click(function(){
+						let that = $(this);
+						that.removeClass('fa-bookmark');
+						that.addClass('fa-rotate');
+						that.addClass('fa-circle-notch');
+						// that.addClass('fa-spinner');
+						that.addClass('fa-spin');
+						setTimeout(() => {
+							// that.html(that.data('pre'));
+
+							that.addClass('fa-bookmark');
+							that.removeClass('fa-rotate');
+							that.removeClass('fa-circle-notch');
+							// that.removeClass('fa-spinner');
+							that.removeClass('fa-spin');
+							
+						}, 3000);
 						if(value.createwatchlisttime){
 							if (confirm("Are you sure?")) {
 								remove_my_watchlist({

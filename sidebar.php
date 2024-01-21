@@ -344,7 +344,7 @@
                     <div style='font-size:10px;'>
                         ${elm.story}
                     </div>
-                    <div class='card-footer pt-2 pb-0 px-0'>
+                    <div class='card-footer pt-2 pb-0 px-0 w-100'>
                     ${elm.schedule_progress.map((prg, i)=>{
                         return `
                         <div class='mr-1'>

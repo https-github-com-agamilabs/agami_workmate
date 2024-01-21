@@ -65,11 +65,9 @@ function get_watchlist($dbcon, $userno)
                     b.storytype,(SELECT storytypetitle FROM asp_storytype WHERE storytypeno=b.storytype) as storytypetitle,
                     b.prioritylevelno,(SELECT priorityleveltitle FROM asp_prioritylevel WHERE prioritylevelno=b.prioritylevelno) as priorityleveltitle,
                     b.relativepriority,
-                    b.storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=b.storyphaseno) as storyphasetitle,
-                    
+                    b.storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=b.storyphaseno) as storyphasetitle               
             FROM asp_watchlist as w
                 INNER JOIN asp_channelbacklog as b ON w.backlogno=b.backlogno
-                LEFT JOIN (
             WHERE w.userno=? AND b.storytype=3
             ORDER BY createtime";
     $stmt = $dbcon->prepare($sql);

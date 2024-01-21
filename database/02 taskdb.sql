@@ -7,6 +7,8 @@
 -- asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,duration,userno)
 -- asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile, userno)
 -- asp_deadlines(dno,cblscheduleno,deadline,entrytime,userno)
+-- asp_storytype(storytypeno,storytypetitle)
+-- asp_watchlist(userno,backlogno,createtime)
 
 CREATE TABLE asp_filetype(
 	filetypeno int AUTO_INCREMENT,
@@ -193,3 +195,12 @@ CREATE TABLE asp_cblprogress(
 
 -- ALTER TABLE asp_cblprogress
 -- ADD COLUMN percentile INT DEFAULT 0;
+
+CREATE TABLE asp_watchlist(
+    userno INT NOT NULL,
+    backlogno int NOT NULL,
+    createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uk_watchlist_userno_backlogno UNIQUE(userno,backlogno),
+    CONSTRAINT fk_watchlist_userno FOREIGN KEY (userno) REFERENCES hr_user(userno) ON UPDATE CASCADE,
+    CONSTRAINT fk_watchlist_backlogno FOREIGN KEY (backlogno) REFERENCES asp_channelbacklog(backlogno) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

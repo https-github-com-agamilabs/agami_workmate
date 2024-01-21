@@ -1009,7 +1009,7 @@ include_once "php/ui/login/check_session.php";
 								<i class="fa fa-times m-1"></i>
 							</button>
 
-							${value.storytype == 3?"<i class='my-auto far fa-bookmark px-2'></i>":""}
+							${value.storytype == 3?"<i class='my-auto far fa-bookmark px-2' title='Add to watchlist'></i>":""}
 
 							<div class="my-auto dropdown">
 								<button class="open_dropdown btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">

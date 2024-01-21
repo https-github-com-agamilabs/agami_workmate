@@ -22,7 +22,7 @@ if (!$db->is_connected()) {
 
 try {
 
-    //$backlogno, $channelno, $story, $storytype, $priorityno, $relativepriority, $storyphaseno, $userno
+    //$backlogno, $channelno, $story, $points,$storytype, $priorityno, $relativepriority, $storyphaseno, $userno
     $backlogno = -1;
     if (isset($_POST['backlogno'])) {
         $backlogno = (int) $_POST['backlogno'];
@@ -40,6 +40,11 @@ try {
         // $story = $_POST['story'];
     } else {
         throw new \Exception("Story cannot be empty!", 1);
+    }
+
+    $points = 1;
+    if (isset($_POST['points'])) {
+        $points = (int) $_POST['points'];
     }
 
     $storytype = 1;
@@ -74,7 +79,7 @@ try {
         $approved = 0;
 
     if ($backlogno > 0) {
-        $result = update_channel($dbcon, $backlogno, $channelno, $story, $storytype, $prioritylevelno, $relativepriority, $storyphaseno, $userno);
+        $result = update_channel($dbcon, $backlogno, $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $userno);
         if ($result > 0) {
             $response['error'] = false;
             $response['message'] = "Successfully Updated.";
@@ -82,7 +87,7 @@ try {
             throw new \Exception("Cannot Update!", 1);
         }
     } else {
-        $result = create_channelbacklog($dbcon, $channelno, $story, $storytype, $prioritylevelno, $relativepriority, $storyphaseno, $parentbacklogno, $approved, $userno);
+        $result = create_channelbacklog($dbcon, $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $parentbacklogno, $approved, $userno);
         if ($result > 0) {
             $response['error'] = false;
             $response['message'] = "Successfully Added.";
@@ -98,28 +103,28 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
-function create_channelbacklog($dbcon, $channelno, $story, $storytype, $prioritylevelno, $relativepriority, $storyphaseno, $parentbacklogno, $approved, $userno)
+//asp_channelbacklog(backlogno,channelno,story,points,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
+function create_channelbacklog($dbcon, $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $parentbacklogno, $approved, $userno)
 {
 
-    $sql = "INSERT INTO asp_channelbacklog(channelno, story, storytype, prioritylevelno, relativepriority, storyphaseno,  parentbacklogno, approved,userno)
-            VALUES(?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO asp_channelbacklog(channelno, story, points,storytype, prioritylevelno, relativepriority, storyphaseno,  parentbacklogno, approved,userno)
+            VALUES(?,?,?,?,?,?,?,?,?,?)";
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("isiiiiiii", $channelno, $story, $storytype, $prioritylevelno, $relativepriority, $storyphaseno, $parentbacklogno, $approved, $userno);
+    $stmt->bind_param("isiiiiiiii", $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $parentbacklogno, $approved, $userno);
     $stmt->execute();
     $result = $stmt->insert_id;
     $stmt->close();
     return $result;
 }
 
-function update_channel($dbcon, $backlogno, $channelno, $story, $storytype, $prioritylevelno, $relativepriority, $storyphaseno, $userno)
+function update_channel($dbcon, $backlogno, $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $userno)
 {
 
     $sql = "UPDATE asp_channelbacklog
-            SET channelno=?, story=?, storytype=?, prioritylevelno=?, relativepriority=?, storyphaseno=?, userno=?
+            SET channelno=?, story=?, points=?,storytype=?, prioritylevelno=?, relativepriority=?, storyphaseno=?, userno=?
             WHERE backlogno=?";
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("isiiiiii", $channelno, $story, $storytype, $prioritylevelno, $relativepriority, $storyphaseno, $userno, $backlogno);
+    $stmt->bind_param("isiiiiiii", $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $userno, $backlogno);
     $stmt->execute();
     $result = $stmt->affected_rows;
     $stmt->close();

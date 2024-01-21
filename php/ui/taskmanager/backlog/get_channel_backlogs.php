@@ -135,7 +135,7 @@
     echo json_encode($response);
     $dbcon->close();
 
-    //asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
+    //asp_channelbacklog(backlogno,channelno,story,points,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
     //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,userno)
 
@@ -146,7 +146,7 @@
 
         $sql = "SELECT backlogno,
                         channelno, (SELECT channeltitle FROM msg_channel WHERE channelno=cb.channelno) as channeltitle,
-                        story, storytype,
+                        story, points,storytype,
                         prioritylevelno,(SELECT priorityleveltitle FROM asp_prioritylevel WHERE prioritylevelno=cb.prioritylevelno) as priorityleveltitle,
                         relativepriority,
                         storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=cb.storyphaseno) as storyphasetitle,
@@ -170,7 +170,7 @@
 
         $sql = "SELECT backlogno,
                         channelno, (SELECT channeltitle FROM msg_channel WHERE channelno=cb.channelno) as channeltitle,
-                        story, storytype,
+                        story, points,storytype,
                         prioritylevelno,(SELECT priorityleveltitle FROM asp_prioritylevel WHERE prioritylevelno=cb.prioritylevelno) as priorityleveltitle,
                         relativepriority,
                         storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=cb.storyphaseno) as storyphasetitle,

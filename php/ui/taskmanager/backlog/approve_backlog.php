@@ -52,7 +52,7 @@
     echo json_encode($response);
     $dbcon->close();
 
-    //asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
+    //asp_channelbacklog(backlogno,channelno,story,points,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
     function approve_backlog($dbcon, $backlogno){
 
         $sql = "UPDATE asp_channelbacklog

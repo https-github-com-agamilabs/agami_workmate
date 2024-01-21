@@ -111,7 +111,7 @@
     function get_channel_task_update($dbcon, $channelno, $pageno, $limit){
         $startindex=($pageno-1)*$limit;
         $sql = "SELECT channelno,(SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
-                        b.backlogno,story,storytype, b.lastupdatetime as storytime,
+                        b.backlogno,story,b.points,storytype, b.lastupdatetime as storytime,
                         prioritylevelno,(SELECT priorityleveltitle FROM asp_prioritylevel WHERE prioritylevelno=b.prioritylevelno) as priorityleveltitle,
                         storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=b.storyphaseno) as storyphasetitle,
                         relativepriority,
@@ -183,7 +183,7 @@
     
 
     function get_sub_comments($dbcon, $backlogno){
-        $sql = "SELECT backlogno, story, storyphaseno, storytype, b.lastupdatetime, 
+        $sql = "SELECT backlogno, story, points,storyphaseno, storytype, b.lastupdatetime, 
                     b.userno, CONCAT(u.firstname,' ',IFNULL(u.lastname,'')) as commentedby, u.photo_url
                 FROM asp_channelbacklog as b
                     INNER JOIN hr_user as u ON b.userno=u.userno

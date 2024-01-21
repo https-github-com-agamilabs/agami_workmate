@@ -1613,6 +1613,11 @@ include_once "php/ui/login/check_session.php";
 					get_channel_task_detail(pageno);
 					// get_channel_backlogs(pageno);
 				}
+
+				(get_my_watchlist()).then(
+					result => show_watchlist(result),
+					error => console.log(error)
+				);
 			}, `json`);
 		}
 
@@ -1628,6 +1633,11 @@ include_once "php/ui/login/check_session.php";
 					get_channel_task_detail(pageno);
 					// get_channel_backlogs(pageno);
 				}
+
+				(get_my_watchlist()).then(
+					result => show_watchlist(result),
+					error => console.log(error)
+				);
 			}, `json`);
 		}
 	</script>

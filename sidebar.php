@@ -345,10 +345,10 @@
                     ${elm.schedule_progress.map((prg, i)=>{
                         return `
                         <div class='mr-1'>
-                            <div class='position-relative'>
+                            <a class='position-relative' title='${assignee}'>
                                 <div class='bg-danger rounded-circle' style='width:34px; height:34px;'></div>
                                 <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>                            
-                            </div>
+                            </a>
                             <div style='font-size:10px;' class='text-center'>${prg.percentile||0}%</div>
                         </div>
                         

@@ -338,10 +338,21 @@
             let tpl = `
             <div class='card mt-1' style='border-radius:10px 0px 0 10px;'>
                 <div class='card-body pl-2 pr-1 py-1'>
-                ${elm.channeltitle}
-                    <div class='card-footer py-1'>
+                    <div style='color:black;'>
+                        ${elm.channeltitle}                    
+                    </div>
+                    <div class='card-footer pt-2 pb-0 px-0'>
                     ${elm.schedule_progress.map((prg, i)=>{
-                        return `<img height='30' class="rounded-circle" src="${prg.photo_url}"/>`;
+                        return `
+                        <div class='mr-1'>
+                            <div class='position-relative'>
+                                <div class='bg-danger rounded-circle' style='width:34px; height:34px;'></div>
+                                <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>                            
+                            </div>
+                            <div style='font-size:10px;' class='text-center'>${prg.percentile||0}%</div>
+                        </div>
+                        
+                        `;
                     }).join("")}
                     ${elm.schedule_progress.length==0?"<i>No progress yet!</i>":""}
                     </div>

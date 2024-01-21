@@ -38,7 +38,7 @@
 
     try {
 
-        $results = get_channel_task_update($dbcon, $channelno, $pageno, $limit);
+        $results = get_channel_task_update($dbcon, $channelno, $pageno, $limit,$userno);
         $results_array = array();
         if ($results->num_rows > 0) {
             while ($row = $results->fetch_array(MYSQLI_ASSOC)) {
@@ -108,7 +108,7 @@
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
     //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile,userno)
     
-    function get_channel_task_update($dbcon, $channelno, $pageno, $limit){
+    function get_channel_task_update($dbcon, $channelno, $pageno, $limit,$userno){
         $startindex=($pageno-1)*$limit;
         $sql = "SELECT channelno,(SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
                         b.backlogno,story,b.points,storytype, b.lastupdatetime as storytime,createwatchlisttime,
@@ -121,7 +121,7 @@
                     LEFT JOIN (
                         SELECT backlogno,createtime as createwatchlisttime
                         FROM asp_watchlist 
-                        WHERE userno=$login_userno) as w ON  b.backlogno=w.backlogno
+                        WHERE userno=$userno) as w ON  b.backlogno=w.backlogno
                 WHERE parentbacklogno IS NULL AND channelno=?
                 ORDER BY b.backlogno DESC 
                 LIMIT ?,?

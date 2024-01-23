@@ -40,7 +40,7 @@
 			<?php include_once("sidebar.php"); ?>
 
 			<div class="app-main__outer">
-				<div class="app-main__inner">
+				<div class="app-main__inner pt-3 pl-0 pr-3">
 
 					<div class="card mb-3">
 						<div class="card-header d-flex flex-wrap justify-content-between">
@@ -343,10 +343,9 @@
 			dataTable = $("#users_table").DataTable({
 				"data": data,
 				"ordering": false,
-				"columns": [
-					{
-						"data":"photo_url",
-						"render":(data, type, row)=>`<div class='text-center'><img src='${row.photo_url||"assets/image/user_icon.png"}' width="40"/></div>`
+				"columns": [{
+						"data": "photo_url",
+						"render": (data, type, row) => `<div class='text-center'><img src='${row.photo_url||"assets/image/user_icon.png"}' width="40"/></div>`
 					},
 					{
 						"data": "username",

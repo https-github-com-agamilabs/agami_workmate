@@ -19,7 +19,7 @@
 			<?php include_once("sidebar.php"); ?>
 
 			<div class="app-main__outer">
-				<div class="app-main__inner">
+				<div class="app-main__inner pt-3 pl-0 pr-3">
 
 					<div class="card mb-3">
 						<div class="card-header">

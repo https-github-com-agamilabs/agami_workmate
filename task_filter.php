@@ -143,7 +143,7 @@
 			<?php include_once("sidebar.php"); ?>
 
 			<div class="app-main__outer">
-				<div class="app-main__inner">
+				<div class="app-main__inner pt-3 pl-0 pr-3">
 					<!-- <div class="app-page-title mb-0">
 						<div class="page-title-wrapper">
 							<div class="page-title-heading">

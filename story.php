@@ -167,7 +167,7 @@ include_once "php/ui/login/check_session.php";
 			<?php include_once("sidebar.php"); ?>
 
 			<div class="app-main__outer">
-				<div class="app-main__inner">
+				<div class="app-main__inner pt-3 pl-0 pr-3">
 
 					<div class="card mb-3" style="border-radius: 15px">
 						<div class="card-body py-2">

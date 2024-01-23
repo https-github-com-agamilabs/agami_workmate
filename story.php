@@ -655,6 +655,7 @@ include_once "php/ui/login/check_session.php";
 		$(`#task_manager_setup_modal_form`).submit(function(e) {
 			e.preventDefault();
 			let json = Object.fromEntries((new FormData(this)).entries());
+			json.channelno = selected_channel;
 			delete json.fileurl;
 			delete json.shorttitle;
 			json.attachments = JSON.stringify($('.attachment_url').map((i, f) => $(f).data()).toArray());
@@ -1415,7 +1416,7 @@ include_once "php/ui/login/check_session.php";
 						}
 					});
 
-					$('.add_to_watchlist', card).click(function(){
+					$('.add_to_watchlist', card).click(function() {
 						let that = $(this);
 						that.removeClass('fa-bookmark');
 						that.addClass('fa-rotate');
@@ -1430,15 +1431,15 @@ include_once "php/ui/login/check_session.php";
 							that.removeClass('fa-circle-notch');
 							// that.removeClass('fa-spinner');
 							that.removeClass('fa-spin');
-							
+
 						}, 3000);
-						if(value.createwatchlisttime){
+						if (value.createwatchlisttime) {
 							if (confirm("Are you sure?")) {
 								remove_my_watchlist({
 									backlogno: value.backlogno
 								}, $(this).parents(`.progress_parent_div`));
 							}
-						}else{
+						} else {
 							add_my_watchlist({
 								backlogno: value.backlogno
 							}, $(this).parents(`.progress_parent_div`));
@@ -1600,8 +1601,6 @@ include_once "php/ui/login/check_session.php";
 				}
 			}, `json`);
 		}
-
-		
 	</script>
 
 	<script>

@@ -52,7 +52,7 @@ if (!defined("DB_USER")) {
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Virtual Assistant Management System | Home</title>
+    <title>Track Time and Task | Home</title>
 
     <script>
         const publicAccessUrl = `<?= $publicAccessUrl ?>`;
@@ -149,7 +149,7 @@ if (!defined("DB_USER")) {
                         <div class="row no-gutters align-items-center">
                             <div class="col-12 col-lg-9">
                                 <div class="medilife-appointment-form">
-                                    <div class="section_title h3 text-white mb-3">Try a VA for free</div>
+                                    <div class="section_title h3 text-white mb-3">Track Time & Task</div>
 
                                 </div>
                             </div>

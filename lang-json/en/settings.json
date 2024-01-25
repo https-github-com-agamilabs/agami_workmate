@@ -1,0 +1,27 @@
+{
+  "lang_edit_profile": "Edit Profile",
+  "lang_your_organizations": "Your Organizations",
+  "lang_developed_by": "Developed by",
+  "lang_agamilabs_ltd.": "AGAMiLabs Ltd.",
+  "lang_attention_please!!!": "Attention Please!!!",
+  "lang_close": "Close",
+  "lang_proceed": "Proceed",
+  "lang_organization": "Organization",
+  "lang_change_password": "Change Password",
+
+  "lang_confirm_password:": "Confirm Password:",
+  "lang_new_password:": "New Password:",
+  "lang_current_password:": "Current Password:",
+
+  "lang_save": "Save",
+  "lang_cancel": "Cancel",
+  "lang_district:": "District:",
+  "lang_post_office:": "Post Office:",
+  "lang_postcode:": "Postcode:",
+
+  "lang_police_station:": "Police Station:",
+  "lang_village:": "Village:",
+  "lang_contact_no:": "Contact No:",
+  "lang_name:": "Name:",
+  "lang_your_profile": "Your Profile"
+}

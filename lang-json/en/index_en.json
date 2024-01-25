@@ -1,0 +1,109 @@
+{
+    "title": "Smart Accounting System",
+    "nav-title": "Welcome to <span>Smart Accounting System </span>",
+    "about": "SmartAccounting can make your business more transparent and more profitable. With your primary voucher entry, SmartAccounting can produce ledger, cash-flow, income-flow, trial balance, income statement, receive and payment statement, and balance sheet on a single click. Furthermore, comparative income statement, receive and payment statement, and balance sheet can give the essence of your business progress.",
+    "subscription": "Community blog may help solving your frequent problems.",
+    "network":[
+            {
+                "icon":"fa fb",
+                "link":""
+            },
+            {
+                "icon":"fa twitter",
+                "link":""
+            },
+            {
+                "icon":"fa youtube",
+                "link":""
+            },{
+                "icon":"fa scribe",
+                "link":""
+            }
+        ],
+    "head-carousel": [
+        {
+            "imageurl": "https://smartacc.agamilabs.com/assets/image/background/bg01.webp",
+            "title": "Easy, yet smart accounting",
+            "sub-title": "for small to large business, even multi-company",
+            "subsub-title": "You may focus on revenue, track your leaky expenses and control them through budgeting to maximise your business profit.",
+            "extra-button": "Buy Now",
+            "isvisible": 1
+        },
+        {
+            "imageurl": "https://smartacc.agamilabs.com/assets/image/background/bg02.webp",
+            "title": "Multi-company and multi-user accounting",
+            "sub-title": "for small to large business, even multi-company",
+            "subsub-title": "You may focus on revenue, track your leaky expenses and control them through budgeting to maximise your business profit.",
+            "extra-button": "Buy Now",
+            "isvisible": 1
+        },
+        {
+            "imageurl": "https://smartacc.agamilabs.com/assets/image/background/bg01.webp",
+            "title": "Simple, Multi-level and Comparative Reporting",
+            "sub-title": "for small to large business, even multi-company",
+            "subsub-title": "You may focus on revenue, track your leaky expenses and control them through budgeting to maximise your business profit.",
+            "extra-button": "Buy Now",
+            "isvisible": 1
+        }
+    ],
+    "sections": {
+        "about": {
+            "title": "About",
+            "sub-title": "",
+            "description": "SmartAccounting can make your business more transparent and more profitable. With your primary voucher entry, SmartAccounting can produce ledger, cash-flow, income-flow, trial balance, income statement, receive and payment statement, and balance sheet on a single click. Furthermore, comparative income statement, receive and payment statement, and balance sheet can give the essence of your business progress.",
+            "keynote": "SmartAccounting can make your business more transparent and more profitable."
+        },
+        "service": {
+            "title": "Features",
+            "sub-title": "Choose the best medical services and experience a new standard of care.",
+            "description": "Our innovation connect you to expert doctors, trained care-providers, pharmacies for online medicine order, and blog for health updates. Join today!",
+            "list": [
+                {
+                    "icon": "fas fa-user-md",
+                    "title": "Access anytime, any where",
+                    "short-description": "Your data is stored securely in the cloud, allowing you to run your business from anytime, anywhere."
+                },
+                {
+                    "icon": "fas fa-user-nurse",
+                    "title": "Safe & secure",
+                    "short-description": "Are you looking for skilled nurses to care for your family’s baby/elderly parents or sick loved ones? Now to get nursing services at home, we are at your side. "
+                },
+                {
+                    "icon": "icon-medicine-2",
+                    "title": "Managing Multi-companies Accounting",
+                    "short-description": "Multi-company accounting feature can serve you, if your business run through two or more companies or entities. It will allow you to keep separate accounting for each company along with consolidated financial statements of all companies."
+                },
+                {
+                    "icon": "fas fa-prescription",
+                    "title": "Multi-level Accounting",
+                    "short-description": "We aim to establish our online prescription system for hassle-free prescription. Doctor can create it easily, quickly, and efficiently. Patient can share to other as necessary."
+                },
+                {
+                    "icon": "icon-medicine",
+                    "title": "Easily track your cash flow",
+                    "short-description": "We provide medicines through a medical prescription and healthcare products to be dispensed at pick-up and home delivery in all over Bangladesh."
+                },
+                {
+                    "icon": "fas fa-blog",
+                    "title": "Build better business insights",
+                    "short-description": "Create reports (ledger, trial balance, balance sheet, cash-flow, income statement, balance sheet etc.) to see how your business is doing and get ready for tax time."
+                },
+                {
+                    "icon": "icon-medicine-2",
+                    "title": "Balance Sheet",
+                    "short-description": "balance sheet reflects the financial statement that reports a company's assets, liabilities, and shareholder equity at a specific accounting year."
+                },
+                {
+                    "icon": "icon-medicine-2",
+                    "title": "Comparative Statements",
+                    "short-description": "Previous financials are presented alongside the latest figures in side-by-side columns, enabling investors to identify trends, track a company’s progress and compare it with company rivals. Comparative Statements include comparative income-statement, receive and payment statement, balance sheet and so on."
+                }
+            ]
+        },
+        "blog": {
+            "title": "Latest Update from SmartAccounting User Community",
+            "sub-title": "Operation Insights: Stay informed, stay happy.",
+            "description": ""
+        }
+    }
+}

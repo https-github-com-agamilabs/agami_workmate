@@ -1,12 +1,4 @@
 {
-  "en": {
-    "lang_personal": "Personal",
-    "lang_about": "About",
-    "lang_awards": "Awards",
-    "lang_portfolios": "Portfolios",
-    "lang_publications": "Publications",
-    "lang_experiences": "Experiences",
-    "lang_accomplishments": "Accomplishments",
 
     "lang_frontdesk": "FRONTDESK",
     "lang_chamber_&_appointment": "Chamber & Appointment",
@@ -20,13 +12,6 @@
     "lang_previous_prescriptions": "Previous Prescriptions",
     "lang_medical_history": "Medical History",
     "lang_health_blog": "Health Blog",
-    "lang_doctors_info": "Doctors Info",
-    "lang_frontdesk_chamber": "Frontdesk Chamber",
-    "lang_appointment_(patient)": "Appointment (Patient)",
-    "lang_schedule": "Schedule",
-    "lang_schedule_date": "Schedule Date",
-
-    "lang_professional_experiences": "Professional Experiences",
-    "lang_your_chamber_setup_will_be_done_here": "Your chamber setup will be done here."
+    "lang_doctors_info": "Doctors Info"
   }
-}
+

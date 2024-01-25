@@ -1,0 +1,28 @@
+{
+  "lang_select": "বাছাই করুন...",
+  "lang_edit_profile": "জীবন বৃত্তান্ত সম্পাদনা",
+  "lang_your_organizations": "আপনার সংগঠন",
+  "lang_developed_by": "নির্মাণে",
+  "lang_agamilabs_ltd.": "আগামিল্যাবস লিমিটেড.",
+  "lang_attention_please!!!": "দৃষ্টি আকর্ষন করা!!!",
+  "lang_close": "বন্ধ",
+  "lang_proceed": "অগ্রসর",
+  "lang_organization": "সংগঠন",
+  "lang_change_password": "পাসওয়ার্ড পরিবর্তন করুন",
+
+  "lang_confirm_password:": "পাসওয়ার্ড নিশ্চিত করুন:",
+  "lang_new_password:": "নতুন পাসওয়ার্ড:",
+  "lang_current_password:": "বর্তমান পাসওয়ার্ড:",
+
+  "lang_save": "সংরক্ষণ",
+  "lang_cancel": "বাতিল",
+  "lang_district:": "জেলা:",
+  "lang_post_office:": "ডাক ঘর:",
+  "lang_postcode:": "পোস্টকোড:",
+
+  "lang_police_station:": "থানা:",
+  "lang_village:": "গ্রাম:",
+  "lang_contact_no:": "যোগাযোগের নম্বর:",
+  "lang_name:": "নাম:",
+  "lang_your_profile": "আপনার প্রোফাইল"
+}

@@ -1,0 +1,23 @@
+{
+    "lang_accounting_login": "অ্যাকাউন্টিং লগইন",
+    "lang_accounting": "অ্যাকাউন্টিং",
+    "lang_management_system": "ব্যবস্থাপনা পদ্ধতি",
+    "lang_about_journal,_debit_and_credit_voucher;_trial_balance,_profit_and_loss,_comparative_received_and_payment_accounting_and_comparative_balance-sheet": "জার্নাল, ডেবিট এবং ক্রেডিট ভাউচার সম্পর্কে; ট্রায়াল ভারসাম্য, লাভ এবং ক্ষতি, তুলনামূলক প্রাপ্ত এবং অর্থ প্রদানের অ্যাকাউন্টিং এবং তুলনামূলক ব্যালেন্স-শিট",
+    "lang_d": "ডাক্তারের সাক্ষাত",
+    "lang_tr": "ট্র্যাক অ্যাপয়েন্টমেন্ট",
+    "lang_which_doctor_should_i_see?": "আমার কোন ডাক্তার দেখতে হবে?",
+    "lang_prescription_&_healthcare_system": "প্রেসক্রিপশন এবং স্বাস্থ্যসেবা ব্যবস্থা",
+    "lang_people_login": "লোকেরা লগইন করে",
+    "lang_log_in": "প্রবেশ করুন",
+    "lang_forgotten_password?": "পাসওয়ার্ড ভুলে গেছেন?",
+    "lang_create_new_account": "নতুন অ্যাকাউন্ট তৈরি",
+    "lang_developed_by_agamilabs_limited": "আগামীল্যাবস লিমিটেড দ্বারা বিকাশিত",
+    "lang_developed_by": "নির্মাণে",
+    "lang_assign_task_to_other_user":"অন্যান্য ব্যবহারকারীর জন্য টাস্ক বরাদ্দ করুন",
+    "lang_assign_module":"মডিউল বরাদ্দ করুন",
+    "lang_permission_manager": "অনুমতি পরিচালক",
+    "lang_action": "কর্ম",
+    "lang_module": "মডিউল",
+    "lang_user": "ব্যবহারকারী",
+    "lang_sl": " সিরিয়াল"
+}

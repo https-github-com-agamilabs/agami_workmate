@@ -6,9 +6,23 @@
 //$jsonData = file_get_contents('path/to/your/file.json');
 
 //$arrayData='34567';
-function langConverter($path)
+function langConverter($lang, $filename)
 {
-    $jsonData = file_get_contents($path);
+    $filepath = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'lang-json' . DIRECTORY_SEPARATOR . $lang . DIRECTORY_SEPARATOR . $filename . '.json';
+
+    if (!file_exists($filepath)) {
+        echo $filepath;
+        echo "Not found";
+        exit();
+    }else{
+        // $jsonData = file_get_contents($filepath, true);
+
+        // echo $filepath;
+        // echo "found";
+        // var_dump($jsonData);
+        // exit();
+    }
+    $jsonData = file_get_contents($filepath);
 
     // Convert JSON to PHP array
     $arrayData = json_decode($jsonData, true);

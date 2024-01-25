@@ -1,27 +1,16 @@
 {
-  "bn": {
-    "lang_personal": "ব্যক্তিগত",
-    "lang_about": "সম্পর্কিত",
-    "lang_awards": "পুরস্কারসমূহ",
-    "lang_portfolios": "পোর্টফলিও",
-    "lang_publications": "প্রকাশনাসমূহ",
-    "lang_experiences": "অভিজ্ঞতা",
-    "lang_accomplishments": "প্রাপ্তিসমূহ",
-
-    "lang_frontdesk": "ফ্রন্টডেস্ক",
-    "lang_chamber_&_appointment": "চেম্বার ও অ্যাপয়েন্টমেন্ট",
-    "lang_vital_sign_(patient)": "গুরুত্বপূর্ণ লক্ষণ (রোগী)",
-    "lang_medical_history_(patient)": "মেডিকেল হিস্টরি (রোগী)",
-    "lang_test_setting": "টেস্ট সেটিং",
-    "lang_medicine_setting": "মেডিসিন সেটিং",
-    "lang_speciality_setting": "বিশেষত্ব সেটিং",
-    "lang_my_health": "আমার স্বাস্থ্য",
-    "lang_doctor's_appointment": "ডাক্তারের সাক্ষাৎ",
-    "lang_previous_prescriptions": "পূর্ববর্তী প্রেস্ক্রিপশন",
-    "lang_medical_history": "ডাক্তারি ইতিহাস",
-    "lang_health_blog": "স্বাস্থ্য ব্লগ",
-    "lang_doctors_info": "ডাক্তারের তথ্যাদি",
-
-    "lang_professional_experiences": "পেশাগত অভিজ্ঞতা"
-  }
+  "lang_frontdesk": "ফ্রন্টডেস্ক",
+  "lang_chamber_&_appointment": "চেম্বার ও অ্যাপয়েন্টমেন্ট",
+  "lang_vital_sign_(patient)": "গুরুত্বপূর্ণ লক্ষণ (রোগী)",
+  "lang_medical_history_(patient)": "মেডিকেল হিস্টরি (রোগী)",
+  "lang_test_setting": "টেস্ট সেটিং",
+  "lang_medicine_setting": "মেডিসিন সেটিং",
+  "lang_speciality_setting": "বিশেষত্ব সেটিং",
+  "lang_my_health": "আমার স্বাস্থ্য",
+  "lang_doctor's_appointment": "ডাক্তারের সাক্ষাৎ",
+  "lang_previous_prescriptions": "পূর্ববর্তী প্রেস্ক্রিপশন",
+  "lang_medical_history": "ডাক্তারি ইতিহাস",
+  "lang_health_blog": "স্বাস্থ্য ব্লগ",
+  "lang_doctors_info": "ডাক্তারের তথ্যাদি",
+  "lang_dashboard": "ড্যাশবোর্ড"
 }

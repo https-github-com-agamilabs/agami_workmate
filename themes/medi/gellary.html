@@ -1,0 +1,124 @@
+<div class="medilife-gallery-area owl-carousel">
+    <!-- Single Gallery Item -->
+    <!-- <div class="single-gallery-item">
+        <img src="<?= $imgPath ?>bg-img/g1.jpg" alt="">
+        <div class="view-more-btn">
+            <a href="<?= $imgPath ?>bg-img/g1.jpg" class="btn gallery-img">See More +</a>
+        </div>
+    </div> -->
+    <!-- Single Gallery Item -->
+    <!-- <div class="single-gallery-item">
+        <img src="<?= $imgPath ?>bg-img/g2.jpg" alt="">
+        <div class="view-more-btn">
+            <a href="<?= $imgPath ?>bg-img/g2.jpg" class="btn gallery-img">See More +</a>
+        </div>
+    </div> -->
+    <!-- Single Gallery Item -->
+    <!-- <div class="single-gallery-item">
+        <img src="<?= $imgPath ?>bg-img/g3.jpg" alt="">
+        <div class="view-more-btn">
+            <a href="<?= $imgPath ?>bg-img/g3.jpg" class="btn gallery-img">See More +</a>
+        </div>
+    </div> -->
+
+    <!-- Single Gallery Item -->
+    <!-- <div class="single-gallery-item">
+        <img src="<?= $imgPath ?>bg-img/g4.jpg" alt="">
+        <div class="view-more-btn">
+            <a href="<?= $imgPath ?>bg-img/g4.jpg" class="btn gallery-img">See More +</a>
+        </div>
+    </div> -->
+</div>
+<script>
+
+// get_gallery();
+
+// function get_gallery() {
+//     $(`.medilife-gallery-area`).empty();
+
+//     let json = {};
+
+//     $.post(`${publicAccessUrl}php/ui/gallery/get_gallery.php`, json, resp => {
+//         if (resp.error) {
+//             // toastr.error(resp.message);
+//         } else {
+//             show_gallery(resp.data);
+//         }
+//     }, `json`);
+// }
+
+// function show_gallery(data) {
+//     let target = $(`.medilife-gallery-area`);
+
+//     $.each(data, (index, value) => {
+//         let item = $(`<div class="${value.catno == 1 ? `` : `single-gallery-item`}">
+//                 ${value.catno == 2
+//                     ? `<img src="${value.thumbnailimageurl || (value.imageurl || ``)}" alt="${value.image_title}">
+//                         <div class="view-more-btn">
+//                             <a href="${value.imageurl}" class="btn gallery-img">See More +</a>
+//                         </div>`
+//                     : `<iframe src="${value.imageurl}" title="${value.image_title}" style="width:100%;" frameborder="0" allowfullscreen></iframe>`
+//                 }
+//             </div>`)
+//             .appendTo(target);
+//     });
+
+//     let setIntervalID = setInterval(() => {
+//         let height = $(`.single-gallery-item:first`, target).height();
+//         if (height > 0) {
+//             $(`iframe`, target).height(height);
+//             clearInterval(setIntervalID);
+//         }
+//     }, 1000);
+
+//     if ($.fn.owlCarousel) {
+//         target.owlCarousel({
+//             items: 4,
+//             margin: 0,
+//             loop: true,
+//             autoplay: true,
+//             autoplayTimeout: 5000,
+//             smartSpeed: 2000,
+//             responsive: {
+//                 0: {
+//                     items: 1
+//                 },
+//                 768: {
+//                     items: 2
+//                 },
+//                 992: {
+//                     items: 3
+//                 },
+//                 1200: {
+//                     items: 4
+//                 }
+//             }
+//         });
+
+//         $("[data-delay]").each(function() {
+//             var anim_del = $(this).data('delay');
+//             $(this).css('animation-delay', anim_del);
+//         });
+
+//         $("[data-duration]").each(function() {
+//             var anim_dur = $(this).data('duration');
+//             $(this).css('animation-duration', anim_dur);
+//         });
+//     }
+
+//     if ($.fn.magnificPopup) {
+//         $('.gallery-img').magnificPopup({
+//             type: 'image'
+//         });
+//         $('.popup-video').magnificPopup({
+//             disableOn: 700,
+//             type: 'iframe',
+//             mainClass: 'mfp-fade',
+//             removalDelay: 160,
+//             preloader: false,
+//             fixedContentPos: false
+//         });
+//     }
+
+// }
+</script>

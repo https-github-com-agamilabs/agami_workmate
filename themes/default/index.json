@@ -1,33 +1,33 @@
 {
     "title": "WorkMate is Virtual Assistant (VA) Management System",
-    "nav-title": "Welcome to <span>the VA Management System </span>",
-    "about":"WorkMate is a VA management system, where a busy person can hire and manage the activity of Virtual Assistant. We provide an experienced team of Virtual Assistant (VA) in a diversified domains of experties. The proliferation of work-load, expansion of Information Technology, and sophistication of Artificial Intelligence require appropriate person to assist in business. However, managing VA is a formidable task. WorkMate promises to make this task easy for you to support your business to grow",
-    "subscription":"Empower yourself with knowledge and nurture your mind and soul with our virtual assistant blog subscription. Proliferate your business with appropriate action. ",
+    "nav-title": "Welcome to <span>the HiWorkmate System </span>",
+    "about":"WorkMate is a Time&Task management system",
+    "subscription":"Empower yourself  ",
     "head-carousel": [
         {
             "imageurl": "https://workmate.agamilab.com/themes/default/img/bg-img/va.jpg",
-            "title": "Let your VA handle it.",
+            "title": "Track Time & Task",
             "sub-title": "To-do list growing out of control?",
             "subsub-title": "Your time is valuable. Let our VAs to take the mountain of routine tasks off your hands.",
             "extra-button": "Find My Virtual Assistant"
         },
         {
             "imageurl": "https://workmate.agamilab.com/themes/default/img/bg-img/how.jpg",
-            "title": "How Our VA helps Your Business",
+            "title": "Manage your team better",
             "sub-title": "Web Development, Creative Content, and Digital Marketing",
             "subsub-title": "We offer full-time and part-time assistants in web development, web maintenance, creating creative content, digital marketing, customer support and operations. We can help you hire just one assistant, or an end-to-end team that takes over an entire department or business function.",
             "extra-button": "Choose Your Right Plan!"
         },
         {
             "imageurl": "https://workmate.agamilab.com/themes/default/img/bg-img/va2.jpg",
-            "title": "Try a VA for free",
+            "title": "Operate with insight",
             "sub-title": "Want to know how it fits? ",
             "subsub-title": "Just send us your first task and one of our virtual assistants will do it for free.",
             "extra-button": "Try a VA for FREE!"
         },
         {
             "imageurl": "https://workmate.agamilab.com/themes/default/img/bg-img/how2.jpg",
-            "title": "VA for Startups & Enterprise",
+            "title": "Visualize your progress",
             "sub-title": "From skilled worker to AI-specialized assistant",
             "subsub-title": "Delegate your work, tasks & processes to a dedicated, full-time team member. You may also hire a part-time assistant to grow.",
             "extra-button": "Plan & Pricing"

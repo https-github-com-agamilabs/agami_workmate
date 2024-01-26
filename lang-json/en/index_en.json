@@ -1,7 +1,7 @@
 {
-    "title": "Smart Accounting System",
-    "nav-title": "Welcome to <span>Smart Accounting System </span>",
-    "about": "SmartAccounting can make your business more transparent and more profitable. With your primary voucher entry, SmartAccounting can produce ledger, cash-flow, income-flow, trial balance, income statement, receive and payment statement, and balance sheet on a single click. Furthermore, comparative income statement, receive and payment statement, and balance sheet can give the essence of your business progress.",
+    "title": "Track Time & Task @ HiWorkmate",
+    "nav-title": "Welcome to <span>Hi, Workmate! </span>",
+    "about": "HiWorkmate can make your business more transparent and more profitable. <br> 🕒 Effortless Time Tracking: Monitor your work hours seamlessly and gain valuable insights into your daily, weekly, and monthly activities. Say goodbye to manual timekeeping and embrace the simplicity of automated tracking! <br> 📅 Task Management Simplified: Easily create, assign, and prioritize tasks with our intuitive interface. Collaborate effortlessly with your team, ensuring everyone stays on track and meets deadlines with ease.",
     "subscription": "Community blog may help solving your frequent problems.",
     "network":[
             {
@@ -23,85 +23,95 @@
     "head-carousel": [
         {
             "imageurl": "https://smartacc.agamilabs.com/assets/image/background/bg01.webp",
-            "title": "Easy, yet smart accounting",
-            "sub-title": "for small to large business, even multi-company",
-            "subsub-title": "You may focus on revenue, track your leaky expenses and control them through budgeting to maximise your business profit.",
-            "extra-button": "Buy Now",
+            "title": "🕒 Effortless Time Tracking",
+            "sub-title": "Say goodbye to manual timekeeping",
+            "subsub-title": "Monitor your work hours seamlessly and gain valuable insights into your daily, weekly, and monthly activities. ",
+            "extra-button": "Join Now",
             "isvisible": 1
         },
         {
             "imageurl": "https://smartacc.agamilabs.com/assets/image/background/bg02.webp",
-            "title": "Multi-company and multi-user accounting",
-            "sub-title": "for small to large business, even multi-company",
-            "subsub-title": "You may focus on revenue, track your leaky expenses and control them through budgeting to maximise your business profit.",
-            "extra-button": "Buy Now",
+            "title": "📅 Task Management Simplified",
+            "sub-title": "Are you tired of struggling to manage your team?",
+            "subsub-title": "Easily create, assign, and prioritize tasks with our intuitive interface. Collaborate effortlessly with your team, ensuring everyone stays on track and meets deadlines with ease.",
+            "extra-button": "Join Now",
             "isvisible": 1
         },
         {
             "imageurl": "https://smartacc.agamilabs.com/assets/image/background/bg01.webp",
-            "title": "Simple, Multi-level and Comparative Reporting",
-            "sub-title": "for small to large business, even multi-company",
-            "subsub-title": "You may focus on revenue, track your leaky expenses and control them through budgeting to maximise your business profit.",
-            "extra-button": "Buy Now",
+            "title": "📱 Mobile Accessibility",
+            "sub-title": "Stay productive on the go!",
+            "subsub-title": "Our software is accessible from anywhere, allowing you to track time and manage tasks whether you're in the office, at home, or on a business trip.",
+            "extra-button": "Join Now",
             "isvisible": 1
         }
     ],
     "sections": {
         "about": {
             "title": "About",
-            "sub-title": "",
-            "description": "SmartAccounting can make your business more transparent and more profitable. With your primary voucher entry, SmartAccounting can produce ledger, cash-flow, income-flow, trial balance, income statement, receive and payment statement, and balance sheet on a single click. Furthermore, comparative income statement, receive and payment statement, and balance sheet can give the essence of your business progress.",
-            "keynote": "SmartAccounting can make your business more transparent and more profitable."
+            "sub-title": "HiWorkmate",
+            "description": "HiWorkmate can make your business more transparent and more profitable. <br> 🕒 Effortless Time Tracking: Monitor your work hours seamlessly and gain valuable insights into your daily, weekly, and monthly activities. Say goodbye to manual timekeeping and embrace the simplicity of automated tracking! <br> 📅 Task Management Simplified: Easily create, assign, and prioritize tasks with our intuitive interface. Collaborate effortlessly with your team, ensuring everyone stays on track and meets deadlines with ease.",
+            "keynote": "🚀 Boost Productivity with Our Cutting-Edge HiWorkmate to Track Your Time and Task digitally!"
         },
         "service": {
             "title": "Features",
-            "sub-title": "Choose the best medical services and experience a new standard of care.",
-            "description": "Our innovation connect you to expert doctors, trained care-providers, pharmacies for online medicine order, and blog for health updates. Join today!",
+            "sub-title": "Maximize Your Productivity with HiWorkmate.",
+            "description": "Tired of juggling multiple tasks and losing track of time? Unlock the potential of your workday with HiWorkmate. Join today!",
             "list": [
                 {
                     "icon": "fas fa-user-md",
                     "title": "Access anytime, any where",
-                    "short-description": "Your data is stored securely in the cloud, allowing you to run your business from anytime, anywhere."
+                    "short-description": "Embrace the flexibility of cloud-based technology. Access your data anytime, anywhere, and never worry about losing important information."
+                },
+                {
+                    "icon": "fas fa-prescription",
+                    "title": "Effortless Time Tracking",
+                    "short-description": "Monitor your work hours seamlessly and gain valuable insights into your daily, weekly, and monthly activities. Say goodbye to manual timekeeping and embrace the simplicity of automated tracking!"
+                },
+                {
+                    "icon": "icon-medicine-2",
+                    "title": "Real-Time Tracking",
+                    "short-description": "Stay on top of your schedule with our real-time tracking feature. Know exactly where your time goes and make every minute count!"
+                },
+                {
+                    "icon": "icon-medicine",
+                    "title": "Task Management Simplified",
+                    "short-description": "Easily create, assign, and prioritize tasks with our intuitive interface. Collaborate effortlessly with your team, ensuring everyone stays on track and meets deadlines with ease."
+                },
+                {
+                    "icon": "fas fa-blog",
+                    "title": "Performance Analytics",
+                    "short-description": "Dive into detailed analytics to understand your workflow better. Identify bottlenecks, track project progress, and make informed decisions to enhance overall efficiency."
+                },
+                {
+                    "icon": "icon-medicine-2",
+                    "title": "Mobile Accessibility",
+                    "short-description": "Stay productive on the go! Our software is accessible from anywhere, allowing you to track time and manage tasks whether you're in the office, at home, or on a business trip."
+                },
+                {
+                    "icon": "icon-medicine-2",
+                    "title": "Automated Reminders",
+                    "short-description": "Never miss a deadline again! HiWorkmate sends automated reminders, keeping you on track and ensuring you meet every milestone."
+                },
+                {
+                    "icon": "icon-medicine-2",
+                    "title": "Automated KPI",
+                    "short-description": "Track your progress with detailed performance reports. Identify your strengths, address weaknesses, and elevate your productivity game."
+                },
+                {
+                    "icon": "icon-medicine-2",
+                    "title": "One-Click Favorites",
+                    "short-description": "Instantly mark your most important tasks or projects as favorites with a single click. Keep your priorities in focus and make progress effortlessly."
                 },
                 {
                     "icon": "fas fa-user-nurse",
                     "title": "Safe & secure",
-                    "short-description": "Are you looking for skilled nurses to care for your family’s baby/elderly parents or sick loved ones? Now to get nursing services at home, we are at your side. "
-                },
-                {
-                    "icon": "icon-medicine-2",
-                    "title": "Managing Multi-companies Accounting",
-                    "short-description": "Multi-company accounting feature can serve you, if your business run through two or more companies or entities. It will allow you to keep separate accounting for each company along with consolidated financial statements of all companies."
-                },
-                {
-                    "icon": "fas fa-prescription",
-                    "title": "Multi-level Accounting",
-                    "short-description": "We aim to establish our online prescription system for hassle-free prescription. Doctor can create it easily, quickly, and efficiently. Patient can share to other as necessary."
-                },
-                {
-                    "icon": "icon-medicine",
-                    "title": "Easily track your cash flow",
-                    "short-description": "We provide medicines through a medical prescription and healthcare products to be dispensed at pick-up and home delivery in all over Bangladesh."
-                },
-                {
-                    "icon": "fas fa-blog",
-                    "title": "Build better business insights",
-                    "short-description": "Create reports (ledger, trial balance, balance sheet, cash-flow, income statement, balance sheet etc.) to see how your business is doing and get ready for tax time."
-                },
-                {
-                    "icon": "icon-medicine-2",
-                    "title": "Balance Sheet",
-                    "short-description": "balance sheet reflects the financial statement that reports a company's assets, liabilities, and shareholder equity at a specific accounting year."
-                },
-                {
-                    "icon": "icon-medicine-2",
-                    "title": "Comparative Statements",
-                    "short-description": "Previous financials are presented alongside the latest figures in side-by-side columns, enabling investors to identify trends, track a company’s progress and compare it with company rivals. Comparative Statements include comparative income-statement, receive and payment statement, balance sheet and so on."
+                    "short-description": "Rest easy knowing your data is secure with our robust security measures. We prioritize the confidentiality and integrity of your information. "
                 }
             ]
         },
         "blog": {
-            "title": "Latest Update from SmartAccounting User Community",
+            "title": "Latest Update from HiWorkmate User Community",
             "sub-title": "Operation Insights: Stay informed, stay happy.",
             "description": ""
         }

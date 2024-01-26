@@ -81,23 +81,23 @@ if (!defined("DB_USER")) {
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Smart Accounting System | Home</title>
+    <title>Track Time & Task | Home</title>
 
     <!-- Favicon  -->
     <link rel="icon" href="<?= $publicAccessUrl . $response['orglogourl']; ?>">
 
     <!-- Style CSS -->
-    <link rel="stylesheet" href="<?= $publicAccessUrl ?>themes/medi/css/style.css">
+    <link rel="stylesheet" href="<?= $publicAccessUrl ?>themes/smart/css/style.css">
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="<?= $publicAccessUrl ?>themes/medi/js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="<?= $publicAccessUrl ?>themes/smart/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- <script src="< ?= $publicAccessUrl ?>vendor/jquery/3.5.1/jquery-3.5.1.min.js"></script> -->
     <!-- Popper js -->
     <script src="<?= $publicAccessUrl ?>vendor/popper/1.11.0/umd/popper.min.js"></script>
     <!-- Bootstrap js -->
     <script src="<?= $publicAccessUrl ?>vendor/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Plugins js -->
-    <script src="<?= $publicAccessUrl ?>themes/medi/js/plugins.js"></script>
+    <script src="<?= $publicAccessUrl ?>themes/smart/js/plugins.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" integrity="sha256-ENFZrbVzylNbgnXx0n3I1g//2WeO47XxoPe0vkp3NC8=" crossorigin="anonymous" />
@@ -189,7 +189,7 @@ if (!defined("DB_USER")) {
     }
     $orgData = array_merge($orgData, langConverter($lang, 'index_en'));
 
-    // $file_path = $publicAccessUrl . "themes/medi/index.json";
+    // $file_path = $publicAccessUrl . "themes/smart/index.json";
     $file_path = $publicAccessUrl . "lang-json/$lang/index_en.json";
 
     $PAGE_DATA = json_decode(readContents($file_path), true);
@@ -213,7 +213,7 @@ if (!defined("DB_USER")) {
         console.log(PAGE_DATA);
         if (PAGE_DATA.length) {
             $.get(`${publicAccessUrl}lang-json/en/index_en.json`, data => {
-                // $.get(`${publicAccessUrl}themes/medi/index.json`, data => {
+                // $.get(`${publicAccessUrl}themes/smart/index.json`, data => {
 
                 // show_data(data);
                 PAGE_DATA = data;
@@ -226,7 +226,7 @@ if (!defined("DB_USER")) {
     </div>
 
     <?php
-    $imgPath = $publicAccessUrl . "themes/medi/img/";
+    $imgPath = $publicAccessUrl . "themes/smart/img/";
     ?>
 
     <?php require_once "header-area.php"; ?>
@@ -651,7 +651,7 @@ if (!defined("DB_USER")) {
     </script>
 
     <!-- Active js -->
-    <script src="<?= $publicAccessUrl ?>themes/medi/js/active.js" async defer></script>
+    <script src="<?= $publicAccessUrl ?>themes/smart/js/active.js" async defer></script>
 
     <script src='//www.google.com/recaptcha/api.js?render=6Le-0EQpAAAAAHQlefT-hdZhSf7oWvLw77aAd_ZA'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" integrity="sha256-3blsJd4Hli/7wCQ+bmgXfOdK7p/ZUMtPXY08jmxSSgk=" crossorigin="anonymous"></script>
@@ -675,7 +675,7 @@ if (!defined("DB_USER")) {
             "hideMethod": "fadeOut"
         }
     </script>
-    <script src="<?= $publicAccessUrl ?>themes/medi/js/login.js"></script>
+    <script src="<?= $publicAccessUrl ?>themes/smart/js/login.js"></script>
 
     <?php require_once "signup_modal.php"; ?>
 

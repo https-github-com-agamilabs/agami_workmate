@@ -6,5 +6,5 @@
 // include_once dirname(__FILE__)."/themes/va/index.php";
 
 // // import smartaccounting theme
-include_once dirname(__FILE__)."/themes/medi/index.php";
+include_once dirname(__FILE__)."/themes/smart/index.php";
  ?>

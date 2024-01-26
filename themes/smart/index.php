@@ -263,7 +263,7 @@ if (!defined("DB_USER")) {
                             <div class="col-12 col-lg-9">
                                 <div class="medilife-appointment-form">
                                     <div class="section_title h3 text-white mb-3">About</div>
-                                    <div class="section_subtitle h5 text-white mb-3">Smart Accounting</div>
+                                    <div class="section_subtitle h5 text-white mb-3">Smart hiworkmate</div>
                                     <div class="section_description text-white mb-3"></div>
                                 </div>
                             </div>
@@ -577,7 +577,7 @@ if (!defined("DB_USER")) {
                                 </div>
                                 <div class="col-12 col-sm-11 col-md-5 col-lg-5">
                                     <div class="bg-white rounded p-3 mt-3" style='border-radius: 10px !important;'>
-                                        <div class="h5 mb-3"><?= $arrayData['lang_accounting_login']; ?></div>
+                                        <div class="h5 mb-3"><?= $arrayData['lang_hiworkmate_login']; ?></div>
                                         <form class="login_form">
                                             <div class="mb-2">
                                                 <input style='border-radius: 5px !important;' name="username" type="text" class="form-control shadow-sm" minlength="3" autocomplete="off" placeholder="Enter Your Username" required>

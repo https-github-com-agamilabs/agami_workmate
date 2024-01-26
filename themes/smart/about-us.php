@@ -51,7 +51,7 @@ if (!defined("DB_USER")) {
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title><?= $arrayData['lang_smart_accounting_system_|_about_us']; ?></title>
+    <title><?= $arrayData['lang_software_system_|_about_us']; ?></title>
 
     <!-- Favicon  -->
     <link rel="icon" href="<?= $publicAccessUrl . $response['orglogourl']; ?>">

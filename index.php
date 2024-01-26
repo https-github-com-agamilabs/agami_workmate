@@ -5,6 +5,6 @@
 // // new theme
 // include_once dirname(__FILE__)."/themes/va/index.php";
 
-// // import smartaccounting theme
+// // import smarthiworkmate theme
 include_once dirname(__FILE__)."/themes/smart/index.php";
  ?>

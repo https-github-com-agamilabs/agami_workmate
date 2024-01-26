@@ -21,7 +21,7 @@ $(document).on(`click`, `.toggle_password`, function (e) {
       .html("<i class='fa fa-spinner fa-spin'></i>")
       .prop("disabled", true);
   
-    json.action = "accounting_login";
+    json.action = "hiworkmate_login";
   
     grecaptcha.ready(function () {
       grecaptcha
@@ -276,7 +276,7 @@ $(document).on(`click`, `.toggle_password`, function (e) {
     let message_div = $(".message_div", this);
     message_div.html("");
   
-    json.action = "accounting_forget_password";
+    json.action = "hiworkmate_forget_password";
   
     grecaptcha.ready(function () {
       grecaptcha

@@ -1,8 +1,8 @@
 {
-    "lang_accounting_login": "অ্যাকাউন্টিং লগইন",
-    "lang_accounting": "অ্যাকাউন্টিং",
+    "lang_hiworkmate_login": "অ্যাকাউন্টিং লগইন",
+    "lang_hiworkmate": "অ্যাকাউন্টিং",
     "lang_management_system": "ব্যবস্থাপনা পদ্ধতি",
-    "lang_about_journal,_debit_and_credit_voucher;_trial_balance,_profit_and_loss,_comparative_received_and_payment_accounting_and_comparative_balance-sheet": "জার্নাল, ডেবিট এবং ক্রেডিট ভাউচার সম্পর্কে; ট্রায়াল ভারসাম্য, লাভ এবং ক্ষতি, তুলনামূলক প্রাপ্ত এবং অর্থ প্রদানের অ্যাকাউন্টিং এবং তুলনামূলক ব্যালেন্স-শিট",
+    "lang_about_journal,_debit_and_credit_voucher;_trial_balance,_profit_and_loss,_comparative_received_and_payment_hiworkmate_and_comparative_balance-sheet": "জার্নাল, ডেবিট এবং ক্রেডিট ভাউচার সম্পর্কে; ট্রায়াল ভারসাম্য, লাভ এবং ক্ষতি, তুলনামূলক প্রাপ্ত এবং অর্থ প্রদানের অ্যাকাউন্টিং এবং তুলনামূলক ব্যালেন্স-শিট",
     "lang_d": "ডাক্তারের সাক্ষাত",
     "lang_tr": "ট্র্যাক অ্যাপয়েন্টমেন্ট",
     "lang_which_doctor_should_i_see?": "আমার কোন ডাক্তার দেখতে হবে?",

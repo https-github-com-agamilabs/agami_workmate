@@ -1,9 +1,9 @@
 {
-  "lang_accounting_login": "Login",
-  "lang_accounting": "HiWorkmate",
+  "lang_hiworkmate_login": "Login",
+  "lang_hiworkmate": "HiWorkmate",
   "lang_management_system": "Management System",
 
-  "lang_about_journal,_debit_and_credit_voucher;_trial_balance,_profit_and_loss,_comparative_received_and_payment_accounting_and_comparative_balance-sheet": "About Journal, Debit and Credit Voucher; Trial balance, profit and loss, comparative received and payment accounting and comparative balance-sheet",
+  "lang_about_journal,_debit_and_credit_voucher;_trial_balance,_profit_and_loss,_comparative_received_and_payment_hiworkmate_and_comparative_balance-sheet": "About Journal, Debit and Credit Voucher; Trial balance, profit and loss, comparative received and payment hiworkmate and comparative balance-sheet",
 
   "lang_widely_used_by_doctors,_caregivers,_and_patients": "Widely used by doctors, caregivers, and patients",
   "lang_doctor's_appointment": "Doctor's Appointment",

@@ -63,7 +63,7 @@ $langData = array_merge($langData, langConverter($lang, 'about'));
                                     <img src="https://smartacc.agamilabs.com/assets/image/background/bg01.webp" alt="">
                                 </div>
                                 <div class="widget-post-content">
-                                    <a href="#"><?= $langData['lang_how_multi_level_accounting_works?']; ?></a>
+                                    <a href="#"><?= $langData['lang_how_multi_level_hiworkmate_works?']; ?></a>
                                     <p>Jan 04, 2023</p>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@ $langData = array_merge($langData, langConverter($lang, 'about'));
                                     <img src="https://smartacc.agamilabs.com/assets/image/background/bg01.webp" alt="">
                                 </div>
                                 <div class="widget-post-content">
-                                    <a href="#"><?= $langData['lang_how_to_activate_accounting_year?']; ?></a>
+                                    <a href="#"><?= $langData['lang_how_to_activate_hiworkmate_year?']; ?></a>
                                     <p>Nov 02, 2022</p>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@ $langData = array_merge($langData, langConverter($lang, 'about'));
                                     <img src="https://smartacc.agamilabs.com/assets/image/background/bg02.webp" alt="">
                                 </div>
                                 <div class="widget-post-content">
-                                    <a href="#"><?= $langData['lang_how_to_open_new_accounting_year?']; ?></a>
+                                    <a href="#"><?= $langData['lang_how_to_open_new_hiworkmate_year?']; ?></a>
                                     <p>Oct 01, 2022</p>
                                 </div>
                             </div>

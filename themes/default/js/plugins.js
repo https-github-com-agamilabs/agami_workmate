@@ -868,7 +868,7 @@ return t=a?function(t){return t&&a(r(t))}:function(t){return t&&r(t)}}function e
                     verticalPadding += _parse($that.css('padding-top')) + _parse($that.css('padding-bottom'));
                 }
 
-                // set the height (accounting for padding and border)
+                // set the height (hiworkmate for padding and border)
                 $that.css(opts.property, (targetHeight - verticalPadding) + 'px');
             });
         });

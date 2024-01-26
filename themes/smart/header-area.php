@@ -94,7 +94,7 @@ $arrayData = array_merge($arrayData, langConverter($lang, 'nav'));
                         <div class="text-center text-md-left">
                             <div>
                                 <!-- <a href="#" class="btn-sm btn-light"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a> -->
-                                <a href="https://youtube.com/@AGAMiSmartAccounting" class="btn-sm btn-light"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+                                <a href="https://youtube.com/@HiWorkmate" class="btn-sm btn-light"><i class="fab fa-youtube" aria-hidden="true"></i></a>
                                 <a href="#" class="btn-sm btn-light"><i class="fab fa-facebook-f px-1" aria-hidden="true"></i></a>
                                 <a href="https://twitter.com/agamismartacc" class="btn-sm btn-light mr-sm-3"><i class="fab fa-twitter" aria-hidden="true"></i></a>
 

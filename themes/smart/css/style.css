@@ -732,36 +732,36 @@ img {
 
 .hero-slides-content h2 {
   color: #081f3e;
-  font-size: 54px;
+  font-size: 48px;
   margin-bottom: 20px;
 }
 
 .hero-slides-content h3 {
-  font-size: 40px;
+  font-size: 36px;
   /* font-weight: 400; */
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .hero-slides-content h2 {
-    font-size: 46px;
+    font-size: 40px;
   }
 
   .hero-slides-content h3 {
-    font-size: 34px;
+    font-size: 30px;
   }
 }
 @media only screen and (max-width: 767px) {
   .hero-slides-content h2 {
-    font-size: 38px;
+    font-size: 30px;
   }
 
   .hero-slides-content h3 {
-    font-size: 26px;
+    font-size: 22px;
   }
 }
 .hero-slides-content h5 {
   color: #081f3e;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
 }
 

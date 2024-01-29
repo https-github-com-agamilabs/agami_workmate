@@ -55,49 +55,48 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//gen_users (userno,username,firstname,lastname,email,countrycode,contactno,passphrase,authkey,userstatusno,ucreatedatetime,reset_pass_count,updatetime)
+//hr_user (userno,username,firstname,lastname,email,countrycode,contactno,passphrase,authkey,userstatusno,ucreatedatetime,reset_pass_count,updatetime)
 //gen_userstatus (userstatusno,userstatustitle)
 function get_filtered_users($dbcon, $userstatusno, $pageno, $limit)
-    {
-        $start = ($pageno - 1) * $limit;
+{
+    $start = ($pageno - 1) * $limit;
 
-        $params = array();
-        $types = "";
-        $filter = " ";
+    $params = array();
+    $types = "";
+    $filter = " ";
 
-        if ($userstatusno>=0) {
-            $params[] = &$userstatusno;
-            $filter .= " AND userstatusno=?";
-            $types .= 'i';
-        }
+    if ($userstatusno >= 0) {
+        $params[] = &$userstatusno;
+        $filter .= " AND userstatusno=?";
+        $types .= 'i';
+    }
 
-        $types .= 'ii';
-        $params[] = &$start;
-        $params[] = &$limit;
+    $types .= 'ii';
+    $params[] = &$start;
+    $params[] = &$limit;
 
-        $sql = "SELECT userno,username,firstname,lastname,email,countrycode,contactno,
+    $sql = "SELECT userno,username,firstname,lastname,email,countrycode,contactno,
                     userstatusno, (SELECT userstatustitle FROM gen_userstatus WHERE userstatusno=u.userstatusno) as userstatustitle,
                     ucreatedatetime,reset_pass_count,updatetime
-                FROM gen_users AS u
+                FROM hr_user AS u
                 WHERE 1 $filter
                 ORDER BY ucreatedatetime DESC
                 LIMIT ?, ?";
 
-        // var_dump($sql);
+    // var_dump($sql);
 
-        if (!$stmt = $dbcon->prepare($sql)) {
-            throw new Exception("Prepare statement failed: ".$dbcon->error);
-        }
-
-        // var_dump($stmt);
-        if (strlen($types)>0) {
-            call_user_func_array(array($stmt, "bind_param"), array_merge(array($types), $params));
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-
-        return $result;
+    if (!$stmt = $dbcon->prepare($sql)) {
+        throw new Exception("Prepare statement failed: " . $dbcon->error);
     }
-?>
+
+    // var_dump($stmt);
+    if (strlen($types) > 0) {
+        call_user_func_array(array($stmt, "bind_param"), array_merge(array($types), $params));
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+
+    return $result;
+}

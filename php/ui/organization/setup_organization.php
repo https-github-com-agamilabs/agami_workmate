@@ -28,13 +28,13 @@ try {
         $orgno = add_organization($dbcon, $userno, $_POST);
         if ($orgno > 0) {
             $result = insert_userorgs($dbcon, $orgno, $userno);
-            if ($result<=0) {
+            if ($result <= 0) {
                 $dbcon->rollback();
                 throw new Exception("Could not grant ownership!", 1);
             }
 
-            $init=insert_accountheads($dbcon,$orgno);
-            if ($init<=0) {
+            $init = insert_accountheads($dbcon, $orgno);
+            if ($init <= 0) {
                 $dbcon->rollback();
                 throw new Exception("Could not initiate accounts!", 1);
             }
@@ -58,7 +58,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//acc_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy,
+//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy,
 //        picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 function add_organization($dbcon, $addedby, $data)
 {
@@ -157,7 +157,7 @@ function add_organization($dbcon, $addedby, $data)
     $queryParts = implode(", ", $params);
     $qs = implode(", ", $qs);
 
-    $sql = "INSERT INTO acc_orgs ($queryParts)
+    $sql = "INSERT INTO com_orgs ($queryParts)
             VALUES($qs)";
 
     $stmt = $dbcon->prepare($sql);
@@ -178,7 +178,7 @@ function add_organization($dbcon, $addedby, $data)
     return $result;
 }
 
-//acc_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy,
+//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy,
 //        picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 function update_organization($dbcon, $orgno, $data)
 {
@@ -240,7 +240,7 @@ function update_organization($dbcon, $orgno, $data)
 
     $queryParts = implode(", ", $params);
 
-    $sql = "UPDATE acc_orgs
+    $sql = "UPDATE com_orgs
             SET $queryParts
             WHERE orgno=?";
 
@@ -288,8 +288,9 @@ function insert_userorgs($dbcon, $orgno, $userno)
     }
 }
 
-function insert_accountheads($dbcon,$orgno){
-    $sql="INSERT INTO acc_orgaccounthead(orgno, accno, accname, acctypeno, levelno, vtype, sysacc) VALUES
+function insert_accountheads($dbcon, $orgno)
+{
+    $sql = "INSERT INTO acc_orgaccounthead(orgno, accno, accname, acctypeno, levelno, vtype, sysacc) VALUES
             ($orgno, 10000, 'ASSETS', 1000,1,0,1),
             ($orgno, 20000, 'LIABILITIES', 2000,1,0,1),
             ($orgno, 30000, 'EXPENSES', 3000,1,0,1),

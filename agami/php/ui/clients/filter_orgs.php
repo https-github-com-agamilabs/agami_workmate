@@ -56,58 +56,57 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//acc_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
-//acc_orgtype (orgtypeid,orgtypename,typetag,iconurl)
+//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
+//com_orgtype (orgtypeid,orgtypename,typetag,iconurl)
 function get_filtered_org($dbcon, $orgtypeid, $verifiedno, $city)
-    {
-        $params = array();
-        $types = "";
-        $filter = " ";
+{
+    $params = array();
+    $types = "";
+    $filter = " ";
 
-        if ($orgtypeid>0) {
-            $params[] = &$orgtypeid;
-            $filter .= " AND o.orgtypeid=?";
-            $types .= 'i';
-        }
+    if ($orgtypeid > 0) {
+        $params[] = &$orgtypeid;
+        $filter .= " AND o.orgtypeid=?";
+        $types .= 'i';
+    }
 
-        if ($verifiedno > -2) {
-            $params[] = &$verifiedno;
-            $filter .= " AND verifiedno=?";
-            $types .= 'i';
-        }
+    if ($verifiedno > -2) {
+        $params[] = &$verifiedno;
+        $filter .= " AND verifiedno=?";
+        $types .= 'i';
+    }
 
-        if (strlen($city)>0) {
-            $city='%'.$city.'%';
-            $params[] = &$city;
-            $filter .= " AND city LIKE ?";
-            $types .= 's';
-        }
+    if (strlen($city) > 0) {
+        $city = '%' . $city . '%';
+        $params[] = &$city;
+        $filter .= " AND city LIKE ?";
+        $types .= 's';
+    }
 
-        $sql = "SELECT orgno, orgname, 
+    $sql = "SELECT orgno, orgname,
                         city, country,
                         o.orgtypeid, orgtypename,
-                        iconurl, picurl, 
+                        iconurl, picurl,
                         contactno, verifiedno
-                FROM acc_orgs AS o
-                    INNER JOIN acc_orgtype as t ON o.orgtypeid=t.orgtypeid
+                FROM com_orgs AS o
+                    INNER JOIN com_orgtype as t ON o.orgtypeid=t.orgtypeid
                 WHERE 1 $filter
                 ORDER BY verifiedno,orgno";
 
-        // var_dump($sql);
+    // var_dump($sql);
 
-        if (!$stmt = $dbcon->prepare($sql)) {
-            throw new Exception("Prepare statement failed: ".$dbcon->error);
-        }
-
-        // var_dump($stmt);
-        if (strlen($types)>0) {
-            call_user_func_array(array($stmt, "bind_param"), array_merge(array($types), $params));
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-
-        return $result;
+    if (!$stmt = $dbcon->prepare($sql)) {
+        throw new Exception("Prepare statement failed: " . $dbcon->error);
     }
-?>
+
+    // var_dump($stmt);
+    if (strlen($types) > 0) {
+        call_user_func_array(array($stmt, "bind_param"), array_merge(array($types), $params));
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+
+    return $result;
+}

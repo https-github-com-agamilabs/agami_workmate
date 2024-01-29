@@ -16,12 +16,12 @@ require_once dirname(dirname(__FILE__)) . "/dependency_checker.php";
 try {
     if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {
         $orgno = (int) $_POST['orgno'];
-    }else{
+    } else {
         throw new Exception("Organization must be selected", 1);
     }
 
     $dbcon->begin_transaction();
-    $duorg=del_userorgs($dbcon, $orgno, $userno);
+    $duorg = del_userorgs($dbcon, $orgno, $userno);
     if ($duorg > 0) {
         $dnos = del_org($dbcon, $orgno);
         if ($dnos > 0 && $dbcon->commit()) {
@@ -31,7 +31,7 @@ try {
             $dbcon->rollback();
             throw new \Exception("Could not remove organization!", 1);
         }
-    }else{
+    } else {
         $dbcon->rollback();
         throw new \Exception("You are not eligible to delete!", 1);
     }
@@ -46,7 +46,7 @@ $dbcon->close();
 function del_org($dbcon, $orgno)
 {
     $sql = "DELETE
-            FROM acc_orgs
+            FROM com_orgs
             WHERE orgno=?";
 
     $stmt = $dbcon->prepare($sql);
@@ -88,4 +88,3 @@ function del_userorgs($dbcon, $orgno, $userno)
         return 0;
     }
 }
-

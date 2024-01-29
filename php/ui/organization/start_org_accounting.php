@@ -38,7 +38,7 @@ try {
         if (isset($_SESSION['accyear'])) {
             unset($_SESSION['accyear']);
         }
-        
+
         $accyearInfo = is_valid_accyear($dbcon, $orgno, $accyear);
 
         if ($accyearInfo['error']) {
@@ -86,7 +86,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//acc_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
+//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 //acc_userorgmodules(orgno,userno,moduleno,verified)
 //acc_modules(moduleno,moduletitle)
 function get_info_organization($dbcon, $userno, $orgno)
@@ -95,7 +95,7 @@ function get_info_organization($dbcon, $userno, $orgno)
     $sql = "SELECT uo.orgno,o.orgname,o.street, o.city, o.country, o.picurl,
                     uo.moduleno,(SELECT moduletitle FROM acc_modules WHERE moduleno=uo.moduleno) as moduletitle
             FROM acc_userorgmodules as uo
-                INNER JOIN acc_orgs as o ON uo.orgno=o.orgno
+                INNER JOIN com_orgs as o ON uo.orgno=o.orgno
             WHERE uo.userno=?
                 AND uo.orgno=?
                 AND uo.verified=1";
@@ -150,11 +150,11 @@ function get_userorgmodules($dbcon, $orgno, $userno)
     return $result;
 }
 
-//acc_orgsettings(orgno,setid, setlabel, fileurl)
+//com_orgsettings(orgno,setid, setlabel, fileurl)
 function get_MaxAccountingLevel($dbcon, $orgno)
 {
     $sql = "SELECT setlabel
-            FROM acc_orgsettings
+            FROM com_orgsettings
             WHERE orgno=? AND setid='ACCL'";
 
     $stmt = $dbcon->prepare($sql);

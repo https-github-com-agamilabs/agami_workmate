@@ -19,7 +19,7 @@ try {
 
     if (isset($_POST['userno']) && strlen($_POST['userno']) > 0) {
         $userno = (int)$_POST['userno'];
-    }else{
+    } else {
         throw new \Exception("You must select a user!", 1);
     }
 
@@ -47,7 +47,7 @@ echo json_encode($response);
 $dbcon->close();
 
 //acc_userorgmodules(userno,orgno,moduleno,verified)
-//acc_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
+//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 //acc_modules(moduleno,moduletitle)
 function get_user_orgs($dbcon, $userno)
 {
@@ -55,13 +55,13 @@ function get_user_orgs($dbcon, $userno)
                     moduleno, (SELECT moduletitle FROM acc_modules WHERE moduleno=om.moduleno) as moduletitle,
                     verified as module_verified
             FROM acc_userorgmodules AS om
-                INNER JOIN acc_orgs as o ON om.orgno=o.orgno
+                INNER JOIN com_orgs as o ON om.orgno=o.orgno
             WHERE om.userno=?";
 
     // var_dump($sql);
 
     if (!$stmt = $dbcon->prepare($sql)) {
-        throw new Exception("Prepare statement failed: ".$dbcon->error);
+        throw new Exception("Prepare statement failed: " . $dbcon->error);
     }
 
     $stmt->bind_param("i", $userno);
@@ -70,5 +70,4 @@ function get_user_orgs($dbcon, $userno)
     $stmt->close();
 
     return $result;
-    }
-?>
+}

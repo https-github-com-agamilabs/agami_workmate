@@ -17,53 +17,52 @@ try {
     //orgno, userno, moduleno
     if (isset($_POST['purchaseno']) && strlen($_POST['purchaseno']) > 0) {
         $purchaseno = (int)$_POST['purchaseno'];
-    }else{
+    } else {
         throw new \Exception("Package must be selected!", 1);
     }
 
     if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {
         $orgno = (int)$_POST['orgno'];
-    }else{
+    } else {
         throw new \Exception("Organization must be selected!", 1);
     }
 
     if (isset($_POST['username']) && strlen($_POST['username']) > 0) {
         $username = strip_tags($_POST['username']);
-    }else{
+    } else {
         throw new \Exception("User must be selected!", 1);
     }
 
     if (isset($_POST['moduleno']) && strlen($_POST['moduleno']) > 0) {
         $moduleno = (int)$_POST['moduleno'];
-    }else{
+    } else {
         throw new \Exception("Module must be selected!", 1);
     }
 
-    $result=get_userno($dbcon, $username);
-    if($result->num_rows>0){
+    $result = get_userno($dbcon, $username);
+    if ($result->num_rows > 0) {
         $foruserno = $result->fetch_array(MYSQLI_ASSOC)['userno'];
-    }else{
-        throw new Exception('Invalid User!',1);
+    } else {
+        throw new Exception('Invalid User!', 1);
     }
 
     $dbcon->begin_transaction();
-    $anos=add_userorgmodule($dbcon, $orgno, $foruserno, $moduleno);
-    if($anos>0){
-        $appliedno=insert_appliedpackage($dbcon,$purchaseno, $orgno, $username, $addedby);
-        if($appliedno>0){
+    $anos = add_userorgmodule($dbcon, $orgno, $foruserno, $moduleno);
+    if ($anos > 0) {
+        $appliedno = insert_appliedpackage($dbcon, $purchaseno, $orgno, $username, $addedby);
+        if ($appliedno > 0) {
             $response['error'] = false;
             $response['message'] = "Added Successfully.";
-        }else{
+        } else {
             $dbcon->rollback();
-            throw new Exception('User-module failed! Check your package and try again.',1);
+            throw new Exception('User-module failed! Check your package and try again.', 1);
         }
-    }else{
+    } else {
         $dbcon->rollback();
         throw new \Exception("Could not add!", 1);
     }
 
     $dbcon->commit();
-
 } catch (Exception $e) {
     $response['error'] = true;
     $response['message'] = $e->getMessage();
@@ -72,16 +71,16 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//gen_users (userno,username,firstname,lastname,email,countrycode,contactno,passphrase,authkey,userstatusno,ucreatedatetime,reset_pass_count,updatetime)
+//hr_user (userno,username,firstname,lastname,email,countrycode,contactno,passphrase,authkey,userstatusno,ucreatedatetime,reset_pass_count,updatetime)
 function get_userno($dbcon, $username)
 {
 
     $sql = "SELECT userno
-            FROM gen_users
+            FROM hr_user
             WHERE username=?";
 
     if (!$stmt = $dbcon->prepare($sql)) {
-        throw new Exception("Prepare statement failed: ".$dbcon->error);
+        throw new Exception("Prepare statement failed: " . $dbcon->error);
     }
 
     $stmt->bind_param("s", $username);
@@ -100,7 +99,7 @@ function add_userorgmodule($dbcon, $orgno, $foruserno, $moduleno)
             VALUES(?, ?, ?)";
 
     if (!$stmt = $dbcon->prepare($sql)) {
-        throw new Exception("Prepare statement failed: ".$dbcon->error);
+        throw new Exception("Prepare statement failed: " . $dbcon->error);
     }
 
     $stmt->bind_param("iii", $orgno, $foruserno, $moduleno);
@@ -112,7 +111,8 @@ function add_userorgmodule($dbcon, $orgno, $foruserno, $moduleno)
 }
 
 //pack_appliedpackage(appliedno,purchaseno,item,orgno,assignedto, appliedat, appliedby)
-function insert_appliedpackage($dbcon,$purchaseno, $orgno, $foruserno, $appliedby){
+function insert_appliedpackage($dbcon, $purchaseno, $orgno, $foruserno, $appliedby)
+{
     date_default_timezone_set("Asia/Dhaka");
     $appliedat = date("Y-m-d H:i:s");
 
@@ -124,10 +124,9 @@ function insert_appliedpackage($dbcon,$purchaseno, $orgno, $foruserno, $appliedb
         echo $dbcon->error;
     }
 
-    $stmt->bind_param("iissi", $purchaseno, $orgno, $foruserno, $appliedat,$appliedby);
+    $stmt->bind_param("iissi", $purchaseno, $orgno, $foruserno, $appliedat, $appliedby);
     $stmt->execute();
-    $result=$stmt->affected_rows;
+    $result = $stmt->affected_rows;
     $stmt->close();
     return $result;
 }
-?>

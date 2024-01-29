@@ -55,10 +55,10 @@ echo json_encode($response);
 $dbcon->close();
 
 
-//acc_orgsettings(orgno,setid, setlabel, fileurl)
+//com_orgsettings(orgno,setid, setlabel, fileurl)
 function setup_orgsettings($dbcon, $orgno, $setid, $setlabel, $fileurl)
 {
-    $sql = "INSERT INTO acc_orgsettings(orgno,setid, setlabel, fileurl)
+    $sql = "INSERT INTO com_orgsettings(orgno,setid, setlabel, fileurl)
             VALUES(?,?,?,?)
             ON DUPLICATE KEY UPDATE setlabel=?, fileurl=?";
 

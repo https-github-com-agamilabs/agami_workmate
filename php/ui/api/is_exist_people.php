@@ -21,33 +21,33 @@ if (!$db->is_connected()) {
 
 
 
-try{
+try {
     //$contactno,$email
     if (isset($_POST['contactno']) && strlen($_POST['contactno']) > 0) {
         $contactno = trim(strip_tags($_POST['contactno']));
-    }else{
+    } else {
         throw new Exception("Contact-no cannot be empty!!", 1);
     }
 
     $result = get_people_by_contactno($dbcon, $contactno);
-    if($result->num_rows>0){
+    if ($result->num_rows > 0) {
         $row = $result->fetch_array(MYSQLI_ASSOC);
-        $response['result']=$row;
+        $response['result'] = $row;
         $response['error'] = true;
 
-        $userinfo=get_user($dbcon, $row['peopleno']);
-        if($userinfo->num_rows>0){
-            $response['create_user']=0;
+        $userinfo = get_user($dbcon, $row['peopleno']);
+        if ($userinfo->num_rows > 0) {
+            $response['create_user'] = 0;
             $response['message'] = "You are already our user!";
-        }else{
-            $response['create_user']=1;
+        } else {
+            $response['create_user'] = 1;
             $response['message'] = "This contact number is already registered!";
         }
-    }else{
+    } else {
         $response['error'] = false;
         $response['message'] = "Good! You may proceed.";
     }
-}catch(\Exception $e){
+} catch (\Exception $e) {
     $response['error'] = true;
     $response['message'] = $e->getMessage();
 }
@@ -73,11 +73,11 @@ function get_people_by_contactno($dbcon, $contactno)
 }
 
 
-//gen_users (userno,peopleno,email,username,passphrase)
+//hr_user (userno,peopleno,email,username,passphrase)
 function get_user($dbcon, $peopleno)
 {
     $sql = "SELECT userno
-            FROM gen_users
+            FROM hr_user
             WHERE peopleno=?";
 
     $stmt = $dbcon->prepare($sql);

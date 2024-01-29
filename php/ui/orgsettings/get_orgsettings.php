@@ -16,13 +16,13 @@ require_once dirname(dirname(__FILE__)) . "/dependency_checker.php";
 try {
     if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {
         $orgno = (int) $_POST['orgno'];
-    }else{
-        if(!isset($orgno) || strlen($orgno) <= 0){
+    } else {
+        if (!isset($orgno) || strlen($orgno) <= 0) {
             throw new Exception("Organization must be selected!!", 1);
         }
     }
 
-    $rs_orgsettings = get_orgsettings($dbcon,$orgno);
+    $rs_orgsettings = get_orgsettings($dbcon, $orgno);
 
     if ($rs_orgsettings->num_rows > 0) {
         $meta_array = array();
@@ -42,13 +42,13 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//acc_orgsettings(orgno,setid, setlabel, fileurl)
+//com_orgsettings(orgno,setid, setlabel, fileurl)
 //acc_settings(setid, settitle)
-function get_orgsettings($dbcon,$orgno)
+function get_orgsettings($dbcon, $orgno)
 {
     $sql = "SELECT orgno,setlabel, fileurl,
                 setid, (SELECT settitle FROM acc_settings WHERE setid=os.setid) as settitle
-            FROM acc_orgsettings as os
+            FROM com_orgsettings as os
             WHERE orgno=?
             ";
 

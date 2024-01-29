@@ -22,11 +22,11 @@ try {
         while ($row = $rs_org->fetch_array(MYSQLI_ASSOC)) {
             $orgno = $row['orgno'];
 
-            $rs_userrole=get_org_userrole($dbcon, $orgno,$userno);
-            $roleArray=array();
+            $rs_userrole = get_org_userrole($dbcon, $orgno, $userno);
+            $roleArray = array();
             if ($rs_userrole->num_rows > 0) {
                 while ($urow = $rs_userrole->fetch_array(MYSQLI_ASSOC)) {
-                    $roleArray[]=$urow;
+                    $roleArray[] = $urow;
                 }
             }
             $row['modules'] = $roleArray;
@@ -66,22 +66,22 @@ $dbcon->close();
 
 //acc_userorgmodules(orgno,userno,moduleno,verified)
 //acc_modules(moduleno,moduletitle)
-//acc_orgtype (orgtypeid,orgtypename,typetag,iconurl)
+//com_orgtype (orgtypeid,orgtypename,typetag,iconurl)
 //pack_appliedpackage(itemno,orgno,schemeno,appliedat,appliedby,validuntil)
 function get_orgs_of_an_user($dbcon, $userno)
 {
     $sql = "SELECT o.*, (SELECT count(accno) FROM acc_orgaccounthead WHERE orgno=o.orgno AND levelno>1) as headcount
-            FROM acc_orgs as o
+            FROM com_orgs as o
             WHERE o.orgno IN(SELECT DISTINCT orgno
                              FROM acc_userorgmodules
                              WHERE userno=?)";
 
     // $sql = "SELECT o.*,
-    //             (SELECT orgtypename FROM acc_orgtype WHERE orgtypeid in (SELECT orgtypeid FROM acc_orgs as org WHERE uo.orgno = org.orgno)) as orgtypename,
+    //             (SELECT orgtypename FROM com_orgtype WHERE orgtypeid in (SELECT orgtypeid FROM com_orgs as org WHERE uo.orgno = org.orgno)) as orgtypename,
     //             (SELECT privacytext FROM acc_orgprivacy WHERE id=o.privacy) as privacytext
     //         FROM acc_userorgmodules as uo
     //             INNER JOIN (SELECT *
-    //                         FROM acc_orgs) as o ON o.orgno=uo.orgno
+    //                         FROM com_orgs) as o ON o.orgno=uo.orgno
     //         WHERE userno=?";
 
     $stmt = $dbcon->prepare($sql);
@@ -102,9 +102,9 @@ function get_orgs_of_an_user($dbcon, $userno)
 
 //acc_userorgmodules(orgno,userno,moduleno,verified)
 //acc_modules(moduleno,moduletitle)
-//acc_orgtype (orgtypeid,orgtypename,typetag,iconurl)
+//com_orgtype (orgtypeid,orgtypename,typetag,iconurl)
 //pack_appliedpackage(itemno,orgno,schemeno,appliedat,appliedby,validuntil)
-function get_org_userrole($dbcon, $orgno,$userno)
+function get_org_userrole($dbcon, $orgno, $userno)
 {
     $sql = "SELECT moduleno
             FROM acc_userorgmodules as uo
@@ -112,7 +112,7 @@ function get_org_userrole($dbcon, $orgno,$userno)
 
     $stmt = $dbcon->prepare($sql);
     if ($stmt) {
-        $stmt->bind_param("ii", $orgno,$userno);
+        $stmt->bind_param("ii", $orgno, $userno);
         if ($stmt->execute()) {
             $result = $stmt->get_result();
             $stmt->close();
@@ -177,7 +177,7 @@ function get_org_validity($dbcon, $orgno)
         echo $dbcon->error;
     }
 
-    $stmt->bind_param("ii", $orgno,$orgno);
+    $stmt->bind_param("ii", $orgno, $orgno);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();

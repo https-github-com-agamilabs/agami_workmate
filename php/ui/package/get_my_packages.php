@@ -15,23 +15,23 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 
 require_once dirname(dirname(__FILE__)) . "/dependency_checker.php";
 
-try{
+try {
     //$offerno, $buyeruserno, $licensekey, $amount
 
     $rs_my_purchaseoffer = get_my_purchaseoffer($dbcon, $addedby);
     $meta_array = array();
     if ($rs_my_purchaseoffer->num_rows > 0) {
         while ($row = $rs_my_purchaseoffer->fetch_array(MYSQLI_ASSOC)) {
-            $purchaseno=$row['purchaseno'];
-            $rs_applied=get_appliedpackage_info($dbcon, $purchaseno);
+            $purchaseno = $row['purchaseno'];
+            $rs_applied = get_appliedpackage_info($dbcon, $purchaseno);
 
-            $appliedArray=array();
+            $appliedArray = array();
             if ($rs_applied->num_rows > 0) {
                 while ($arow = $rs_applied->fetch_array(MYSQLI_ASSOC)) {
-                    $appliedArray[]=$arow;
+                    $appliedArray[] = $arow;
                 }
             }
-            $row['appliedwith']=$appliedArray;
+            $row['appliedwith'] = $appliedArray;
             $meta_array[] = $row;
         }
 
@@ -57,8 +57,8 @@ function get_my_purchaseoffer($dbcon, $foruserno)
 {
 
     $sql = "SELECT po.purchaseno,po.offerno,
-                    po.buyeruserno,(SELECT CONCAT(firstname, ' ',IFNULL(lastname,'')) FROM gen_users WHERE userno=po.buyeruserno) as buyername,
-                    foruserno,(SELECT CONCAT(firstname, ' ',IFNULL(lastname,'')) FROM gen_users WHERE userno=po.buyeruserno) as ownername,
+                    po.buyeruserno,(SELECT CONCAT(firstname, ' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=po.buyeruserno) as buyername,
+                    foruserno,(SELECT CONCAT(firstname, ' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=po.buyeruserno) as ownername,
                     licensekey,amount,discount,paidamount,paidat,
                     offertitle,offerdetail,rate
             FROM pack_purchaseoffer as po
@@ -77,7 +77,7 @@ function get_my_purchaseoffer($dbcon, $foruserno)
 function get_appliedpackage_info($dbcon, $purchaseno)
 {
     $sql = "SELECT purchaseno,item,
-                orgno,(SELECT orgname FROM acc_orgs WHERE orgno=ap.orgno) as orgname,
+                orgno,(SELECT orgname FROM com_orgs WHERE orgno=ap.orgno) as orgname,
                 assignedto,
                 appliedat, appliedby
             FROM pack_appliedpackage as ap
@@ -90,4 +90,3 @@ function get_appliedpackage_info($dbcon, $purchaseno)
     $stmt->close();
     return $result;
 }
-?>

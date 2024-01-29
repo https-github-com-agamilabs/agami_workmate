@@ -17,10 +17,10 @@ try {
 
     if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {
         $orgno = (int) $_POST['orgno'];
-    }else{
+    } else {
         throw new Exception("You must select an organization!", 1);
     }
-    $result = get_userorgmodules($dbcon,$orgno);
+    $result = get_userorgmodules($dbcon, $orgno);
 
     $meta_array = array();
     if ($result->num_rows > 0) {
@@ -44,14 +44,14 @@ $dbcon->close();
 
 //acc_userorgmodules(orgno,userno,moduleno,verified)
 //acc_modules(moduleno,moduletitle)
-function get_userorgmodules($dbcon,$orgno)
+function get_userorgmodules($dbcon, $orgno)
 {
     $sql = "SELECT um.orgno,
                     um.userno,u.username,u.firstname,u.lastname,
                     moduleno,(SELECT moduletitle FROM acc_modules WHERE moduleno=um.moduleno) as moduletitle,
                     verified
             FROM acc_userorgmodules AS um
-                INNER JOIN gen_users as u ON u.userno=um.userno
+                INNER JOIN hr_user as u ON u.userno=um.userno
             WHERE um.orgno=?";
 
     $stmt = $dbcon->prepare($sql);

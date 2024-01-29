@@ -153,7 +153,7 @@ include_once $basePath . "/php/ui/login/check_session.php";
 			}
 
 			const orgType = new SelectElemDataLoad({
-				readURL: `${publicAccessUrl}php/ui/settings/get_orgtype.php`,
+				readURL: `${publicAccessUrl}php/ui/organization/get_org_type.php`,
 				targets: [{
 					selectElem: `#orgs_card [name="orgtypeid"]`,
 					defaultOptionText: `All...`,

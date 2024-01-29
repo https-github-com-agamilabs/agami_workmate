@@ -119,6 +119,16 @@ error_reporting(E_ALL);
             $response['ucatno'] = $row['ucatno'];
             $response['message'] = "Login successful!";
 
+            if($row['ucatno'] == 99){
+                $response['redirect'] = "/agami/dashboard.php";
+            }
+            else if($row['ucatno'] == 5){
+                $response['redirect'] = "dashboard.php";
+            }else{
+                $response['redirect'] = "time_keeper.php";
+            }
+
+
         }else{
             $response['error'] = true;
             $response['message'] = "Invalid login credential!";

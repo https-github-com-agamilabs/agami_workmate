@@ -106,8 +106,8 @@ $(document).ready(function () {
                 alert(resp.message);
               } else {
                 // toastr.success(resp.message);
-                window.location.href =
-                  resp.ucatno == 5 ? "dashboard.php" : "time_keeper.php";
+                window.location.href = resp.redirect;
+                  // window.location.href = resp.ucatno == 5 ? "dashboard.php" : "time_keeper.php";
               }
             },
           });

@@ -74,7 +74,7 @@ function get_doctor_info($dbcon, $search_key, $pageno, $limit)
     $search=implode("%",$keys);;
     $search = '%' . $search_key . '%';
 
-    $sql = "SELECT  d.doctno,p.firstname, p.lastname,p.countrycode,p.contactno,
+    $sql = "SELECT  d.doctno,p.firstname, p.lastname,p.countrycode,p.primarycontact,
                     d.spno, c.specialty
             FROM drrx_doctorinfo as d
                 INNER JOIN drrx_specialtycategory as c ON c.spno=d.spno
@@ -98,7 +98,7 @@ function get_doctor_info_by_specialty($dbcon, $spno, $search_key, $pageno, $limi
     $search=implode("%",$keys);;
     $search = '%' . $search_key . '%';
 
-    $sql = "SELECT  d.doctno,p.firstname, p.lastname,p.countrycode,p.contactno,
+    $sql = "SELECT  d.doctno,p.firstname, p.lastname,p.countrycode,p.primarycontact,
                     d.spno, c.specialty
             FROM drrx_doctorinfo as d
                 INNER JOIN drrx_specialtycategory as c ON c.spno=d.spno

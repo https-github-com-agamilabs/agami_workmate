@@ -136,7 +136,7 @@ function getBlogPosts($dbcon, $filter_doctno, $pageno, $limit, $tags, $query)
             (select doctno, peopleno, designation, affiliation, diploma from drrx_doctorinfo $doctorFilterSql) as di
             on bp.postauthorno=di.doctno
             inner join
-            (select peopleno, concat(ifnull(firstname, ''), ' ', ifnull(lastname, '')) as fullname, firstname, lastname, contactno, photo_url from gen_peopleprimary) as pp
+            (select peopleno, concat(ifnull(firstname, ''), ' ', ifnull(lastname, '')) as fullname, firstname, lastname, primarycontact, photo_url from gen_peopleprimary) as pp
             on pp.peopleno=di.peopleno
             WHERE post LIKE ? $tagSelection
             order by posttime desc

@@ -33,7 +33,7 @@
                                             +880
                                         </span>
                                     </div>
-                                    <input name="contactno" class="form-control shadow-sm border-left-0 pl-1" type="tel" placeholder="Mobile number..." required>
+                                    <input name="primarycontact" class="form-control shadow-sm border-left-0 pl-1" type="tel" placeholder="Mobile number..." required>
                                     <div class="invalid-feedback">Please provide a Mobile number.</div>
                                 </div>
 

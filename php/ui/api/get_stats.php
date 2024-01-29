@@ -40,7 +40,7 @@ try{
 echo json_encode($response);
 $dbcon->close();
 
-//gen_peopleprimary(peopleno,peopleid,firstname,lastname,countrycode,contactno,dob,gender,email,createdatetime,faf_parentpeopleno)
+//gen_peopleprimary(peopleno,peopleid,firstname,lastname,countrycode,primarycontact,dob,gender,email,createdatetime,faf_parentpeopleno)
 function get_stats($dbcon)
 {
     $sql = "SELECT

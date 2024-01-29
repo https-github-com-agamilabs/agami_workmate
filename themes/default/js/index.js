@@ -518,7 +518,7 @@ const doctorSelect2Settings = {
                                 ? `<div>${value.specialty}</div>`
                                 : ``
                             }
-                            <div>${value.countrycode} ${value.contactno}</div>
+                            <div>${value.countrycode} ${value.primarycontact}</div>
                         </div>`);
   },
   templateSelection: (value) => (value.id ? value.text : "Select doctor"),
@@ -671,12 +671,12 @@ $(`#people_filter_button`).click(function (e) {
     .prop(`disabled`, false);
 
   let json = {
-    contactno: $(`[name="contactno"]`, form).val(),
+    primarycontact: $(`[name="primarycontact"]`, form).val(),
   };
 
-  if (json.contactno.length == 11 && json.contactno.startsWith(`01`)) {
-    json.contactno = json.contactno.substring(1);
-  } else if (json.contactno.length == 10 && json.contactno.startsWith(`1`)) {
+  if (json.primarycontact.length == 11 && json.primarycontact.startsWith(`01`)) {
+    json.primarycontact = json.primarycontact.substring(1);
+  } else if (json.primarycontact.length == 10 && json.primarycontact.startsWith(`1`)) {
   } else {
     toastr.error(`Invalid mobile no!`);
     return;
@@ -739,10 +739,10 @@ $(`#patient_appointment_form [name="faf"]`).change(function (e) {
       .prop(`disabled`, false);
 
     let json = {
-      contactno: people_data.contactno,
+      primarycontact: people_data.primarycontact,
     };
 
-    let fafs = $(this).data(`fafs_of_${json.contactno}`);
+    let fafs = $(this).data(`fafs_of_${json.primarycontact}`);
     if (fafs && fafs.length) {
       show_fafs(fafs);
     } else {
@@ -755,9 +755,9 @@ $(`#patient_appointment_form [name="faf"]`).change(function (e) {
 });
 
 function get_fafs(json) {
-  if (json.contactno.length == 11 && json.contactno.startsWith(`01`)) {
-    json.contactno = json.contactno.substring(1);
-  } else if (json.contactno.length == 10 && json.contactno.startsWith(`1`)) {
+  if (json.primarycontact.length == 11 && json.primarycontact.startsWith(`01`)) {
+    json.primarycontact = json.primarycontact.substring(1);
+  } else if (json.primarycontact.length == 10 && json.primarycontact.startsWith(`1`)) {
   } else {
     toastr.error(`Invalid mobile no!`);
     return;
@@ -771,7 +771,7 @@ function get_fafs(json) {
         toastr.error(resp.message);
       } else {
         $(`#patient_appointment_form [name="faf"]`).data(
-          `fafs_of_${json.contactno}`,
+          `fafs_of_${json.primarycontact}`,
           resp.result
         );
         show_fafs(resp.result);
@@ -920,9 +920,9 @@ $(`#patient_appointment_form`).submit(function (e) {
 
   json.scheduletime = `${json.scheduledate} ${chambertimestart}`;
 
-  if (json.contactno.length == 11 && json.contactno.startsWith(`01`)) {
-    json.contactno = json.contactno.substring(1);
-  } else if (json.contactno.length == 10 && json.contactno.startsWith(`1`)) {
+  if (json.primarycontact.length == 11 && json.primarycontact.startsWith(`01`)) {
+    json.primarycontact = json.primarycontact.substring(1);
+  } else if (json.primarycontact.length == 10 && json.primarycontact.startsWith(`1`)) {
   } else {
     toastr.error(`Invalid mobile no!`);
     return;

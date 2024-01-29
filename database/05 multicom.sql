@@ -54,7 +54,7 @@ INSERT INTO com_orgtype (orgtypeid, orgtypename, typetag, iconurl) VALUES
 (210, 'Beauty and Cosmetics','',''),
 (220, 'Environmental Services','','');
 
--- com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
+-- com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 CREATE TABLE com_orgs (
     orgno int NOT NULL AUTO_INCREMENT,
     orgname varchar(50) NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE com_orgs (
     orgtypeid int NOT NULL,
     privacy tinyint DEFAULT 2,
     picurl varchar(255) DEFAULT NULL,
-    contactno char(15) NOT NULL,
+    primarycontact char(15) NOT NULL,
     orgnote varchar(255) DEFAULT NULL,
     weekend1 enum('SAT','SUN','MON','TUE','WED','THU','FRI','') DEFAULT NULL,
     weekend2 enum('SAT','SUN','MON','TUE','WED','THU','FRI','') DEFAULT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE com_orgs (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-INSERT INTO com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno) VALUES
+INSERT INTO com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno) VALUES
 (1, 'AGAMiLabs', 'NK Bhaban, CU Road #1, Hathazari', 'Chattogram', 'Chattogram', 'Bangladesh', '22.4741655', '91.8079191', 60, 1, 'agami_logo.png', '+8801711308141', 'Note here', NULL, NULL, '08:00:00', '22:00:00', 1);
 
 -- com_userorgmodules (uuid,orgno, userno, moduleno, verified)

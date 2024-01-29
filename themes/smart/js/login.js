@@ -102,17 +102,17 @@ $(document).on(`click`, `.toggle_password`, function (e) {
       delete json.retype_password;
     }
   
-    if (json.contactno.length == 11 && json.contactno.startsWith(`01`)) {
-      json.contactno = json.contactno.substring(1);
-    } else if (json.contactno.length == 10 && json.contactno.startsWith(`1`)) {
+    if (json.primarycontact.length == 11 && json.primarycontact.startsWith(`01`)) {
+      json.primarycontact = json.primarycontact.substring(1);
+    } else if (json.primarycontact.length == 10 && json.primarycontact.startsWith(`1`)) {
     } else {
       toastr.error(`Invalid mobile no!`);
       return;
     }
   
-    let isValid = $(`[name="contactno"]`, this).data(`valid`);
+    let isValid = $(`[name="primarycontact"]`, this).data(`valid`);
     if (!isValid) {
-      $(`[name="contactno"]`, this)
+      $(`[name="primarycontact"]`, this)
         .siblings(`.invalid-feedback`)
         .html(
           `You are already our user! <a href="javascript:void(0);" class="forgotten_password">Forgotten password?</a>`
@@ -132,7 +132,7 @@ $(document).on(`click`, `.toggle_password`, function (e) {
     let usernameChecked = $(`[name="username_type"]:checked`, this).val();
   
     if (usernameChecked == 1) {
-      json.username = `0${json.contactno}`;
+      json.username = `0${json.primarycontact}`;
     } else if (usernameChecked == 2) {
       if (json.email.length) {
         json.username = json.email;
@@ -175,26 +175,26 @@ $(document).on(`click`, `.toggle_password`, function (e) {
   });
   
   $(document)
-    .on(`blur`, `#signup_modal_form [name="contactno"]`, function (e) {
+    .on(`blur`, `#signup_modal_form [name="primarycontact"]`, function (e) {
       check_exist_people();
     })
-    .on(`keyup`, `#signup_modal_form [name="contactno"]`, function (e) {
+    .on(`keyup`, `#signup_modal_form [name="primarycontact"]`, function (e) {
       if (e.keyCode == 13) {
         check_exist_people();
       }
     });
   
   function check_exist_people() {
-    let contactInput = $(`#signup_modal_form [name="contactno"]`);
+    let contactInput = $(`#signup_modal_form [name="primarycontact"]`);
     let invalidFeedback = contactInput.siblings(`.invalid-feedback`);
   
     let json = {
-      contactno: contactInput.val(),
+      primarycontact: contactInput.val(),
     };
   
-    if (json.contactno.length == 11 && json.contactno.startsWith(`01`)) {
-      json.contactno = json.contactno.substring(1);
-    } else if (json.contactno.length == 10 && json.contactno.startsWith(`1`)) {
+    if (json.primarycontact.length == 11 && json.primarycontact.startsWith(`01`)) {
+      json.primarycontact = json.primarycontact.substring(1);
+    } else if (json.primarycontact.length == 10 && json.primarycontact.startsWith(`1`)) {
     } else {
       toastr.error(`Invalid mobile no!`);
       return;
@@ -224,25 +224,25 @@ $(document).on(`click`, `.toggle_password`, function (e) {
     `#signup_modal_form [name="username_type"]`,
     function (e) {
       let form = $(`#signup_modal_form`);
-      let contactnoElem = $(`[name="contactno"]`, form);
+      let primarycontactElem = $(`[name="primarycontact"]`, form);
       let emailElem = $(`[name="email"]`, form);
       let usernameElem = $(`[name="username"]`, form);
   
       if (this.value == 1) {
         usernameElem.hide();
   
-        let contactno = contactnoElem.val();
+        let primarycontact = primarycontactElem.val();
   
-        if (contactno.length == 11 && contactno.startsWith(`01`)) {
-        } else if (contactno.length == 10 && contactno.startsWith(`1`)) {
-          contactno = `0${contactno}`;
+        if (primarycontact.length == 11 && primarycontact.startsWith(`01`)) {
+        } else if (primarycontact.length == 10 && primarycontact.startsWith(`1`)) {
+          primarycontact = `0${primarycontact}`;
         } else {
           toastr.error(`Invalid mobile no!`);
-          contactnoElem.focus();
+          primarycontactElem.focus();
           return;
         }
   
-        usernameElem.val(contactno);
+        usernameElem.val(primarycontact);
       } else if (this.value == 2) {
         usernameElem.hide();
   

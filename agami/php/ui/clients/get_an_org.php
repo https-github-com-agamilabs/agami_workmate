@@ -46,7 +46,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
+//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 function get_an_org($dbcon, $orgno)
 {
     $sql = "SELECT orgno, orgname,
@@ -56,7 +56,7 @@ function get_an_org($dbcon, $orgno)
                     privacy, orgnote,
                     weekend1, weekend2, starttime, endtime,
                     iconurl, picurl,
-                    contactno, verifiedno
+                    primarycontact, verifiedno
             FROM com_orgs AS o
             INNER JOIN com_orgtype as t ON o.orgtypeid=t.orgtypeid
             WHERE orgno=?";

@@ -59,7 +59,7 @@ echo json_encode($response);
 $dbcon->close();
 
 //com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy,
-//        picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
+//        picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 function add_organization($dbcon, $addedby, $data)
 {
     $params = array();
@@ -70,7 +70,7 @@ function add_organization($dbcon, $addedby, $data)
     $required_columns = array(
         'orgname' => 's',
         'orgtypeid' => 'i',
-        'contactno' => 's',
+        'primarycontact' => 's',
     );
 
     $optional_columns = array(
@@ -179,7 +179,7 @@ function add_organization($dbcon, $addedby, $data)
 }
 
 //com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy,
-//        picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
+//        picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 function update_organization($dbcon, $orgno, $data)
 {
     $params = array();
@@ -198,7 +198,7 @@ function update_organization($dbcon, $orgno, $data)
         'orgtypeid' => 'i',
         'privacy' => 'i',
         'picurl' => 's',
-        'contactno' => 's',
+        'primarycontact' => 's',
         'orgnote' => 's',
         'weekend1' => 's',
         'weekend2' => 's',

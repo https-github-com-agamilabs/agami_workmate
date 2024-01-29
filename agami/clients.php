@@ -251,7 +251,7 @@ include_once $basePath . "/php/ui/login/check_session.php";
 								</td>
 								<td>
 									${value.countrycode ? `(${value.countrycode})` : ``}
-									${value.contactno || ``}
+									${value.primarycontact || ``}
 								</td>
 								<td>${value.email || ``}</td>
 								<td>${value.ucreatedatetime ? formatDateTime(value.ucreatedatetime) : ``}</td>
@@ -364,7 +364,7 @@ include_once $basePath . "/php/ui/login/check_session.php";
 						address += value.country;
 					}
 
-					let contactno = value.contactno;
+					let primarycontact = value.primarycontact;
 
 					// OFFICE TIME
 					let officeTime = ``;
@@ -426,9 +426,9 @@ include_once $basePath . "/php/ui/login/check_session.php";
 											<div><i class="fas fa-home mr-2"></i></div>
 											<div>${address}</div>
 										</div>` : ``}
-									${contactno.length ? `<div  class="d-flex font-size-lg">
+									${primarycontact.length ? `<div  class="d-flex font-size-lg">
 											<div><i class="fas fa-phone-alt mr-2"></i></div>
-											<div>${contactno}</div>
+											<div>${primarycontact}</div>
 										</div>` : ``}
 									${officeTime.length ? `<div>${officeTime}</div>` : ``}
 									${weekend.length ? `<div>${weekend}</div>` : ``}

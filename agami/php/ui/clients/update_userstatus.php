@@ -46,7 +46,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//hr_user (userno,username,firstname,lastname,email,countrycode,contactno,passphrase,authkey,userstatusno,ucreatedatetime,reset_pass_count,updatetime)
+//hr_user (userno,username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,ucreatedatetime,reset_pass_count,updatetime)
 function update_userstatus($dbcon, $orguser, $userstatusno)
 {
     date_default_timezone_set("Asia/Dhaka");

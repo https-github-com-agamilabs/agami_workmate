@@ -71,7 +71,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//hr_user (userno,username,firstname,lastname,email,countrycode,contactno,passphrase,authkey,userstatusno,ucreatedatetime,reset_pass_count,updatetime)
+//hr_user (userno,username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,ucreatedatetime,reset_pass_count,updatetime)
 function get_userno($dbcon, $username)
 {
 

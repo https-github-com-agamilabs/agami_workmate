@@ -22,14 +22,14 @@ if (!$db->is_connected()) {
 
 
 try {
-    //$contactno,$email
-    if (isset($_POST['contactno']) && strlen($_POST['contactno']) > 0) {
-        $contactno = trim(strip_tags($_POST['contactno']));
+    //$primarycontact,$email
+    if (isset($_POST['primarycontact']) && strlen($_POST['primarycontact']) > 0) {
+        $primarycontact = trim(strip_tags($_POST['primarycontact']));
     } else {
         throw new Exception("Contact-no cannot be empty!!", 1);
     }
 
-    $result = get_people_by_contactno($dbcon, $contactno);
+    $result = get_people_by_primarycontact($dbcon, $primarycontact);
     if ($result->num_rows > 0) {
         $row = $result->fetch_array(MYSQLI_ASSOC);
         $response['result'] = $row;
@@ -56,15 +56,15 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//gen_peopleprimary(peopleno,peopleid,firstname,lastname,countrycode,contactno,dob,gender,email,createdatetime)
-function get_people_by_contactno($dbcon, $contactno)
+//gen_peopleprimary(peopleno,peopleid,firstname,lastname,countrycode,primarycontact,dob,gender,email,createdatetime)
+function get_people_by_primarycontact($dbcon, $primarycontact)
 {
-    $sql = "SELECT peopleno,peopleid,firstname,lastname,countrycode,contactno,dob,gender,email,bloodgroup,createdatetime
+    $sql = "SELECT peopleno,peopleid,firstname,lastname,countrycode,primarycontact,dob,gender,email,bloodgroup,createdatetime
             FROM gen_peopleprimary
-            WHERE faf_parentpeopleno IS NULL AND contactno=?";
+            WHERE faf_parentpeopleno IS NULL AND primarycontact=?";
 
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("s", $contactno);
+    $stmt->bind_param("s", $primarycontact);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();

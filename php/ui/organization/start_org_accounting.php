@@ -86,7 +86,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
+//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 //com_userorgmodules(orgno,userno,moduleno,verified)
 //acc_modules(moduleno,moduletitle)
 function get_info_organization($dbcon, $userno, $orgno)

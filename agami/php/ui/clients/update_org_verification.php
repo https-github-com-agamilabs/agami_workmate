@@ -45,7 +45,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
+//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 function update_org_verification($dbcon, $orgno, $verifiedno)
 {
     // date_default_timezone_set("Asia/Dhaka");

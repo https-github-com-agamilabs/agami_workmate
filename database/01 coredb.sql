@@ -27,8 +27,11 @@ CREATE TABLE hr_userstatus (
 
 INSERT INTO hr_userstatus(userstatusno, userstatustitle)
 VALUES
-(0, "Not Verified"),
-(1, "Verified");
+(0, 'Pending'),
+(1, 'Active'),
+(2, 'Inactive'),
+(3, 'Banned'),
+(9, 'AGAMian');
 
 CREATE TABLE hr_user(
 	userno int AUTO_INCREMENT,

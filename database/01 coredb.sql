@@ -50,7 +50,7 @@ CREATE TABLE hr_user(
 	createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	lastupdatetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	isactive int DEFAULT 0,
-	userstatusno int DEFAULT 0,
+	userstatusno int DEFAULT 1,
 	PRIMARY KEY(userno),
 	CONSTRAINT uk_user_username UNIQUE(username),
 	CONSTRAINT fk_user_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,

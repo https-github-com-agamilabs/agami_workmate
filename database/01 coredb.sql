@@ -62,10 +62,7 @@ CREATE TABLE hr_user(
 -- ADD COLUMN photo_url varchar(255) DEFAULT NULL;
 
 -- ALTER TABLE hr_user
--- ADD COLUMN userstatusno int DEFAULT 0;
--- ALTER TABLE hr_user
--- ADD COLUMN countrycode varchar(7) DEFAULT null;
-
+-- ADD COLUMN userstatusno int DEFAULT 1;
 
 CREATE TABLE msg_channel(
 	channelno int AUTO_INCREMENT,

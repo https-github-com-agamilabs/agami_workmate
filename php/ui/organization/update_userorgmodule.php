@@ -1,5 +1,5 @@
 <?php
-include_once  dirname(dirname(__FILE__)) . "/session/check_user_session.php";
+include_once  dirname(dirname(__FILE__)) . "/login/check_session.php";
 
 $response = array();
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {

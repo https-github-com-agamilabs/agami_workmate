@@ -17,7 +17,11 @@ $(document).ready(function () {
             return;
         }
 
-        complete_login(username, password);
+        complete_login({
+            username,
+            password,
+            action: `employee_login`
+        });
     });
 
     langSelect.addEventListener(`change`, function (e) {
@@ -67,51 +71,26 @@ $(document).ready(function () {
         });
     });
 
-    function complete_login(username, password) {
+    function complete_login(json) {
         // needs for recaptacha ready
         grecaptcha.ready(function () {
             // do request for recaptcha token
             // response is promise with passed token
-            grecaptcha
-                .execute("6Le-0EQpAAAAAHQlefT-hdZhSf7oWvLw77aAd_ZA", {
-                    action: "employee_login",
-                })
-                .then(function (token) {
-                    // add token to form
-                    var action = "employee_login";
+            grecaptcha.execute("6Le-0EQpAAAAAHQlefT-hdZhSf7oWvLw77aAd_ZA", {
+                action: json.action
+            }).then(function (captchatoken) {
+                json.captchatoken = captchatoken;
 
-                    console.log({
-                        captchatoken: token,
-                        action: action,
-                        username: username,
-                        password: password,
-                    });
-
-                    $.ajax({
-                        url: "php/ui/login/login.php",
-                        type: "POST",
-                        data: {
-                            captchatoken: token,
-                            action: action,
-                            username: username,
-                            password: password,
-                        },
-                        success: (result) => {
-                            console.log("login result=>", result);
-                            let resp = JSON.parse(result);
-                            console.log("login resp=>", resp);
-                            if (resp.error) {
-                                toastr.error(resp.message);
-                                console.log(resp.message);
-                                alert(resp.message);
-                            } else {
-                                // toastr.success(resp.message);
-                                window.location.href = resp.redirect;
-                                // window.location.href = resp.ucatno == 5 ? "dashboard.php" : "time_keeper.php";
-                            }
-                        },
-                    });
-                });
+                $.post(`php/ui/login/login.php`, json, resp => {
+                    if (resp.error) {
+                        toastr.error(resp.message);
+                    } else {
+                        // toastr.success(resp.message);
+                        window.location.href = resp.redirect;
+                        // window.location.href = resp.ucatno == 5 ? "dashboard.php" : "time_keeper.php";
+                    }
+                }, `json`);
+            });
         });
     }
 });

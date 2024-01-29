@@ -1,9 +1,9 @@
 <style media="screen">
 	.logo-src {
 		background-image: url("../<?= $response["orglogourl"]; ?>") !important;
-		height: 51px !important;
+		height: 60px !important;
 		background-size: contain !important;
-		width: 109px !important;
+		width: 62px !important;
 	}
 </style>
 <div class="app-header header-shadow d-print-none">

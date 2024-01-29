@@ -55,7 +55,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//hr_user (userno,username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,ucreatedatetime,reset_pass_count,updatetime)
+//hr_user (userno,username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,ucreatedatetime,updatetime)
 //hr_userstatus (userstatusno,userstatustitle)
 function get_filtered_users($dbcon, $userstatusno, $pageno, $limit)
 {
@@ -77,7 +77,7 @@ function get_filtered_users($dbcon, $userstatusno, $pageno, $limit)
 
     $sql = "SELECT userno,username,firstname,lastname,email,countrycode,primarycontact,
                 userstatusno, (SELECT userstatustitle FROM hr_userstatus WHERE userstatusno=u.userstatusno) as userstatustitle,
-                createtime,reset_pass_count,updatetime
+                createtime,updatetime
             FROM hr_user AS u
             WHERE 1 $filter
             ORDER BY createtime DESC

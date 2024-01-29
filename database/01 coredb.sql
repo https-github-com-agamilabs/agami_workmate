@@ -19,6 +19,17 @@ VALUES(1,'Employee (VA)'),
 (13,'VA Owner'),
 (19,'Admin');
 
+CREATE TABLE hr_userstatus (
+	userstatusno int not null,
+	userstatustitle VARCHAR(15) not null,
+	primary key(userstatusno)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO hr_userstatus(userstatusno, userstatustitle)
+VALUES
+(0, "Not Verified"),
+(1, "Verified");
+
 CREATE TABLE hr_user(
 	userno int AUTO_INCREMENT,
 	username varchar(63) NOT NULL,
@@ -36,6 +47,7 @@ CREATE TABLE hr_user(
 	createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	lastupdatetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	isactive int DEFAULT 0,
+	userstatusno int DEFAULT 0,
 	PRIMARY KEY(userno),
 	CONSTRAINT uk_user_username UNIQUE(username),
 	CONSTRAINT fk_user_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,
@@ -44,6 +56,9 @@ CREATE TABLE hr_user(
 
 -- ALTER TABLE hr_user
 -- ADD COLUMN photo_url varchar(255) DEFAULT NULL;
+
+-- ALTER TABLE hr_user
+-- ADD COLUMN userstatusno int DEFAULT 0;
 
 CREATE TABLE msg_channel(
 	channelno int AUTO_INCREMENT,

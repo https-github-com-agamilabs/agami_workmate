@@ -65,7 +65,7 @@ echo json_encode($response);
 $dbcon->close();
 
 //com_userorgmodules(orgno,userno,moduleno,verified)
-//acc_modules(moduleno,moduletitle)
+//com_modules(moduleno,moduletitle)
 //com_orgtype (orgtypeid,orgtypename,typetag,iconurl)
 //pack_appliedpackage(itemno,orgno,schemeno,appliedat,appliedby,validuntil)
 function get_orgs_of_an_user($dbcon, $userno)
@@ -101,7 +101,7 @@ function get_orgs_of_an_user($dbcon, $userno)
 }
 
 //com_userorgmodules(orgno,userno,moduleno,verified)
-//acc_modules(moduleno,moduletitle)
+//com_modules(moduleno,moduletitle)
 //com_orgtype (orgtypeid,orgtypename,typetag,iconurl)
 //pack_appliedpackage(itemno,orgno,schemeno,appliedat,appliedby,validuntil)
 function get_org_userrole($dbcon, $orgno, $userno)

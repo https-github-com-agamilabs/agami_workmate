@@ -17,10 +17,10 @@ try {
 
     if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {
         $orgno = (int) $_POST['orgno'];
-    }else{
+    } else {
         throw new Exception("You must select an organization!", 1);
     }
-    $result = get_accountingyear($dbcon,$orgno);
+    $result = get_accountingyear($dbcon, $orgno);
 
     $meta_array = array();
     if ($result->num_rows > 0) {
@@ -43,9 +43,9 @@ echo json_encode($response);
 $dbcon->close();
 
 //acc_accountingyear (orgno,accyear,startdate,closingdate,accyearstatus)
-//acc_modules(moduleno,moduletitle)
+//com_modules(moduleno,moduletitle)
 ////acc_transaction (transno,orgno,accyear,vouchertype,receiptno,ref,tdate,confirmed,addedby,entrydatetime,narration)
-function get_accountingyear($dbcon,$orgno)
+function get_accountingyear($dbcon, $orgno)
 {
     $sql = "SELECT accyear,startdate,closingdate,accyearstatus,
                 (SELECT transno FROM acc_transaction WHERE orgno=? AND accyear=ay.accyear AND ref='B/F_01') as init_transno
@@ -53,7 +53,7 @@ function get_accountingyear($dbcon,$orgno)
             WHERE ay.orgno=?";
 
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("ii", $orgno,$orgno);
+    $stmt->bind_param("ii", $orgno, $orgno);
     $stmt->execute();
 
     $result = $stmt->get_result();

@@ -48,11 +48,11 @@ $dbcon->close();
 
 //com_userorgmodules(userno,orgno,moduleno,verified)
 //com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
-//acc_modules(moduleno,moduletitle)
+//com_modules(moduleno,moduletitle)
 function get_user_orgs($dbcon, $userno)
 {
     $sql = "SELECT om.orgno, orgname, street, city, `state`, country, picurl, primarycontact, orgnote,o.verifiedno as company_verified,
-                moduleno, (SELECT moduletitle FROM acc_modules WHERE moduleno=om.moduleno) as moduletitle,
+                moduleno, (SELECT moduletitle FROM com_modules WHERE moduleno=om.moduleno) as moduletitle,
                 verified as module_verified
             FROM com_userorgmodules AS om
                 INNER JOIN com_orgs as o ON om.orgno=o.orgno

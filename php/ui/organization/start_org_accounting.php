@@ -88,12 +88,12 @@ $dbcon->close();
 
 //com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 //com_userorgmodules(orgno,userno,moduleno,verified)
-//acc_modules(moduleno,moduletitle)
+//com_modules(moduleno,moduletitle)
 function get_info_organization($dbcon, $userno, $orgno)
 {
 
     $sql = "SELECT uo.orgno,o.orgname,o.street, o.city, o.country, o.picurl,
-                    uo.moduleno,(SELECT moduletitle FROM acc_modules WHERE moduleno=uo.moduleno) as moduletitle
+                    uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle
             FROM com_userorgmodules as uo
                 INNER JOIN com_orgs as o ON uo.orgno=o.orgno
             WHERE uo.userno=?
@@ -135,7 +135,7 @@ function is_valid_accyear($dbcon, $orgno, $accyear)
 
 function get_userorgmodules($dbcon, $orgno, $userno)
 {
-    $sql = "SELECT moduleno,(SELECT moduletitle FROM acc_modules WHERE moduleno=um.moduleno) as moduletitle
+    $sql = "SELECT moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=um.moduleno) as moduletitle
             FROM com_userorgmodules AS um
             WHERE um.orgno=? AND um.userno=? AND verified=1";
 

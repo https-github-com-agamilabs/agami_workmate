@@ -35,11 +35,11 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//acc_modules(moduleno,moduletitle)
+//com_modules(moduleno,moduletitle)
 function get_modules($dbcon)
 {
     $sql = "SELECT moduleno,moduletitle
-            FROM acc_modules";
+            FROM com_modules";
 
     $stmt = $dbcon->prepare($sql);
     $stmt->execute();
@@ -48,4 +48,3 @@ function get_modules($dbcon)
 
     return $result;
 }
-?>

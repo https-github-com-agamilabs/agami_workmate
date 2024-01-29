@@ -43,12 +43,12 @@ echo json_encode($response);
 $dbcon->close();
 
 //com_userorgmodules(orgno,userno,moduleno,verified)
-//acc_modules(moduleno,moduletitle)
+//com_modules(moduleno,moduletitle)
 function get_userorgmodules($dbcon, $orgno)
 {
     $sql = "SELECT um.orgno,
                     um.userno,u.username,u.firstname,u.lastname,
-                    moduleno,(SELECT moduletitle FROM acc_modules WHERE moduleno=um.moduleno) as moduletitle,
+                    moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=um.moduleno) as moduletitle,
                     verified
             FROM com_userorgmodules AS um
                 INNER JOIN hr_user as u ON u.userno=um.userno

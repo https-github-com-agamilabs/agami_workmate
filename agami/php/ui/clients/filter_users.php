@@ -76,12 +76,12 @@ function get_filtered_users($dbcon, $userstatusno, $pageno, $limit)
     $params[] = &$limit;
 
     $sql = "SELECT userno,username,firstname,lastname,email,countrycode,contactno,
-                    userstatusno, (SELECT userstatustitle FROM gen_userstatus WHERE userstatusno=u.userstatusno) as userstatustitle,
-                    ucreatedatetime,reset_pass_count,updatetime
-                FROM hr_user AS u
-                WHERE 1 $filter
-                ORDER BY ucreatedatetime DESC
-                LIMIT ?, ?";
+                userstatusno, (SELECT userstatustitle FROM gen_userstatus WHERE userstatusno=u.userstatusno) as userstatustitle,
+                ucreatedatetime,reset_pass_count,updatetime
+            FROM hr_user AS u
+            WHERE 1 $filter
+            ORDER BY ucreatedatetime DESC
+            LIMIT ?, ?";
 
     // var_dump($sql);
 
@@ -100,3 +100,4 @@ function get_filtered_users($dbcon, $userstatusno, $pageno, $limit)
 
     return $result;
 }
+?>

@@ -64,7 +64,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//acc_userorgmodules(orgno,userno,moduleno,verified)
+//com_userorgmodules(orgno,userno,moduleno,verified)
 //acc_modules(moduleno,moduletitle)
 //com_orgtype (orgtypeid,orgtypename,typetag,iconurl)
 //pack_appliedpackage(itemno,orgno,schemeno,appliedat,appliedby,validuntil)
@@ -73,13 +73,13 @@ function get_orgs_of_an_user($dbcon, $userno)
     $sql = "SELECT o.*, (SELECT count(accno) FROM acc_orgaccounthead WHERE orgno=o.orgno AND levelno>1) as headcount
             FROM com_orgs as o
             WHERE o.orgno IN(SELECT DISTINCT orgno
-                             FROM acc_userorgmodules
+                             FROM com_userorgmodules
                              WHERE userno=?)";
 
     // $sql = "SELECT o.*,
     //             (SELECT orgtypename FROM com_orgtype WHERE orgtypeid in (SELECT orgtypeid FROM com_orgs as org WHERE uo.orgno = org.orgno)) as orgtypename,
     //             (SELECT privacytext FROM acc_orgprivacy WHERE id=o.privacy) as privacytext
-    //         FROM acc_userorgmodules as uo
+    //         FROM com_userorgmodules as uo
     //             INNER JOIN (SELECT *
     //                         FROM com_orgs) as o ON o.orgno=uo.orgno
     //         WHERE userno=?";
@@ -100,14 +100,14 @@ function get_orgs_of_an_user($dbcon, $userno)
     }
 }
 
-//acc_userorgmodules(orgno,userno,moduleno,verified)
+//com_userorgmodules(orgno,userno,moduleno,verified)
 //acc_modules(moduleno,moduletitle)
 //com_orgtype (orgtypeid,orgtypename,typetag,iconurl)
 //pack_appliedpackage(itemno,orgno,schemeno,appliedat,appliedby,validuntil)
 function get_org_userrole($dbcon, $orgno, $userno)
 {
     $sql = "SELECT moduleno
-            FROM acc_userorgmodules as uo
+            FROM com_userorgmodules as uo
             WHERE uo.orgno=? AND uo.userno=? AND verified=1";
 
     $stmt = $dbcon->prepare($sql);

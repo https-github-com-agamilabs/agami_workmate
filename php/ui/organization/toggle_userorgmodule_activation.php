@@ -17,30 +17,29 @@ try {
     //orgno, userno, moduleno
     if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {
         $orgno = (int)$_POST['orgno'];
-    }else{
+    } else {
         throw new \Exception("Organization must be selected!", 1);
     }
 
     if (isset($_POST['userno']) && strlen($_POST['userno']) > 0) {
         $userno = (int)$_POST['userno'];
-    }else{
+    } else {
         throw new \Exception("User must be selected!", 1);
     }
 
     if (isset($_POST['moduleno']) && strlen($_POST['moduleno']) > 0) {
         $moduleno = (int)$_POST['moduleno'];
-    }else{
+    } else {
         throw new \Exception("Module must be selected!", 1);
     }
 
-    $anos=toggle_userorgmodule_activation($dbcon, $orgno, $userno, $moduleno);
-    if($anos>0){
+    $anos = toggle_userorgmodule_activation($dbcon, $orgno, $userno, $moduleno);
+    if ($anos > 0) {
         $response['error'] = false;
         $response['message'] = "Updated Successfully.";
-    }else{
+    } else {
         throw new \Exception("Could not update!", 1);
     }
-
 } catch (Exception $e) {
     $response['error'] = true;
     $response['message'] = $e->getMessage();
@@ -49,16 +48,16 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//acc_userorgmodules (orgno, userno, moduleno, verified)
+//com_userorgmodules (orgno, userno, moduleno, verified)
 function toggle_userorgmodule_activation($dbcon, $orgno, $userno, $moduleno)
 {
 
-    $sql = "UPDATE acc_userorgmodules
+    $sql = "UPDATE com_userorgmodules
             SET verified=abs(1-verified)
             WHERE orgno=? AND userno=? AND moduleno=?";
 
     if (!$stmt = $dbcon->prepare($sql)) {
-        throw new Exception("Prepare statement failed: ".$dbcon->error);
+        throw new Exception("Prepare statement failed: " . $dbcon->error);
     }
 
     $stmt->bind_param("iii", $orgno, $userno, $moduleno);
@@ -68,5 +67,3 @@ function toggle_userorgmodule_activation($dbcon, $orgno, $userno, $moduleno)
 
     return $result;
 }
-
-?>

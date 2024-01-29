@@ -65,11 +65,11 @@ function del_org($dbcon, $orgno)
     }
 }
 
-//acc_userorgmodules(orgno,userno,moduleno,verified)
+//com_userorgmodules(orgno,userno,moduleno,verified)
 function del_userorgs($dbcon, $orgno, $userno)
 {
     $sql = "DELETE
-            FROM acc_userorgmodules
+            FROM com_userorgmodules
             WHERE orgno=? AND userno=?";
 
     $stmt = $dbcon->prepare($sql);

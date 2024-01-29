@@ -91,11 +91,11 @@ function get_userno($dbcon, $username)
     return $result;
 }
 
-//acc_userorgmodules (orgno, userno, moduleno, verified)
+//com_userorgmodules (orgno, userno, moduleno, verified)
 function add_userorgmodule($dbcon, $orgno, $foruserno, $moduleno)
 {
 
-    $sql = "INSERT INTO acc_userorgmodules(orgno, userno, moduleno)
+    $sql = "INSERT INTO com_userorgmodules(orgno, userno, moduleno)
             VALUES(?, ?, ?)";
 
     if (!$stmt = $dbcon->prepare($sql)) {

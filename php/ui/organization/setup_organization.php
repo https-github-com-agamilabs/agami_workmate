@@ -262,10 +262,10 @@ function update_organization($dbcon, $orgno, $data)
     return $result;
 }
 
-//acc_userorgmodules(orgno,userno,moduleno,verified)
+//com_userorgmodules(orgno,userno,moduleno,verified)
 function insert_userorgs($dbcon, $orgno, $userno)
 {
-    $sql = "INSERT INTO acc_userorgmodules(orgno,userno,moduleno,verified)
+    $sql = "INSERT INTO com_userorgmodules(orgno,userno,moduleno,verified)
             VALUES(?,?,1,1)";
 
     $stmt = $dbcon->prepare($sql);

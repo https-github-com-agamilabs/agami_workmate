@@ -77,10 +77,10 @@ function get_filtered_users($dbcon, $userstatusno, $pageno, $limit)
 
     $sql = "SELECT userno,username,firstname,lastname,email,countrycode,primarycontact,
                 userstatusno, (SELECT userstatustitle FROM hr_userstatus WHERE userstatusno=u.userstatusno) as userstatustitle,
-                ucreatedatetime,reset_pass_count,updatetime
+                createtime,reset_pass_count,updatetime
             FROM hr_user AS u
             WHERE 1 $filter
-            ORDER BY ucreatedatetime DESC
+            ORDER BY createtime DESC
             LIMIT ?, ?";
 
     // var_dump($sql);

@@ -2,7 +2,7 @@
 $basePath = dirname(dirname(dirname(__FILE__)));
 include_once($basePath . "/configmanager/org_configuration.php");
 
-if (!defined("ACC_DB_USER")) {
+if (!defined("DB_USER")) {
     include_once $basePath . '/php/db/config.php';
 }
 

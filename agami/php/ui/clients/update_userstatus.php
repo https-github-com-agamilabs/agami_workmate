@@ -46,21 +46,21 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//hr_user (userno,username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,ucreatedatetime,updatetime)
+//hr_user (userno,username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,ucreatedatetime,lastupdatetime)
 function update_userstatus($dbcon, $orguser, $userstatusno)
 {
     date_default_timezone_set("Asia/Dhaka");
-    $updatetime = date("Y-m-d H:i:s");
+    $lastupdatetime = date("Y-m-d H:i:s");
 
     $sql = "UPDATE hr_user AS o
-            SET userstatusno=?, updatetime=?
+            SET userstatusno=?, lastupdatetime=?
             WHERE userno=?";
 
     if (!$stmt = $dbcon->prepare($sql)) {
         throw new Exception("Prepare statement failed: " . $dbcon->error);
     }
 
-    $stmt->bind_param("isi", $userstatusno, $updatetime, $orguser);
+    $stmt->bind_param("isi", $userstatusno, $lastupdatetime, $orguser);
     $stmt->execute();
     $result = $stmt->affected_rows;
     $stmt->close();

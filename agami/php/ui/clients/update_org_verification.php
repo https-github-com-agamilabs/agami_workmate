@@ -49,7 +49,7 @@ $dbcon->close();
 function update_org_verification($dbcon, $orgno, $verifiedno)
 {
     // date_default_timezone_set("Asia/Dhaka");
-    // $updatetime = date("Y-m-d H:i:s");
+    // $lastupdatetime = date("Y-m-d H:i:s");
 
     $sql = "UPDATE com_orgs
             SET verifiedno=?

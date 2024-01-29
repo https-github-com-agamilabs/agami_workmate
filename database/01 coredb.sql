@@ -51,6 +51,7 @@ CREATE TABLE hr_user(
 	lastupdatetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	isactive int DEFAULT 0,
 	userstatusno int DEFAULT 1,
+	countrycode varchar(7) DEFAULT null,
 	PRIMARY KEY(userno),
 	CONSTRAINT uk_user_username UNIQUE(username),
 	CONSTRAINT fk_user_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,
@@ -62,6 +63,9 @@ CREATE TABLE hr_user(
 
 -- ALTER TABLE hr_user
 -- ADD COLUMN userstatusno int DEFAULT 0;
+-- ALTER TABLE hr_user
+-- ADD COLUMN countrycode varchar(7) DEFAULT null;
+
 
 CREATE TABLE msg_channel(
 	channelno int AUTO_INCREMENT,

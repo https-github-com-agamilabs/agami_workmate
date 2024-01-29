@@ -1,5 +1,6 @@
 <?php
-include_once  dirname(dirname(dirname(dirname(dirname(__FILE__))))) . "/php/ui/login/check_session.php";
+$base_path = dirname(dirname(dirname(dirname(dirname(__FILE__)))));
+include_once  $base_path . "/php/ui/login/check_session.php";
 
 $response = array();
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -9,8 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     exit();
 }
 
-$base_path = dirname(dirname(dirname(__FILE__)));
-require_once dirname(dirname(dirname(dirname(dirname(__FILE__))))) . "/php/ui/dependency_checker.php";
+require_once $base_path . "/php/ui/dependency_checker.php";
 
 try {
 
@@ -56,26 +56,26 @@ function get_coupons($dbcon, $isactive, $min_use)
     $filter = " max_use >= ?";
     $types = 'i';
 
-    if ($isactive>-1) {
+    if ($isactive > -1) {
         $params[] = &$isactive;
         $filter .= " AND isactive=?";
         $types .= 'i';
     }
 
     $sql = "SELECT coupon,discount_fixed,discount_percentage,description,
-                    max_use,(SELECT count(coupon) FROM pack_purchaseoffer WHERE coupon=c.coupon) as already_used_qty,
-                    isactive,createdat,
-                    createdby,firstname,lastname,countrycode,contactno
+                max_use,(SELECT count(coupon) FROM pack_purchaseoffer WHERE coupon=c.coupon) as already_used_qty,
+                isactive,createdat,
+                createdby,firstname,lastname,countrycode,contactno
             FROM pack_coupon as c
-                INNER JOIN gen_users as u ON c.createdby=u.userno
+                INNER JOIN hr_user as u ON c.createdby=u.userno
             WHERE $filter
             ORDER BY createdat DESC";
 
     if (!$stmt = $dbcon->prepare($sql)) {
-        throw new Exception("Prepare statement failed: ".$dbcon->error);
+        throw new Exception("Prepare statement failed: " . $dbcon->error);
     }
 
-    if (strlen($types)>0) {
+    if (strlen($types) > 0) {
         call_user_func_array(array($stmt, "bind_param"), array_merge(array($types), $params));
     }
 
@@ -84,5 +84,5 @@ function get_coupons($dbcon, $isactive, $min_use)
     $stmt->close();
 
     return $result;
-    }
+}
 ?>

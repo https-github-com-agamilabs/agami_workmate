@@ -36,11 +36,11 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//gen_userstatus (userstatusno,userstatustitle)
+//hr_userstatus (userstatusno,userstatustitle)
 function get_userstatus($dbcon)
 {
     $sql = "SELECT userstatusno,userstatustitle
-            FROM gen_userstatus
+            FROM hr_userstatus
             ORDER BY userstatusno";
 
     if (!$stmt = $dbcon->prepare($sql)) {

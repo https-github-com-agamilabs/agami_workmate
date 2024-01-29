@@ -369,13 +369,21 @@
 				if (totalElapsedTime < totalWorkingTime) {
 					hr = parseInt((totalWorkingTime - totalElapsedTime) / 3600, 10) || 0;
 					min = parseInt(((totalWorkingTime - totalElapsedTime) % 3600) / 60, 10) || 0;
-					tbodyRow.append(`<td class="text-center${hideDeficientTime ? ` d-none` : ``}">${padZero(hr)}h ${padZero(min)}m</td> <td class="text-center${hideAdditionalTime ? ` d-none` : ``}">-</td>`);
+
+					$(`<td class="text-center${hideDeficientTime ? ` d-none` : ``}">${padZero(hr)}h ${padZero(min)}m</td>
+						<td class="text-center${hideAdditionalTime ? ` d-none` : ``}">-</td>`)
+						.appendTo(tbodyRow);
 				} else if (totalElapsedTime > totalWorkingTime) {
 					hr = parseInt((totalElapsedTime - totalWorkingTime) / 3600, 10) || 0;
 					min = parseInt(((totalElapsedTime - totalWorkingTime) % 3600) / 60, 10) || 0;
-					tbodyRow.append(`<td class="text-center${hideDeficientTime ? ` d-none` : ``}">-</td> <td class="text-center${hideAdditionalTime ? ` d-none` : ``}">${padZero(hr)}h ${padZero(min)}m</td>`);
+
+					$(`<td class="text-center${hideDeficientTime ? ` d-none` : ``}">-</td>
+						<td class="text-center${hideAdditionalTime ? ` d-none` : ``}">${padZero(hr)}h ${padZero(min)}m</td>`)
+						.appendTo(tbodyRow);
 				} else {
-					tbodyRow.append(`<td class="text-center${hideDeficientTime ? ` d-none` : ``}">-</td> <td class="text-center${hideAdditionalTime ? ` d-none` : ``}">-</td>`);
+					$(`<td class="text-center${hideDeficientTime ? ` d-none` : ``}">-</td>
+						<td class="text-center${hideAdditionalTime ? ` d-none` : ``}">-</td>`)
+						.appendTo(tbodyRow);
 				}
 			});
 

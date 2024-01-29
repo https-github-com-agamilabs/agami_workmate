@@ -64,6 +64,9 @@ CREATE TABLE hr_user(
 -- ALTER TABLE hr_user
 -- ADD COLUMN userstatusno int DEFAULT 1;
 
+-- ALTER TABLE hr_user
+-- ADD COLUMN countrycode varchar(7) DEFAULT null;
+
 CREATE TABLE msg_channel(
 	channelno int AUTO_INCREMENT,
 	channeltitle varchar(255) NOT NULL,

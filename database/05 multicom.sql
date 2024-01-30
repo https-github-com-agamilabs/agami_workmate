@@ -86,12 +86,14 @@ CREATE TABLE com_orgs (
 INSERT INTO com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno) VALUES
 (1, 'AGAMiLabs', 'NK Bhaban, CU Road #1, Hathazari', 'Chattogram', 'Chattogram', 'Bangladesh', '22.4741655', '91.8079191', 60, 1, 'agami_logo.png', '+8801711308141', 'Note here', NULL, NULL, '08:00:00', '22:00:00', 1);
 
--- com_userorgmodules (uuid,orgno, userno, moduleno, isactive)
+-- com_userorgmodules (uuid,orgno, userno, moduleno, hourrate, monthlysalary, isactive)
 CREATE TABLE com_userorgmodules (
     uuid VARCHAR(15) NOT NULL,
     userno int NOT NULL,
     orgno int NOT NULL,
     moduleno tinyint NOT NULL,
+    hourrate DECIMAL(6,2) DEFAULT NULL,
+    monthlysalary DECIMAL(12,2) DEFAULT NULL,
     isactive tinyint DEFAULT 0,
     CONSTRAINT uk_userorgmodules_uuid UNIQUE(uuid),
     CONSTRAINT uk_userorgmodules_orgno_userno UNIQUE (orgno,userno),
@@ -99,6 +101,10 @@ CREATE TABLE com_userorgmodules (
     CONSTRAINT fk_userorgmodules_moduleno FOREIGN KEY (moduleno) REFERENCES com_modules (moduleno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorgmodules_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE com_userorgmodules
+-- ADD COLUMN hourrate DECIMAL(6,2) DEFAULT NULL,
+-- ADD COLUMN monthlysalary DECIMAL(12,2) DEFAULT NULL;
 
 -- com_authenticationtype(auth_type_id, auth_type_title)
 

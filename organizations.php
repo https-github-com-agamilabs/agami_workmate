@@ -1,7 +1,6 @@
 <?php
 $basePath = dirname(__FILE__);
 include_once $basePath . "/php/ui/login/check_session.php";
-include_once $basePath . "/configmanager/firebase_configuration.php";
 
 //require 'dependancy_checker.php';
 
@@ -107,12 +106,12 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 										</label>
 									</div>
 
-									<div class="col-lg-6 mb-2">
+									<!-- <div class="col-lg-6 mb-2">
 										<label class="d-block mb-0">
-											<?= $orgData['lang_privacy']; ?> <span class="text-danger">*</span>
+											< ?= $orgData['lang_privacy']; ?> <span class="text-danger">*</span>
 											<select name="privacy" class="form-control form-control-sm shadow-sm mt-1" required></select>
 										</label>
-									</div>
+									</div> -->
 
 									<div class="col-lg-12 mb-2">
 										<label class="d-block mb-0">
@@ -405,7 +404,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		}
 
 		const orgType = new SelectElemDataLoad({
-			readURL: `${publicAccessUrl}php/ui/settings/get_orgtype.php`,
+			readURL: `${publicAccessUrl}php/ui/organization/get_org_type.php`,
 			targets: [{
 				selectElem: `#orgs_modal [name="orgtypeid"]`,
 				defaultOptionText: `Select...`,
@@ -415,23 +414,19 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			optionValue: `orgtypeid`
 		});
 
-		const privacy = new SelectElemDataLoad({
-			readURL: `${publicAccessUrl}php/ui/settings/get_orgprivacy.php`,
-			targets: [{
-				selectElem: `#orgs_modal [name="privacy"]`,
-				defaultOptionText: `Select...`,
-				defaultOptionValue: ``
-			}],
-			optionText: `privacytext`,
-			optionValue: `id`
-		});
+		// const privacy = new SelectElemDataLoad({
+		// 	readURL: `${publicAccessUrl}php/ui/settings/get_orgprivacy.php`,
+		// 	targets: [{
+		// 		selectElem: `#orgs_modal [name="privacy"]`,
+		// 		defaultOptionText: `Select...`,
+		// 		defaultOptionValue: ``
+		// 	}],
+		// 	optionText: `privacytext`,
+		// 	optionValue: `id`
+		// });
 
 		const settings = new SelectElemDataLoad({
 			readURL: `${publicAccessUrl}php/ui/orgsettings/get_settings.php`
-		});
-
-		const commonAccTypes = new SelectElemDataLoad({
-			readURL: `${publicAccessUrl}php/ui/organization/get_commontypes.php`
 		});
 
 		const modules = new SelectElemDataLoad({
@@ -480,20 +475,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					});
 
 					clearInterval(settingsInterval);
-				}
-			}, 500);
-		}
-
-		function load_common_account_types(target) {
-			let commonAccTypesInterval = setInterval(() => {
-				if (commonAccTypes.data && commonAccTypes.data.length) {
-					target.empty().append(`<option value="">Select...</option>`);
-
-					$.each(commonAccTypes.data, (index, value) => {
-						target.append(`<option value="${value.commontypeno}">${value.commontypetitle}</option>`);
-					});
-
-					clearInterval(commonAccTypesInterval);
 				}
 			}, 500);
 		}
@@ -1021,7 +1002,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						$(`[href="#org_${value.orgno}_controller_collapse"]`, template).click(function(e) {
 							if (!$(this).data(`is_loaded`)) {
 								load_org_settings(setidSelect);
-								load_common_account_types(commonAcctypeSelect);
 								load_modules(moduleSelect);
 								get_my_valid_packages(packageSelect);
 

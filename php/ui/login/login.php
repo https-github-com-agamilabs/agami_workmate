@@ -174,7 +174,7 @@ function count_my_company($dbcon, $userno)
 {
     $sql = "SELECT count(DISTINCT orgno) as countorg
             FROM com_userorgmodules as uo
-            WHERE isactive=1 AND username=?";
+            WHERE isactive=1 AND userno=?";
     $stmt = $dbcon->prepare($sql);
     $stmt->bind_param("i", $userno);
     $stmt->execute();

@@ -122,12 +122,18 @@ error_reporting(E_ALL);
             if($row['ucatno'] == 99){
                 $response['redirect'] = "/agami/dashboard.php";
             }
-            else if($row['ucatno'] == 5){
-                $response['redirect'] = "dashboard.php";
-            }else{
-                $response['redirect'] = "time_keeper.php";
-            }
-
+            else{
+                $rs_countorg=count_my_company($dbcon,$userno);
+                if($rs_countorg->num_rows>0){
+                    $countorg = $userLoginResult->fetch_array(MYSQLI_ASSOC)['countorg'];
+                    if($countorg==1){
+                        $response['redirect'] = "time_keeper.php";
+                    }else{
+                        $response['redirect'] = "dashboard.php";
+                    }
+                }else{
+                    $response['redirect'] = "dashboard.php";
+                }
 
         }else{
             $response['error'] = true;
@@ -163,4 +169,17 @@ error_reporting(E_ALL);
        return $result;
     }
 
+    //com_userorgmodules (uuid,orgno, userno, moduleno, isactive)
+    function count_my_company($dbcon,$userno){
+        $sql= "SELECT count(DISTINCT orgno) as countorg
+               FROM com_userorgmodules as uo
+               WHERE isactive=1 AND username=?";
+       $stmt = $dbcon->prepare($sql);
+       $stmt->bind_param("i", $userno);
+       $stmt->execute();
+       $result = $stmt->get_result();
+       $stmt->close();
+
+       return $result;
+    }
 ?>

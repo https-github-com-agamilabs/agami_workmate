@@ -122,11 +122,12 @@ if ($userLoginResult->num_rows == 1) {
         if ($row['ucatno'] == 99) {
             $response['redirect'] = "/agami/dashboard.php";
         } else {
+            $countorg=0;
             $rs_countorg = count_my_company($dbcon, $userno);
             if ($rs_countorg->num_rows > 0) {
                 $countorg=$rs_countorg->num_rows;
                 if ($countorg == 1) {
-                    $countorg = $rs_countorg->fetch_array(MYSQLI_ASSOC)['countorg'];
+                    $userorg = $rs_countorg->fetch_array(MYSQLI_ASSOC)['countorg'];
                     $_SESSION['orgno'] = $userorg['orgno'];
                     $_SESSION['org_picurl'] = $userorg['picurl'];
                     $_SESSION['orgname'] = $userorg['orgname'];

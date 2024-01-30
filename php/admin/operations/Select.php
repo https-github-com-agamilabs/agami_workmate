@@ -20,14 +20,14 @@ class Select
     public function get_org_types()
     {
         $sql = "SELECT *
-                FROM acc_orgtype";
+                FROM com_orgtype";
 
         $result = $this->dbcon->query($sql);
 
         return $result;
     }
 
-    
+
     /*
     * User
     */
@@ -282,13 +282,13 @@ class Select
 
     //acc_userorgmodules(orgno,userno,moduleno,verified)
     //acc_modules(moduleno,moduletitle)
-    //acc_orgtype (orgtypeid,orgtypename,typetag,iconurl)
+    //com_orgtype (orgtypeid,orgtypename,typetag,iconurl)
     public function get_orgs_of_an_user($userno)
     {
         $sql = "SELECT uo.orgno,
                     o.orgname,o.street, o.city,o.country, uo.moduleno,
                     (SELECT moduletitle FROM acc_modules WHERE moduleno = uo.moduleno) as moduletitle,
-                    (SELECT orgtypename FROM acc_orgtype WHERE orgtypeid in (SELECT orgtypeid FROM acc_orgs as org WHERE uo.orgno = org.orgno)) as orgtypename
+                    (SELECT orgtypename FROM com_orgtype WHERE orgtypeid in (SELECT orgtypeid FROM acc_orgs as org WHERE uo.orgno = org.orgno)) as orgtypename
                 FROM acc_userorgmodules as uo
                     INNER JOIN (SELECT orgno, orgname,street,city,country
                                 FROM acc_orgs

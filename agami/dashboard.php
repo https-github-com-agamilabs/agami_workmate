@@ -35,7 +35,7 @@ include_once $basePath . "/php/ui/login/check_session.php";
 						</div>
 					</div>
 
-					<div class="card mb-3">
+					<div class="card mb-3 d-none">
 						<div class="card-header">
 							<h5 class="font-weight-bold">Settings</h5>
 						</div>
@@ -82,9 +82,9 @@ include_once $basePath . "/php/ui/login/check_session.php";
 	<script>
 		let settingsContainer = $(`.settings_container`);
 
-		get_orgsettings({
-			orgno: value.orgno
-		}, settingsContainer);
+		// get_orgsettings({
+		// 	orgno: value.orgno
+		// }, settingsContainer);
 
 		function get_orgsettings(json, target) {
 			target.empty();

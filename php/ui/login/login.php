@@ -124,7 +124,7 @@ if ($userLoginResult->num_rows == 1) {
         } else {
             $rs_countorg = count_my_company($dbcon, $userno);
             if ($rs_countorg->num_rows > 0) {
-                $countorg = $userLoginResult->fetch_array(MYSQLI_ASSOC)['countorg'];
+                $countorg = $rs_countorg->fetch_array(MYSQLI_ASSOC)['countorg'];
                 if ($countorg == 1) {
                     $response['redirect'] = "time_keeper.php";
                 } else {

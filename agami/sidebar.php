@@ -69,31 +69,6 @@
                     </a>
                 </li>
                 
-                <li class="mm-active">
-                    <a href="javascript:void(0);" class="menu-anchor menu-anchor-lvl-1">
-                        <i class="metismenu-icon fas fa-user-tag"></i> Chart of Accounts
-                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="chart_of_accounts.php" class="menu-anchor menu-anchor-lvl-2">
-                                <i class="metismenu-icon"></i> Hierarchical
-                            </a>
-                        </li>
-                        <!-- <li>
-                            <a href="list_of_accounts.php" class="menu-anchor menu-anchor-lvl-2">
-                                <i class="metismenu-icon"></i> Flat
-                            </a>
-                        </li> -->
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="imagegallery.php" class="menu-anchor menu-anchor-lvl-1">
-                        <i class="metismenu-icon fas fa-photo-video"></i> Portfolio & Gallery
-                    </a>
-                </li>
-
             </ul>
         </div>
         <!-- <div class="sticky-top text-center bg-light w-100" style="bottom:0; padding: 10px 0 10px 0;">

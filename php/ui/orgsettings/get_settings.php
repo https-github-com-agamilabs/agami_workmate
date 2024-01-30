@@ -34,11 +34,11 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//acc_settings(setid, settitle)
+//com_settings(setid, settitle)
 function get_settings($dbcon)
 {
     $sql = "SELECT setid, settitle
-            FROM acc_settings
+            FROM com_settings
             ";
 
     $stmt = $dbcon->prepare($sql);

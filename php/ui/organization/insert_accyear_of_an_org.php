@@ -30,44 +30,12 @@ try {
             throw new Exception("Organization must be selected!", 1);
         }
     }
+ 
 
-    if (isset($_POST['accyear']) && strlen($_POST['accyear']) > 0) {
-        $accyear = trim(strip_tags($_POST['accyear']));
-    }else{
-        throw new Exception("Accounting-year cannot be empty!", 1);
-    }
+    $isvalid = check_org_validity($dbcon,$orgno);
 
-    if (isset($_POST['startdate']) && strlen($_POST['startdate']) > 0) {
-        $startdate = trim(strip_tags($_POST['startdate']));
-    }else{
-        throw new Exception("Start-date of accounting-year cannot be empty!", 1);
-    }
-
-    if (isset($_POST['closingdate']) && strlen($_POST['closingdate']) > 0) {
-        $closingdate = trim(strip_tags($_POST['closingdate']));
-    }else{
-        throw new Exception("Closing-date of accounting-year cannot be empty", 1);
-    }
-
-    $base_dir = dirname(dirname(dirname(__FILE__)));
-    include_once($base_dir . "/utility/Validator.php");
-    include_once($base_dir . "/utility/Utils.php");
-
-    $current_accyear = check_existance_of_running_accountingyear($dbcon,$orgno,$startdate, $closingdate);
-
-    if ($current_accyear == 1) {
-        throw new Exception("Your organization has an overlapping accounting year already running.\n ", 1);
-    }elseif ($current_accyear < 0) {
-        throw new Exception("Fatal error! Please try later.", 1);
-    }
-
-    $validator = new Validator($dbcon);
-
-    if ($validator->validateDate($startdate) == false) {
-        throw new Exception("Starting date is not valid.", 1);
-    }
-    if ($validator->validateDate($closingdate) == false) {
-        throw new Exception("Ending date is not valid.", 1);
+    if ($isvalid != 1) {
+        throw new Exception("Your organization has no valid package. Please buy one to start.\n ", 1);
     }
 
     $dbcon->begin_transaction();
@@ -96,7 +64,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//pack_appliedpackage(appliedno,purchaseno,item,orgno,assignedto, appliedat, appliedby)
+//pack_appliedpackage(appliedno,purchaseno,orgno,starttime,assignedto, duration,appliedat, appliedby)
 function insert_appliedpackage($dbcon,$purchaseno, $orgno, $accyear, $appliedby){
     date_default_timezone_set("Asia/Dhaka");
     $appliedat = date("Y-m-d H:i:s");
@@ -143,31 +111,28 @@ function insert_accyear_of_an_org($dbcon,$orgno, $accyear, $startdate, $closingd
 }
 
 
-//acc_accountingyear (orgno,accyear,startdate,closingdate,accyearstatus)
-function check_existance_of_running_accountingyear($dbcon,$orgno,$startdate, $closingdate)
-    {
+//pack_appliedpackage(appliedno,purchaseno,orgno,starttime,assignedto, duration,appliedat, appliedby)
+function check_org_validity($dbcon,$orgno){
 
-        $sql = "SELECT accyear
-                FROM acc_accountingyear
-                WHERE orgno=?
-                    AND (startdate BETWEEN ? AND ?)
-                    AND (closingdate BETWEEN ? AND ?)
-                    AND accyearstatus = 1";
+    $sql = "SELECT appliedno
+            FROM pack_appliedpackage
+            WHERE orgno=?
+                AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))";
 
-        $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("issss", $orgno,$startdate, $closingdate,$startdate, $closingdate);
+    $stmt = $dbcon->prepare($sql);
+    $stmt->bind_param("i", $orgno);
 
-        if ($stmt->execute()) {
-            $result = $stmt->get_result();
-            if ($result->num_rows > 0) {
-                $stmt->close();
-                return 1;
-            } else {
-                $stmt->close();
-                return 0;
-            }
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $stmt->close();
+            return 1;
         } else {
-            return -1;
+            $stmt->close();
+            return 0;
         }
+    } else {
+        return -1;
     }
+}
 ?>

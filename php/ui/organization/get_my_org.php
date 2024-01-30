@@ -31,7 +31,7 @@ try {
             }
             $row['modules'] = $roleArray;
 
-            $rs_validity = get_org_validity($dbcon, $orgno);
+            $rs_validity = check_org_validity($dbcon, $orgno);
             if ($rs_validity->num_rows > 0) {
                 $vrow = $rs_validity->fetch_array(MYSQLI_ASSOC);
                 $row['pack_schemeno'] = $vrow['purchaseno'];
@@ -44,17 +44,11 @@ try {
                 $row['pack_appliedat'] = NULL;
                 $row['pack_validuntil'] = NULL;
             }
-            // $accyear = get_current_accyear($dbcon, $orgno);
-            // if ($accyear == false) {
-            //     $row['accyear'] = '';
-            // } else {
-            //     $row['accyear'] = $accyear;
-            // }
             $meta_array[] = $row;
         }
         $response['results'] = $meta_array;
     } else {
-        throw new \Exception("No Organization Found! Please create organization and activate it before start accounting.", 1);
+        throw new \Exception("No Organization Found! Please create organization and activate it before starting.", 1);
     }
 } catch (Exception $e) {
     $response['error'] = true;
@@ -64,25 +58,18 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
+//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 //com_userorgmodules(orgno,userno,moduleno,verified)
 //com_modules(moduleno,moduletitle)
 //com_orgtype (orgtypeid,orgtypename,typetag,iconurl)
 //pack_appliedpackage(itemno,orgno,schemeno,appliedat,appliedby,validuntil)
 function get_orgs_of_an_user($dbcon, $userno)
 {
-    $sql = "SELECT o.*, (SELECT count(accno) FROM acc_orgaccounthead WHERE orgno=o.orgno AND levelno>1) as headcount
+    $sql = "SELECT o.*
             FROM com_orgs as o
             WHERE o.orgno IN(SELECT DISTINCT orgno
                              FROM com_userorgmodules
                              WHERE userno=?)";
-
-    // $sql = "SELECT o.*,
-    //             (SELECT orgtypename FROM com_orgtype WHERE orgtypeid in (SELECT orgtypeid FROM com_orgs as org WHERE uo.orgno = org.orgno)) as orgtypename,
-    //             (SELECT privacytext FROM acc_orgprivacy WHERE id=o.privacy) as privacytext
-    //         FROM com_userorgmodules as uo
-    //             INNER JOIN (SELECT *
-    //                         FROM com_orgs) as o ON o.orgno=uo.orgno
-    //         WHERE userno=?";
 
     $stmt = $dbcon->prepare($sql);
     if ($stmt) {
@@ -126,60 +113,27 @@ function get_org_userrole($dbcon, $orgno, $userno)
     }
 }
 
-//acc_accountingyear (orgno,accyear,startdate,closingdate,accyearstatus)
-// function get_current_accyear($dbcon, $orgno)
-// {
-//     $sql = "SELECT accyear
-//             FROM acc_accountingyear
-//             WHERE startdate<=curdate() AND closingdate>=curdate()
-//                 AND orgno=? AND accyearstatus=1";
+//pack_appliedpackage(appliedno,purchaseno,orgno,starttime,assignedto, duration,appliedat, appliedby)
+function check_org_validity($dbcon,$orgno){
 
-//     $stmt = $dbcon->prepare($sql);
-//     if (!$stmt) {
-//         echo $dbcon->error;
-//     }
-
-//     $stmt->bind_param("i", $orgno);
-
-//     if ($stmt->execute()) {
-//         $result = $stmt->get_result();
-//         if ($result->num_rows > 0) {
-//             $row = $result->fetch_array(MYSQLI_ASSOC);
-//             $stmt->close();
-//             return $row["accyear"];
-//         } else {
-//             $stmt->close();
-//             return false;
-//         }
-//     } else {
-//         return false;
-//     }
-// }
-
-//pack_appliedpackage(appliedno,purchaseno,item,orgno,assignedto, appliedat, appliedby)
-//acc_accountingyear (orgno,accyear,startdate,closingdate,accyearstatus)
-function get_org_validity($dbcon, $orgno)
-{
-    $sql = "SELECT ap.purchaseno,ap.orgno,ap.assignedto,ap.appliedat, ap.appliedby, ay.startdate,ay.closingdate
-            FROM
-                (SELECT purchaseno,orgno,assignedto,appliedat, appliedby
-                FROM pack_appliedpackage
-                WHERE orgno=? AND item='ACCYEAR') as ap
-                INNER JOIN
-                (SELECT *
-                FROM acc_accountingyear
-                WHERE orgno=? AND accyearstatus=1 AND (CURDATE() BETWEEN startdate AND closingdate)) as ay
-                ON ay.accyear=ap.assignedto
-            ";
+    $sql = "SELECT appliedno,purchaseno,assignedto,starttime,DATE(DATE_ADD(starttime, INTERVAL duration DAY)) as closingdate
+            FROM pack_appliedpackage
+            WHERE orgno=?
+                AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))";
 
     $stmt = $dbcon->prepare($sql);
-    if (!$stmt) {
-        echo $dbcon->error;
-    }
+    $stmt->bind_param("i", $orgno);
 
-    $stmt->bind_param("ii", $orgno, $orgno);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-    return $result;
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $stmt->close();
+            return 1;
+        } else {
+            $stmt->close();
+            return 0;
+        }
+    } else {
+        return -1;
+    }
 }

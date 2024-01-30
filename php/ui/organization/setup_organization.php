@@ -33,12 +33,6 @@ try {
                 throw new Exception("Could not grant ownership!", 1);
             }
 
-            $init = insert_accountheads($dbcon, $orgno);
-            if ($init <= 0) {
-                $dbcon->rollback();
-                throw new Exception("Could not initiate accounts!", 1);
-            }
-
             if ($dbcon->commit()) {
                 $response['error'] = false;
                 $response['message'] = "Added Successfully.";
@@ -273,33 +267,6 @@ function insert_userorgs($dbcon, $orgno, $userno)
 
     if ($stmt) {
         $stmt->bind_param('ii', $orgno, $userno);
-        if ($stmt->execute()) {
-            $flag = $stmt->affected_rows;
-            if ($flag > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    } else {
-        return false;
-    }
-}
-
-function insert_accountheads($dbcon, $orgno)
-{
-    $sql = "INSERT INTO acc_orgaccounthead(orgno, accno, accname, acctypeno, levelno, vtype, sysacc) VALUES
-            ($orgno, 10000, 'ASSETS', 1000,1,0,1),
-            ($orgno, 20000, 'LIABILITIES', 2000,1,0,1),
-            ($orgno, 30000, 'EXPENSES', 3000,1,0,1),
-            ($orgno, 40000, 'REVENUES', 4000,1,0,1)";
-
-    $stmt = $dbcon->prepare($sql);
-    // var_dump($this->dbcon->error);
-
-    if ($stmt) {
         if ($stmt->execute()) {
             $flag = $stmt->affected_rows;
             if ($flag > 0) {

@@ -43,11 +43,11 @@ echo json_encode($response);
 $dbcon->close();
 
 //com_orgsettings(orgno,setid, setlabel, fileurl)
-//acc_settings(setid, settitle)
+//com_settings(setid, settitle)
 function get_orgsettings($dbcon, $orgno)
 {
     $sql = "SELECT orgno,setlabel, fileurl,
-                setid, (SELECT settitle FROM acc_settings WHERE setid=os.setid) as settitle
+                setid, (SELECT settitle FROM com_settings WHERE setid=os.setid) as settitle
             FROM com_orgsettings as os
             WHERE orgno=?
             ";

@@ -3,183 +3,184 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-    $response = array();
-    if($_SERVER['REQUEST_METHOD']!='POST'){
-        $response['error'] = true;
-        $response['message'] = "Invalid Request method";
-        echo json_encode($response);
-		exit();
-	}
+$response = array();
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    $response['error'] = true;
+    $response['message'] = "Invalid Request method";
+    echo json_encode($response);
+    exit();
+}
 
-    if(!isset($_POST['action']) || !isset($_POST['captchatoken'])){
-        $response['error'] = true;
-        $response['message'] = "This site is protected. We could not validate your data!";
-        echo json_encode($response);
-        exit();
-    }
+if (!isset($_POST['action']) || !isset($_POST['captchatoken'])) {
+    $response['error'] = true;
+    $response['message'] = "This site is protected. We could not validate your data!";
+    echo json_encode($response);
+    exit();
+}
 
-    if(isset($_POST['username']) && strlen($_POST['username'])>0){
-        $username = trim(strip_tags($_POST['username']));
-    }else{
-        $response['error'] = true;
-        $response['message'] = "User-name cannot be empty!";
-        echo json_encode($response);
-        exit();
-    }
+if (isset($_POST['username']) && strlen($_POST['username']) > 0) {
+    $username = trim(strip_tags($_POST['username']));
+} else {
+    $response['error'] = true;
+    $response['message'] = "User-name cannot be empty!";
+    echo json_encode($response);
+    exit();
+}
 
-    if(isset($_POST['password']) && strlen($_POST['password'])>0){
-        $password = trim(strip_tags($_POST['password']));
-    }else{
-        $response['error'] = true;
-        $response['message'] = "Invalid Credential!";
-        echo json_encode($response);
-        exit();
-    }
-
-
-    $captchatoken = trim(strip_tags($_POST['captchatoken']));
-    $secret = '6Le-0EQpAAAAAIsBTBogTi1ypk-XjeGPNPXPBplV';
-    $action = trim(strip_tags($_POST['action']));
-    // now you need do a POST requst to google recaptcha server.
-    // url: https://www.google.com/recaptcha/api/siteverify.
-    // with data secret:$secret and response:$token
-    $data = array(
-                'secret' => $secret,
-                'response' => $captchatoken
-            );
-
-    $verify = curl_init();
-    curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
-    curl_setopt($verify, CURLOPT_POST, true);
-    curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-    curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-    $reCaptcharesponse = curl_exec($verify);
-
-    //echo $reCaptcharesponse;
-    $result = json_decode($reCaptcharesponse, true);
-
-    if(!$result){
-        $response['error'] = true;
-        $response['message'] = "Please try again later.";
-        echo json_encode($response);
-        exit();
-    }
-
-    if($result['score']<=0.09){
-        $response['error'] = true;
-        $response['message'] = "Too many tries!";
-        echo json_encode($response);
-        exit();
-    }
+if (isset($_POST['password']) && strlen($_POST['password']) > 0) {
+    $password = trim(strip_tags($_POST['password']));
+} else {
+    $response['error'] = true;
+    $response['message'] = "Invalid Credential!";
+    echo json_encode($response);
+    exit();
+}
 
 
-    if(strlen($username)<=0){
-        $response['error'] = true;
-        $response['message'] = "Invalid username!";
-        echo json_encode($response);
-		exit();
-    }
+$captchatoken = trim(strip_tags($_POST['captchatoken']));
+$secret = '6Le-0EQpAAAAAIsBTBogTi1ypk-XjeGPNPXPBplV';
+$action = trim(strip_tags($_POST['action']));
+// now you need do a POST requst to google recaptcha server.
+// url: https://www.google.com/recaptcha/api/siteverify.
+// with data secret:$secret and response:$token
+$data = array(
+    'secret' => $secret,
+    'response' => $captchatoken
+);
 
-    $base_path = dirname(dirname(dirname(__FILE__)));
+$verify = curl_init();
+curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+curl_setopt($verify, CURLOPT_POST, true);
+curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
+curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+$reCaptcharesponse = curl_exec($verify);
 
-    require_once($base_path."/db/Database.php");
+//echo $reCaptcharesponse;
+$result = json_decode($reCaptcharesponse, true);
 
-    $db = new Database();
-    $dbcon = $db->db_connect();
+if (!$result) {
+    $response['error'] = true;
+    $response['message'] = "Please try again later.";
+    echo json_encode($response);
+    exit();
+}
 
-    if(!$db->is_connected()){
-        $response['error'] = true;
-        $response['message'] = "Database is not connected!";
-        echo json_encode($response);
-        exit();
-    }
+if ($result['score'] <= 0.09) {
+    $response['error'] = true;
+    $response['message'] = "Too many tries!";
+    echo json_encode($response);
+    exit();
+}
 
-    $userLoginResult = get_user_info($dbcon,$username);
 
-    if ($userLoginResult->num_rows==1) {
-        $row = $userLoginResult->fetch_array(MYSQLI_ASSOC);
-        $userno = $row['userno'];
-        $passphrase = $row['passphrase'];
+if (strlen($username) <= 0) {
+    $response['error'] = true;
+    $response['message'] = "Invalid username!";
+    echo json_encode($response);
+    exit();
+}
 
-        if(password_verify($password, $passphrase)){
-            session_start();
+$base_path = dirname(dirname(dirname(__FILE__)));
 
-            $_SESSION['cogo_userno'] = $row['userno'];
-            $_SESSION['cogo_firstname'] = $row['firstname'];
-            $_SESSION['cogo_lastname'] = $row['lastname'];
-            $_SESSION['cogo_photo_url'] = $row['photo_url'];
-            $_SESSION['cogo_ucatno'] = $row['ucatno'];
-            $_SESSION['cogo_ucattitle'] = $row['ucattitle'];
-            $_SESSION['cogo_email'] = $row['email'];
-            $_SESSION['cogo_designation'] = $row['jobtitle'];
-            $_SESSION['cogo_permissionlevel'] = $row['permissionlevel'];
+require_once($base_path . "/db/Database.php");
 
-            $response['error'] = false;
-            $response['ucatno'] = $row['ucatno'];
-            $response['message'] = "Login successful!";
+$db = new Database();
+$dbcon = $db->db_connect();
 
-            if($row['ucatno'] == 99){
-                $response['redirect'] = "/agami/dashboard.php";
-            }
-            else{
-                $rs_countorg=count_my_company($dbcon,$userno);
-                if($rs_countorg->num_rows>0){
-                    $countorg = $userLoginResult->fetch_array(MYSQLI_ASSOC)['countorg'];
-                    if($countorg==1){
-                        $response['redirect'] = "time_keeper.php";
-                    }else{
-                        $response['redirect'] = "dashboard.php";
-                    }
-                }else{
+if (!$db->is_connected()) {
+    $response['error'] = true;
+    $response['message'] = "Database is not connected!";
+    echo json_encode($response);
+    exit();
+}
+
+$userLoginResult = get_user_info($dbcon, $username);
+
+if ($userLoginResult->num_rows == 1) {
+    $row = $userLoginResult->fetch_array(MYSQLI_ASSOC);
+    $userno = $row['userno'];
+    $passphrase = $row['passphrase'];
+
+    if (password_verify($password, $passphrase)) {
+        session_start();
+
+        $_SESSION['cogo_userno'] = $row['userno'];
+        $_SESSION['cogo_firstname'] = $row['firstname'];
+        $_SESSION['cogo_lastname'] = $row['lastname'];
+        $_SESSION['cogo_photo_url'] = $row['photo_url'];
+        $_SESSION['cogo_ucatno'] = $row['ucatno'];
+        $_SESSION['cogo_ucattitle'] = $row['ucattitle'];
+        $_SESSION['cogo_email'] = $row['email'];
+        $_SESSION['cogo_designation'] = $row['jobtitle'];
+        $_SESSION['cogo_permissionlevel'] = $row['permissionlevel'];
+
+        $response['error'] = false;
+        $response['ucatno'] = $row['ucatno'];
+        $response['message'] = "Login successful!";
+
+        if ($row['ucatno'] == 99) {
+            $response['redirect'] = "/agami/dashboard.php";
+        } else {
+            $rs_countorg = count_my_company($dbcon, $userno);
+            if ($rs_countorg->num_rows > 0) {
+                $countorg = $userLoginResult->fetch_array(MYSQLI_ASSOC)['countorg'];
+                if ($countorg == 1) {
+                    $response['redirect'] = "time_keeper.php";
+                } else {
                     $response['redirect'] = "dashboard.php";
                 }
-
-        }else{
-            $response['error'] = true;
-            $response['message'] = "Invalid login credential!";
+            } else {
+                $response['redirect'] = "dashboard.php";
+            }
         }
-    }else{
-          $response['error'] = true;
-          $response['message'] = "User is not valid!";
+    } else {
+        $response['error'] = true;
+        $response['message'] = "Invalid login credential!";
     }
+} else {
+    $response['error'] = true;
+    $response['message'] = "User is not valid!";
+}
 
-	echo json_encode($response);
+echo json_encode($response);
 
-    $dbcon->close();
+$dbcon->close();
 
-    /**
-     * Local Function
-     */
+/**
+ * Local Function
+ */
 
-    function get_user_info($dbcon,$username){
-        $sql= "SELECT userno,username,firstname,lastname,photo_url,
-                    affiliation,jobtitle,email,primarycontact,
-                    passphrase,createtime,lastupdatetime,
-                    ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=u.ucatno) as ucattitle,
-                    permissionlevel,isactive
-               FROM hr_user as u
-               WHERE isactive=1 AND username=?";
-       $stmt = $dbcon->prepare($sql);
-       $stmt->bind_param("s", $username);
-       $stmt->execute();
-       $result = $stmt->get_result();
-       $stmt->close();
+function get_user_info($dbcon, $username)
+{
+    $sql = "SELECT userno,username,firstname,lastname,photo_url,
+                affiliation,jobtitle,email,primarycontact,
+                passphrase,createtime,lastupdatetime,
+                ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=u.ucatno) as ucattitle,
+                permissionlevel,isactive
+            FROM hr_user as u
+            WHERE isactive=1 AND username=?";
+    $stmt = $dbcon->prepare($sql);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
 
-       return $result;
-    }
+    return $result;
+}
 
-    //com_userorgmodules (uuid,orgno, userno, moduleno, isactive)
-    function count_my_company($dbcon,$userno){
-        $sql= "SELECT count(DISTINCT orgno) as countorg
-               FROM com_userorgmodules as uo
-               WHERE isactive=1 AND username=?";
-       $stmt = $dbcon->prepare($sql);
-       $stmt->bind_param("i", $userno);
-       $stmt->execute();
-       $result = $stmt->get_result();
-       $stmt->close();
+//com_userorgmodules (uuid,orgno, userno, moduleno, isactive)
+function count_my_company($dbcon, $userno)
+{
+    $sql = "SELECT count(DISTINCT orgno) as countorg
+            FROM com_userorgmodules as uo
+            WHERE isactive=1 AND username=?";
+    $stmt = $dbcon->prepare($sql);
+    $stmt->bind_param("i", $userno);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
 
-       return $result;
-    }
+    return $result;
+}
 ?>

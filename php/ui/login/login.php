@@ -120,7 +120,7 @@ if ($userLoginResult->num_rows == 1) {
         $response['message'] = "Login successful!";
 
         if ($row['ucatno'] == 99) {
-            $response['redirect'] = "/agami/dashboard.php";
+            $response['redirect'] = "agami/dashboard.php";
         } else {
             $countorg=0;
             $rs_countorg = count_my_company($dbcon, $userno);

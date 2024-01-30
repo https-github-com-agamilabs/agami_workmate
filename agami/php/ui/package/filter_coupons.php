@@ -58,7 +58,7 @@ function get_coupons($dbcon, $isactive, $min_use)
 
     if ($isactive > -1) {
         $params[] = &$isactive;
-        $filter .= " AND isactive=?";
+        $filter .= " AND c.isactive=?";
         $types .= 'i';
     }
 
@@ -69,7 +69,7 @@ function get_coupons($dbcon, $isactive, $min_use)
             FROM pack_coupon as c
                 INNER JOIN hr_user as u ON c.createdby=u.userno
             WHERE $filter
-            ORDER BY createdat DESC";
+            ORDER BY c.createdat DESC";
 
     if (!$stmt = $dbcon->prepare($sql)) {
         throw new Exception("Prepare statement failed: " . $dbcon->error);

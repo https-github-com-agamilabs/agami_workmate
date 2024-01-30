@@ -41,7 +41,7 @@ try {
         $max_use = (int)$_POST['max_use'];
     }
 
-    $anos=add_coupon($dbcon, $coupon,$discount_fixed,$discount_percentage,$description,$max_use,$addedby);
+    $anos=add_coupon($dbcon, $coupon,$discount_fixed,$discount_percentage,$description,$max_use,$userno);
     if($anos>0){
         $response['error'] = false;
         $response['message'] = "Added Successfully.";

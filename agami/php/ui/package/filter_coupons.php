@@ -64,8 +64,8 @@ function get_coupons($dbcon, $isactive, $min_use)
 
     $sql = "SELECT coupon,discount_fixed,discount_percentage,description,
                 max_use,(SELECT count(coupon) FROM pack_purchaseoffer WHERE coupon=c.coupon) as already_used_qty,
-                isactive,createdat,
-                createdby,firstname,lastname,countrycode,primarycontact
+                c.isactive,c.createdat,
+                c.createdby,firstname,lastname,countrycode,primarycontact
             FROM pack_coupon as c
                 INNER JOIN hr_user as u ON c.createdby=u.userno
             WHERE $filter

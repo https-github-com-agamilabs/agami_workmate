@@ -124,8 +124,13 @@ if ($userLoginResult->num_rows == 1) {
         } else {
             $rs_countorg = count_my_company($dbcon, $userno);
             if ($rs_countorg->num_rows > 0) {
-                $countorg = $rs_countorg->fetch_array(MYSQLI_ASSOC)['countorg'];
+                $countorg=$rs_countorg->num_rows;
                 if ($countorg == 1) {
+                    $countorg = $rs_countorg->fetch_array(MYSQLI_ASSOC)['countorg'];
+                    $_SESSION['orgno'] = $userorg['orgno'];
+                    $_SESSION['org_picurl'] = $userorg['picurl'];
+                    $_SESSION['orgname'] = $userorg['orgname'];
+                    $_SESSION['orglocation'] = $userorg['street'] . ', ' . $userorg['city'] . ', ' . $userorg['country'];
                     $response['redirect'] = "time_keeper.php";
                 } else {
                     $response['redirect'] = "dashboard.php";
@@ -172,9 +177,11 @@ function get_user_info($dbcon, $username)
 //com_userorgmodules (uuid,orgno, userno, moduleno, isactive)
 function count_my_company($dbcon, $userno)
 {
-    $sql = "SELECT count(DISTINCT orgno) as countorg
+    $sql = "SELECT uo.orgno, o.orgname,o.street, o.city, o.country, o.picurl,
+                uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle
             FROM com_userorgmodules as uo
-            WHERE isactive=1 AND userno=?";
+                INNER JOIN com_orgs as o ON uo.orgno=o.orgno
+            WHERE uo.isactive=1 AND uo.userno=?";
     $stmt = $dbcon->prepare($sql);
     $stmt->bind_param("i", $userno);
     $stmt->execute();

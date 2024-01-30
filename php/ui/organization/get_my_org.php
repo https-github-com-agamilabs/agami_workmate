@@ -87,7 +87,7 @@ function get_orgs_of_an_user($dbcon, $userno)
     }
 }
 
-//com_userorgmodules(orgno,userno,moduleno,verified)
+//com_userorgmodules(orgno,userno,moduleno,isactive)
 //com_modules(moduleno,moduletitle)
 //com_orgtype (orgtypeid,orgtypename,typetag,iconurl)
 //pack_appliedpackage(itemno,orgno,schemeno,appliedat,appliedby,validuntil)
@@ -95,7 +95,7 @@ function get_org_userrole($dbcon, $orgno, $userno)
 {
     $sql = "SELECT moduleno
             FROM com_userorgmodules as uo
-            WHERE uo.orgno=? AND uo.userno=? AND verified=1";
+            WHERE uo.orgno=? AND uo.userno=? AND isactive=1";
 
     $stmt = $dbcon->prepare($sql);
     if ($stmt) {

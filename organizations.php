@@ -113,7 +113,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 										</label>
 									</div> -->
 
-									<div class="col-lg-12 mb-2">
+									<div class="col-lg-6 mb-2">
 										<label class="d-block mb-0">
 											<?= $orgData['lang_contact_no']; ?> <span class="text-danger">*</span>
 											<input name="contactno" class="form-control form-control-sm shadow-sm mt-1" type="text" placeholder="<?= $orgData['lang_contact_no']; ?>..." required>

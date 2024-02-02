@@ -468,6 +468,9 @@
 	</script>
 
 	<script>
+		const LOGIN_INFO = `<?= json_encode($_SESSION) ?>`;
+		console.log(LOGIN_INFO);
+
 		$(document).ready(function() {
 			$('.create_voucher').click(function() {
 

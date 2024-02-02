@@ -476,20 +476,21 @@
 
 				let json = {
 					workfor: $("#time_keeper_workfor_select").val(),
-					// startdate: $("#time_keeper_startdate_input").val(),
-					// enddate: $("#time_keeper_enddate_input").val(),
-					monthno: new Date($("#time_keeper_startdate_input").val()).getMonth(),
-					yearno: new Date($("#time_keeper_startdate_input").val()).getFullYear(),
+					startdate: $("#time_keeper_startdate_input").val(),
+					enddate: $("#time_keeper_enddate_input").val(),
+					// monthno: new Date($("#time_keeper_startdate_input").val()).getMonth(),
+					// yearno: new Date($("#time_keeper_startdate_input").val()).getFullYear(),
 				};
 
 
 				console.log(json);
 
-				$.post("php/ui/report/get_elapsedtime.php", json, function(resp) {
+				$.post("php/ui/report/get_voucher_data.php", json, function(resp) {
 					console.log(resp);
 					// resp = JSON.parse(resp);
-					if(resp.error){
+					if (resp.error) {
 						toastr.error(resp.message);
+						alert("No voucher created.");
 						return;
 					}
 
@@ -499,6 +500,9 @@
 			});
 		});
 	</script>
+
+
+<iframe src="voucher.php" id="iView" style="width: 100% !important;height: calc(800px - 0px);border:dotted 1px red" frameborder="0"></iframe>
 
 </body>
 

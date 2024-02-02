@@ -43,8 +43,8 @@
             info@agamilabs.com<br>
             agamilabs.com
         </address>
-        <p>Invoice Number: [Insert Invoice Number]<br>
-            Date: [Insert Current Date]</p>
+        <p>Invoice Number: WM-######<br>
+            Date: <?= date('Y-m-d')?></p>
         <h3>Bill To:</h3>
         <p>[Client's Name]<br>
             [Client's Address]<br>

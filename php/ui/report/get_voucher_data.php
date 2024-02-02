@@ -31,21 +31,17 @@
             throw new \Exception("You must login first!", 1);
         }
 
-        if(isset($_POST['monthno'])){
-            $monthno=(int) $_POST['monthno'];
-        }else{
-            throw new \Exception("You must select a month!", 1);
+        if (isset($_POST['startdate'])) {
+            $startdate=trim(strip_tags($_POST['startdate']));
+        } else {
+            throw new \Exception("You must specify start date!", 1);
         }
 
-        if(isset($_POST['yearno'])){
-            $yearno=(int) $_POST['yearno'];
-        }else{
-            throw new \Exception("Year must not be empty!", 1);
+        if (isset($_POST['enddate'])) {
+            $enddate=trim(strip_tags($_POST['enddate']));
+        } else {
+            throw new \Exception("You must specify end date!", 1);
         }
-
-        $dateRange = getStartAndEndDate($monthno, $yearno);
-        $startdate=$dateRange['start_date'];
-        $enddate=$dateRange['end_date'];
 
         if ($ucatno>=19) {
             if (isset($_POST['workfor']) && strlen($_POST['workfor'])>0) {
@@ -163,19 +159,6 @@
         $stmt->close();
 
         return $result;
-    }
-
-    function getStartAndEndDate($month, $year) {
-        // Create a DateTime object for the first day of the given month and year
-        $startDate = new DateTime("$year-$month-01");
-
-        // Get the last day of the given month and year
-        $endDate = new DateTime("$year-$month-" . $startDate->format('t'));
-
-        return array(
-            'start_date' => $startDate->format('Y-m-d'),
-            'end_date' => $endDate->format('Y-m-d')
-        );
     }
 
 ?>

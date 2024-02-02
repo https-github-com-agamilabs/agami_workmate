@@ -43,7 +43,7 @@
             throw new \Exception("Year must not be empty!", 1);
         }
 
-        $dateRange = getStartAndEndDate($month, $year);
+        $dateRange = getStartAndEndDate($monthno, $yearno);
         $startdate=$dateRange['start_date'];
         $enddate=$dateRange['end_date'];
 

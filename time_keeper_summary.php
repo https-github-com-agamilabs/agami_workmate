@@ -35,6 +35,10 @@
 				<div class="app-main__inner pt-3 pl-0 pr-3">
 
 					<div class="card mb-3">
+						<div class="card-header d-flex justify-content-between">
+							<h4></h4>
+							<button class="create_voucher btn btn-sm btn-primary px-3">Create Voucher</button>
+						</div>
 						<div class="card-body">
 							<div class="row">
 								<div class="col-md-4 input-group mb-3">
@@ -461,6 +465,36 @@
 			$("#time_keeper_enddate_input").val(formatDateToYYYYMMDD(toDate));
 			get_employee_elapsedtime();
 		}
+	</script>
+
+	<script>
+		$(document).ready(function() {
+			$('.create_voucher').click(function() {
+
+				let json = {
+					workfor: $("#time_keeper_workfor_select").val(),
+					// startdate: $("#time_keeper_startdate_input").val(),
+					// enddate: $("#time_keeper_enddate_input").val(),
+					monthno: new Date($("#time_keeper_startdate_input").val()).getMonth(),
+					yearno: new Date($("#time_keeper_startdate_input").val()).getFullYear(),
+				};
+
+
+				console.log(json);
+
+				$.post("php/ui/report/get_elapsedtime.php", json, function(resp) {
+					console.log(resp);
+					// resp = JSON.parse(resp);
+					if(resp.error){
+						toastr.error(resp.message);
+						return;
+					}
+
+					alert("voucher created.");
+
+				}, 'json');
+			});
+		});
 	</script>
 
 </body>

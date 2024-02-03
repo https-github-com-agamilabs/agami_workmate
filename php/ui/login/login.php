@@ -116,26 +116,22 @@ if ($userLoginResult->num_rows == 1) {
         if ($row['userstatusno'] == 1) {
             $countorg = 0;
             $rs_countorg = count_my_company($dbcon, $userno);
-            if ($rs_countorg->num_rows > 0) {
-                if ($rs_countorg->num_rows == 1) {
-                    $userorg = $rs_countorg->fetch_array(MYSQLI_ASSOC);
-                    $_SESSION['cogo_orgno'] = $userorg['orgno'];
-                    $_SESSION['cogo_org_picurl'] = $userorg['picurl'];
-                    $_SESSION['cogo_orgname'] = $userorg['orgname'];
-                    $_SESSION['cogo_orglocation'] = $userorg['street'] . ', ' . $userorg['city'] . ', ' . $userorg['country'];
-                    $_SESSION['cogo_timeflexibility'] = $userorg['timeflexibility'];
-                    $_SESSION['cogo_starttime'] = $userorg['starttime'];
-                    $_SESSION['cogo_endtime'] = $userorg['endtime'];
-                    $_SESSION['cogo_ucatno'] = $row['ucatno'];
-                    $_SESSION['cogo_ucattitle'] = $row['ucattitle'];
-                    $_SESSION['cogo_jobtitle'] = $userorg['jobtitle'];
-                    $_SESSION['cogo_permissionlevel'] = $row['permissionlevel'];
-                    $_SESSION['cogo_moduleno'] = $row['moduleno'];
-                    $_SESSION['cogo_moduletitle'] = $row['moduletitle'];
-                    $response['redirecturl'] = "time_keeper.php";
-                } else {
-                    $response['redirecturl'] = "organizations.php";
-                }
+            if ($rs_countorg->num_rows == 1) {
+                $userorg = $rs_countorg->fetch_array(MYSQLI_ASSOC);
+                $_SESSION['cogo_orgno'] = $userorg['orgno'];
+                $_SESSION['cogo_org_picurl'] = $userorg['picurl'];
+                $_SESSION['cogo_orgname'] = $userorg['orgname'];
+                $_SESSION['cogo_orglocation'] = $userorg['street'] . ', ' . $userorg['city'] . ', ' . $userorg['country'];
+                $_SESSION['cogo_timeflexibility'] = $userorg['timeflexibility'];
+                $_SESSION['cogo_starttime'] = $userorg['starttime'];
+                $_SESSION['cogo_endtime'] = $userorg['endtime'];
+                $_SESSION['cogo_ucatno'] = $row['ucatno'];
+                $_SESSION['cogo_ucattitle'] = $row['ucattitle'];
+                $_SESSION['cogo_jobtitle'] = $userorg['jobtitle'];
+                $_SESSION['cogo_permissionlevel'] = $row['permissionlevel'];
+                $_SESSION['cogo_moduleno'] = $row['moduleno'];
+                $_SESSION['cogo_moduletitle'] = $row['moduletitle'];
+                $response['redirecturl'] = "time_keeper.php";
             } else {
                 $response['redirecturl'] = "organizations.php";
             }

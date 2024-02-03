@@ -120,7 +120,12 @@ CREATE TABLE com_shiftsettings (
 
 -- Time Flexibility: 1 (Flexible), 2 (Encourage Scheduling), 3 (Strict Time-frame)
 INSERT INTO com_shiftsettings(shiftno,shifttitle,starttime,endtime) VALUES
-(1,'One Shift','09:00:00','18:00:00');
+(1,'One Shift','09:00:00','18:00:00'),
+(2,'3S: Morning Shift','06:00:00','14:00:00'),
+(3,'3S: Day Shift','14:00:00','22:00:00'),
+(4,'3S: Night Shift','22:00:00','06:00:00'),
+(5,'2S: Morning Shift','06:00:00','14:00:00'),
+(6,'2S: Night Shift','14:00:00','22:00:00');
 
 -- com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
 CREATE TABLE com_userorg (

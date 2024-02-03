@@ -1,2 +1,2 @@
-INSERT INTO hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,ucatno,supervisor,isactive)
-VALUES(1,'admin','Workmate','Admin','AGAMiLabs Ltd.','VA Manager','agamilabs@gmail.com','+880 1928718272','$2y$10$zwz0EaC8gN1oLJZN68I.2OeCspGusUqJKrkAjPqUcHezW/rm2y2wu',19,NULL,1);
+INSERT INTO hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,ucatno,supervisor,isactive,userstatusno)
+VALUES(1,'agami','Workmate','Admin','AGAMiLabs Ltd.','Package Manager','agamilabs@gmail.com','+880 1928718272','$2y$10$zwz0EaC8gN1oLJZN68I.2OeCspGusUqJKrkAjPqUcHezW/rm2y2wu',19,NULL,1,9);

@@ -109,12 +109,8 @@ if ($userLoginResult->num_rows == 1) {
         $_SESSION['cogo_firstname'] = $row['firstname'];
         $_SESSION['cogo_lastname'] = $row['lastname'];
         $_SESSION['cogo_photo_url'] = $row['photo_url'];
-        $_SESSION['cogo_ucatno'] = $row['ucatno'];
-        $_SESSION['cogo_ucattitle'] = $row['ucattitle'];
         $_SESSION['cogo_email'] = $row['email'];
-        $_SESSION['cogo_designation'] = $row['jobtitle'];
-        $_SESSION['cogo_permissionlevel'] = $row['permissionlevel'];
-
+        
         $response['error'] = false;
         $response['ucatno'] = $row['ucatno'];
         $response['message'] = "Login successful!";
@@ -127,13 +123,17 @@ if ($userLoginResult->num_rows == 1) {
             if ($rs_countorg->num_rows > 0) {
                 if ($rs_countorg->num_rows == 1) {
                     $userorg = $rs_countorg->fetch_array(MYSQLI_ASSOC);
-                    $_SESSION['orgno'] = $userorg['orgno'];
-                    $_SESSION['org_picurl'] = $userorg['picurl'];
-                    $_SESSION['orgname'] = $userorg['orgname'];
-                    $_SESSION['orglocation'] = $userorg['street'] . ', ' . $userorg['city'] . ', ' . $userorg['country'];
-                    $_SESSION['timeflexibility'] = $userorg['timeflexibility'];
-                    $_SESSION['starttime'] = $userorg['starttime'];
-                    $_SESSION['endtime'] = $userorg['endtime'];
+                    $_SESSION['cogo_orgno'] = $userorg['orgno'];
+                    $_SESSION['cogo_org_picurl'] = $userorg['picurl'];
+                    $_SESSION['cogo_orgname'] = $userorg['orgname'];
+                    $_SESSION['cogo_orglocation'] = $userorg['street'] . ', ' . $userorg['city'] . ', ' . $userorg['country'];
+                    $_SESSION['cogo_timeflexibility'] = $userorg['timeflexibility'];
+                    $_SESSION['cogo_starttime'] = $userorg['starttime'];
+                    $_SESSION['cogo_endtime'] = $userorg['endtime'];
+                    $_SESSION['cogo_ucatno'] = $row['ucatno'];
+                    $_SESSION['cogo_ucattitle'] = $row['ucattitle'];
+                    $_SESSION['cogo_jobtitle'] = $userorg['jobtitle'];
+                    $_SESSION['cogo_permissionlevel'] = $row['permissionlevel'];
                     $response['redirect'] = "time_keeper.php";
                 } else {
                     $response['redirect'] = "organizations.php";
@@ -163,9 +163,7 @@ function get_user_info($dbcon, $username)
 {
     $sql = "SELECT userno,username,firstname,lastname,photo_url,
                 affiliation,jobtitle,email,primarycontact,
-                passphrase,createtime,lastupdatetime,
-                ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=u.ucatno) as ucattitle,
-                permissionlevel,isactive
+                passphrase,createtime,lastupdatetime,isactive
             FROM hr_user as u
             WHERE isactive=1 AND username=?";
     $stmt = $dbcon->prepare($sql);
@@ -182,6 +180,8 @@ function get_user_info($dbcon, $username)
 function count_my_company($dbcon, $userno)
 {
     $sql = "SELECT uo.orgno,timeflexibility,starttime,endtime,
+                    ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=u.ucatno) as ucattitle,
+                    jobtitle,permissionlevel,
                     o.orgname,o.street, o.city, o.country, o.picurl,
                 uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle
             FROM com_userorg as uo

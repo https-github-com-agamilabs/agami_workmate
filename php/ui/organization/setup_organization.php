@@ -260,7 +260,7 @@ function update_organization($dbcon, $orgno, $data)
 //            permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
 function insert_userorgs($dbcon, $orgno, $userno)
 {
-    $sql = "INSERT INTO com_userorg(orgno,userno,moduleno,ucatno,permissionlevel,verified)
+    $sql = "INSERT INTO com_userorg(orgno,userno,moduleno,ucatno,permissionlevel,isactive)
             VALUES(?,?,1,19,7,1)";
 
     $stmt = $dbcon->prepare($sql);

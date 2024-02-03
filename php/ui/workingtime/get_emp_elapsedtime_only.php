@@ -26,7 +26,13 @@
             throw new \Exception("You must login first!", 1);
         }
 
-        $elapsedtime=get_my_current_workingtime($dbcon, $empno);
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+
+        $elapsedtime=get_my_current_workingtime($dbcon, $empno, $orgno);
         $response['elapsedtime'] = $elapsedtime;
     } catch (Exception $e) {
         $response['error'] = true;
@@ -43,15 +49,15 @@
 
     //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
 
-    function get_my_current_workingtime($dbcon, $me)
+    function get_my_current_workingtime($dbcon, $me, $orgno)
     {
         date_default_timezone_set("Asia/Dhaka");
         $now = date('Y-m-d H:i:s');
         $sql = "SELECT timeno,TIMESTAMPDIFF(SECOND,starttime,?) as elapsedtime
                 FROM emp_workingtime as t
-                WHERE t.empno=? AND (endtime is NULL)";
+                WHERE orgno=? AND t.empno=? AND (endtime is NULL)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("si", $now, $me);
+        $stmt->bind_param("isi", $orgno,$now, $me);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows>0) {

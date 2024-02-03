@@ -20,13 +20,19 @@
             throw new \Exception("Database is not connected!", 1);
         }
 
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+
         if (isset($_POST['timeno'])) {
             $timeno = (int) $_POST['timeno'];
         } else{
             throw new \Exception("You must select a particular time record!", 1);
         }
 
-        $dnos = del_a_workingtime($dbcon,$timeno);
+        $dnos = del_a_workingtime($dbcon,$timeno, $orgno);
 
         if ($dnos > 0) {
             $response['error'] = false;
@@ -49,12 +55,12 @@
      */
 
     //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
-    function del_a_workingtime($dbcon,$timeno){
+    function del_a_workingtime($dbcon,$timeno, $orgno){
         $sql = "DELETE
                 FROM emp_workingtime
-                WHERE timeno=?";
+                WHERE timeno=? AND orgno=?";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("i", $timeno);
+        $stmt->bind_param("ii", $timeno, $orgno);
         $stmt->execute();
         return $stmt->affected_rows;
     }

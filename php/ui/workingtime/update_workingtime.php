@@ -20,6 +20,12 @@
             throw new \Exception("Database is not connected!", 1);
         }
 
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+
         if (isset($_POST['timeno']) && strlen($_POST['timeno'])>0) {
             $timeno = (int) $_POST['timeno'];
         } else{
@@ -42,7 +48,7 @@
             $comment = trim(strip_tags($_POST['comment']));
         }
 
-        $dnos = update_a_workingtime($dbcon,$starttime,$endtime,$comment,$timeno);
+        $dnos = update_a_workingtime($dbcon,$starttime,$endtime,$comment,$timeno, $orgno);
 
         if ($dnos > 0) {
             $response['error'] = false;
@@ -65,12 +71,12 @@
      */
 
     //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
-    function update_a_workingtime($dbcon,$starttime,$endtime,$comment,$timeno){
+    function update_a_workingtime($dbcon,$starttime,$endtime,$comment,$timeno, $orgno){
         $sql = "UPDATE emp_workingtime
                 SET starttime=?, endtime=?,comment=?
-                WHERE timeno=?";
+                WHERE timeno=? AND orgno=?";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("sssi", $starttime,$endtime,$comment,$timeno);
+        $stmt->bind_param("sssii", $starttime,$endtime,$comment,$timeno, $orgno);
         $stmt->execute();
         return $stmt->affected_rows;
     }

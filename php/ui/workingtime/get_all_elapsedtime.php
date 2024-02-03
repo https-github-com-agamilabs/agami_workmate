@@ -19,6 +19,12 @@
             throw new \Exception("Database is not connected!", 1);
         }
 
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+
         if(isset($_POST['startdate'])){
             $startdate=trim(strip_tags($_POST['startdate']));
         }else{
@@ -31,7 +37,7 @@
             throw new \Exception("You must specify end date!", 1);
         }
 
-        $list = get_all_elapsedtime($dbcon, $startdate, $enddate);
+        $list = get_all_elapsedtime($dbcon, $startdate, $enddate, $orgno);
 
         if ($list->num_rows > 0) {
             $meta_array = array();
@@ -58,7 +64,7 @@
     */
 
     //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
-    function get_all_elapsedtime($dbcon, $startdate, $enddate)
+    function get_all_elapsedtime($dbcon, $startdate, $enddate, $orgno)
     {
         $sql = "SELECT empno,workingdate,sum(elapsedtime) as dailyelapsedtime
                 FROM (
@@ -69,18 +75,18 @@
                                     ELSE TIMESTAMPDIFF(SECOND,starttime, endtime)
                                 END as elapsedtime
                         FROM emp_workingtime
-                        WHERE (date(starttime) BETWEEN ? AND ?)
+                        WHERE orgno=? AND (date(starttime) BETWEEN ? AND ?)
                         )
                         UNION ALL
                         (SELECT empno, date(endtime) as workingdate,
                                 TIMESTAMPDIFF(SECOND,date(endtime),endtime) as elapsedtime
                         FROM emp_workingtime
-                        WHERE day(starttime)!=day(endtime) AND (date(endtime) BETWEEN ? AND ?)
+                        WHERE orgno=? AND day(starttime)!=day(endtime) AND (date(endtime) BETWEEN ? AND ?)
                         )
                     ) as dt
                 GROUP BY empno,workingdate";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("ssss", $startdate, $enddate,$startdate, $enddate);
+        $stmt->bind_param("ississ", $orgno,$startdate, $enddate,$orgno,$startdate, $enddate);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

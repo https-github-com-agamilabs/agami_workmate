@@ -25,6 +25,12 @@
             throw new \Exception("You must login first!", 1);
         }
 
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+
         if(isset($_SESSION['cogo_ucatno'])){
             $ucatno=(int) $_SESSION['cogo_ucatno'];
         }else{
@@ -46,14 +52,14 @@
         if ($ucatno>=19) {
             if (isset($_POST['workfor']) && strlen($_POST['workfor'])>0) {
                 $workfor=(int) $_POST['workfor'];
-                $list = get_emp_elapsedtime_workfor($dbcon, $workfor, $startdate, $enddate);
+                $list = get_emp_elapsedtime_workfor($dbcon, $workfor, $startdate, $enddate,$orgno);
             }else{
-                $list= get_all_emp_elapsedtime($dbcon, $startdate, $enddate);
+                $list= get_all_emp_elapsedtime($dbcon, $startdate, $enddate,$orgno);
             }
         } else if($ucatno>=13){
-            $list = get_emp_elapsedtime_workfor($dbcon, $empno, $startdate, $enddate);
+            $list = get_emp_elapsedtime_workfor($dbcon, $empno, $startdate, $enddate,$orgno);
         }else {
-            $list = get_emp_elapsedtime($dbcon, $empno, $startdate, $enddate);
+            $list = get_emp_elapsedtime($dbcon, $empno, $startdate, $enddate,$orgno);
         }
 
         if ($list->num_rows > 0) {
@@ -81,7 +87,7 @@
     */
 
     //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
-    function get_emp_elapsedtime($dbcon, $empno, $startdate, $enddate)
+    function get_emp_elapsedtime($dbcon, $empno, $startdate, $enddate,$orgno)
     {
         $sql = "SELECT empno,
                         (SELECT concat(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=dt.empno) as empfullname,
@@ -94,30 +100,32 @@
                                     ELSE TIMESTAMPDIFF(SECOND,starttime, endtime)
                                 END as elapsedtime
                         FROM emp_workingtime
-                        WHERE empno IN
-                            (   SELECT userno
-                                FROM hr_user
-                                WHERE isactive=1 AND (supervisor=? OR userno=?)
+                        WHERE orgno=? 
+                            AND empno IN
+                                (   SELECT userno
+                                    FROM hr_user
+                                    WHERE isactive=1 AND (supervisor=? OR userno=?)
+                                )
+                            AND (date(starttime) BETWEEN ? AND ?)
                             )
-                        AND (date(starttime) BETWEEN ? AND ?)
-                        )
                         UNION ALL
                         (SELECT empno, date(endtime) as workingdate,
                                 TIMESTAMPDIFF(SECOND,date(endtime),endtime) as elapsedtime
                         FROM emp_workingtime
-                        WHERE day(starttime)!=day(endtime)
-                        AND empno IN
-                            (   SELECT userno
-                                FROM hr_user
-                                WHERE isactive=1 AND (supervisor=? OR userno=?)
-                            )
-                        AND (date(endtime) BETWEEN ? AND ?)
+                        WHERE orgno=? 
+                            AND day(starttime)!=day(endtime)
+                            AND empno IN
+                                (   SELECT userno
+                                    FROM hr_user
+                                    WHERE isactive=1 AND (supervisor=? OR userno=?)
+                                )
+                            AND (date(endtime) BETWEEN ? AND ?)
                         )
                     ) as dt
                 GROUP BY empno,workingdate
                 ORDER BY empno,workingdate";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("iissiiss", $empno,$empno,$startdate, $enddate,$empno,$empno,$startdate, $enddate);
+        $stmt->bind_param("iiissiiiss", $orgno,$empno,$empno,$startdate, $enddate,$orgno,$empno,$empno,$startdate, $enddate);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
@@ -125,7 +133,7 @@
         return $result;
     }
 
-    function get_all_emp_elapsedtime($dbcon, $startdate, $enddate)
+    function get_all_emp_elapsedtime($dbcon, $startdate, $enddate,$orgno)
     {
         $sql = "SELECT empno,
                         (SELECT concat(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=dt.empno) as empfullname,
@@ -138,19 +146,19 @@
                                     ELSE TIMESTAMPDIFF(SECOND,starttime, endtime)
                                 END as elapsedtime
                         FROM emp_workingtime
-                        WHERE (date(starttime) BETWEEN ? AND ?)
+                        WHERE orgno=? AND (date(starttime) BETWEEN ? AND ?)
                         )
                         UNION ALL
                         (SELECT empno, date(endtime) as workingdate,
                                 TIMESTAMPDIFF(SECOND,date(endtime),endtime) as elapsedtime
                         FROM emp_workingtime
-                        WHERE day(starttime)!=day(endtime) AND (date(endtime) BETWEEN ? AND ?)
+                        WHERE orgno=? AND day(starttime)!=day(endtime) AND (date(endtime) BETWEEN ? AND ?)
                         )
                     ) as dt
                 GROUP BY empno,workingdate
                 ORDER BY empno,workingdate";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("ssss", $startdate, $enddate,$startdate, $enddate);
+        $stmt->bind_param("ississ", $orgno,$startdate, $enddate,$orgno,$startdate, $enddate);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
@@ -158,7 +166,7 @@
         return $result;
     }
 
-    function get_emp_elapsedtime_workfor($dbcon, $workfor, $startdate, $enddate)
+    function get_emp_elapsedtime_workfor($dbcon, $workfor, $startdate, $enddate,$orgno)
     {
         $sql = "SELECT empno,
                         (SELECT concat(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=dt.empno) as empfullname,
@@ -171,19 +179,19 @@
                                     ELSE TIMESTAMPDIFF(SECOND,starttime, endtime)
                                 END as elapsedtime
                         FROM emp_workingtime
-                        WHERE workfor=? AND (date(starttime) BETWEEN ? AND ?)
+                        WHERE orgno=? AND workfor=? AND (date(starttime) BETWEEN ? AND ?)
                         )
                         UNION ALL
                         (SELECT empno, date(endtime) as workingdate,
                                 TIMESTAMPDIFF(SECOND,date(endtime),endtime) as elapsedtime
                         FROM emp_workingtime
-                        WHERE workfor=? AND day(starttime)!=day(endtime) AND (date(endtime) BETWEEN ? AND ?)
+                        WHERE orgno=? AND workfor=? AND day(starttime)!=day(endtime) AND (date(endtime) BETWEEN ? AND ?)
                         )
                     ) as dt
                 GROUP BY empno,workingdate
                 ORDER BY empno,workingdate";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("ississ", $workfor,$startdate, $enddate,$workfor,$startdate, $enddate);
+        $stmt->bind_param("iissiiss", $orgno,$workfor,$startdate, $enddate,$orgno,$workfor,$startdate, $enddate);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

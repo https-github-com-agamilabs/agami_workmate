@@ -20,6 +20,11 @@
             throw new \Exception("Database is not connected!", 1);
         }
 
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
 
         if (isset($_POST['userno'])) {
             $empno=(int) $_POST['userno'];
@@ -27,10 +32,10 @@
             throw new \Exception("You must login first!", 1);
         }
 
-        $result=is_time_running($dbcon, $empno);
+        $result=is_time_running($dbcon, $empno, $orgno);
         if ($result->num_rows>0) {
             $timeno = $result->fetch_array(MYSQLI_ASSOC)['timeno'];
-            $nos=end_workingtime($dbcon, $timeno);
+            $nos=end_workingtime($dbcon, $timeno, $orgno);
             if ($nos>0) {
                 $response['error'] = false;
                 $response['message'] = "Time is Ended.";
@@ -44,7 +49,7 @@
                 $workfor=(int) $_POST['workfor'];
             }
 
-            $userno=start_workingtime($dbcon, $empno,$workfor);
+            $userno=start_workingtime($dbcon, $empno,$workfor,$orgno);
             if ($userno>0) {
                 $response['error'] = false;
                 if($workfor){
@@ -70,13 +75,13 @@
      * Local Function
      */
 
-    function is_time_running($dbcon, $empno)
+    function is_time_running($dbcon, $empno, $orgno)
     {
         $sql = "SELECT timeno
                 FROM emp_workingtime
-                WHERE empno=? AND (endtime is NULL)";
+                WHERE orgno=? AND empno=? AND (endtime is NULL)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("i", $empno);
+        $stmt->bind_param("ii", $orgno, $empno);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
@@ -85,30 +90,30 @@
     }
 
     //emp_workingtime(timeno,empno,workfor,starttime,endtime,comment,isaccepted)
-    function start_workingtime($dbcon, $empno,$workfor)
+    function start_workingtime($dbcon, $empno,$workfor, $orgno)
     {
         date_default_timezone_set("Asia/Dhaka");
         $now = date("Y-m-d H:i:s");
         $sql = "INSERT INTO emp_workingtime(
-                                empno,workfor,starttime,endtime
+                                orgno,empno,workfor,starttime,endtime
                             )
-                VALUES(?,?,?,NULL)";
+                VALUES(?, ?,?,?,NULL)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("iis", $empno, $workfor,$now);
+        $stmt->bind_param("iiis", $orgno, $empno, $workfor,$now);
         $stmt->execute();
         return $stmt->insert_id;
     }
 
     //emp_workingtime(timeno,empno,workfor,starttime,endtime,comment,isaccepted)
-    function end_workingtime($dbcon, $timeno)
+    function end_workingtime($dbcon, $timeno, $orgno)
     {
         date_default_timezone_set("Asia/Dhaka");
         $now = date("Y-m-d H:i:s");
         $sql = "UPDATE emp_workingtime
                 SET endtime=?
-                WHERE timeno=?";
+                WHERE timeno=? AND orgno=?";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("si", $now, $timeno);
+        $stmt->bind_param("sii", $now, $timeno, $orgno);
         $stmt->execute();
         return $stmt->affected_rows;
     }

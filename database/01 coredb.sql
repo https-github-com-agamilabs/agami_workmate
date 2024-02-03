@@ -17,7 +17,7 @@ CREATE TABLE hr_usercat(
 INSERT INTO hr_usercat(ucatno,ucattitle)
 VALUES(1,'Employee (VA)'),
 (13,'VA Owner'),
-(19,'Admin');
+(19,'Admin/Owner');
 
 CREATE TABLE hr_userstatus (
 	userstatusno int not null,

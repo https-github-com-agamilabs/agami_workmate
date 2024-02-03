@@ -3,13 +3,6 @@ $basePath = dirname(__FILE__);
 include_once $basePath . "/php/ui/login/check_session.php";
 include_once $basePath . "/configmanager/firebase_configuration.php";
 
-//require 'dependancy_checker.php';
-
-date_default_timezone_set("Asia/Dhaka");
-if (session_status() == PHP_SESSION_NONE) {
-	session_start();
-}
-
 if (isset($_GET['lang'])) {
 	$_SESSION["lang"] = $_GET['lang'];
 } else if (!isset($_SESSION["lang"])) {
@@ -18,7 +11,6 @@ if (isset($_GET['lang'])) {
 $lang = $_SESSION["lang"];
 
 require_once dirname(__FILE__) . "/lang_converter/converter.php";
-// $jasonFilePath = $basePath . "/lang-json/$lang/organizations.json";
 if (!isset($arrayData)) {
 	$arrayData = array();
 }
@@ -35,33 +27,7 @@ $arrayData = array_merge($arrayData, langConverter($lang, 'my_packages'));
 <html lang="en">
 
 <head>
-	<?php include_once $basePath . "/shared/layout/header.php";
-
-	include_once $basePath . "/php/ui/login/check_session.php";
-	include_once $basePath . "/configmanager/firebase_configuration.php";
-
-	//require 'dependancy_checker.php';
-
-	date_default_timezone_set("Asia/Dhaka");
-	if (session_status() == PHP_SESSION_NONE) {
-		session_start();
-	}
-	if (isset($_GET['lang'])) {
-		$_SESSION["lang"] = $_GET['lang'];
-	} else if (!isset($_SESSION["lang"])) {
-		$_SESSION["lang"] = "en";
-	}
-	$lang = $_SESSION["lang"];
-
-	// echo dirname(__FILE__);
-	require_once dirname(__FILE__) . "/lang_converter/converter.php";
-	// $jasonFilePath = $basePath . "/lang-json/$lang/my_packages.json";
-	// echo $basePath;
-	$arrayData = langConverter($lang, 'my_packages');
-
-
-
-	?>
+	<?php include_once $basePath . "/shared/layout/header.php";	?>
 
 	<script src="js/basic_crud_type_1.js"></script>
 </head>

@@ -100,17 +100,9 @@ function check_org_validity($dbcon,$orgno){
 
     $stmt = $dbcon->prepare($sql);
     $stmt->bind_param("i", $orgno);
-
-    if ($stmt->execute()) {
-        $result = $stmt->get_result();
-        if ($result->num_rows > 0) {
-            $stmt->close();
-            return 1;
-        } else {
-            $stmt->close();
-            return 0;
-        }
-    } else {
-        return -1;
-    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+    
+    return $result;
 }

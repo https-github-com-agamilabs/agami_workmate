@@ -122,7 +122,7 @@ CREATE TABLE com_shiftsettings (
 INSERT INTO com_shiftsettings(shiftno,shifttitle,starttime,endtime) VALUES
 (1,'No Shift','09:00:00','18:00:00');
 
--- com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,starttime,endtime,isactive)
+-- com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
 CREATE TABLE com_userorg (
     uono INT AUTO_INCREMENT,
     orgno int NOT NULL,

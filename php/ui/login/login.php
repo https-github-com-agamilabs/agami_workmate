@@ -130,14 +130,14 @@ if ($userLoginResult->num_rows == 1) {
                     $_SESSION['cogo_ucattitle'] = $row['ucattitle'];
                     $_SESSION['cogo_jobtitle'] = $userorg['jobtitle'];
                     $_SESSION['cogo_permissionlevel'] = $row['permissionlevel'];
-                    $response['redirect'] = "time_keeper.php";
+                    $response['redirecturl'] = "time_keeper.php";
                 } else {
-                    $response['redirect'] = "organizations.php";
+                    $response['redirecturl'] = "organizations.php";
                 }
             } else {
-                $response['redirect'] = "organizations.php";
+                $response['redirecturl'] = "organizations.php";
             }
-        } else if ($user['userstatusno'] == 9) {
+        } else if ($row['userstatusno'] == 9) {
             $response['redirecturl'] = "agami/dashboard.php";
         } else {
             throw new Exception("You don't have valid user status. Please contact AGAMiLabs Support Center.", 1);

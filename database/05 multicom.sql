@@ -112,17 +112,17 @@ CREATE TABLE com_userorg (
     permissionlevel int DEFAULT NULL,
     dailyworkinghour tinyint DEFAULT 8,
     timeflexibility tinyint DEFAULT 1,
-    starttime TIME DEFAULT '9:00AM',
-    endtime TIME DEFAULT '6:00PM',
+    starttime TIME DEFAULT '9:00:00',
+    endtime TIME DEFAULT '18:00:00',
     isactive tinyint DEFAULT 0,
     PRIMARY KEY(uono),
-    CONSTRAINT uk_userorgmodules_uuid UNIQUE(uuid),
-    CONSTRAINT uk_userorgmodules_orgno_userno UNIQUE (orgno,userno),
-    CONSTRAINT fk_userorgmodules_orgno FOREIGN KEY (orgno) REFERENCES com_orgs (orgno) ON UPDATE CASCADE,
-    CONSTRAINT fk_userorgmodules_moduleno FOREIGN KEY (moduleno) REFERENCES com_modules (moduleno) ON UPDATE CASCADE,
-    CONSTRAINT fk_user_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,
-    CONSTRAINT fk_user_supervisor FOREIGN KEY(orgno,supervisor) REFERENCES com_userorgmodules(orgno,userno) ON UPDATE CASCADE,
-    CONSTRAINT fk_userorgmodules_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
+    CONSTRAINT uk_userorg_uuid UNIQUE(uuid),
+    CONSTRAINT uk_userorg_orgno_userno UNIQUE (orgno,userno),
+    CONSTRAINT fk_userorg_orgno FOREIGN KEY (orgno) REFERENCES com_orgs (orgno) ON UPDATE CASCADE,
+    CONSTRAINT fk_userorg_moduleno FOREIGN KEY (moduleno) REFERENCES com_modules (moduleno) ON UPDATE CASCADE,
+    CONSTRAINT fk_userorg_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,
+    CONSTRAINT fk_userorg_supervisor FOREIGN KEY(orgno,supervisor) REFERENCES com_userorg(orgno,userno) ON UPDATE CASCADE,
+    CONSTRAINT fk_userorg_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ALTER TABLE com_userorgmodules

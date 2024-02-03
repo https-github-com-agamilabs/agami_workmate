@@ -122,7 +122,7 @@ if ($userLoginResult->num_rows == 1) {
         if ($row['ucatno'] == 99) {
             $response['redirect'] = "agami/dashboard.php";
         } else {
-            $countorg=0;
+            $countorg = 0;
             $rs_countorg = count_my_company($dbcon, $userno);
             if ($rs_countorg->num_rows > 0) {
                 if ($rs_countorg->num_rows == 1) {
@@ -133,10 +133,10 @@ if ($userLoginResult->num_rows == 1) {
                     $_SESSION['orglocation'] = $userorg['street'] . ', ' . $userorg['city'] . ', ' . $userorg['country'];
                     $response['redirect'] = "time_keeper.php";
                 } else {
-                    $response['redirect'] = "dashboard.php";
+                    $response['redirect'] = "organizations.php";
                 }
             } else {
-                $response['redirect'] = "dashboard.php";
+                $response['redirect'] = "organizations.php";
             }
         }
     } else {

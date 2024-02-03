@@ -1,3 +1,14 @@
+-- com_timezone(timezoneno,timezonetitle)
+CREATE TABLE com_timezone(
+    timezoneno tinyint not null,
+    timezonetitle varchar(50) not null,
+    primary key(timezoneno)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO com_timezone (timezoneno, timezonetitle) VALUES
+(1, 'Asia/Dhaka'),
+(2, 'Europe/London');
+
 -- com_modules(moduleno,moduletitle)
 CREATE TABLE com_modules(
     moduleno tinyint not null,
@@ -86,19 +97,31 @@ CREATE TABLE com_orgs (
 INSERT INTO com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno) VALUES
 (1, 'AGAMiLabs', 'NK Bhaban, CU Road #1, Hathazari', 'Chattogram', 'Chattogram', 'Bangladesh', '22.4741655', '91.8079191', 60, 1, 'agami_logo.png', '+8801711308141', 'Note here', NULL, NULL, '08:00:00', '22:00:00', 1);
 
--- com_userorgmodules (uuid,orgno, userno, moduleno, hourrate, monthlysalary, isactive)
-CREATE TABLE com_userorgmodules (
-    uuid VARCHAR(15) NOT NULL,
-    userno int NOT NULL,
+-- com_userorg (uuid,orgno, userno, moduleno, hourrate, monthlysalary, isactive)
+CREATE TABLE com_userorg (
+    uono INT AUTO_INCREMENT,
     orgno int NOT NULL,
+    userno int NOT NULL,
+    uuid VARCHAR(255) DEFAULT NULL,
+    ucatno int DEFAULT 1,
+    supervisor int DEFAULT NULL,
     moduleno tinyint NOT NULL,
-    hourrate DECIMAL(6,2) DEFAULT NULL,
+    jobtitle varchar(63) DEFAULT NULL,
+    hourlyrate DECIMAL(6,2) DEFAULT NULL,
     monthlysalary DECIMAL(12,2) DEFAULT NULL,
+    permissionlevel int DEFAULT NULL,
+    dailyworkinghour tinyint DEFAULT 8,
+    timeflexibility tinyint DEFAULT 1,
+    starttime TIME DEFAULT '9:00AM',
+    endtime TIME DEFAULT '6:00PM',
     isactive tinyint DEFAULT 0,
+    PRIMARY KEY(uono),
     CONSTRAINT uk_userorgmodules_uuid UNIQUE(uuid),
     CONSTRAINT uk_userorgmodules_orgno_userno UNIQUE (orgno,userno),
     CONSTRAINT fk_userorgmodules_orgno FOREIGN KEY (orgno) REFERENCES com_orgs (orgno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorgmodules_moduleno FOREIGN KEY (moduleno) REFERENCES com_modules (moduleno) ON UPDATE CASCADE,
+    CONSTRAINT fk_user_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,
+    CONSTRAINT fk_user_supervisor FOREIGN KEY(orgno,supervisor) REFERENCES com_userorgmodules(orgno,userno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorgmodules_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

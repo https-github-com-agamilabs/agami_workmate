@@ -10,7 +10,7 @@ if ($util->is_session_started() === false) {
 }
 
 if (!isset($_SESSION['cogo_userno'])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit();
 }
 

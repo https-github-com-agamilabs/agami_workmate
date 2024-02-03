@@ -23,7 +23,12 @@
     try {
 
         //$userno=1;
-
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+        
         $results = get_ongoing_task($dbcon);
         $results_array = array();
         if ($results->num_rows > 0) {

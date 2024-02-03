@@ -22,6 +22,11 @@
 
     try {
 
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
         //USER MANAGEMENT
         $assignedto = -1;
         if (isset($_POST['assignedto']) && strlen($_POST['assignedto'])>0) {

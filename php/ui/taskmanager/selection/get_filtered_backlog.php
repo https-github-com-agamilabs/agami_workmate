@@ -21,6 +21,13 @@
     }
 
     try {
+
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+        
         //CHANNEL
         $channelno = -1;
         if (isset($_POST['channelno']) && strlen($_POST['channelno'])>0) {

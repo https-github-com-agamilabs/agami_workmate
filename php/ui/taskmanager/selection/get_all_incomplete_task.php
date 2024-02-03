@@ -22,6 +22,12 @@
 
     try {
 
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+        
         $rs_users = get_all_active_user($dbcon);
         $results_array = array();
         if ($rs_users->num_rows > 0) {

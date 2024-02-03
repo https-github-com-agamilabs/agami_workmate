@@ -22,6 +22,12 @@
 
     try {
 
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+        
         //$userno=1;
         if (isset($_POST['assignedto'])) {
             $assignedto = (int) $_POST['assignedto'];

@@ -25,6 +25,12 @@
             $channelno = (int) $_POST['channelno'];
         }
 
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+
         if (isset($_POST['channeltitle']) && strlen($_POST['channeltitle'])>0) {
             $channeltitle = trim(strip_tags($_POST['channeltitle']));
         }else{
@@ -37,7 +43,7 @@
         }
 
         if($channelno>0){
-            $nos=update_channel($dbcon, $channeltitle, $parentchannel, $channelno);
+            $nos=update_channel($dbcon, $channeltitle, $parentchannel, $channelno,$orgno);
             if($nos>0){
                 $response['error'] = false;
                 $response['message'] = "Channel/Project info is Updated.";
@@ -46,7 +52,7 @@
                 $response['message'] = "Cannot Update channel/Project info.";
             }
         }else{
-            $channelno=insert_channel($dbcon, $channeltitle, $parentchannel);
+            $channelno=insert_channel($dbcon, $channeltitle, $parentchannel,$orgno);
             if($channelno>0){
                 $response['error'] = false;
                 $response['channelno']=$channelno;
@@ -69,24 +75,24 @@
      * Local Function
      */
 
-    function insert_channel($dbcon, $channeltitle, $parentchannel){
+    function insert_channel($dbcon, $channeltitle, $parentchannel,$orgno){
 
-        $sql = "INSERT INTO msg_channel(channeltitle, parentchannel)
-                VALUES(?,?)";
+        $sql = "INSERT INTO msg_channel(channeltitle, parentchannel,orgno)
+                VALUES(?,?,?)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("si", $channeltitle, $parentchannel);
+        $stmt->bind_param("sii", $channeltitle, $parentchannel,$orgno);
         $stmt->execute();
         return $stmt->insert_id;
 
 
     }
 
-    function update_channel($dbcon, $channeltitle, $parentchannel, $channelno){
+    function update_channel($dbcon, $channeltitle, $parentchannel, $channelno,$orgno){
         $sql = "UPDATE msg_channel
                 SET channeltitle=?, parentchannel=?
-                WHERE channelno=?";
+                WHERE channelno=? AND orgno=?";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("ssi", $channeltitle, $parentchannel, $channelno);
+        $stmt->bind_param("ssii", $channeltitle, $parentchannel, $channelno,$orgno);
         $stmt->execute();
         return $stmt->affected_rows;
     }

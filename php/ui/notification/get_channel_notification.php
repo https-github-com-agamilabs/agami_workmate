@@ -25,6 +25,12 @@
             throw new \Exception("You must login first!", 1);
         }
 
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+
         $ucatno=0;
         if (isset($_SESSION['cogo_ucatno'])) {
             $ucatno=(int) $_SESSION['cogo_ucatno'];

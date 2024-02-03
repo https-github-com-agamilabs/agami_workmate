@@ -22,6 +22,11 @@ if (!$db->is_connected()) {
 
 try {
 
+    if(!isset($_SESSION['cogo_orgno'])){
+        throw new \Exception("You must select an organization!", 1);
+    }else{
+        $orgno= (int) $_SESSION['cogo_orgno'];
+    }
     //$userno=1;
 
     $results = get_my_incomplete_task($dbcon, $userno);

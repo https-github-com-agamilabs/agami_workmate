@@ -20,13 +20,19 @@
             throw new \Exception("Database is not connected!", 1);
         }
 
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+
         if (isset($_POST['channelno'])) {
             $channelno = (int) $_POST['channelno'];
         } else{
             throw new \Exception("No Channel/Project Selected!", 1);
         }
 
-        $channel = del_channel($dbcon,$channelno);
+        $channel = del_channel($dbcon,$channelno,$orgno);
 
         if ($channel > 0) {
             $response['error'] = false;
@@ -47,12 +53,12 @@
     /**
      * Local Function
      */
-    function del_channel($dbcon,$channelno){
+    function del_channel($dbcon,$channelno,$orgno){
         $sql = "DELETE
                 FROM msg_channel
-                WHERE channelno=?";
+                WHERE channelno=? AND orgno=?";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("i", $channelno);
+        $stmt->bind_param("ii", $channelno,$orgno);
         $stmt->execute();
         return $stmt->affected_rows;
     }

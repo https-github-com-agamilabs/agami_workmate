@@ -145,7 +145,7 @@ CREATE TABLE com_userorg (
     shiftno tinyint DEFAULT 1,
     starttime TIME DEFAULT '9:00:00',
     endtime TIME DEFAULT '18:00:00',
-    timezoneno INT DEFAULT 1,
+    timezoneno VARCHAR(255) DEFAULT 'Asia/Dhaka',
     isactive tinyint DEFAULT 0,
     PRIMARY KEY(uono),
     CONSTRAINT uk_userorg_uuid UNIQUE(uuid),

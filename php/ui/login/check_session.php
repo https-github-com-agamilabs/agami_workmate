@@ -21,21 +21,21 @@ if (!isset($_SESSION['cogo_userno'])) {
 
 	exit();
 } else {
-	if (!isset($_SESSION['cogo_ucatno'])) {
-		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			$response = array();
-			$response['error'] = true;
-			$response['message'] = "Session timeout exceeded. Please login again.";
-			echo json_encode($response);
-			exit();
-		}
+	// if (!isset($_SESSION['cogo_ucatno'])) {
+	// 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	// 		$response = array();
+	// 		$response['error'] = true;
+	// 		$response['message'] = "Session timeout exceeded. Please login again.";
+	// 		echo json_encode($response);
+	// 		exit();
+	// 	}
 
-		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-			header("Location:index.php");
-			exit();
-		}
-		exit();
-	}
+	// 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+	// 		header("Location:index.php");
+	// 		exit();
+	// 	}
+	// 	exit();
+	// }
 }
 
 $userno = $_SESSION['cogo_userno'];

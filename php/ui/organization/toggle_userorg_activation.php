@@ -27,13 +27,7 @@ try {
         throw new \Exception("User must be selected!", 1);
     }
 
-    if (isset($_POST['moduleno']) && strlen($_POST['moduleno']) > 0) {
-        $moduleno = (int)$_POST['moduleno'];
-    } else {
-        throw new \Exception("Module must be selected!", 1);
-    }
-
-    $anos = toggle_userorgmodule_activation($dbcon, $orgno, $userno, $moduleno);
+    $anos = toggle_userorgmodule_activation($dbcon, $orgno, $userno);
     if ($anos > 0) {
         $response['error'] = false;
         $response['message'] = "Updated Successfully.";
@@ -48,19 +42,19 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//com_userorgmodules (orgno, userno, moduleno, verified)
-function toggle_userorgmodule_activation($dbcon, $orgno, $userno, $moduleno)
+//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
+function toggle_userorgmodule_activation($dbcon, $orgno, $userno)
 {
 
     $sql = "UPDATE com_userorgmodules
-            SET verified=abs(1-verified)
-            WHERE orgno=? AND userno=? AND moduleno=?";
+            SET isactive=abs(1-isactive)
+            WHERE orgno=? AND userno=?";
 
     if (!$stmt = $dbcon->prepare($sql)) {
         throw new Exception("Prepare statement failed: " . $dbcon->error);
     }
 
-    $stmt->bind_param("iii", $orgno, $userno, $moduleno);
+    $stmt->bind_param("ii", $orgno, $userno);
     $stmt->execute();
     $result = $stmt->affected_rows;
     $stmt->close();

@@ -135,7 +135,7 @@ CREATE TABLE com_userorg (
     uuid VARCHAR(255) DEFAULT NULL,
     ucatno int DEFAULT 1,
     supervisor int DEFAULT NULL,
-    moduleno tinyint NOT NULL,
+    moduleno tinyint DEFAULT NULL,
     jobtitle varchar(63) DEFAULT NULL,
     hourlyrate DECIMAL(6,2) DEFAULT NULL,
     monthlysalary DECIMAL(12,2) DEFAULT NULL,

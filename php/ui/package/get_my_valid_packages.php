@@ -41,11 +41,11 @@ $dbcon->close();
 //pack_offer(offerno, offertitle, offerdetail, rate, tag, is_coupon_applicable, validuntil)
 //pack_offeritems(offerno,item,qty)
 //pack_appliedpackage(appliedno,purchaseno,item,orgno,assignedto, appliedat, appliedby)
-function get_my_package_usability($dbcon,$userno)
+function get_my_package_usability($dbcon,$userno,$orgno)
 {
     $sql = "SELECT mp.purchaseno,mp.licensekey,
                     mp.offerno,(SELECT offertitle FROM pack_offer WHERE offerno=mp.offerno) as offertitle,
-                    mp.item, mp.package_qty, IFNULL(mu.used_qty,0) as used_qty
+                    mp.item, mp.package_qty, IFNULL(mu.user_qty,0) as user_qty
             FROM
                 (SELECT po.purchaseno,po.offerno,po.licensekey,oi.item,oi.qty as package_qty
                 FROM pack_purchaseoffer as po
@@ -53,16 +53,16 @@ function get_my_package_usability($dbcon,$userno)
                 WHERE foruserno=?
                 ) as mp
                 LEFT JOIN
-                (SELECT purchaseno,'ORGUSER' as item, count(assignedto) as  used_qty
+                (SELECT purchaseno,'ORGUSER' as item, count(assignedto) as  user_qty
                 FROM pack_appliedpackage                
-                WHERE appliedby=?
+                WHERE orgno=? AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))
                 GROUP BY purchaseno,item
                 ) as mu
                 ON mp.purchaseno=mu.purchaseno AND mp.item=mu.item AND mp.package_qty>mu.used_qty
             ";
 
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("ii", $userno,$userno);
+    $stmt->bind_param("ii", $userno,$orgno);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();

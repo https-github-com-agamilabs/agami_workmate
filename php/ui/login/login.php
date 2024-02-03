@@ -180,7 +180,7 @@ function get_user_info($dbcon, $username)
 function count_my_company($dbcon, $userno)
 {
     $sql = "SELECT uo.orgno,timeflexibility,uo.starttime,uo.endtime,
-                    ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=u.ucatno) as ucattitle,
+                    uo.ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
                     jobtitle,permissionlevel,
                     o.orgname,o.street, o.city, o.country, o.picurl,
                 uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle

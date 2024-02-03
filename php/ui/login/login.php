@@ -113,9 +113,7 @@ if ($userLoginResult->num_rows == 1) {
         $response['error'] = false;
         $response['message'] = "Login successful!";
 
-        if ($row['ucatno'] == 99) {
-            $response['redirect'] = "agami/dashboard.php";
-        } else {
+        if ($user['userstatusno'] == 1) {
             $countorg = 0;
             $rs_countorg = count_my_company($dbcon, $userno);
             if ($rs_countorg->num_rows > 0) {
@@ -139,6 +137,10 @@ if ($userLoginResult->num_rows == 1) {
             } else {
                 $response['redirect'] = "organizations.php";
             }
+        } else if ($user['userstatusno'] == 9) {
+            $response['redirecturl'] = "agami/dashboard.php";
+        } else {
+            throw new Exception("You don't have valid user status. Please contact AGAMiLabs Support Center.", 1);
         }
     } else {
         $response['error'] = true;
@@ -161,7 +163,7 @@ function get_user_info($dbcon, $username)
 {
     $sql = "SELECT userno,username,firstname,lastname,photo_url,
                 affiliation,jobtitle,email,primarycontact,
-                passphrase,createtime,lastupdatetime,isactive
+                passphrase,createtime,lastupdatetime,isactive, userstatusno
             FROM hr_user as u
             WHERE isactive=1 AND username=?";
     $stmt = $dbcon->prepare($sql);
@@ -177,7 +179,7 @@ function get_user_info($dbcon, $username)
 //com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 function count_my_company($dbcon, $userno)
 {
-    $sql = "SELECT uo.orgno,timeflexibility,starttime,endtime,
+    $sql = "SELECT uo.orgno,timeflexibility,uo.starttime,uo.endtime,
                     ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=u.ucatno) as ucattitle,
                     jobtitle,permissionlevel,
                     o.orgname,o.street, o.city, o.country, o.picurl,

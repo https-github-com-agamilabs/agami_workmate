@@ -256,11 +256,12 @@ function update_organization($dbcon, $orgno, $data)
     return $result;
 }
 
-//com_userorgmodules(orgno,userno,moduleno,verified)
+//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,
+//            permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
 function insert_userorgs($dbcon, $orgno, $userno)
 {
-    $sql = "INSERT INTO com_userorgmodules(orgno,userno,moduleno,verified)
-            VALUES(?,?,1,1)";
+    $sql = "INSERT INTO com_userorgmodules(orgno,userno,moduleno,ucatno,permissionlevel,verified)
+            VALUES(?,?,1,19,7,1)";
 
     $stmt = $dbcon->prepare($sql);
     // var_dump($this->dbcon->error);

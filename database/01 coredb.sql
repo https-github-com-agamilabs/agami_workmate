@@ -1,5 +1,5 @@
 -- hr_usercat(ucatno, ucattitle)
--- hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,ucatno,supervisor,permissionlevel,createtime,lastupdatetime,isactive)
+-- hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,authkey,ucatno,supervisor,permissionlevel,createtime,lastupdatetime,isactive)
 -- msg_channel(channelno,channeltitle,parentchannel)
 -- msg_channelmember(channelno, userno, entrytime)
 
@@ -39,11 +39,13 @@ CREATE TABLE hr_user(
 	firstname varchar(63) NOT NULL,
 	lastname varchar(63) DEFAULT NULL,
 	photo_url varchar(255) DEFAULT NULL,
-	affiliation varchar(127) DEFAULT NULL,
-	jobtitle varchar(63) DEFAULT NULL,
 	email varchar(255) DEFAULT NULL,
+	countrycode varchar(7) DEFAULT null,
 	primarycontact varchar(15) DEFAULT NULL,
 	passphrase varchar(255) NOT NULL,
+	authkey VARCHAR(255) DEFAULT NULL,
+	affiliation varchar(127) DEFAULT NULL,
+	jobtitle varchar(63) DEFAULT NULL,
 	ucatno int DEFAULT 1,
 	supervisor int DEFAULT NULL,
 	permissionlevel int DEFAULT NULL,
@@ -51,12 +53,14 @@ CREATE TABLE hr_user(
 	lastupdatetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	isactive int DEFAULT 0,
 	userstatusno int DEFAULT 1,
-	countrycode varchar(7) DEFAULT null,
 	PRIMARY KEY(userno),
 	CONSTRAINT uk_user_username UNIQUE(username),
 	CONSTRAINT fk_user_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,
 	CONSTRAINT fk_user_supervisor FOREIGN KEY(supervisor) REFERENCES hr_user(userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE hr_user
+ADD COLUMN authkey VARCHAR(255) DEFAULT NULL;
 
 -- ALTER TABLE hr_user
 -- ADD COLUMN photo_url varchar(255) DEFAULT NULL;

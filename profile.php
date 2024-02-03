@@ -2,10 +2,6 @@
 $basePath = dirname(__FILE__);
 include_once $basePath . "/php/ui/login/check_session.php";
 
-date_default_timezone_set("Asia/Dhaka");
-if (session_status() == PHP_SESSION_NONE) {
-	session_start();
-}
 if (isset($_GET['lang'])) {
 	$_SESSION["lang"] = $_GET['lang'];
 } else if (!isset($_SESSION["lang"])) {

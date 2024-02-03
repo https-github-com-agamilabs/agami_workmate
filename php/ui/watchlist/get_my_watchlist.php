@@ -19,6 +19,11 @@ try {
         throw new \Exception("Database is not connected!", 1);
     }
 
+    if(!isset($_SESSION['cogo_orgno'])){
+        throw new \Exception("You must select an organization!", 1);
+    }else{
+        $orgno= (int) $_SESSION['cogo_orgno'];
+    }
     // if($ucatno == 19){
     // }
 

@@ -25,10 +25,16 @@
             throw new \Exception("You must login first!", 1);
         }
 
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+
         if ($ucatno>=19) {
-            $list=get_main_channels($dbcon);
+            $list=get_main_channels($dbcon,$orgno);
         } else {
-            $list = get_emp_main_channels($dbcon, $empno);
+            $list = get_emp_main_channels($dbcon,$orgno,$empno);
         }
 
         if ($list->num_rows > 0) {
@@ -81,14 +87,20 @@
     *   LOCAL FUNCTIONS
     */
 
-    function get_main_channels($dbcon)
+    function get_main_channels($dbcon,$orgno)
     {
         $sql = "SELECT channelno,channeltitle,parentchannel
                 FROM msg_channel
-                WHERE parentchannel is NULL
+                WHERE orgno=? AND parentchannel is NULL
                 ORDER BY channelno";
 
-        return $dbcon->query($sql);
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("i", $orgno);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
     }
 
     function get_sub_channels($dbcon,$parentchannel)
@@ -107,7 +119,7 @@
         return $result;
     }
 
-    function get_emp_main_channels($dbcon,$empno)
+    function get_emp_main_channels($dbcon,$orgno,$empno)
     {
         $sql = "SELECT channelno,channeltitle,parentchannel
                 FROM msg_channel
@@ -115,11 +127,11 @@
                     SELECT DISTINCT parentchannel
                     FROM msg_channelmember as cm
                         INNER JOIN msg_channel as c ON cm.channelno=c.channelno
-                    WHERE userno=?)
+                    WHERE orgno=? AND userno=?)
                 ORDER BY channelno";
 
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("i", $empno);
+        $stmt->bind_param("ii", $orgno,$empno);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

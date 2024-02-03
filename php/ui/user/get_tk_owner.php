@@ -31,7 +31,13 @@
             exit();
         }
 
-        $list = get_tk_owner($dbcon);
+        if(!isset($_SESSION['cogo_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['cogo_orgno'];
+        }
+
+        $list = get_tk_owner($dbcon, $orgno);
 
         if ($list->num_rows > 0) {
             $meta_array = array();
@@ -59,10 +65,14 @@
     *   LOCAL FUNCTIONS
     */
 
-    function get_tk_owner($dbcon){  
+    function get_tk_owner($dbcon, $orgno){  
         $sql = "SELECT userno,firstname,lastname,email
                 FROM hr_user as u
-                WHERE isactive>=1 AND ucatno IN (13,18)
+                WHERE isactive>=1 
+                    AND userno IN
+                        (SELECT DISTINCT userno
+                        FROM com_userorg
+                        WHERE orgno=? AND ucatno IN (13,18))
                 ORDER BY userno DESC";
 
         $stmt = $dbcon->prepare($sql);

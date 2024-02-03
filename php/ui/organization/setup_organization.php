@@ -41,7 +41,7 @@ try {
                 throw new Exception("Fatal Error! Could not save.", 1);
             }
         } else {
-            throw new Exception("Could not add data!", 1);
+            throw new Exception("Could not add organization!", 1);
         }
     }
 } catch (\Exception $e) {
@@ -260,7 +260,7 @@ function update_organization($dbcon, $orgno, $data)
 //            permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
 function insert_userorgs($dbcon, $orgno, $userno)
 {
-    $sql = "INSERT INTO com_userorgmodules(orgno,userno,moduleno,ucatno,permissionlevel,verified)
+    $sql = "INSERT INTO com_userorg(orgno,userno,moduleno,ucatno,permissionlevel,verified)
             VALUES(?,?,1,19,7,1)";
 
     $stmt = $dbcon->prepare($sql);

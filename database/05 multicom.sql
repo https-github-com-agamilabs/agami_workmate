@@ -97,6 +97,19 @@ CREATE TABLE com_orgs (
 INSERT INTO com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno) VALUES
 (1, 'AGAMiLabs', 'NK Bhaban, CU Road #1, Hathazari', 'Chattogram', 'Chattogram', 'Bangladesh', '22.4741655', '91.8079191', 60, 1, 'agami_logo.png', '+8801711308141', 'Note here', NULL, NULL, '08:00:00', '22:00:00', 1);
 
+
+CREATE TABLE com_timeflexsettings (
+    timeflexno tinyint AUTO_INCREMENT,
+    timeflextitle VARCHAR(63) DEFAULT NULL; 
+    PRIMARY KEY(timeflexno)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--Time Flexibility: 1 (Flexible), 2 (Encourage Scheduling), 3 (Strict Time-frame)
+INSERT INTO com_timeflexsettings(timeflexno,timeflextitle) VALUES
+(1,'Flexible'),
+(2,'Encourage Scheduling'),
+(3,'Strict Timeframe');
+
 -- com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,starttime,endtime,isactive)
 CREATE TABLE com_userorg (
     uono INT AUTO_INCREMENT,
@@ -122,6 +135,7 @@ CREATE TABLE com_userorg (
     CONSTRAINT fk_userorg_moduleno FOREIGN KEY (moduleno) REFERENCES com_modules (moduleno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorg_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorg_supervisor FOREIGN KEY(orgno,supervisor) REFERENCES com_userorg(orgno,userno) ON UPDATE CASCADE,
+    CONSTRAINT fk_userorg_timeflexibility FOREIGN KEY (timeflexibility) REFERENCES com_timeflexsettings (timeflexno) ON UPDATE CASCADE
     CONSTRAINT fk_userorg_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -110,6 +110,18 @@ INSERT INTO com_timeflexsettings(timeflexno,timeflextitle) VALUES
 (2,'Encourage Scheduling'),
 (3,'Strict Timeframe');
 
+CREATE TABLE com_shiftsettings (
+    shiftno tinyint AUTO_INCREMENT,
+    shifttitle VARCHAR(63) DEFAULT NULL,
+    starttime TIME DEFAULT '9:00:00',
+    endtime TIME DEFAULT '18:00:00',
+    PRIMARY KEY(shiftno)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Time Flexibility: 1 (Flexible), 2 (Encourage Scheduling), 3 (Strict Time-frame)
+INSERT INTO com_shiftsettings(shiftno,shifttitle,starttime,endtime) VALUES
+(1,'No Shift','09:00:00','18:00:00');
+
 -- com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,starttime,endtime,isactive)
 CREATE TABLE com_userorg (
     uono INT AUTO_INCREMENT,
@@ -125,6 +137,7 @@ CREATE TABLE com_userorg (
     permissionlevel int DEFAULT NULL,
     dailyworkinghour tinyint DEFAULT 8,
     timeflexibility tinyint DEFAULT 1,
+    shiftno tinyint DEFAULT 1,
     starttime TIME DEFAULT '9:00:00',
     endtime TIME DEFAULT '18:00:00',
     isactive tinyint DEFAULT 0,
@@ -136,6 +149,7 @@ CREATE TABLE com_userorg (
     CONSTRAINT fk_userorg_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorg_supervisor FOREIGN KEY(orgno,supervisor) REFERENCES com_userorg(orgno,userno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorg_timeflexibility FOREIGN KEY (timeflexibility) REFERENCES com_timeflexsettings (timeflexno) ON UPDATE CASCADE,
+    CONSTRAINT fk_userorg_shiftno FOREIGN KEY (shiftno) REFERENCES com_shiftsettings (shiftno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorg_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

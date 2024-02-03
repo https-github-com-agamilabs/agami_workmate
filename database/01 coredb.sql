@@ -59,8 +59,8 @@ CREATE TABLE hr_user(
 	CONSTRAINT fk_user_supervisor FOREIGN KEY(supervisor) REFERENCES hr_user(userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE hr_user
-ADD COLUMN authkey VARCHAR(255) DEFAULT NULL;
+-- ALTER TABLE hr_user
+-- ADD COLUMN authkey VARCHAR(255) DEFAULT NULL;
 
 -- ALTER TABLE hr_user
 -- ADD COLUMN photo_url varchar(255) DEFAULT NULL;

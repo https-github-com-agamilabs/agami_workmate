@@ -131,6 +131,9 @@ if ($userLoginResult->num_rows == 1) {
                     $_SESSION['org_picurl'] = $userorg['picurl'];
                     $_SESSION['orgname'] = $userorg['orgname'];
                     $_SESSION['orglocation'] = $userorg['street'] . ', ' . $userorg['city'] . ', ' . $userorg['country'];
+                    $_SESSION['timeflexibility'] = $userorg['timeflexibility'];
+                    $_SESSION['starttime'] = $userorg['starttime'];
+                    $_SESSION['endtime'] = $userorg['endtime'];
                     $response['redirect'] = "time_keeper.php";
                 } else {
                     $response['redirect'] = "organizations.php";
@@ -174,12 +177,14 @@ function get_user_info($dbcon, $username)
     return $result;
 }
 
-//com_userorgmodules (uuid,orgno, userno, moduleno, isactive)
+//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,starttime,endtime,isactive)
+//com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 function count_my_company($dbcon, $userno)
 {
-    $sql = "SELECT uo.orgno, o.orgname,o.street, o.city, o.country, o.picurl,
+    $sql = "SELECT uo.orgno,timeflexibility,starttime,endtime,
+                    o.orgname,o.street, o.city, o.country, o.picurl,
                 uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle
-            FROM com_userorgmodules as uo
+            FROM com_userorg as uo
                 INNER JOIN com_orgs as o ON uo.orgno=o.orgno
             WHERE uo.isactive=1 AND uo.userno=?";
     $stmt = $dbcon->prepare($sql);

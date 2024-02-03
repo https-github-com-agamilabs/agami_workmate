@@ -78,8 +78,8 @@ function add_user($dbcon, $username, $firstname, $lastname, $email, $countrycode
     date_default_timezone_set("Asia/Dhaka");
     $createtime = date("Y-m-d H:i:s");
 
-    $sql = "INSERT INTO hr_user(username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,createtime,lastupdatetime)
-            VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO hr_user(username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,createtime,lastupdatetime,isactive)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,1)";
 
     $stmt = $dbcon->prepare($sql);
     $stmt->bind_param("ssssssssiss", $username, $firstname, $lastname, $email, $countrycode, $primarycontact, $passphrase, $authkey, $userstatusno, $createtime, $createtime);

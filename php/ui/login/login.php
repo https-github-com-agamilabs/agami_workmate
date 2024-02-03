@@ -110,9 +110,7 @@ if ($userLoginResult->num_rows == 1) {
         $_SESSION['cogo_lastname'] = $row['lastname'];
         $_SESSION['cogo_photo_url'] = $row['photo_url'];
         $_SESSION['cogo_email'] = $row['email'];
-        
         $response['error'] = false;
-        $response['ucatno'] = $row['ucatno'];
         $response['message'] = "Login successful!";
 
         if ($row['ucatno'] == 99) {

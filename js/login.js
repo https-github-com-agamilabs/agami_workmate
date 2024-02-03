@@ -32,7 +32,7 @@ function complete_login(json) {
                         location.href = params.redirect;
                     } else {
                         // default
-                        location.href = `healthcare/home.php`;
+                        location.href = `time_keeper.php`;
                     }
                 }
             }, `json`);

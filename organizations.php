@@ -241,117 +241,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		</div>
 	</div>
 
-	<div id="common_account_modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title"><?= $orgData['lang_common_accounts']; ?></h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div id="common_accounts_title" class="text-center h5 font-weight-bold"></div>
-
-					<div class="table-responsive rounded shadow-sm">
-						<table class="table table-sm table-bordered table-hover table-striped text-center mb-0">
-							<thead class="table-primary">
-								<tr>
-									<th></th>
-									<th></th>
-									<th></th>
-									<th><?= $orgData['lang_parent_accno']; ?></th>
-									<th><?= $orgData['lang_level']; ?></th>
-									<th><?= $orgData['lang_voucher_type']; ?></th>
-								</tr>
-							</thead>
-							<tbody id="common_accounts_tbody"></tbody>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer py-2">
-					<button type="button" class="btn btn-secondary rounded-pill px-4 ripple custom_shadow" data-dismiss="modal"><?= $orgData['lang_close']; ?></button>
-					<button id="confirm_common_accounts_button" type="button" class="btn btn-primary rounded-pill px-4 ripple custom_shadow"><?= $orgData['lang_confirm']; ?></button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="reopen_accyear_modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<form id="reopen_accyear_modal_form">
-					<div class="modal-header">
-						<h5 class="modal-title">Reopen Accounting Year</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<label class="d-block mb-0">
-							Closing Date <span class="text-danger">*</span>
-							<input name="closingdate" class="form-control shadow-sm mt-2" type="date" placeholder="Closing Date..." required>
-						</label>
-					</div>
-					<div class="modal-footer py-2">
-						<button type="submit" class="btn btn-primary rounded-pill px-4 ripple custom_shadow">Save</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
-	<div id="bring_forward_accyear_modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Bring Forward (B/F) Accounting Year Info</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form id="get_balancesheet_form" class="row justify-content-center">
-						<div class="col-lg-8">
-							<div class="input-group input-group-sm">
-								<div class="input-group-prepend">
-									<span class="input-group-text shadow-sm">From Accounting Year</span>
-								</div>
-								<select name="bf_accyear" class="form-control shadow-sm"></select>
-								<div class="input-group-append">
-									<button class="btn btn-primary ripple custom_shadow" type="submit">
-										Get Balancesheet
-									</button>
-								</div>
-							</div>
-						</div>
-					</form>
-
-					<div class="table-responsive shadow-sm rounded my-3">
-						<table class="table table-sm table-striped table-hover mb-0">
-							<thead class="table-primary">
-								<tr>
-									<th></th>
-									<th>Acc No</th>
-									<th>Acc Name</th>
-									<th class="text-right">Debit</th>
-									<th class="text-right">Credit</th>
-								</tr>
-							</thead>
-							<tbody id="bring_forward_tbody"></tbody>
-						</table>
-					</div>
-				</div>
-				<div class="modal-footer py-2">
-					<button type="button" class="btn btn-secondary rounded-pill px-4 ripple custom_shadow" data-dismiss="modal">Close</button>
-					<button id="confirm_bring_forward_button" type="button" class="btn btn-primary rounded-pill px-4 ripple custom_shadow">
-						Confirm Bring Forward
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<?php require "modal_update_photo.php"; ?>
 
 	<script>
@@ -539,33 +428,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			});
 		}
 
-		function get_active_accyear(json, target) {
-			target.empty();
-
-			let cardHeader = $(`.card-header:first`, target.parents(`.org_card`));
-			let classNames = cardHeader.prop(`class`).split(` `).filter(a => a.startsWith(`alert`)).join(` `);
-
-			$.post(`${publicAccessUrl}php/ui/accounting/get_active_accyear.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-					if (classNames.length) {
-						cardHeader.removeClass(classNames);
-					}
-					cardHeader.addClass(`alert-danger`);
-				} else {
-					show_active_accyear(resp.results, target);
-				}
-			}, `json`);
-		}
-
-		function show_active_accyear(data, target) {
-			$.each(data, (index, value) => {
-				let template = $(`<option value="${value.accyear}">${value.accyear}</option>`)
-					.data(value)
-					.appendTo(target);
-			});
-		}
-
 		class Organization extends BasicCRUD {
 			show(data) {
 				let thisObj = this;
@@ -649,17 +511,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 									<h5 class="font-weight-bold mb-0">${value.orgname}</h5>
 									${value.orgtypename && value.orgtypename.length ? `<div class="small">(${value.orgtypename})</div>` : ``}
 								</div>
-								${value.verifiedno == 1 ? `<div class="input-group input-group-sm mx-auto mr-md-0 mt-2 mt-md-0" style="max-width:346px;">
-									<div class="input-group-prepend">
-										<span class="input-group-text shadow-sm text-capitalize">With</span>
-									</div>
-									<select name="accyear" class="form-control shadow-sm"></select>
-									<div class="input-group-append">
-										<button class="proceed_to_accounting btn btn-primary ripple custom_shadow" type="button" title="Proceed To Accounting">
-											<i class="fas fa-sign-in-alt mr-1"></i>
-											Proceed <span class="d-none d-sm-inline">To Accounting</span>
-										</button>
-									</div>
+								${value.verifiedno == 1 ? `<div class="mx-auto mr-md-0 mt-2 mt-md-0" style="max-width:170px;">
+									<button class="proceed_to_workmate btn btn-primary btn-sm ripple custom_shadow" type="button" title="Proceed To Workmate">
+										<i class="fas fa-sign-in-alt mr-1"></i>
+										Proceed <span class="d-none d-sm-inline">To Workmate</span>
+									</button>
 								</div>` : ``}
 							</div>
 							<div class="card-body">
@@ -711,16 +567,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 													</a>
 												</li>
 												<li class="nav-item">
-													<a data-toggle="tab" href="#org_${value.orgno}_acchead_tabpane" class="nav-link">
-														<span>Acc Head Setup</span>
-													</a>
-												</li>
-												<li class="nav-item">
-													<a data-toggle="tab" href="#org_${value.orgno}_accyear_tabpane" class="nav-link">
-														<span>Accounting Year</span>
-													</a>
-												</li>
-												<li class="nav-item">
 													<a data-toggle="tab" href="#org_${value.orgno}_module_tabpane" class="nav-link">
 														<span>Users Module</span>
 													</a>
@@ -756,86 +602,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 															</div>
 														</form>
 													</fieldset>
-												</div>
-
-												<div class="tab-pane" id="org_${value.orgno}_acchead_tabpane" role="tabpanel">
-													${value.headcount > 0
-														? `<div class="alert-info h5 text-center border border-info shadow-sm rounded-pill py-2">
-															Acc Head setup already completed.
-															</div>`
-														: `<div class="row justify-content-center">
-															<div class="col-md-10 col-lg-8">
-																<form class="relevant_account_filter_form mb-0">
-																	<div class="input-group">
-																		<div class="input-group-prepend">
-																			<span class="input-group-text shadow-sm">Type</span>
-																		</div>
-																		<select name="commontypeno" class="form-control shadow-sm" required></select>
-																		<div class="input-group-append">
-																			<button class="btn btn-secondary ripple custom_shadow" type="submit">
-																				Get Relevant Account
-																			</button>
-																		</div>
-																	</div>
-																</form>
-															</div>
-														</div>`}
-												</div>
-
-												<div class="tab-pane" id="org_${value.orgno}_accyear_tabpane" role="tabpanel">
-													<div class="row">
-														<div class="col-md-8">
-															<p>Number of active accounting year is controlled by the applied package. </p>
-														</div>
-														<div class="col-md-4">
-															<label class="d-block">
-																<div class="d-flex justify-content-between align-items-end">
-																	<div>Your Valid Packages</div>
-																	<div>
-																		<a href="my_packages.php" class="btn btn-primary btn-sm ripple custom_shadow">Buy</a>
-																	</div>
-																</div>
-																<select name="purchaseno" class="form-control form-control-sm shadow-sm mt-2"></select>
-																<div class="invalid-feedback">You don't have any valid package. Please buy a new package.</div>
-															</label>
-														</div>
-													</div>
-
-													<div class="accyear_info_container_div">
-														<div class="table-responsive rounded shadow-sm">
-															<form class="accyear_add_form w-100 mb-0">
-																<div class="d-table w-100">
-																	<div class="d-table-row">
-																		<div class="d-table-cell align-bottom" style="min-width:350px;">
-																			<input name="accyear" class="form-control shadow-sm rounded-0" type="text" maxlength="9" placeholder="Accounting Year e.g. <?= date("Y") . "-" . date("Y", strtotime("+1 year")) ?>" required>
-																		</div>
-																		<div class="d-table-cell" style="width:170px;min-width:170px;">
-																			<input name="startdate" class="form-control shadow-sm rounded-0" type="date" required>
-																		</div>
-																		<div class="d-table-cell" style="width:170px;min-width:170px;">
-																			<input name="closingdate" class="form-control shadow-sm rounded-0" type="date" required>
-																		</div>
-																		<div class="d-table-cell align-middle" style="width:115px;min-width:115px;">
-																			<button class="btn btn-primary btn-block btn-lg rounded-0 ripple custom_shadow" type="submit">Add</button>
-																		</div>
-																	</div>
-																</div>
-															</form>
-
-															<table class="table table-sm table-bordered table-hover table-striped text-center mb-0">
-																<thead class="table-primary">
-																	<tr>
-																		<th style="width:50px;min-width:50px;">SL</th>
-																		<th style="min-width:300px;">Acc Year</th>
-																		<th style="width:170px;min-width:170px;">Start Date</th>
-																		<th style="width:170px;min-width:170px;">Closing Date</th>
-																		<th class="text-center" style="width:115px;min-width:115px;">Action</th>
-																	</tr>
-																</thead>
-																<tbody class="accyear_info_container"></tbody>
-															</table>
-														</div>
-													</div>
 												</div>
 
 												<div class="tab-pane" id="org_${value.orgno}_module_tabpane" role="tabpanel">
@@ -896,17 +662,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 									: ``}
 							</div>
 							${value.verifiedno == 1 ? `<div class="card-footer p-0">
-								<div class="input-group input-group-sm mx-auto mr-md-0" style="max-width:346px;">
-									<div class="input-group-prepend">
-										<span class="input-group-text shadow-sm text-capitalize">With</span>
-									</div>
-									<select name="accyear" class="form-control shadow-sm rounded-0"></select>
-									<div class="input-group-append">
-										<button class="proceed_to_accounting btn btn-primary ripple rounded-0 custom_shadow" type="button" title="Proceed To Accounting">
-											<i class="fas fa-sign-in-alt mr-1"></i>
-											Proceed <span class="d-none d-sm-inline">To Accounting</span>
-										</button>
-									</div>
+								<div class="mx-auto mr-md-0" style="max-width:170px;">
+									<button class="proceed_to_workmate btn btn-primary btn-sm ripple rounded-0 custom_shadow" type="button" title="Proceed To Workmate">
+										<i class="fas fa-sign-in-alt mr-1"></i>
+										Proceed <span class="d-none d-sm-inline">To Workmate</span>
+									</button>
 								</div>
 							</div>` : ``}
 						</div>`)
@@ -914,20 +674,13 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						.appendTo(this.targetContainer);
 
 					let setidSelect = $(`.orgsettings_form [name="setid"]`, template);
-					let commonAcctypeSelect = $(`.relevant_account_filter_form [name="commontypeno"]`, template);
 					let moduleSelect = $(`.userorgmodule_add_form [name="moduleno"]`, template);
 					let packageSelect = $(`[name="purchaseno"]`, template);
 
 					let settingsContainer = $(`.settings_container`, template);
-					let accyearInfoContainer = $(`.accyear_info_container`, template);
 					let userorgmoduleInfoContainer = $(`.userorgmodule_info_container`, template);
 
-					get_active_accyear({
-						orgno: value.orgno
-					}, $(`select[name="accyear"]`, template));
-
 					(function($) {
-
 						// $(`.preview_orglogo`, template).data(`response`, null);
 
 						if (value.picurl && value.picurl.length) {
@@ -1004,40 +757,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 									orgno: value.orgno
 								}, settingsContainer);
 
-								get_org_accountingyear({
-									orgno: value.orgno
-								}, accyearInfoContainer);
-
 								get_userorgmodule_info({
 									orgno: value.orgno
 								}, userorgmoduleInfoContainer);
 								$(this).data(`is_loaded`, true);
 							}
-						});
-
-						$(`.relevant_account_filter_form`, template).submit(function(e) {
-							e.preventDefault();
-							$(`#common_account_modal`).data(`orgno`, value.orgno).data(`commontypeno`, commonAcctypeSelect.val());
-							get_commonaccounts();
-						});
-
-						$(`.accyear_add_form`, template).submit(function(e) {
-							e.preventDefault();
-
-							let packageSelect = $(`#org_${value.orgno}_accyear_tabpane [name="purchaseno"]`);
-							let purchaseno = packageSelect.val();
-							let aPackage = $(`option:selected`, packageSelect).data();
-							let item = aPackage.items.find(a => a.item == `ACCYEAR`);
-
-							if (item.package_qty == item.used_qty) {
-								toastr.error(`Your package has already been used up. Please select a different package to add accounting year.`);
-								return;
-							}
-
-							if (!confirm(`You are going to add an accounting year. It will use up your available quota which you can not alter. Are you sure to proceed?`)) return;
-
-							$(this).data(`orgno`, value.orgno).data(`purchaseno`, purchaseno);
-							insert_accyear_of_an_org($(this), accyearInfoContainer);
 						});
 
 						$(`.userorgmodule_add_form`, template).submit(function(e) {
@@ -1059,13 +783,12 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							add_userorgmodule($(this), userorgmoduleInfoContainer);
 						});
 
-						$(`.proceed_to_accounting`, template).click(function(e) {
+						$(`.proceed_to_workmate`, template).click(function(e) {
 							let json = {
-								orgno: value.orgno,
-								accyear: $(this).parents(`.input-group`).find(`select[name="accyear"]`).val()
+								orgno: value.orgno
 							};
 
-							$.post(`php/ui/organization/start_org_accounting.php`, json, resp => {
+							$.post(`${publicAccessUrl}php/ui/organization/start_org_operation.php`, json, resp => {
 								if (resp.error) {
 									toastr.error(resp.message);
 								} else {
@@ -1260,374 +983,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				}
 			}, `json`);
 		}
-
-		// COMMON ACCOUNTS
-
-		function get_commonaccounts() {
-			$(`#common_accounts_tbody`).empty();
-
-			let json = {
-				commontypeno: $(`#common_account_modal`).data(`commontypeno`)
-			}
-
-			$.post(`${publicAccessUrl}php/ui/organization/get_commonaccounts.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					show_commonaccounts(resp.data);
-				}
-			}, `json`);
-		}
-
-		function show_commonaccounts(data) {
-			$(`#common_account_modal`).modal(`show`);
-			let target = $(`#common_accounts_tbody`);
-
-			$.each(data, (index, value) => {
-				let template = $(`<tr>
-						<td>${1 + index}</td>
-						<td>${value.accno}</td>
-						<td>${value.accname}</td>
-						<td>${value.praccno}</td>
-						<td>${value.levelno}</td>
-						<td>
-							${value.vtype == 1
-								? `<span class="badge badge-success">Yes</span>`
-								: `<span class="badge badge-danger">No</span>`}
-						</td>
-					</tr>`)
-					.appendTo(target);
-			});
-		}
-
-		$(`#confirm_common_accounts_button`).click(function(e) {
-			let modal = $(`#common_account_modal`);
-
-			let json = {
-				orgno: modal.data(`orgno`),
-				commontypeno: modal.data(`commontypeno`),
-			};
-
-			$.post(`${publicAccessUrl}php/ui/organization/init_orgaccounthead.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					toastr.success(resp.message);
-					modal.modal(`hide`);
-					organization.get();
-				}
-			}, `json`);
-		});
-
-		// ORG ACC YEAR
-
-		function get_org_accountingyear(json, target) {
-			target.empty();
-
-			$.post(`php/ui/organization/get_org_accountingyear.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					show_orgaccyear_info(resp.results, target, json.orgno);
-					//sessionStorage.setItem(`orgsettings_${json.orgno}`, JSON.stringify(resp.results));
-				}
-			}, `json`);
-		}
-
-		function show_orgaccyear_info(data, target, orgno) {
-			$.each(data, (index, value) => {
-				let template = $(`<tr class="${value.accyearstatus == 1 ? `table-success` : `table-secondary`}">
-						<td>${1 + index}</td>
-						<td>${value.accyear || ``}</td>
-						<td>${value.startdate || ``}</td>
-						<td>${value.closingdate || ``}</td>
-						<td class="text-center">
-							${value.init_transno == null
-								? `<button class="bring_forward_button btn btn-sm btn-alternate ripple custom_shadow" type="button" title="Bring forward accounting year info" data-toggle="tooltip" data-placement="top">
-									B/F
-								</button>`
-								: ``}
-							${value.accyearstatus == 1
-								? `<button class="close_accyear_button btn btn-sm btn-danger ripple custom_shadow" type="button" title="Close accounting year" data-toggle="tooltip" data-placement="top">
-									Close
-								</button>`
-								: `<button class="reopen_accyear_button btn btn-sm btn-success ripple custom_shadow" type="button" title="Reopen accounting year" data-toggle="tooltip" data-placement="top">
-									Reopen
-								</button>`}
-							<button class="delete_accyear_button btn btn-sm btn-danger ripple custom_shadow d-none" type="button" title="Delete">
-								<i class="fas fa-trash"></i>
-							</button>
-						</td>
-					</tr>`)
-					.appendTo(target);
-
-				(function($) {
-					$(`.bring_forward_button`, template).click(function(e) {
-						let modal = $(`#bring_forward_accyear_modal`);
-						let select = $(`[name="bf_accyear"]`, modal).empty();
-
-						$.each(data, (indexInData, valueOfData) => {
-							if (valueOfData.accyear != value.accyear && valueOfData.accyearstatus == 0) {
-								$(`<option value="${valueOfData.accyear}">${valueOfData.accyear}</option>`)
-									.appendTo(select);
-							}
-						});
-
-						if ($(`option`, select).length) {
-							modal.modal(`show`);
-						} else {
-							toastr.error(`No closed accounting year found.`);
-							return;
-						}
-
-						let orgsettings = $(`.settings_container`, target.parents(`.org_card`)).data(`orgsettings`);
-						let orgsetting = orgsettings.find(a => a.setid == `ACCL`);
-						if (orgsetting) {
-							$(`#get_balancesheet_form`).data(`maxlevel`, orgsetting.setlabel);
-						}
-
-						$(`#confirm_bring_forward_button`)
-							.data({
-								orgno,
-								for_accyear: value.accyear
-							});
-					});
-
-					$(`.close_accyear_button`, template).click(function(e) {
-						if (!confirm(`Your are going to close "${value.accyear}" accounting year. Are you sure to proceed?`)) return;
-
-						let json = {
-							orgno,
-							accyear: value.accyear
-						};
-
-						close_accounting_year(json, target);
-					});
-
-					$(`.reopen_accyear_button`, template).click(function(e) {
-						let modal = $(`#reopen_accyear_modal`).modal(`show`);
-						$(`form`, modal)
-							.trigger(`reset`)
-							.data({
-								orgno,
-								accyear: value.accyear,
-								target
-							});
-					});
-				})(jQuery);
-			});
-		}
-
-		function insert_accyear_of_an_org(form, target) {
-			let json = Object.fromEntries((new FormData(form[0])).entries());
-			json.orgno = Number(form.data(`orgno`)) || -1;
-			json.purchaseno = Number(form.data(`purchaseno`)) || -1;
-
-			if (json.orgno <= 0) {
-				toastr.error(`Select an organization.`);
-				return;
-			}
-
-			if (json.purchaseno <= 0) {
-				toastr.error(`Select a package.`);
-				return;
-			}
-
-			$.post(`${publicAccessUrl}php/ui/organization/insert_accyear_of_an_org.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					toastr.success(resp.message);
-					form.trigger(`reset`);
-					get_my_valid_packages($(`[name="purchaseno"]`));
-					get_org_accountingyear({
-						orgno: json.orgno
-					}, target);
-					get_active_accyear({
-						orgno: json.orgno
-					}, $(`select[name="accyear"]`, target.parents(`.org_card`)));
-				}
-			}, `json`);
-		}
-
-		function close_accounting_year(json, target) {
-			$.post(`php/ui/accounting/close_accounting_year_only.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					toastr.success(resp.message);
-					get_org_accountingyear({
-						orgno: json.orgno
-					}, target);
-					get_active_accyear({
-						orgno: json.orgno
-					}, $(`select[name="accyear"]`, target.parents(`.org_card`)));
-				}
-			}, `json`);
-		}
-
-		$(`#reopen_accyear_modal_form`).submit(function(e) {
-			e.preventDefault();
-			let json = Object.fromEntries((new FormData(this)).entries());
-			json.orgno = $(this).data(`orgno`);
-			json.accyear = $(this).data(`accyear`);
-
-			let target = $(this).data(`target`);
-
-			$.post(`php/ui/accounting/reopen_accounting_year_only.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					toastr.success(resp.message);
-					$(`#reopen_accyear_modal`).modal(`hide`);
-					get_org_accountingyear({
-						orgno: json.orgno
-					}, target);
-					get_active_accyear({
-						orgno: json.orgno
-					}, $(`select[name="accyear"]`, target.parents(`.org_card`)));
-				}
-			}, `json`);
-		});
-
-		$(`#get_balancesheet_form`).submit(function(e) {
-			e.preventDefault();
-
-			$(`#bring_forward_tbody`).empty();
-
-			let json = Object.fromEntries((new FormData(this)).entries());
-			json.maxlevel = $(this).data(`maxlevel`);
-			json.levelno = json.maxlevel;
-			json.accountingyear = json.bf_accyear;
-
-			delete json.bf_accyear;
-
-			$.post(`php/ui/report/get_balancesheet.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					show_balancesheet(resp.data);
-				}
-			}, `json`);
-		});
-
-		function show_balancesheet(data) {
-			let tbody = $(`#bring_forward_tbody`);
-
-			$(`<tr class="table-secondary h6">
-					<th>Assets</th>
-					<th colspan="4"></th>
-				</tr>`)
-				.appendTo(tbody);
-
-			let totalDebit = 0;
-			let totalCredit = 0;
-
-			$.each(data.asset.accounts, (index, account) => {
-				totalDebit += Number(account.totaldebit);
-				totalCredit += Number(account.totalcredit);
-
-				let row = $(`<tr>
-						<td></td>
-						<td>${account.accno}</td>
-						<td>${account.accname}</td>
-						<td class="text-right">
-							${account.opat == `DR`
-								? Number(account.totaldebit).toFixed(2)
-								: ``}
-						</td>
-						<td class="text-right">
-							${account.opat == `CR`
-								? Number(account.totalcredit).toFixed(2)
-								: ``}
-						</td>
-					</tr>`)
-					.appendTo(tbody);
-			});
-
-			$(`<tr class="table-secondary h6">
-					<th colspan="5">Liabilities and Owners equity</th>
-				</tr>
-				<tr> <th colspan="5">Liabilities:</th> </tr>`)
-				.appendTo(tbody);
-
-			$.each(data.liability.accounts, (index, account) => {
-				totalDebit += Number(account.totaldebit);
-				totalCredit += Number(account.totalcredit);
-
-				let row = $(`<tr>
-						<td></td>
-						<td>${account.accno}</td>
-						<td>${account.accname}</td>
-						<td class="text-right">
-							${account.opat == `DR`
-								? Number(account.totaldebit).toFixed(2)
-								: ``}
-						</td>
-						<td class="text-right">
-							${account.opat == `CR`
-								? Number(account.totalcredit).toFixed(2)
-								: ``}
-						</td>
-					</tr>`)
-					.appendTo(tbody);
-			});
-
-			$(`<tr> <th colspan="5">B/F Equity for Returned Earning:</th> </tr>`)
-				.appendTo(tbody);
-
-			$.each(data.equity.accounts, (index, account) => {
-				totalDebit += Number(account.totaldebit);
-				totalCredit += Number(account.totalcredit);
-
-				let row = $(`<tr>
-						<td colspan="2" style="width:205px;">
-							<select name="profitloss_accno" class="form-control form-control-sm shadow-sm"></select>
-						</td>
-						<td>${account.accname}</td>
-						<td class="text-right">
-							${account.totaldebit != 0
-								? Number(account.totaldebit).toFixed(2)
-								: ``}
-						</td>
-						<td class="text-right">
-							${account.totalcredit != 0
-								? Number(account.totalcredit).toFixed(2)
-								: ``}
-						</td>
-					</tr>`)
-					.appendTo(tbody);
-
-				$(`[name="profitloss_accno"]`, row)
-					.select2(orgAccS2Settings({
-						acctypeno: 2000
-					}, `Select Equity Head...`));
-			});
-
-			$(`<tr class="table-info h6 text-right">
-					<th colspan="3" class="text-center">Total</th>
-					<th>${totalDebit.toFixed(2)}</th>
-					<th>${totalCredit.toFixed(2)}</th>
-				</tr>`)
-				.appendTo(tbody);
-		}
-
-		$(`#confirm_bring_forward_button`).click(function(e) {
-			let json = {
-				for_accyear: $(this).data(`for_accyear`),
-				bf_accyear: $(`#bring_forward_accyear_modal [name="bf_accyear"]`).val(),
-				orgno: $(this).data(`orgno`),
-				profitloss_accno: $(`#bring_forward_accyear_modal [name="profitloss_accno"]`).val()
-			};
-
-			$.post(`php/ui/accounting/bringforward_accounting.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					toastr.success(resp.message);
-				}
-			}, `json`);
-		});
 
 		// USER ORG MODULE
 

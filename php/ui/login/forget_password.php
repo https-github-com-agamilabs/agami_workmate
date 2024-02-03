@@ -106,11 +106,11 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//gen_users (userno,username,firstname,lastname,email,countrycode,contactno,passphrase,authkey,userstatusno,ucreatedatetime,reset_pass_count,updatetime)
+//hr_user (userno,username,firstname,lastname,email,countrycode,contactno,passphrase,authkey,userstatusno,ucreatedatetime,reset_pass_count,updatetime)
 function get_user_info($dbcon, $email)
 {
     $sql = "SELECT userno, username, firstname,lastname
-            FROM gen_users
+            FROM hr_user
             WHERE userstatusno>=1 AND email=?
             LIMIT 1";
 

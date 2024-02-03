@@ -53,7 +53,7 @@ function get_userorgs($dbcon, $orgno)
                     uo.jobtitle,uo.hourlyrate,uo.monthlysalary,uo.permissionlevel,uo.dailyworkinghour,
                     uo.timeflexibility,uo.shiftno,uo.timezone,
                     uo.starttime,uo.endtime,uo.isactive,
-                    u.username,u.firstname,u.lastname,u.affiliation,u.email,u.primarycontact,u.userstatusno
+                    u.username,u.firstname,u.lastname,u.email,u.primarycontact,u.userstatusno
             FROM com_userorg AS uo
                 INNER JOIN hr_user as u ON u.userno=uo.userno
             WHERE uo.orgno=?";

@@ -127,7 +127,7 @@ INSERT INTO com_shiftsettings(shiftno,shifttitle,starttime,endtime) VALUES
 (5,'2S: Morning Shift','06:00:00','14:00:00'),
 (6,'2S: Night Shift','14:00:00','22:00:00');
 
--- com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezoneno,isactive)
+-- com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
 CREATE TABLE com_userorg (
     uono INT AUTO_INCREMENT,
     orgno int NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE com_userorg (
     shiftno tinyint DEFAULT 1,
     starttime TIME DEFAULT '9:00:00',
     endtime TIME DEFAULT '18:00:00',
-    timezoneno VARCHAR(255) DEFAULT 'Asia/Dhaka',
+    timezone VARCHAR(255) DEFAULT 'Asia/Dhaka',
     isactive tinyint DEFAULT 0,
     PRIMARY KEY(uono),
     CONSTRAINT uk_userorg_uuid UNIQUE(uuid),

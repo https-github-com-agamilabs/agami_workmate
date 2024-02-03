@@ -641,7 +641,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						}
 					}
 
-					let isModule1 = value.modules.find(a => a.moduleno == 1) ? true : false;
+					let isOwner = value.permissionlevel == 7 && value.ucatno == 19;
 
 					let template = $(`<div class="card org_card mb-3">
 							<div class="card-header justify-content-between ${validityClass}">
@@ -682,7 +682,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 										${officeTime.length ? `<div>${officeTime}</div>` : ``}
 										${weekend.length ? `<div>${weekend}</div>` : ``}
 									</div>
-									${value.createdby == USERNO || isModule1
+									${value.createdby == USERNO || isOwner
 										? `<div class="">
 											<button class="edit_button btn btn-sm btn-info ripple rounded-circle custom_shadow mr-sm-1 mb-1" type="button" title="Edit">
 												<i class="fas fa-edit"></i>
@@ -694,7 +694,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 										: ``}
 								</div>
 								${value.orgnote && value.orgnote.length ? `<div>${value.orgnote}</div>` : ``}
-								${value.createdby == USERNO || isModule1
+								${value.createdby == USERNO || isOwner
 									? `<hr class="my-2">
 									<div class="">
 										<div class="text-center mb-2">

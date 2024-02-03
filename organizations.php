@@ -757,7 +757,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 									orgno: value.orgno
 								}, settingsContainer);
 
-								get_userorgmodule_info({
+								get_userorg_detail({
 									orgno: value.orgno
 								}, userorgmoduleInfoContainer);
 								$(this).data(`is_loaded`, true);
@@ -986,21 +986,21 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 
 		// USER ORG MODULE
 
-		function get_userorgmodule_info(json, target) {
+		function get_userorg_detail(json, target) {
 			target.empty();
 
-			$.post(`php/ui/organization/get_userorgmodules.php`, json, resp => {
+			$.post(`php/ui/organization/get_userorg_detail.php`, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
-					show_userorgmodule_info(resp.results, target);
+					show_userorg_detail(resp.results, target);
 
 					//sessionStorage.setItem(`orgusermodule_${json.orgno}`, JSON.stringify(resp.results));
 				}
 			}, `json`);
 		}
 
-		function show_userorgmodule_info(data, target) {
+		function show_userorg_detail(data, target) {
 			$.each(data, (index, value) => {
 				let template = $(`<tr class="${value.verified == 1 ? `table-success` : `table-danger`}">
 						<td>${1 + index}</td>
@@ -1102,7 +1102,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					toastr.success(resp.message);
 					form.trigger(`reset`);
 					get_my_valid_packages($(`[name="purchaseno"]`));
-					get_userorgmodule_info({
+					get_userorg_detail({
 						orgno: json.orgno
 					}, target);
 				}
@@ -1115,7 +1115,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					toastr.error(resp.message);
 				} else {
 					toastr.success(resp.message);
-					get_userorgmodule_info({
+					get_userorg_detail({
 						orgno: json.orgno
 					}, target);
 				}
@@ -1128,7 +1128,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					toastr.error(resp.message);
 				} else {
 					toastr.success(resp.message);
-					get_userorgmodule_info({
+					get_userorg_detail({
 						orgno: json.orgno
 					}, target);
 				}

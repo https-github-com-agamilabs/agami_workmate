@@ -53,8 +53,8 @@ function get_my_package_usability($dbcon,$userno)
                 WHERE foruserno=?
                 ) as mp
                 LEFT JOIN
-                (SELECT purchaseno,item, count(assignedto) as  used_qty
-                FROM pack_appliedpackage
+                (SELECT purchaseno,'USER' as item, count(assignedto) as  used_qty
+                FROM pack_appliedpackage                
                 WHERE appliedby=?
                 GROUP BY purchaseno,item
                 ) as mu

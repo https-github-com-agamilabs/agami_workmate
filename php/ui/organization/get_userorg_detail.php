@@ -48,7 +48,7 @@ $dbcon->close();
 function get_userorgs($dbcon, $orgno)
 {
     $sql = "SELECT uono,uo.orgno,
-                    userno,uuid,ucatno,supervisor,
+                    uo.userno,uo.uuid,uo.ucatno,uo.supervisor,
                     uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle,
                     jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,
                     uo.starttime,uo.endtime,uo.isactive,

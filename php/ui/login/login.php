@@ -130,6 +130,8 @@ if ($userLoginResult->num_rows == 1) {
                     $_SESSION['cogo_ucattitle'] = $row['ucattitle'];
                     $_SESSION['cogo_jobtitle'] = $userorg['jobtitle'];
                     $_SESSION['cogo_permissionlevel'] = $row['permissionlevel'];
+                    $_SESSION['cogo_moduleno'] = $row['moduleno'];
+                    $_SESSION['cogo_moduletitle'] = $row['moduletitle'];
                     $response['redirecturl'] = "time_keeper.php";
                 } else {
                     $response['redirecturl'] = "organizations.php";
@@ -183,7 +185,8 @@ function count_my_company($dbcon, $userno)
                     uo.ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
                     jobtitle,permissionlevel,
                     o.orgname,o.street, o.city, o.country, o.picurl,
-                uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle
+                    uo.ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
+                    uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle
             FROM com_userorg as uo
                 INNER JOIN com_orgs as o ON uo.orgno=o.orgno
             WHERE uo.isactive=1 AND uo.userno=?";

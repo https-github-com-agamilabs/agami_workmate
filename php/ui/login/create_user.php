@@ -72,17 +72,17 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-// hr_user(userno, username, firstname, lastname, affiliation, jobtitle, email, primarycontact, passphrase, ucatno, supervisor, permissionlevel, createtime, lastupdatetime, isactive)
+// hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,authkey,ucatno,supervisor,permissionlevel,createtime,lastupdatetime,isactive)
 function add_user($dbcon, $username, $firstname, $lastname, $email, $countrycode, $primarycontact, $passphrase, $authkey, $userstatusno)
 {
     date_default_timezone_set("Asia/Dhaka");
-    $ucreatedatetime = date("Y-m-d H:i:s");
+    $createtime = date("Y-m-d H:i:s");
 
-    $sql = "INSERT INTO hr_user(username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,ucreatedatetime,updatetime)
+    $sql = "INSERT INTO hr_user(username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,createtime,lastupdatetime)
             VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("ssssssssiss", $username, $firstname, $lastname, $email, $countrycode, $primarycontact, $passphrase, $authkey, $userstatusno, $ucreatedatetime, $ucreatedatetime);
+    $stmt->bind_param("ssssssssiss", $username, $firstname, $lastname, $email, $countrycode, $primarycontact, $passphrase, $authkey, $userstatusno, $createtime, $createtime);
     $stmt->execute();
     $result = $stmt->insert_id;
     $stmt->close();

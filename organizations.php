@@ -111,7 +111,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 									<div class="col-lg-6 mb-2">
 										<label class="d-block mb-0">
 											<?= $orgData['lang_contact_no']; ?> <span class="text-danger">*</span>
-											<input name="contactno" class="form-control form-control-sm shadow-sm mt-1" type="text" placeholder="<?= $orgData['lang_contact_no']; ?>..." required>
+											<input name="primarycontact" class="form-control form-control-sm shadow-sm mt-1" type="text" placeholder="<?= $orgData['lang_contact_no']; ?>..." required>
 										</label>
 									</div>
 								</div>
@@ -592,7 +592,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						address += value.country;
 					}
 
-					let contactno = value.contactno;
+					let primarycontact = value.primarycontact;
 
 					// OFFICE TIME
 					let officeTime = ``;
@@ -675,9 +675,9 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 														(View Map)
 													</a>` : ``}
 											</div>` : ``}
-										${contactno.length ? `<div  class="d-flex flex-wrap align-items-center font-size-lg">
+										${primarycontact.length ? `<div  class="d-flex flex-wrap align-items-center font-size-lg">
 												<div><i class="fas fa-phone-alt mr-2"></i></div>
-												<div>${contactno}</div>
+												<div>${primarycontact}</div>
 											</div>` : ``}
 										${officeTime.length ? `<div>${officeTime}</div>` : ``}
 										${weekend.length ? `<div>${weekend}</div>` : ``}

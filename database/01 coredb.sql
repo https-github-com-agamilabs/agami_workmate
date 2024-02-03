@@ -1,5 +1,5 @@
 -- hr_usercat(ucatno, ucattitle)
--- hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,authkey,ucatno,supervisor,permissionlevel,createtime,lastupdatetime,isactive)
+-- hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,authkey,ucatno,supervisor,permissionlevel,createtime,lastupdatetime,isactive,userstatusno)
 -- msg_channel(channelno,channeltitle,parentchannel)
 -- msg_channelmember(channelno, userno, entrytime)
 

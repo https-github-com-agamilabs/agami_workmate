@@ -1,6 +1,6 @@
 -- com_timezone(timezoneno,timezonetitle)
 CREATE TABLE com_timezone(
-    timezoneno tinyint not null,
+    timezoneno INT not null,
     timezonetitle varchar(50) not null,
     primary key(timezoneno)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -127,7 +127,7 @@ INSERT INTO com_shiftsettings(shiftno,shifttitle,starttime,endtime) VALUES
 (5,'2S: Morning Shift','06:00:00','14:00:00'),
 (6,'2S: Night Shift','14:00:00','22:00:00');
 
--- com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
+-- com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezoneno,isactive)
 CREATE TABLE com_userorg (
     uono INT AUTO_INCREMENT,
     orgno int NOT NULL,
@@ -145,6 +145,7 @@ CREATE TABLE com_userorg (
     shiftno tinyint DEFAULT 1,
     starttime TIME DEFAULT '9:00:00',
     endtime TIME DEFAULT '18:00:00',
+    timezoneno INT DEFAULT 1,
     isactive tinyint DEFAULT 0,
     PRIMARY KEY(uono),
     CONSTRAINT uk_userorg_uuid UNIQUE(uuid),
@@ -158,9 +159,6 @@ CREATE TABLE com_userorg (
     CONSTRAINT fk_userorg_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ALTER TABLE com_userorgmodules
--- ADD COLUMN hourrate DECIMAL(6,2) DEFAULT NULL,
--- ADD COLUMN monthlysalary DECIMAL(12,2) DEFAULT NULL;
 
 -- com_authenticationtype(auth_type_id, auth_type_title)
 

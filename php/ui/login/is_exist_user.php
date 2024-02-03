@@ -19,6 +19,7 @@ try {
     }
 
     $result = is_exist_user_by_primarycontact($dbcon, $primarycontact);
+    //$is_username_exists=is_exist_user_by_username($dbcon, $username);
     if ($result > 0) {
         throw new Exception("This contact number is already registered! Please login with your username or recover your password by clicking 'Forget Password'.", 1);
     } else {
@@ -43,6 +44,24 @@ function is_exist_user_by_primarycontact($dbcon, $primarycontact)
 
     $stmt = $dbcon->prepare($sql);
     $stmt->bind_param("s", $primarycontact);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+
+    if ($result->num_rows > 0)
+        return 1;
+    else
+        return 0;
+}
+
+function is_exist_user_by_username($dbcon, $username)
+{
+    $sql = "SELECT userno
+            FROM hr_user
+            WHERE username=?";
+
+    $stmt = $dbcon->prepare($sql);
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();

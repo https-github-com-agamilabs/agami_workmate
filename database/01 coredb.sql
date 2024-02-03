@@ -1,5 +1,5 @@
 -- hr_usercat(ucatno, ucattitle)
--- hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,authkey,ucatno,supervisor,permissionlevel,createtime,lastupdatetime,isactive,userstatusno)
+-- hr_user(userno,username,firstname,lastname,email,primarycontact,passphrase,authkey,createtime,lastupdatetime,isactive,userstatusno)
 -- msg_channel(channelno,channeltitle,parentchannel)
 -- msg_channelmember(channelno, userno, entrytime)
 
@@ -44,11 +44,6 @@ CREATE TABLE hr_user(
 	primarycontact varchar(15) DEFAULT NULL,
 	passphrase varchar(255) NOT NULL,
 	authkey VARCHAR(255) DEFAULT NULL,
-	affiliation varchar(127) DEFAULT NULL,
-	jobtitle varchar(63) DEFAULT NULL,
-	ucatno int DEFAULT 1,
-	supervisor int DEFAULT NULL,
-	permissionlevel int DEFAULT NULL,
 	createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	lastupdatetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	isactive int DEFAULT 0,

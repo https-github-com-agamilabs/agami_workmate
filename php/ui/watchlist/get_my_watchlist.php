@@ -28,7 +28,7 @@ try {
     // }
 
     //$userno comes from check_session
-    $result = get_watchlist($dbcon, $userno);
+    $result = get_watchlist($dbcon, $userno, $orgno);
 
     $watchlist_array = array();
     if ($result->num_rows > 0) {
@@ -62,7 +62,7 @@ $dbcon->close();
     */
 //asp_channelbacklog(backlogno,channelno,story,storytype,points,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
 //asp_storytype(storytypeno,storytypetitle)
-function get_watchlist($dbcon, $userno)
+function get_watchlist($dbcon, $userno, $orgno)
 {
     $sql = "SELECT w.backlogno, 
                     b.channelno, (SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
@@ -73,13 +73,13 @@ function get_watchlist($dbcon, $userno)
                     b.storyphaseno,(SELECT storyphasetitle FROM asp_storyphase WHERE storyphaseno=b.storyphaseno) as storyphasetitle               
             FROM asp_watchlist as w
                 INNER JOIN asp_channelbacklog as b ON w.backlogno=b.backlogno
-            WHERE w.userno=? AND b.storytype=3
+            WHERE w.orgno=? AND w.userno=? AND b.storytype=3
             ORDER BY createtime";
     $stmt = $dbcon->prepare($sql);
     if ($dbcon->error) {
         echo $dbcon->error;
     }
-    $stmt->bind_param("i", $userno);
+    $stmt->bind_param("ii", $orgno, $userno);
     $stmt->execute();
     $stmt->execute();
     $result = $stmt->get_result();

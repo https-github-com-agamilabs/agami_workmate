@@ -20,6 +20,12 @@ try {
         throw new \Exception("Database is not connected!", 1);
     }
 
+    if(!isset($_SESSION['cogo_orgno'])){
+        throw new \Exception("You must select an organization!", 1);
+    }else{
+        $orgno= (int) $_SESSION['cogo_orgno'];
+    }
+
     if (isset($_POST['backlogno'])) {
         $backlogno = (int) $_POST['backlogno'];
     } else {
@@ -27,7 +33,7 @@ try {
     }
     
     
-    $rs_watchlist = remove_watchlist($dbcon, $userno,$backlogno);
+    $rs_watchlist = remove_watchlist($dbcon, $userno,$backlogno, $orgno);
 
     if ($rs_watchlist > 0) {
         $response['error'] = false;
@@ -52,16 +58,16 @@ if (isset($dbcon)) {
 
 
 // asp_watchlist(userno,backlogno,createtime)
-function remove_watchlist($dbcon, $userno,$backlogno)
+function remove_watchlist($dbcon, $userno,$backlogno, $orgno)
 {
     $sql = "DELETE 
             FROM asp_watchlist
-            WHERE userno=? AND backlogno=?";
+            WHERE userno=? AND backlogno=? AND orgno=?";
     $stmt = $dbcon->prepare($sql);
     if ($dbcon->error) {
         echo $dbcon->error;
     }
-    $stmt->bind_param("ii", $userno,$backlogno);
+    $stmt->bind_param("iii", $userno,$backlogno, $orgno);
     $stmt->execute();
     return $stmt->affected_rows;
 }

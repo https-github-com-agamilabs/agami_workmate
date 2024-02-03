@@ -203,3 +203,7 @@ ADD CONSTRAINT fk_channel_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno) O
 ALTER TABLE emp_workingtime
 ADD COLUMN orgno int DEFAULT NULL,
 ADD CONSTRAINT fk_workingtime_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno) ON UPDATE CASCADE;
+
+ALTER TABLE asp_watchlist
+ADD COLUMN orgno int DEFAULT NULL,
+ADD CONSTRAINT fk_watchlist_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno) ON UPDATE CASCADE;

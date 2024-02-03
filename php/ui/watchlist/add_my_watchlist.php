@@ -20,6 +20,12 @@ try {
         throw new \Exception("Database is not connected!", 1);
     }
 
+    if(!isset($_SESSION['cogo_orgno'])){
+        throw new \Exception("You must select an organization!", 1);
+    }else{
+        $orgno= (int) $_SESSION['cogo_orgno'];
+    }
+
     if (isset($_POST['backlogno'])) {
         $backlogno = (int) $_POST['backlogno'];
     } else {
@@ -27,7 +33,7 @@ try {
     }
     
     
-    $rs_watchlist = insert_watchlist($dbcon, $userno,$backlogno);
+    $rs_watchlist = insert_watchlist($dbcon, $userno,$backlogno, $orgno);
 
     if ($rs_watchlist > 0) {
         $response['error'] = false;
@@ -52,18 +58,18 @@ if (isset($dbcon)) {
 
 
 // asp_watchlist(userno,backlogno,createtime)
-function insert_watchlist($dbcon, $userno,$backlogno)
+function insert_watchlist($dbcon, $userno,$backlogno, $orgno)
 {
     date_default_timezone_set("Asia/Dhaka");
     $createtime = date('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO asp_watchlist(userno,backlogno,createtime)
-            VALUES(?,?,?)";
+    $sql = "INSERT INTO asp_watchlist(orgno,userno,backlogno,createtime)
+            VALUES(?,?,?,?)";
     $stmt = $dbcon->prepare($sql);
     if ($dbcon->error) {
         echo $dbcon->error;
     }
-    $stmt->bind_param("iis", $userno,$backlogno, $createtime);
+    $stmt->bind_param("iiis", $orgno,$userno,$backlogno, $createtime);
     $stmt->execute();
     return $stmt->affected_rows;
 }

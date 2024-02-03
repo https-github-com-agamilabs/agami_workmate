@@ -1,13 +1,8 @@
 <?php
+include_once "check_user_org_session_setting.php";
+
 $basePath = dirname(__FILE__);
 include_once $basePath . "/php/ui/login/check_session.php";
-
-//require 'dependancy_checker.php';
-
-date_default_timezone_set("Asia/Dhaka");
-if (session_status() == PHP_SESSION_NONE) {
-	session_start();
-}
 
 if (isset($_GET['lang'])) {
 	$_SESSION["lang"] = $_GET['lang'];

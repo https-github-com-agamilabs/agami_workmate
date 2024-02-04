@@ -625,7 +625,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 
 													<div class="userorgmodule_info_container_div">
 														<div class="table-responsive rounded shadow-sm">
-															<form class="userorgmodule_add_form w-100 mb-0">
+															<form class="userorg_add_form w-100 mb-0">
 																<div class="d-table w-100">
 																	<div class="d-table-row">
 																		<div class="d-table-cell align-bottom" style="min-width:350px;">
@@ -674,25 +674,21 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						.appendTo(this.targetContainer);
 
 					let setidSelect = $(`.orgsettings_form [name="setid"]`, template);
-					let moduleSelect = $(`.userorgmodule_add_form [name="moduleno"]`, template);
+					let moduleSelect = $(`.userorg_add_form [name="moduleno"]`, template);
 					let packageSelect = $(`[name="purchaseno"]`, template);
 
 					let settingsContainer = $(`.settings_container`, template);
 					let userorgmoduleInfoContainer = $(`.userorgmodule_info_container`, template);
 
+					if (value.picurl && value.picurl.length) {
+						$(`.preview_orglogo`, template)
+							// .attr(`src`, value.picurl)
+							.data(`response`, {
+								fileurl: value.picurl
+							});
+					}
+
 					(function($) {
-						// $(`.preview_orglogo`, template).data(`response`, null);
-
-						if (value.picurl && value.picurl.length) {
-							$(`.preview_orglogo`, template)
-								// .attr(`src`, value.picurl)
-								.data(`response`, {
-									fileurl: value.picurl
-								});
-						}
-
-						// console.log($('.preview_orglogo', template));
-
 						$('.preview_orglogo', template).on('click', function(e) {
 							console.log($(this).data(`response`));
 							show_image_cropping_modal($(this), {
@@ -721,8 +717,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 								$.post(url, json, resp => thisObj.successCallback(resp), "json");
 							});
 						});
-
-						// console.log($(`.preview_orglogo`, template).data(`response`));
 
 						$(`.edit_button`, template).click((e) => {
 
@@ -766,7 +760,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							}
 						});
 
-						$(`.userorgmodule_add_form`, template).submit(function(e) {
+						$(`.userorg_add_form`, template).submit(function(e) {
 							e.preventDefault();
 
 							let packageSelect = $(`#org_${value.orgno}_module_tabpane [name="purchaseno"]`);

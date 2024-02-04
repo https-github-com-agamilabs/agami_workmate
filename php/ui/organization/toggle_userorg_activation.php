@@ -27,7 +27,7 @@ try {
         throw new \Exception("User must be selected!", 1);
     }
 
-    $anos = toggle_userorgmodule_activation($dbcon, $orgno, $userno);
+    $anos = toggle_userorg_activation($dbcon, $orgno, $userno);
     if ($anos > 0) {
         $response['error'] = false;
         $response['message'] = "Updated Successfully.";
@@ -43,7 +43,7 @@ echo json_encode($response);
 $dbcon->close();
 
 //com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
-function toggle_userorgmodule_activation($dbcon, $orgno, $userno)
+function toggle_userorg_activation($dbcon, $orgno, $userno)
 {
 
     $sql = "UPDATE com_userorg

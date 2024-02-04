@@ -101,13 +101,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 										</label>
 									</div>
 
-									<!-- <div class="col-lg-6 mb-2">
-										<label class="d-block mb-0">
-											< ?= $orgData['lang_privacy']; ?> <span class="text-danger">*</span>
-											<select name="privacy" class="form-control form-control-sm shadow-sm mt-1" required></select>
-										</label>
-									</div> -->
-
 									<div class="col-lg-6 mb-2">
 										<label class="d-block mb-0">
 											<?= $orgData['lang_contact_no']; ?> <span class="text-danger">*</span>
@@ -241,6 +234,138 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		</div>
 	</div>
 
+	<div id="userorg_setup_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl" role="document">
+			<div class="modal-content">
+				<form id="userorg_setup_modal_form">
+					<div class="modal-header">
+						<h5 class="modal-title">Setup User Org</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-lg-12 form-group">
+								<label class="d-block mb-0">
+									User <span class="text-danger">*</span>
+									<select name="userno" class="form-control shadow-sm mt-2" required></select>
+								</label>
+							</div>
+
+							<div class="col-lg-6 form-group">
+								<label class="d-block mb-0">
+									Unique user ID
+									<input name="uuid" class="form-control shadow-sm mt-2" type="text" placeholder="Unique user ID...">
+								</label>
+							</div>
+
+							<div class="col-lg-6 form-group">
+								<label class="d-block mb-0">
+									Role in the company
+									<select name="ucatno" class="form-control shadow-sm mt-2"></select>
+								</label>
+							</div>
+
+							<div class="col-lg-6 form-group">
+								<label class="d-block mb-0">
+									Is there any supervisor
+									<select name="supervisor" class="form-control shadow-sm mt-2"></select>
+								</label>
+							</div>
+
+							<div class="col-lg-6 form-group">
+								<label class="d-block mb-0">
+									Which module is assigned
+									<select name="moduleno" class="form-control shadow-sm mt-2"></select>
+								</label>
+							</div>
+
+							<div class="col-lg-6 form-group">
+								<label class="d-block mb-0">
+									Position/designation at company
+									<input name="jobtitle" class="form-control shadow-sm mt-2" type="text" placeholder="Position/designation at company...">
+								</label>
+							</div>
+
+							<div class="col-lg-3 form-group">
+								<label class="d-block mb-0">
+									Hourly rate
+									<input name="hourlyrate" class="form-control shadow-sm mt-2" type="number" step="0.01" placeholder="Hourly rate...">
+								</label>
+							</div>
+
+							<div class="col-lg-3 form-group">
+								<label class="d-block mb-0">
+									Monthly salary
+									<input name="monthlysalary" class="form-control shadow-sm mt-2" type="number" step="0.01" placeholder="Monthly salary...">
+								</label>
+							</div>
+
+							<div class="col-lg-6 form-group">
+								<label class="d-block mb-0">
+									Daily work load (Hr)
+									<input name="dailyworkinghour" class="form-control shadow-sm mt-2" type="number" step="0.01" placeholder="Daily work load (Hr)...">
+								</label>
+							</div>
+
+							<div class="col-lg-6 form-group">
+								<label class="d-block mb-0">
+									Time flexibility
+									<select name="timeflexibility" class="form-control shadow-sm mt-2"></select>
+								</label>
+							</div>
+
+							<div class="col-lg-6 form-group">
+								<label class="d-block mb-0">
+									What is his level of permission?
+									<select name="permissionlevel" class="form-control shadow-sm mt-2">
+										<option value="">Select...</option>
+										<option value="0">Employee</option>
+										<option value="1">Senior Employee</option>
+										<option value="3">Manager</option>
+										<option value="7">Admin</option>
+									</select>
+								</label>
+							</div>
+
+							<div class="col-lg-6 form-group">
+								<label class="d-block mb-0">
+									Time zone
+									<select name="timezone" class="form-control shadow-sm mt-2"></select>
+								</label>
+							</div>
+
+							<div class="col-lg-6 form-group">
+								<label class="d-block mb-0">
+									Shift
+									<select name="shiftno" class="form-control shadow-sm mt-2"></select>
+								</label>
+							</div>
+
+							<div class="col-lg-3 form-group">
+								<label class="d-block mb-0">
+									Start time
+									<input name="starttime" class="form-control shadow-sm mt-2" type="time">
+								</label>
+							</div>
+
+							<div class="col-lg-3 form-group">
+								<label class="d-block mb-0">
+									End time
+									<input name="endtime" class="form-control shadow-sm mt-2" type="time">
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer py-2">
+						<button type="submit" class="btn btn-primary rounded-pill px-5 ripple custom_shadow">Save</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<?php require "modal_update_photo.php"; ?>
 
 	<script>
@@ -298,23 +423,81 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			optionValue: `orgtypeid`
 		});
 
-		// const privacy = new SelectElemDataLoad({
-		// 	readURL: `${publicAccessUrl}php/ui/settings/get_orgprivacy.php`,
-		// 	targets: [{
-		// 		selectElem: `#orgs_modal [name="privacy"]`,
-		// 		defaultOptionText: `Select...`,
-		// 		defaultOptionValue: ``
-		// 	}],
-		// 	optionText: `privacytext`,
-		// 	optionValue: `id`
-		// });
-
 		const settings = new SelectElemDataLoad({
 			readURL: `${publicAccessUrl}php/ui/orgsettings/get_settings.php`
 		});
 
+		const userCategoryLoad = new SelectElemDataLoad({
+			readURL: `${publicAccessUrl}php/ui/user/list_usercat.php`,
+			targets: [{
+				selectElem: `#userorg_setup_modal_form [name="ucatno"]`,
+				defaultOptionText: `Select...`,
+				defaultOptionValue: ``
+			}],
+			optionText: `ucattitle`,
+			optionValue: `ucatno`
+		});
+
+		const usersLoad = new SelectElemDataLoad({
+			readURL: `${publicAccessUrl}php/ui/user/list_users.php`,
+			targets: [{
+				selectElem: `#userorg_setup_modal_form [name="userno"]`,
+				defaultOptionText: `Select...`,
+				defaultOptionValue: ``
+			}, {
+				selectElem: `#userorg_setup_modal_form [name="supervisor"]`,
+				defaultOptionText: `Select...`,
+				defaultOptionValue: ``
+			}],
+			templateString: `<span>{{firstname}}</span>
+					<span>{{lastname}}</span>
+					<span>[{{username}}]</span>`,
+			optionValue: `userno`
+		});
+
+		const timeFlexibilityLoad = new SelectElemDataLoad({
+			readURL: `${publicAccessUrl}php/ui/settings/orguser/get_timeflexibility.php`,
+			targets: [{
+				selectElem: `#userorg_setup_modal_form [name="timeflexibility"]`,
+				defaultOptionText: `Select...`,
+				defaultOptionValue: ``
+			}],
+			optionText: `timeflextitle`,
+			optionValue: `timeflexno`
+		});
+
+		const timeZonesLoad = new SelectElemDataLoad({
+			readURL: `${publicAccessUrl}php/ui/settings/orguser/get_timezones.php`,
+			targets: [{
+				selectElem: `#userorg_setup_modal_form [name="timezone"]`,
+				defaultOptionText: `Select...`,
+				defaultOptionValue: ``
+			}],
+			optionText: `timezonetitle`,
+			optionValue: `timezoneno`
+		});
+
+		const shiftLoad = new SelectElemDataLoad({
+			readURL: `${publicAccessUrl}php/ui/settings/orguser/get_shift.php`,
+			targets: [{
+				selectElem: `#userorg_setup_modal_form [name="shiftno"]`,
+				defaultOptionText: `Select...`,
+				defaultOptionValue: ``
+			}],
+			templateString: `<span>{{shifttitle}}</span>
+					<span>[{{starttime}}</span> - <span>{{endtime}}]</span>`,
+			optionValue: `shiftno`
+		});
+
 		const modules = new SelectElemDataLoad({
-			readURL: `${publicAccessUrl}php/ui/organization/get_modules.php`
+			readURL: `${publicAccessUrl}php/ui/organization/get_modules.php`,
+			targets: [{
+				selectElem: `#userorg_setup_modal_form [name="moduleno"]`,
+				defaultOptionText: `Select...`,
+				defaultOptionValue: ``
+			}],
+			optionText: `moduletitle`,
+			optionValue: `moduleno`
 		});
 
 		const orgAccS2Settings = (additionalParams = {}, placeholder = `Select account...`) => {
@@ -404,7 +587,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					pack.items = [...pack.items, {
 						item: value.item,
 						package_qty: value.package_qty,
-						used_qty: value.used_qty,
+						user_qty: value.user_qty,
 					}];
 				} else {
 					packages = [...packages, {
@@ -415,7 +598,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						items: [{
 							item: value.item,
 							package_qty: value.package_qty,
-							used_qty: value.used_qty,
+							user_qty: value.user_qty,
 						}]
 					}];
 				}
@@ -623,7 +806,12 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 														</div>
 													</div>
 
-													<div class="userorgmodule_info_container_div">
+													<div class="userorg_info_container_div">
+														<div class="text-right mb-1">
+															<button class="userorg_add_button btn btn-primary btn-sm ripple custom_shadow" type="button">
+																<i class="fas fa-plus"></i> Add
+															</button>
+														</div>
 														<div class="table-responsive rounded shadow-sm">
 															<form class="userorg_add_form w-100 mb-0">
 																<div class="d-table w-100">
@@ -644,14 +832,24 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 															<table class="table table-sm table-bordered table-hover table-striped text-center mb-0">
 																<thead class="table-primary">
 																	<tr>
-																		<th style="width:50px;min-width:50px;">SL</th>
+																		<th>SL</th>
 																		<th class="text-left" style="min-width:300px;">Name</th>
-																		<th style="width:200px;min-width:200px;">Module</th>
+																		<th>ID</th>
+																		<th>Role</th>
+																		<th>Supervisor</th>
+																		<th>Module</th>
+																		<th>Designation</th>
+																		<th>Rate/Salary</th>
+																		<th>Daily work load</th>
+																		<th>Time flexibility</th>
+																		<th>Permission Level</th>
+																		<th>Time zone</th>
+																		<th>Shift</th>
 																		<th style="width:120px;min-width:120px;">Validity</th>
 																		<th style="width:120px;min-width:120px;">Action</th>
 																	</tr>
 																</thead>
-																<tbody class="userorgmodule_info_container"></tbody>
+																<tbody class="userorg_info_container"></tbody>
 															</table>
 														</div>
 													</div>
@@ -678,7 +876,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					let packageSelect = $(`[name="purchaseno"]`, template);
 
 					let settingsContainer = $(`.settings_container`, template);
-					let userorgmoduleInfoContainer = $(`.userorgmodule_info_container`, template);
+					let userOrgInfoContainer = $(`.userorg_info_container`, template);
 
 					if (value.picurl && value.picurl.length) {
 						$(`.preview_orglogo`, template)
@@ -755,9 +953,30 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 
 								get_userorg_detail({
 									orgno: value.orgno
-								}, userorgmoduleInfoContainer);
+								}, userOrgInfoContainer);
 								$(this).data(`is_loaded`, true);
 							}
+						});
+
+						$(`.userorg_add_button`, template).click(function(e) {
+							let packageSelect = $(`#org_${value.orgno}_module_tabpane [name="purchaseno"]`);
+							let purchaseno = packageSelect.val();
+							let aPackage = $(`option:selected`, packageSelect).data();
+							let item = aPackage.items.find(a => a.item == `ORGUSER`);
+
+							if (item.package_qty == item.user_qty) {
+								toastr.error(`Your package has already been used up. Please select a different package to add user.`);
+								return;
+							}
+
+							$(`#userorg_setup_modal`).modal(`show`);
+							$(`#userorg_setup_modal_form`)
+								.trigger(`reset`)
+								.data({
+									orgno: value.orgno,
+									purchaseno,
+									userOrgInfoContainer
+								});
 						});
 
 						$(`.userorg_add_form`, template).submit(function(e) {
@@ -768,7 +987,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							let aPackage = $(`option:selected`, packageSelect).data();
 							let item = aPackage.items.find(a => a.item == `ORGUSER`);
 
-							if (item.package_qty == item.used_qty) {
+							if (item.package_qty == item.user_qty) {
 								toastr.error(`Your package has already been used up. Please select a different package to add user.`);
 								return;
 							}
@@ -776,7 +995,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							if (!confirm(`You are going to add an user. It will use up your available quota which you can not alter. Are you sure to proceed?`)) return;
 
 							$(this).data(`orgno`, value.orgno).data(`purchaseno`, purchaseno);
-							add_userorg($(this), userorgmoduleInfoContainer);
+							add_userorg($(this), userOrgInfoContainer);
 						});
 
 						$(`.proceed_to_workmate`, template).click(function(e) {
@@ -1007,12 +1226,20 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							${value.lastname || ``}
 							(${value.userno != USERNO ? value.username : `you`})
 						</td>
-						<td class="p-0">
-							<div class="module_div">${value.moduletitle || ``}</div>
-							<div class="module_div" style="display:none;">
-								<select name="moduleno" class="form-control shadow-sm rounded-0" title="Select module" required></select>
-							</div>
+						<td>${value.uuid || ``}</td>
+						<td>${value.ucattitle || ``}</td>
+						<td>${value.supervisor_name || ``}</td>
+						<td>${value.moduletitle || ``}</td>
+						<td>${value.jobtitle || ``}</td>
+						<td>
+							${value.hourlyrate || ``}
+							${value.monthlysalary || ``}
 						</td>
+						<td>${value.dailyworkinghour || ``}</td>
+						<td>${value.timeflexibility || ``}</td>
+						<td>${value.permissionlevel || ``}</td>
+						<td>${value.timezone || ``}</td>
+						<td>${value.shiftno || ``}</td>
 						<td class="text-center">
 							${value.userno != USERNO && isOwner
 								? `<button class="toggle_userorgmodule_button btn btn-sm ${value.verified == 1 ? `btn-danger` : `btn-success`} ripple custom_shadow" type="button" title="${value.verified == 1 ? `Deactivate` : `Activate`} user">
@@ -1077,6 +1304,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				})(jQuery);
 			});
 		}
+
+		$(`#userorg_setup_modal_form`).submit(function(e) {
+			e.preventDefault();
+			add_userorg($(this), $(this).data(`userOrgInfoContainer`));
+		});
 
 		function add_userorg(form, target) {
 			let json = Object.fromEntries((new FormData(form[0])).entries());

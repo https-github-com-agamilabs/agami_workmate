@@ -377,11 +377,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			}, 500);
 		}
 
-		function get_my_valid_packages(target) {
+		function get_my_valid_packages(json, target) {
 			target.empty();
 			let formElem = target.parents(`.tab-pane`).find(`form`);
 
-			$.post(`${publicAccessUrl}php/ui/package/get_my_valid_packages.php`, resp => {
+			$.post(`${publicAccessUrl}php/ui/package/get_my_valid_packages.php`, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 					target.hide().siblings(`.invalid-feedback`).show();
@@ -751,7 +751,9 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							if (!$(this).data(`is_loaded`)) {
 								load_org_settings(setidSelect);
 								load_modules(moduleSelect);
-								get_my_valid_packages(packageSelect);
+								get_my_valid_packages({
+									orgno: value.orgno
+								}, packageSelect);
 
 								get_orgsettings({
 									orgno: value.orgno
@@ -1103,7 +1105,9 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				} else {
 					toastr.success(resp.message);
 					form.trigger(`reset`);
-					get_my_valid_packages($(`[name="purchaseno"]`));
+					get_my_valid_packages({
+						orgno: json.orgno
+					}, $(`[name="purchaseno"]`));
 					get_userorg_detail({
 						orgno: json.orgno
 					}, target);

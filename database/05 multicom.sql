@@ -182,7 +182,8 @@ CREATE TABLE com_settings(
 
 INSERT INTO com_settings(setid, settitle) VALUES
 ('TIME','Time Flexibility: 0 (Flexible), 1 (Encourage Scheduling), 2 (Strict Time-frame)'),
-('TASK','1 (FB-Feed Style), 2 (Tabular)');
+('TASK','1 (FB-Feed Style), 2 (Tabular)'),
+('DIGEST','0 (None), 1 (Daily), 7 (Weekly), and 30 (Monthly)');
 
 -- com_orgsettings(orgno,setid, setlabel, fileurl)
 CREATE TABLE com_orgsettings(

@@ -463,10 +463,9 @@ include_once "php/ui/login/check_session.php";
 			});
 
 		// const CHANNELNO = parseInt(window.location.search.split("=").pop(), 10) || -1;
-		const LOGGEDIN_USERNO = parseInt(`<?= $userno; ?>`, 10) || -1;
-		const UCATNO = parseInt(`<?= $_SESSION['cogo_ucatno']; ?>`, 10) || -1;
+		const LOGGEDIN_USERNO = Number(<?= $userno; ?>) || -1;
+		const UCATNO = Number(<?= $_SESSION['cogo_ucatno']; ?>) || -1;
 
-		const ucatno = `<?= $_SESSION['cogo_ucatno']; ?>`;
 		const searchParams = new URLSearchParams(window.location.search);
 
 		const selected_channel = searchParams.has('channelno') ? searchParams.get('channelno') : '';

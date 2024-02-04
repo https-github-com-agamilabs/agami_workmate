@@ -143,7 +143,7 @@
             <ul id="channels_container" class="vertical-nav-menu mt-3">
 
                 <?php
-                if ($ucatno == 5) : ?>
+                if ($_SESSION['cogo_ucatno'] == 5) : ?>
                     <li>
                         <a href="dashboard.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-tachometer-alt"></i> Dashboard
@@ -152,7 +152,7 @@
                 <?php endif; ?>
 
                 <?php
-                if ($ucatno != 5) : ?>
+                if ($_SESSION['cogo_ucatno'] != 5) : ?>
                     <li class="app-sidebar__heading">Time Keeper</li>
 
                     <li>
@@ -168,7 +168,7 @@
                 <?php endif; ?>
 
                 <?php
-                if ($ucatno == 19) : ?>
+                if ($_SESSION['cogo_ucatno'] == 19) : ?>
                     <!-- <li>
                         <a href="gantt_chart.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-chart-area"></i> Gantt Chart
@@ -195,7 +195,7 @@
                 </li> -->
 
                 <?php
-                if ($ucatno == 19) : ?>
+                if ($_SESSION['cogo_ucatno'] == 19) : ?>
                     <li>
                         <a href="users.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-users"></i> Users
@@ -206,7 +206,7 @@
                 <!-- <li class="app-sidebar__heading">Task Manager</li> -->
 
                 <?php
-                if ($_SESSION['cogo_permissionlevel'] >= 1 || $ucatno == 19) : ?>
+                if ($_SESSION['cogo_permissionlevel'] >= 1 || $_SESSION['cogo_ucatno'] == 19) : ?>
                     <!-- <li>
                         <a href="task_manager.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-tasks"></i> Task Settings
@@ -221,7 +221,7 @@
                 </li> -->
 
                 <?php
-                if ($ucatno == 19) : ?>
+                if ($_SESSION['cogo_ucatno'] == 19) : ?>
                     <!-- <li style="display: none;">
                         <a href="task_today.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-tasks"></i> Task Today
@@ -248,7 +248,7 @@
                 <li class="app-sidebar__heading">Channels</li>
 
                 <?php
-                if ($ucatno === 19) : ?>
+                if ($_SESSION['cogo_ucatno'] === 19) : ?>
                     <li>
                         <a href="setup_channels.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-plus-square"></i> Setup Channel
@@ -441,7 +441,7 @@
             .append(`
             <div class='card-body pl-2 pr-2 py-2'>
                 <div style='color:black;'>
-                    <i class='cursor-pointer remove_watch_list fa fa-window-close text-danger'></i> ${elm.channeltitle}                    
+                    <i class='cursor-pointer remove_watch_list fa fa-window-close text-danger'></i> ${elm.channeltitle}
                 </div>
                 <div style='font-size:10px;' title='${elm.story||""}'>
                     ${(elm.story||"").substr(0, 100)} ${elm.story.length>100?"...":""}
@@ -454,11 +454,11 @@
                     <div class='mr-1'>
                         <a class='position-relative cursor-pointer' title='${prg.assignee}'>
                             <div class='bg-percent-${percentile} rounded-circle' style='width:34px; height:34px;'></div>
-                            <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>                            
+                            <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>
                         </a>
                         <div style='font-size:10px;' class='text-center'>${prg.percentile||0}%</div>
                     </div>
-                    
+
                     `;
                 }).join("")}
                 ${elm.schedule_progress.length==0?"<i>No progress yet!</i>":""}
@@ -476,7 +476,7 @@
                 });
             })();
 
-       
+
         });
     }
 

@@ -125,12 +125,12 @@ if ($userLoginResult->num_rows == 1) {
                 $_SESSION['cogo_timeflexibility'] = $userorg['timeflexibility'];
                 $_SESSION['cogo_starttime'] = $userorg['starttime'];
                 $_SESSION['cogo_endtime'] = $userorg['endtime'];
-                $_SESSION['cogo_ucatno'] = $row['ucatno'];
-                $_SESSION['cogo_ucattitle'] = $row['ucattitle'];
+                $_SESSION['cogo_ucatno'] = $userorg['ucatno'];
+                $_SESSION['cogo_ucattitle'] = $userorg['ucattitle'];
                 $_SESSION['cogo_jobtitle'] = $userorg['jobtitle'];
-                $_SESSION['cogo_permissionlevel'] = $row['permissionlevel'];
-                $_SESSION['cogo_moduleno'] = $row['moduleno'];
-                $_SESSION['cogo_moduletitle'] = $row['moduletitle'];
+                $_SESSION['cogo_permissionlevel'] = $userorg['permissionlevel'];
+                $_SESSION['cogo_moduleno'] = $userorg['moduleno'];
+                $_SESSION['cogo_moduletitle'] = $userorg['moduletitle'];
                 $response['redirecturl'] = "time_keeper.php";
             } else {
                 $response['redirecturl'] = "organizations.php";
@@ -160,7 +160,7 @@ $dbcon->close();
 function get_user_info($dbcon, $username)
 {
     $sql = "SELECT userno,username,firstname,lastname,photo_url,
-                affiliation,jobtitle,email,primarycontact,
+                email,primarycontact,
                 passphrase,createtime,lastupdatetime,isactive, userstatusno
             FROM hr_user as u
             WHERE isactive=1 AND username=?";

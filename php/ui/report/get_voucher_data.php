@@ -49,13 +49,20 @@
             throw new \Exception("You must specify end date!", 1);
         }
 
+        $rs_org=get_org_info($dbcon, $orgno);
+        if ($rs_org->num_rows > 0) {
+            $response['org'] = $rs_org->fetch_array(MYSQLI_ASSOC);
+        }
+        
+
         if ($ucatno>=19) {
             if (isset($_POST['workfor']) && strlen($_POST['workfor'])>0) {
                 $workfor=(int) $_POST['workfor'];
-                $rs_workfor=get_workfor_info($dbcon, $workfor);
+                $rs_workfor=get_workfor_info($dbcon, $orgno,$workfor);
                 if ($rs_workfor->num_rows > 0) {
                     $response['workfor'] = $rs_workfor->fetch_array(MYSQLI_ASSOC);
                 }
+
                 $list = get_emp_elapsedtime_workfor($dbcon, $workfor, $startdate, $enddate);
             }else{
                 $list= get_all_emp_elapsedtime($dbcon, $startdate, $enddate);
@@ -154,9 +161,10 @@
 
     //hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,ucatno,supervisor,permissionlevel,createtime,lastupdatetime,isactive)
     //com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
-    function get_workfor_info($dbcon, $workfor)
+
+    function get_workfor_info($dbcon, $orgno,$workfor)
     {
-        $sql = "SELECT u.userno,firstname,lastname,affiliation,jobtitle,uo.designation,email,primarycontact
+        $sql = "SELECT u.userno,uo.uuid,firstname,lastname,affiliation,jobtitle,uo.designation,email,primarycontact
                 FROM hr_user as u
                     INNER JOIN (
                         SELECT userno,uuid, designation
@@ -172,20 +180,20 @@
         return $result;
     }
 
-    function get_workfor_info($dbcon, $workfor)
+    //com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
+    function get_org_info($dbcon, $orgno)
     {
-        $sql = "SELECT userno,firstname,lastname,affiliation,jobtitle,email,primarycontact
-                FROM hr_user
-                WHERE userno=?";
+        $sql = "SELECT orgno, orgname, street, city, state, country,picurl, primarycontact, orgnote
+                FROM com_orgs 
+                WHERE orgno=?";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("i", $workfor);
+        $stmt->bind_param("i", $orgno);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
 
         return $result;
     }
-
 ?>
 
 

@@ -124,10 +124,10 @@ function add_userorg($dbcon, $orgno, $userno, $data)
         'isactive' => 'i'
     );
 
-    $columns = array_keys($required_columns);
+    $columns = array_keys($optional_columns);
     for ($index = 0; $index < count($columns); $index++) {
         $key = $columns[$index];
-        $type = $required_columns[$key];
+        $type = $optional_columns[$key];
 
         if (isset($data[$key])) {
 

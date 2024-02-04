@@ -59,7 +59,7 @@ function get_my_purchaseoffer($dbcon, $foruserno)
     $sql = "SELECT po.purchaseno,po.offerno,
                     po.buyeruserno,(SELECT CONCAT(firstname, ' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=po.buyeruserno) as buyername,
                     foruserno,(SELECT CONCAT(firstname, ' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=po.buyeruserno) as ownername,
-                    licensekey,amount,discount,paidamount,paidat,
+                    licensekey,amount,po.discount,paidamount,paidat,
                     offertitle,offerdetail,rate
             FROM pack_purchaseoffer as po
                 INNER JOIN pack_offer as o ON o.offerno=po.offerno

@@ -782,7 +782,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							if (!confirm(`You are going to add an user. It will use up your available quota which you can not alter. Are you sure to proceed?`)) return;
 
 							$(this).data(`orgno`, value.orgno).data(`purchaseno`, purchaseno);
-							add_userorgmodule($(this), userorgmoduleInfoContainer);
+							add_userorg($(this), userorgmoduleInfoContainer);
 						});
 
 						$(`.proceed_to_workmate`, template).click(function(e) {
@@ -1084,7 +1084,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			});
 		}
 
-		function add_userorgmodule(form, target) {
+		function add_userorg(form, target) {
 			let json = Object.fromEntries((new FormData(form[0])).entries());
 			json.orgno = Number(form.data(`orgno`)) || -1;
 			json.purchaseno = Number(form.data(`purchaseno`)) || -1;
@@ -1099,7 +1099,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				return;
 			}
 
-			$.post(`${publicAccessUrl}php/ui/organization/add_userorgmodule.php`, json, resp => {
+			$.post(`${publicAccessUrl}php/ui/organization/add_userorg.php`, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {

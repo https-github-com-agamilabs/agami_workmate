@@ -29,6 +29,16 @@ try {
         $lastname = trim(strip_tags($_POST['lastname']));
     }
 
+    $affiliation = NULL;
+    if (isset($_POST['affiliation']) && strlen($_POST['affiliation']) > 0) {
+        $affiliation = trim(strip_tags($_POST['affiliation']));
+    }
+
+    $jobtitle = NULL;
+    if (isset($_POST['jobtitle']) && strlen($_POST['jobtitle']) > 0) {
+        $jobtitle = trim(strip_tags($_POST['jobtitle']));
+    }
+
     if (isset($_POST['email']) && strlen($_POST['email']) > 0) {
         $email = trim(strip_tags($_POST['email']));
     } else {
@@ -56,7 +66,7 @@ try {
     $authkey = NULL;
     $userstatusno = 1;
 
-    $userno = add_user($dbcon, $username, $firstname, $lastname, $email, $countrycode, $primarycontact, $passphrase, $authkey, $userstatusno);
+    $userno = add_user($dbcon, $username, $firstname, $lastname,$affiliation,$jobtitle, $email, $countrycode, $primarycontact, $passphrase, $authkey, $userstatusno);
     if ($userno > 0) {
         $response['error'] = false;
         $response['message'] = "Your registration is successful. Please log in to enjoy services.";
@@ -73,16 +83,16 @@ echo json_encode($response);
 $dbcon->close();
 
 // hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,authkey,ucatno,supervisor,permissionlevel,createtime,lastupdatetime,isactive)
-function add_user($dbcon, $username, $firstname, $lastname, $email, $countrycode, $primarycontact, $passphrase, $authkey, $userstatusno)
+function add_user($dbcon, $username, $firstname, $lastname,$affiliation,$jobtitle, $email, $countrycode, $primarycontact, $passphrase, $authkey, $userstatusno)
 {
     date_default_timezone_set("Asia/Dhaka");
     $createtime = date("Y-m-d H:i:s");
 
-    $sql = "INSERT INTO hr_user(username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,createtime,lastupdatetime,isactive)
-            VALUES(?,?,?,?,?,?,?,?,?,?,?,1)";
+    $sql = "INSERT INTO hr_user(username,firstname,lastname,,affiliation,jobtitleemail,countrycode,primarycontact,passphrase,authkey,userstatusno,createtime,lastupdatetime,isactive)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,1)";
 
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("ssssssssiss", $username, $firstname, $lastname, $email, $countrycode, $primarycontact, $passphrase, $authkey, $userstatusno, $createtime, $createtime);
+    $stmt->bind_param("ssssssssssiss", $username, $firstname, $lastname, $affiliation,$jobtitle, $email, $countrycode, $primarycontact, $passphrase, $authkey, $userstatusno, $createtime, $createtime);
     $stmt->execute();
     $result = $stmt->insert_id;
     $stmt->close();

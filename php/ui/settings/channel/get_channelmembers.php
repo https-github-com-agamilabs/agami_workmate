@@ -66,7 +66,7 @@
 
     function get_channel_members($dbcon, $channelno){
         $sql = "SELECT u.userno,firstname,lastname,
-                        affiliation,jobtitle,email,primarycontact,
+                        u.affiliation,u.jobtitle,email,primarycontact,
                         ucatno,(SELECT ucattitle FROM hr_usercat WHERE ucatno=u.ucatno) as ucattitle,
                         isactive, channelno, entrytime
                 FROM hr_user as u

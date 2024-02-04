@@ -50,6 +50,16 @@
             $lastname = trim(strip_tags($_POST['lastname']));
         }
 
+        $affiliation=NULL;
+        if (isset($_POST['affiliation']) && strlen($_POST['affiliation'])>0) {
+            $affiliation = trim(strip_tags($_POST['affiliation']));
+        }
+
+        $jobtitle=NULL;
+        if (isset($_POST['jobtitle']) && strlen($_POST['jobtitle'])>0) {
+            $jobtitle = trim(strip_tags($_POST['jobtitle']));
+        }
+
         $photo_url=NULL;
         if (isset($_POST['photo_url']) && strlen($_POST['photo_url'])>0) {
             $photo_url = trim(strip_tags($_POST['photo_url']));
@@ -85,7 +95,8 @@
         }
 
         if($userno>0){
-            $nos=update_user($dbcon, $username,$firstname,$lastname,$photo_url,
+            $nos=update_user($dbcon, $username,$firstname,$lastname,
+                                    $affiliation,$jobtitle,$photo_url,
                                     $email,$primarycontact,
                                     $userno);
             if($nos>0){
@@ -96,7 +107,8 @@
                 $response['message'] = "Cannot Update User!";
             }
         }else{
-            $userno=insert_user($dbcon, $username,$firstname,$lastname,$photo_url,
+            $userno=insert_user($dbcon, $username,$firstname,$lastname,
+                                    $affiliation,$jobtitle,$photo_url,
                                     $email,$primarycontact,$passphrase);
             if($userno>0){
                 $response['error'] = false;
@@ -119,16 +131,19 @@
      * Local Function
      */
 
-    function insert_user($dbcon, $username,$firstname,$lastname,$photo_url,
+    function insert_user($dbcon, $username,$firstname,$lastname,
+                                $affiliation,$jobtitle,$photo_url,
                                 $email,$primarycontact,$passphrase){
 
         $sql = "INSERT INTO hr_user(
-                                username,firstname,lastname,photo_url,
+                                username,firstname,lastname,
+                                affiliation,jobtitle,photo_url,
                                 email,primarycontact,passphrase
                             )
-                VALUES(?,?,?,?,?,?,?)";
+                VALUES(?,?,?,?,?,?,?,?,?)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("sssssss",$username,$firstname,$lastname,$photo_url,
+        $stmt->bind_param("sssssssss",$username,$firstname,$lastname,
+                            $affiliation,$jobtitle,$photo_url,
                             $email,$primarycontact,$passphrase);
         $stmt->execute();
         return $stmt->insert_id;
@@ -136,7 +151,8 @@
 
     }
 
-    function update_user($dbcon, $username,$firstname,$lastname, $photo_url, 
+    function update_user($dbcon, $username,$firstname,$lastname, 
+                                $affiliation,$jobtitle,$photo_url, 
                                 $email,$primarycontact,$userno){
 
         $params = array();
@@ -157,6 +173,18 @@
         if(!is_null($lastname)){
             $dataset[] ="lastname=?";
             $params[] = &$lastname;
+            $types[] = "s";
+        }
+
+        if(!is_null($affiliation)){
+            $dataset[] ="affiliation=?";
+            $params[] = &$affiliation;
+            $types[] = "s";
+        }
+
+        if(!is_null($jobtitle)){
+            $dataset[] ="jobtitle=?";
+            $params[] = &$jobtitle;
             $types[] = "s";
         }
 

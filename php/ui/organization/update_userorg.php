@@ -42,7 +42,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,
+//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,permissionlevel,
 //              dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
 function update_userorg($dbcon, $orgno, $userno, $data)
 {
@@ -55,7 +55,7 @@ function update_userorg($dbcon, $orgno, $userno, $data)
         'ucatno' => 'i',
         'supervisor' => 'i',
         'moduleno' => 'i',
-        'jobtitle' => 's',
+        'designation' => 's',
         'hourlyrate' => 'd',
         'monthlysalary' => 'd',
         'permissionlevel' => 'i',

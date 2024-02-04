@@ -153,10 +153,10 @@
     }
 
     //hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,ucatno,supervisor,permissionlevel,createtime,lastupdatetime,isactive)
-    //com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
+    //com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
     function get_workfor_info($dbcon, $workfor)
     {
-        $sql = "SELECT u.userno,firstname,lastname,affiliation,jobtitle,designation,email,primarycontact
+        $sql = "SELECT u.userno,firstname,lastname,affiliation,jobtitle,uo.designation,email,primarycontact
                 FROM hr_user as u
                     INNER JOIN (
                         SELECT userno,uuid, designation

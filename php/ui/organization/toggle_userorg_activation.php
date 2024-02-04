@@ -42,7 +42,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
+//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
 function toggle_userorg_activation($dbcon, $orgno, $userno)
 {
 

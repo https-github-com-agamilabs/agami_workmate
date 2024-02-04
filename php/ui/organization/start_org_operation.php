@@ -43,7 +43,7 @@ try {
             $_SESSION['cogo_endtime'] = $userorg['endtime'];
             $_SESSION['cogo_ucatno'] = $row['ucatno'];
             $_SESSION['cogo_ucattitle'] = $row['ucattitle'];
-            $_SESSION['cogo_jobtitle'] = $userorg['jobtitle'];
+            $_SESSION['cogo_designation'] = $userorg['designation'];
             $_SESSION['cogo_permissionlevel'] = $row['permissionlevel'];
             $_SESSION['cogo_moduleno'] = $row['moduleno'];
             $_SESSION['cogo_moduletitle'] = $row['moduletitle'];

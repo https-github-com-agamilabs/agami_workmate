@@ -1003,7 +1003,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		}
 
 		function show_userorg_detail(data, target) {
-			let isModificationAllowed = data.find(a => a.userno == USERNO && a.permissionlevel == 7 && a.ucatno == 19);
+			let isOwner = data.find(a => a.userno == USERNO && a.permissionlevel == 7 && a.ucatno == 19);
 
 			$.each(data, (index, value) => {
 				let template = $(`<tr class="${value.verified == 1 ? `table-success` : `table-danger`}">
@@ -1020,14 +1020,14 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							</div>
 						</td>
 						<td class="text-center">
-							${value.userno != USERNO && isModificationAllowed
+							${value.userno != USERNO && isOwner
 								? `<button class="toggle_userorgmodule_button btn btn-sm ${value.verified == 1 ? `btn-danger` : `btn-success`} ripple custom_shadow" type="button" title="${value.verified == 1 ? `Deactivate` : `Activate`} user">
 									${value.verified == 1 ? `Deactivate` : `Activate`}
 								</button>`
 								: ``}
 						</td>
 						<td class="text-center">
-							${value.userno != USERNO && isModificationAllowed
+							${value.userno != USERNO && isOwner
 								? `<button class="edit_userorgmodule_button btn btn-sm btn-info custom_shadow" type="button" title="Update module">
 									Edit
 								</button>

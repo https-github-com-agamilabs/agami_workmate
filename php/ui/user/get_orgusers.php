@@ -83,21 +83,21 @@
         if($ucatno>0){
             $params[] = &$ucatno;
             $count++;
-            $dataset .= " AND ucatno=?";
+            $dataset .= " AND uo.ucatno=?";
             $types .= 'i';
         }
 
         if($selected_user>0){
             $params[] = &$selected_user;
             $count++;
-            $dataset .= " AND userno=?";
+            $dataset .= " AND u.userno=?";
             $types .= 'i';
         }
 
         if($isactive>=0){
             $params[] = &$isactive;
             $count++;
-            $dataset .= " AND isactive=?";
+            $dataset .= " AND u.isactive=?";
             $types .= 'i';
         }
 

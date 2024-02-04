@@ -83,25 +83,25 @@
         if($ucatno>0){
             $params[] = &$ucatno;
             $count++;
-            $dataset .= " AND uo.ucatno=?";
+            $dataset .= " AND ucatno=?";
             $types .= 'i';
         }
 
         if($selected_user>0){
             $params[] = &$selected_user;
             $count++;
-            $dataset .= " AND u.userno=?";
+            $dataset .= " AND userno=?";
             $types .= 'i';
         }
 
         if($isactive>=0){
             $params[] = &$isactive;
             $count++;
-            $dataset .= " AND u.isactive=?";
+            $dataset .= " AND isactive=?";
             $types .= 'i';
         }
 
-        $sql = "SELECT u.userno,username,firstname,lastname,photo_url,
+        $sql = "SELECT userno,username,firstname,lastname,photo_url,
                         email,primarycontact,
                         uo.ucatno,(SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
                         uo.supervisor,(SELECT CONCAT(firstname,' ', lastname) FROM hr_user s WHERE s.userno=uo.supervisor) as supervisor_name,
@@ -109,7 +109,7 @@
                         createtime,lastupdatetime,u.isactive
                 FROM hr_user as u
                     INNER JOIN (
-                        SELECT userno,ucatno,supervisor,permissionlevel
+                        SELECT userno,ucatno,supervisor,permissionlevel,
                         FROM com_userorg
                         WHERE orgno=$orgno) as uo ON u.userno=uo.userno
                 $dataset

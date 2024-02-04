@@ -102,9 +102,7 @@
                         uo.permissionlevel,
                         createtime,lastupdatetime,u.isactive
                 FROM hr_user as u
-                    INNER JOIN (
-                        SELECT userno,ucatno,supervisor,permissionlevel,
-                        FROM com_userorg) as uo ON u.userno=uo.userno
+                    INNER JOIN com_userorg as uo ON u.userno=uo.userno
                 $dataset
                 ORDER BY u.isactive DESC,u.userno DESC";
 

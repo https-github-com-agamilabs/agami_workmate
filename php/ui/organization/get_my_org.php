@@ -50,7 +50,7 @@ echo json_encode($response);
 $dbcon->close();
 
 //com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
-//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
+//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
 //com_modules(moduleno,moduletitle)
 //com_orgtype (orgtypeid,orgtypename,typetag,iconurl)
 function get_orgs_of_an_user($dbcon, $userno)
@@ -59,7 +59,7 @@ function get_orgs_of_an_user($dbcon, $userno)
                 uo.uuid,
                 uo.ucatno,
                 uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle,
-                uo.jobtitle,uo.hourlyrate,uo.monthlysalary,uo.permissionlevel,uo.dailyworkinghour,
+                uo.designation,uo.hourlyrate,uo.monthlysalary,uo.permissionlevel,uo.dailyworkinghour,
                 uo.timeflexibility,
                 uo.shiftno,
                 uo.starttime,uo.endtime,

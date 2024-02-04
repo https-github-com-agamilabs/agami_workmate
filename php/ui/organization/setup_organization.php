@@ -256,7 +256,7 @@ function update_organization($dbcon, $orgno, $data)
     return $result;
 }
 
-//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,
+//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,
 //            permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
 function insert_userorgs($dbcon, $orgno, $userno)
 {

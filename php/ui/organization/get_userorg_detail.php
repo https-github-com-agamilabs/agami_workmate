@@ -42,7 +42,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
+//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
 //hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,authkey,ucatno,supervisor,permissionlevel,createtime,lastupdatetime,isactive,userstatusno)
 //com_modules(moduleno,moduletitle)
 //com_shiftsettings(shiftno,shifttitle,starttime,endtime)
@@ -53,12 +53,12 @@ function get_userorgs($dbcon, $orgno)
                     uo.ucatno,(SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
                     uo.supervisor,(SELECT CONCAT(firstname,' ', lastname) FROM hr_user s WHERE s.userno=uo.supervisor) as supervisor_name,
                     uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle,
-                    uo.jobtitle,uo.hourlyrate,uo.monthlysalary,uo.permissionlevel,uo.dailyworkinghour,
+                    uo.designation,uo.hourlyrate,uo.monthlysalary,uo.permissionlevel,uo.dailyworkinghour,
                     uo.timeflexibility,
                     uo.shiftno,(SELECT shifttitle FROM com_shiftsettings WHERE shiftno=uo.shiftno) as shifttitle,
                     uo.timezone,
                     uo.starttime,uo.endtime,uo.isactive,
-                    u.username,u.firstname,u.lastname,u.email,u.primarycontact,
+                    u.username,u.firstname,u.lastname,u.affiliation,u.jobtitle,u.email,u.primarycontact,
                     u.userstatusno
             FROM com_userorg AS uo
                 INNER JOIN hr_user as u ON u.userno=uo.userno

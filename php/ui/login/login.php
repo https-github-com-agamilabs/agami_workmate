@@ -128,7 +128,7 @@ if ($userLoginResult->num_rows == 1) {
                 $_SESSION['cogo_endtime'] = $userorg['endtime'];
                 $_SESSION['cogo_ucatno'] = $userorg['ucatno'];
                 $_SESSION['cogo_ucattitle'] = $userorg['ucattitle'];
-                $_SESSION['cogo_jobtitle'] = $userorg['jobtitle'];
+                $_SESSION['cogo_designation'] = $userorg['designation'];
                 $_SESSION['cogo_permissionlevel'] = $userorg['permissionlevel'];
                 $_SESSION['cogo_moduleno'] = $userorg['moduleno'];
                 $_SESSION['cogo_moduletitle'] = $userorg['moduletitle'];
@@ -174,13 +174,13 @@ function get_user_info($dbcon, $username)
     return $result;
 }
 
-//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,starttime,endtime,isactive)
+//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,starttime,endtime,isactive)
 //com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 function count_my_company($dbcon, $userno)
 {
     $sql = "SELECT uo.orgno,timeflexibility,uo.starttime,uo.endtime,
                     uo.ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
-                    jobtitle,permissionlevel,
+                    designation,permissionlevel,
                     o.orgname,o.street, o.city, o.country, o.picurl,
                     uo.ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
                     uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle

@@ -31,7 +31,7 @@ try {
     $ucatno=isset($_POST['ucatno'])?(int)$_POST['ucatno']:1;
     $supervisor=isset($_POST['supervisor']) && strlen($_POST['supervisor'])>0?(int)$_POST['supervisor']:NULL;
     $moduleno=isset($_POST['moduleno']) && strlen($_POST['moduleno'])>0?(int)$_POST['moduleno']:NULL;
-    $jobtitle=isset($_POST['jobtitle']) && strlen($_POST['jobtitle'])>0?strip_tags($_POST['jobtitle']):NULL;
+    $designation=isset($_POST['designation']) && strlen($_POST['designation'])>0?strip_tags($_POST['designation']):NULL;
     $hourlyrate=isset($_POST['hourlyrate']) && strlen($_POST['hourlyrate'])>0 ?(double)$_POST['hourlyrate']:NULL;
     $monthlyrate=isset($_POST['monthlysalary'])  && strlen($_POST['monthlysalary'])>0?(double)$_POST['monthlysalary']:NULL;
     $dailyworkinghour=isset($_POST['dailyworkinghour'])?(int)$_POST['dailyworkinghour']:8;
@@ -51,7 +51,7 @@ try {
 
     $anos = add_userorg($dbcon, $orgno, $foruserno, 
                                 $uuid,$ucatno,$supervisor,$moduleno,
-                                $jobtitle,$hourlyrate,$monthlyrate,$dailyworkinghour,
+                                $designation,$hourlyrate,$monthlyrate,$dailyworkinghour,
                                 $timeflexibility,$permissionlevel,$timezone,$shiftno,
                                 $starttime,$endtime
                                 );
@@ -70,17 +70,17 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//hr_user (userno,username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,ucreatedatetime,updatetime)
-//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,
+//hr_user (userno,username,firstname,lastname,affiliation,jobtitle,email,countrycode,primarycontact,passphrase,authkey,userstatusno,ucreatedatetime,updatetime)
+//com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,permissionlevel,
 //              dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
 function add_userorg($dbcon, $orgno, $userno, 
                             $uuid,$ucatno,$supervisor,$moduleno,
-                            $jobtitle,$hourlyrate,$monthlyrate,$dailyworkinghour,
+                            $designation,$hourlyrate,$monthlyrate,$dailyworkinghour,
                             $timeflexibility,$permissionlevel,$timezone,$shiftno,
                             $starttime,$endtime
                             )
 {
-    $sql="INSERT INTO com_userorg (orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,
+    $sql="INSERT INTO com_userorg (orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,
                   dailyworkinghour,timeflexibility,permissionlevel,timezone,shiftno,starttime,endtime,isactive)
             VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)
             ";
@@ -92,7 +92,7 @@ function add_userorg($dbcon, $orgno, $userno,
 
     $stmt->bind_param("iisiiisddiiisiss", $orgno, $userno, 
                                         $uuid,$ucatno,$supervisor,$moduleno,
-                                        $jobtitle,$hourlyrate,$monthlyrate,$dailyworkinghour,
+                                        $designation,$hourlyrate,$monthlyrate,$dailyworkinghour,
                                         $timeflexibility,$permissionlevel,$timezone,$shiftno,
                                         $starttime,$endtime );
     $stmt->execute();

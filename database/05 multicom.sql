@@ -127,7 +127,7 @@ INSERT INTO com_shiftsettings(shiftno,shifttitle,starttime,endtime) VALUES
 (5,'2S: Morning Shift','06:00:00','14:00:00'),
 (6,'2S: Night Shift','14:00:00','22:00:00');
 
--- com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
+-- com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
 CREATE TABLE com_userorg (
     uono INT AUTO_INCREMENT,
     orgno int NOT NULL,
@@ -136,7 +136,7 @@ CREATE TABLE com_userorg (
     ucatno int DEFAULT 1,
     supervisor int DEFAULT NULL,
     moduleno tinyint DEFAULT NULL,
-    jobtitle varchar(63) DEFAULT NULL,
+    designation varchar(63) DEFAULT NULL,
     hourlyrate DECIMAL(6,2) DEFAULT NULL,
     monthlysalary DECIMAL(12,2) DEFAULT NULL,
     permissionlevel int DEFAULT NULL,
@@ -159,6 +159,8 @@ CREATE TABLE com_userorg (
     CONSTRAINT fk_userorg_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- ALTER TABLE com_userorg 
+-- CHANGE jobtitle designation VARCHAR(63) DEFAULT NULL;
 
 -- com_authenticationtype(auth_type_id, auth_type_title)
 

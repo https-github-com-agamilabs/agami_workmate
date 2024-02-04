@@ -25,6 +25,12 @@
             throw new \Exception("You must login first!", 1);
         }
 
+        if(isset($_SESSION['cogo_orgno'])){
+            $orgno=(int) $_SESSION['cogo_orgno'];
+        }else{
+            throw new \Exception("You must selct an organization!", 1);
+        }
+
         if(isset($_SESSION['cogo_ucatno'])){
             $ucatno=(int) $_SESSION['cogo_ucatno'];
         }else{
@@ -147,6 +153,25 @@
     }
 
     //hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,ucatno,supervisor,permissionlevel,createtime,lastupdatetime,isactive)
+    //com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
+    function get_workfor_info($dbcon, $workfor)
+    {
+        $sql = "SELECT u.userno,firstname,lastname,affiliation,jobtitle,designation,email,primarycontact
+                FROM hr_user as u
+                    INNER JOIN (
+                        SELECT userno,uuid, designation
+                        FROM com_userorg 
+                        WHERE orgno=? AND userno=?) as uo ON u.userno=uo.userno
+                WHERE userno=?";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("iii", $orgno,$workfor,$workfor);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
+
     function get_workfor_info($dbcon, $workfor)
     {
         $sql = "SELECT userno,firstname,lastname,affiliation,jobtitle,email,primarycontact

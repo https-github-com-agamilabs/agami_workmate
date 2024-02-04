@@ -95,11 +95,11 @@
             $types .= 'i';
         }
 
-        $sql = "SELECT u.userno,username,firstname,lastname,photo_url,
+        $sql = "SELECT u.userno,username,firstname,lastname,photo_url,affiliation,jobtitle,
                         email,primarycontact,
                         uo.ucatno,(SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
                         uo.supervisor,(SELECT CONCAT(firstname,' ', lastname) FROM hr_user s WHERE s.userno=uo.supervisor) as supervisor_name,
-                        uo.permissionlevel,
+                        uo.permissionlevel,uo.designation,
                         createtime,lastupdatetime,u.isactive
                 FROM hr_user as u
                     INNER JOIN com_userorg as uo ON u.userno=uo.userno

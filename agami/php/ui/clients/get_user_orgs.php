@@ -46,7 +46,7 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//com_userorgmodules (uuid,orgno, userno, moduleno, isactive)
+//com_userorg (uuid,orgno, userno, moduleno, isactive)
 //com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 //com_modules(moduleno,moduletitle)
 function get_user_orgs($dbcon, $userno)
@@ -54,7 +54,7 @@ function get_user_orgs($dbcon, $userno)
     $sql = "SELECT om.orgno, orgname, street, city, `state`, country, picurl, primarycontact, orgnote,o.verifiedno as company_verified,
                 moduleno, (SELECT moduletitle FROM com_modules WHERE moduleno=om.moduleno) as moduletitle,
                 isactive as module_verified
-            FROM com_userorgmodules AS om
+            FROM com_userorg AS om
                 INNER JOIN com_orgs as o ON om.orgno=o.orgno
             WHERE om.userno=?";
 

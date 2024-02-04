@@ -1,5 +1,5 @@
 -- hr_usercat(ucatno, ucattitle)
--- hr_user(userno,username,firstname,lastname,email,primarycontact,passphrase,authkey,createtime,lastupdatetime,isactive,userstatusno)
+-- hr_user(userno,username,firstname,lastname,affiliation,jobtitle,photo_url,email,primarycontact,passphrase,authkey,createtime,lastupdatetime,isactive,userstatusno)
 -- msg_channel(channelno,channeltitle,parentchannel)
 -- msg_channelmember(channelno, userno, entrytime)
 
@@ -38,6 +38,8 @@ CREATE TABLE hr_user(
 	username varchar(63) NOT NULL,
 	firstname varchar(63) NOT NULL,
 	lastname varchar(63) DEFAULT NULL,
+	affiliation VARCHAR(255) DEFAULT NULL,
+	jobtitle VARCHAR(63) DEFAULT NULL,
 	photo_url varchar(255) DEFAULT NULL,
 	email varchar(255) DEFAULT NULL,
 	countrycode varchar(7) DEFAULT null,
@@ -53,6 +55,10 @@ CREATE TABLE hr_user(
 	CONSTRAINT fk_user_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,
 	CONSTRAINT fk_user_supervisor FOREIGN KEY(supervisor) REFERENCES hr_user(userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE hr_user
+-- ADD COLUMN affiliation VARCHAR(255) DEFAULT NULL,
+-- ADD COLUMN jobtitle VARCHAR(63) DEFAULT NULL;
 
 -- ALTER TABLE hr_user
 -- ADD COLUMN authkey VARCHAR(255) DEFAULT NULL;

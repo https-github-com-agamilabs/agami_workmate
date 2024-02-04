@@ -58,7 +58,8 @@ function get_userorgs($dbcon, $orgno)
                     uo.shiftno,(SELECT shifttitle FROM com_shiftsettings WHERE shiftno=uo.shiftno) as shifttitle,
                     uo.timezone,
                     uo.starttime,uo.endtime,uo.isactive,
-                    u.username,u.firstname,u.lastname,u.email,u.primarycontact,u.userstatusno
+                    u.username,u.firstname,u.lastname,u.email,u.primarycontact,
+                    u.userstatusno
             FROM com_userorg AS uo
                 INNER JOIN hr_user as u ON u.userno=uo.userno
             WHERE uo.orgno=?

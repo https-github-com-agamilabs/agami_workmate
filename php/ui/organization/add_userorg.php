@@ -49,7 +49,6 @@ try {
         throw new \Exception("Package must be selected!", 1);
     }
 
-    $dbcon->begin_transaction();
     $anos = add_userorg($dbcon, $orgno, $foruserno, 
                                 $uuid,$ucatno,$supervisor,$moduleno,
                                 $jobtitle,$hourlyrate,$monthlyrate,$dailyworkinghour,
@@ -57,20 +56,12 @@ try {
                                 $starttime,$endtime
                                 );
     if ($anos > 0) {
-        $appliedno = insert_appliedpackage($dbcon, $purchaseno, $orgno, $foruserno, $userno);
-        if ($appliedno > 0) {
-            $response['error'] = false;
-            $response['message'] = "Added Successfully.";
-        } else {
-            $dbcon->rollback();
-            throw new Exception('User-module failed! Check your package and try again.', 1);
-        }
+        $response['error'] = false;
+        $response['message'] = "Added Successfully.";
     } else {
-        $dbcon->rollback();
         throw new \Exception("Could not add!", 1);
     }
 
-    $dbcon->commit();
 } catch (Exception $e) {
     $response['error'] = true;
     $response['message'] = $e->getMessage();
@@ -110,24 +101,3 @@ function add_userorg($dbcon, $orgno, $userno,
     return $result;
 }
 
-
-//pack_appliedpackage(appliedno,purchaseno,item,orgno,assignedto, appliedat, appliedby)
-function insert_appliedpackage($dbcon, $purchaseno, $orgno, $foruserno, $appliedby)
-{
-    date_default_timezone_set("Asia/Dhaka");
-    $appliedat = date("Y-m-d H:i:s");
-
-    $sql = "INSERT INTO pack_appliedpackage(purchaseno,item,orgno,assignedto, appliedat, appliedby)
-            VALUES(?,'ORGUSER',?,?,?,?)";
-
-    $stmt = $dbcon->prepare($sql);
-    if (!$stmt) {
-        echo $dbcon->error;
-    }
-
-    $stmt->bind_param("iissi", $purchaseno, $orgno, $foruserno, $appliedat, $appliedby);
-    $stmt->execute();
-    $result = $stmt->affected_rows;
-    $stmt->close();
-    return $result;
-}

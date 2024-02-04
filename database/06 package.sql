@@ -86,17 +86,17 @@ CREATE TABLE pack_purchaseoffer(
   CONSTRAINT fk_orgpurchaseinvoice_coupon FOREIGN KEY (coupon) REFERENCES pack_coupon(coupon) ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- pack_appliedpackage(appliedno,purchaseno,orgno,starttime,assignedto, duration,appliedat, appliedby)
+-- pack_appliedpackage(appliedno,purchaseno,orgno,starttime, duration,appliedat, appliedby)
 CREATE TABLE pack_appliedpackage(
   appliedno INT AUTO_INCREMENT,
   purchaseno INT NOT NULL,
   orgno INT NOT NULL,
   starttime DATETIME DEFAULT NULL,
-  assignedto tinyint NOT NULL,
   duration INT NOT NULL,
   appliedat DATETIME DEFAULT CURRENT_TIMESTAMP,
   appliedby int NOT NULL,
   PRIMARY KEY(appliedno),
+  CONSTRAINT uk_appliedpackage_purchaseno UNIQUE(purchaseno),
   CONSTRAINT fk_appliedpackage_purchaseno FOREIGN KEY (purchaseno) REFERENCES pack_purchaseoffer(purchaseno) ON UPDATE CASCADE,
   CONSTRAINT fk_appliedpackage_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno) ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

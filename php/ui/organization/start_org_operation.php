@@ -94,13 +94,12 @@ function get_info_organization($dbcon, $userno, $orgno)
     return $result;
 }
 
-//pack_appliedpackage(appliedno,purchaseno,orgno,starttime,assignedto, duration,appliedat, appliedby)
+//pack_appliedpackage(appliedno,purchaseno,orgno,starttime, duration,appliedat, appliedby)
 function check_org_validity($dbcon,$orgno){
 
-    $sql = "SELECT appliedno,purchaseno,assignedto,starttime,DATE(DATE_ADD(starttime, INTERVAL duration DAY)) as closingdate
+    $sql = "SELECT appliedno,purchaseno,starttime,DATE(DATE_ADD(starttime, INTERVAL duration DAY)) as closingdate
             FROM pack_appliedpackage
-            WHERE orgno=?
-                AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))";
+            WHERE orgno=? AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))";
 
     $stmt = $dbcon->prepare($sql);
     $stmt->bind_param("i", $orgno);

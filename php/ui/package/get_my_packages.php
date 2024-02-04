@@ -73,12 +73,12 @@ function get_my_purchaseoffer($dbcon, $foruserno)
     return $result;
 }
 
-//pack_appliedpackage(appliedno,purchaseno,item,orgno,assignedto, appliedat, appliedby)
+//pack_appliedpackage(appliedno,purchaseno,orgno,starttime, duration,appliedat, appliedby)
 function get_appliedpackage_info($dbcon, $purchaseno)
 {
-    $sql = "SELECT purchaseno,item,
+    $sql = "SELECT appliedno,purchaseno,
                 orgno,(SELECT orgname FROM com_orgs WHERE orgno=ap.orgno) as orgname,
-                assignedto,
+                starttime,duration,
                 appliedat, appliedby
             FROM pack_appliedpackage as ap
             WHERE purchaseno=?";

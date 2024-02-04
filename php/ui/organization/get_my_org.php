@@ -53,7 +53,6 @@ $dbcon->close();
 //com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
 //com_modules(moduleno,moduletitle)
 //com_orgtype (orgtypeid,orgtypename,typetag,iconurl)
-//pack_appliedpackage(itemno,orgno,schemeno,appliedat,appliedby,validuntil)
 function get_orgs_of_an_user($dbcon, $userno)
 {
     $sql = "SELECT 
@@ -90,13 +89,12 @@ function get_orgs_of_an_user($dbcon, $userno)
     }
 }
 
-//pack_appliedpackage(appliedno,purchaseno,orgno,starttime,assignedto, duration,appliedat, appliedby)
+//pack_appliedpackage(appliedno,purchaseno,orgno,starttime, duration,appliedat, appliedby)
 function check_org_validity($dbcon,$orgno){
 
-    $sql = "SELECT appliedno,purchaseno,assignedto,starttime,DATE(DATE_ADD(starttime, INTERVAL duration DAY)) as closingdate
+    $sql = "SELECT appliedno,purchaseno,starttime,DATE(DATE_ADD(starttime, INTERVAL duration DAY)) as closingdate
             FROM pack_appliedpackage
-            WHERE orgno=?
-                AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))";
+            WHERE orgno=? AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))";
 
     $stmt = $dbcon->prepare($sql);
     $stmt->bind_param("i", $orgno);

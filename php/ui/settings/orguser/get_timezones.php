@@ -50,7 +50,7 @@
     {
         $sql = "SELECT timezoneno,timezonetitle
                 FROM com_timezone
-                ORDER BY timezoneno";
+                ORDER BY timezonetitle";
 
         return $dbcon->query($sql);
     }

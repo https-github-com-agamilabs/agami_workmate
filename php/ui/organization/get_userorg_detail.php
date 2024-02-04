@@ -48,7 +48,9 @@ $dbcon->close();
 function get_userorgs($dbcon, $orgno)
 {
     $sql = "SELECT uono,uo.orgno,
-                    uo.userno,uo.uuid,uo.ucatno,uo.supervisor,
+                    uo.userno,uo.uuid,
+                    uo.ucatno,(SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
+                    uo.supervisor,(SELECT CONCAT(firstname,' ', lastname) FROM hr_user s WHERE s.userno=uo.supervisor) as supervisor_name,
                     uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle,
                     uo.jobtitle,uo.hourlyrate,uo.monthlysalary,uo.permissionlevel,uo.dailyworkinghour,
                     uo.timeflexibility,uo.shiftno,uo.timezone,
@@ -56,7 +58,8 @@ function get_userorgs($dbcon, $orgno)
                     u.username,u.firstname,u.lastname,u.email,u.primarycontact,u.userstatusno
             FROM com_userorg AS uo
                 INNER JOIN hr_user as u ON u.userno=uo.userno
-            WHERE uo.orgno=?";
+            WHERE uo.orgno=?
+            ORDER BY uo.isactive DESC,u.firstname DESC";
 
     $stmt = $dbcon->prepare($sql);
     $stmt->bind_param("i", $orgno);

@@ -1068,7 +1068,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						let toggleElem = $(`.module_div, .edit_userorgmodule_button, .save_userorgmodule_button, .cancel_userorgmodule_button`, template);
 
 						if (moduleSelect.val() != value.moduleno) {
-							update_userorgmodule({
+							update_userorg({
 								orgno: value.orgno,
 								foruserno: value.userno,
 								old_moduleno: value.moduleno,
@@ -1111,8 +1111,8 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			}, `json`);
 		}
 
-		function update_userorgmodule(json, target) {
-			$.post(`${publicAccessUrl}php/ui/organization/update_userorgmodule.php`, json, resp => {
+		function update_userorg(json, target) {
+			$.post(`${publicAccessUrl}php/ui/organization/update_userorg.php`, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {

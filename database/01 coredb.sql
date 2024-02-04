@@ -51,9 +51,7 @@ CREATE TABLE hr_user(
 	isactive int DEFAULT 0,
 	userstatusno int DEFAULT 1,
 	PRIMARY KEY(userno),
-	CONSTRAINT uk_user_username UNIQUE(username),
-	CONSTRAINT fk_user_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,
-	CONSTRAINT fk_user_supervisor FOREIGN KEY(supervisor) REFERENCES hr_user(userno) ON UPDATE CASCADE
+	CONSTRAINT uk_user_username UNIQUE(username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ALTER TABLE hr_user

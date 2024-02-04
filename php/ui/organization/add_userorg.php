@@ -21,17 +21,10 @@ try {
         throw new \Exception("Organization must be selected!", 1);
     }
 
-    if (isset($_POST['username']) && strlen($_POST['username']) > 0) {
-        $username = strip_tags($_POST['username']);
+    if (isset($_POST['userno']) && strlen($_POST['userno']) > 0) {
+        $foruserno = (int) $_POST['userno'];
     } else {
         throw new \Exception("User must be selected!", 1);
-    }
-
-    $result = get_userno($dbcon, $username);
-    if ($result->num_rows > 0) {
-        $foruserno = $result->fetch_array(MYSQLI_ASSOC)['userno'];
-    } else {
-        throw new Exception('Invalid User!', 1);
     }
 
     // ==============
@@ -68,25 +61,6 @@ echo json_encode($response);
 $dbcon->close();
 
 //hr_user (userno,username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,ucreatedatetime,updatetime)
-function get_userno($dbcon, $username)
-{
-
-    $sql = "SELECT userno
-            FROM hr_user
-            WHERE username=?";
-
-    if (!$stmt = $dbcon->prepare($sql)) {
-        throw new Exception("Prepare statement failed: " . $dbcon->error);
-    }
-
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-
-    return $result;
-}
-
 //com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,
 //              dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
 function add_userorg($dbcon, $orgno, $userno, $data)

@@ -46,7 +46,7 @@ $dbcon->close();
 function toggle_userorgmodule_activation($dbcon, $orgno, $userno)
 {
 
-    $sql = "UPDATE com_userorgmodules
+    $sql = "UPDATE com_userorg
             SET isactive=abs(1-isactive)
             WHERE orgno=? AND userno=?";
 

@@ -50,7 +50,7 @@ try {
     }
 
     $dbcon->begin_transaction();
-    $anos = add_userorg($dbcon, $orgno, $userno, 
+    $anos = add_userorg($dbcon, $orgno, $foruserno, 
                                 $uuid,$ucatno,$supervisor,$moduleno,
                                 $jobtitle,$hourlyrate,$monthlyrate,$dailyworkinghour,
                                 $timeflexibility,$permissionlevel,$timezone,$shiftno,

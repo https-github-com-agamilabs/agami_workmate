@@ -396,7 +396,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                                
+
                     <div class='row'>
                         <div class="col-12 col-md-6 form-group">
                             <label class="d-block mb-0">
@@ -408,7 +408,7 @@
                         <div class="col-12 col-md-6 form-group">
                             <label class="d-block mb-0">
                                 Percentage of Completion <span class="text-danger">*</span>
-                                <input name="percentile" type='number' class="form-control shadow-sm mt-2" required/>
+                                <input name="percentile" type='number' class="form-control shadow-sm mt-2" required />
                             </label>
                         </div>
                     </div>
@@ -483,7 +483,7 @@
 
 <script>
     const ORGNAME = `<?= $response['orgname']; ?>`;
-    const UCAT_NO = <?= $ucatno ?>;
+    const UCAT_NO = <?= $_SESSION['cogo_ucatno']; ?>;
     const USER_NO = <?= $userno ?>;
     const ONE_DAY_IN_SECOND = 86400; // 60 * 60 * 24
 

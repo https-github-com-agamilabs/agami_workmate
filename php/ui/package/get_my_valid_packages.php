@@ -64,7 +64,7 @@ function get_my_package_usability($dbcon,$userno,$orgno)
                 WHERE orgno=? AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))
                 GROUP BY purchaseno,item
                 ) as mu
-                ON mp.purchaseno=mu.purchaseno AND mp.item=mu.item AND mp.package_qty>mu.used_qty
+                ON mp.purchaseno=mu.purchaseno AND mp.item=mu.item AND mp.package_qty>mu.user_qty
             ";
 
     $stmt = $dbcon->prepare($sql);

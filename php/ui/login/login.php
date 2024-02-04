@@ -110,6 +110,7 @@ if ($userLoginResult->num_rows == 1) {
         $_SESSION['cogo_lastname'] = $row['lastname'];
         $_SESSION['cogo_photo_url'] = $row['photo_url'];
         $_SESSION['cogo_email'] = $row['email'];
+        $_SESSION['cogo_userstatusno'] = $row['userstatusno'];
         $response['error'] = false;
         $response['message'] = "Login successful!";
 

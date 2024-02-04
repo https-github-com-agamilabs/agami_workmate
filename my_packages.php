@@ -100,7 +100,7 @@ $arrayData = array_merge($arrayData, langConverter($lang, 'my_packages'));
 							<a id="have_a_promo_code_anchor" href="javascript:void(0);"><?= $arrayData['lang_have_a_promo_code?']; ?></a>
 
 							<div class="input-group collapse mx-auto my-2" style="width: 300px;">
-								<input name="coupon" class="form-control shadow-sm" type="text" placeholder="<?= $arrayData['lang_enter_a_promo_code']; ?>">
+								<input name="coupon" class="form-control shadow-sm" type="text" placeholder="Enter a promo code">
 								<div class="input-group-append">
 									<button class="btn btn-secondary ripple custom_shadow" type="button"><?= $arrayData['lang_apply']; ?></button>
 								</div>

@@ -29,14 +29,14 @@ try {
 
     $uuid=strip_tags($_POST['uuid']);
     $ucatno=isset($_POST['ucatno'])?(int)$_POST['ucatno']:1;
-    $supervisor=isset($_POST['supervisor'])?(int)$_POST['supervisor']:NULL;
-    $moduleno=isset($_POST['moduleno'])?(int)$_POST['moduleno']:NULL;
-    $jobtitle=isset($_POST['jobtitle'])?strip_tags($_POST['jobtitle']):NULL;
-    $hourlyrate=isset($_POST['hourlyrate'])?(double)$_POST['hourlyrate']:NULL;
-    $monthlyrate=isset($_POST['monthlysalary'])?(double)$_POST['monthlysalary']:NULL;
+    $supervisor=isset($_POST['supervisor']) && strlen($_POST['supervisor'])>0?(int)$_POST['supervisor']:NULL;
+    $moduleno=isset($_POST['moduleno']) && strlen($_POST['moduleno'])>0?(int)$_POST['moduleno']:NULL;
+    $jobtitle=isset($_POST['jobtitle']) && strlen($_POST['jobtitle'])>0?strip_tags($_POST['jobtitle']):NULL;
+    $hourlyrate=isset($_POST['hourlyrate']) && strlen($_POST['hourlyrate'])>0 ?(double)$_POST['hourlyrate']:NULL;
+    $monthlyrate=isset($_POST['monthlysalary'])  && strlen($_POST['monthlysalary'])>0?(double)$_POST['monthlysalary']:NULL;
     $dailyworkinghour=isset($_POST['dailyworkinghour'])?(int)$_POST['dailyworkinghour']:8;
     $timeflexibility=isset($_POST['timeflexibility'])?(int)$_POST['timeflexibility']:1;
-    $permissionlevel=isset($_POST['permissionlevel'])?(int)$_POST['permissionlevel']:NULL;
+    $permissionlevel=isset($_POST['permissionlevel']) && strlen($_POST['permissionlevel'])>0?(int)$_POST['permissionlevel']:NULL;
     $timezone=isset($_POST['timezone'])?strip_tags($_POST['timezone']):'Asia/Dhaka';
     $shiftno=isset($_POST['shiftno'])?(int)$_POST['shiftno']:1;
     $starttime=isset($_POST['starttime'])?strip_tags($_POST['starttime']):'9:00:00';
@@ -57,7 +57,7 @@ try {
                                 $starttime,$endtime
                                 );
     if ($anos > 0) {
-        $appliedno = insert_appliedpackage($dbcon, $purchaseno, $orgno, $username, $userno);
+        $appliedno = insert_appliedpackage($dbcon, $purchaseno, $orgno, $foruserno, $userno);
         if ($appliedno > 0) {
             $response['error'] = false;
             $response['message'] = "Added Successfully.";

@@ -90,7 +90,7 @@
         if($selected_user>0){
             $params[] = &$selected_user;
             $count++;
-            $dataset .= " AND userno=?";
+            $dataset .= " AND u.userno=?";
             $types .= 'i';
         }
 

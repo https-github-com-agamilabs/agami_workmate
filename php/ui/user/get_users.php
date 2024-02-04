@@ -109,7 +109,7 @@
                         createtime,lastupdatetime,u.isactive
                 FROM hr_user as u
                     INNER JOIN (
-                        SELECT userno,ucatno,supervisor,permissionlevel,
+                        SELECT userno,ucatno,supervisor,permissionlevel
                         FROM com_userorg
                         WHERE orgno=$orgno) as uo ON u.userno=uo.userno
                 $dataset

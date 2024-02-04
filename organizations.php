@@ -1020,14 +1020,14 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							</div>
 						</td>
 						<td class="text-center">
-							${isModificationAllowed
+							${value.userno != USERNO && isModificationAllowed
 								? `<button class="toggle_userorgmodule_button btn btn-sm ${value.verified == 1 ? `btn-danger` : `btn-success`} ripple custom_shadow" type="button" title="${value.verified == 1 ? `Deactivate` : `Activate`} user">
 									${value.verified == 1 ? `Deactivate` : `Activate`}
 								</button>`
 								: ``}
 						</td>
 						<td class="text-center">
-							${isModificationAllowed
+							${value.userno != USERNO && isModificationAllowed
 								? `<button class="edit_userorgmodule_button btn btn-sm btn-info custom_shadow" type="button" title="Update module">
 									Edit
 								</button>

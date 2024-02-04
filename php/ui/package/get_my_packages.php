@@ -18,7 +18,7 @@ require_once dirname(dirname(__FILE__)) . "/dependency_checker.php";
 try {
     //$offerno, $buyeruserno, $licensekey, $amount
 
-    $rs_my_purchaseoffer = get_my_purchaseoffer($dbcon, $addedby);
+    $rs_my_purchaseoffer = get_my_purchaseoffer($dbcon, $userno);
     $meta_array = array();
     if ($rs_my_purchaseoffer->num_rows > 0) {
         while ($row = $rs_my_purchaseoffer->fetch_array(MYSQLI_ASSOC)) {

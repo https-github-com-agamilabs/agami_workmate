@@ -19,18 +19,12 @@
             throw new \Exception("Database is not connected!", 1);
         }
 
-        if(!isset($_SESSION['cogo_orgno'])){
-            throw new \Exception("You must select an organization!", 1);
-        }else{
-            $orgno= (int) $_SESSION['cogo_orgno'];
-        }
-
         $ucatno=-1;
         if (isset($_POST['ucatno'])) {
             $ucatno = (int) $_POST['ucatno'];
         }
 
-        $isactive=-1;
+        $isactive=1;
         if (isset($_POST['isactive'])) {
             $isactive = (int) $_POST['isactive'];
         }
@@ -45,7 +39,7 @@
             $selected_user = $userno;
         }
 
-        $list = get_all_users($dbcon, $ucatno, $selected_user, $isactive, $orgno);
+        $list = get_all_users($dbcon, $ucatno, $selected_user, $isactive);
 
         if ($list->num_rows > 0) {
             $meta_array = array();
@@ -73,7 +67,7 @@
     *   LOCAL FUNCTIONS
     */
 
-    function get_all_users($dbcon, $ucatno, $selected_user, $isactive, $orgno){
+    function get_all_users($dbcon, $ucatno, $selected_user, $isactive){
 
         $params = array();
         $types = "";
@@ -101,7 +95,7 @@
             $types .= 'i';
         }
 
-        $sql = "SELECT u.userno,username,firstname,lastname,photo_url,
+        $sql = "SELECT userno,username,firstname,lastname,photo_url,
                         email,primarycontact,
                         uo.ucatno,(SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
                         uo.supervisor,(SELECT CONCAT(firstname,' ', lastname) FROM hr_user s WHERE s.userno=uo.supervisor) as supervisor_name,
@@ -109,9 +103,8 @@
                         createtime,lastupdatetime,u.isactive
                 FROM hr_user as u
                     INNER JOIN (
-                        SELECT userno,ucatno,supervisor,permissionlevel
-                        FROM com_userorg
-                        WHERE orgno=$orgno) as uo ON u.userno=uo.userno
+                        SELECT userno,ucatno,supervisor,permissionlevel,
+                        FROM com_userorg) as uo ON u.userno=uo.userno
                 $dataset
                 ORDER BY u.isactive DESC,u.userno DESC";
 

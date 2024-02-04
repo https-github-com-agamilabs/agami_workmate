@@ -38,7 +38,7 @@ try {
     $dbcon->begin_transaction();
     $anos = add_userorg($dbcon, $orgno, $userno, $_POST);
     if ($anos > 0) {
-        $appliedno = insert_appliedpackage($dbcon, $purchaseno, $orgno, $username, $addedby);
+        $appliedno = insert_appliedpackage($dbcon, $purchaseno, $orgno, $username, $userno);
         if ($appliedno > 0) {
             $response['error'] = false;
             $response['message'] = "Added Successfully.";
@@ -65,119 +65,35 @@ $dbcon->close();
 //              dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
 function add_userorg($dbcon, $orgno, $userno, $data)
 {
-    $params = array();
-    $values = array();
-    $types = "";
-    $qs = array();
-
-    $params[] = "orgno";
-    $values[] = $orgno;
-    $types .= "i";
-    $qs[] = '?';
-
-    $params[] = "userno";
-    $values[] = $userno;
-    $types .= "i";
-    $qs[] = '?';
-
-    $optional_columns = array(
-        'uuid' => 's',
-        'ucatno' => 'i',
-        'supervisor' => 'i',
-        'moduleno' => 'i',
-        'jobtitle' => 's',
-        'hourlyrate' => 'd',
-        'monthlysalary' => 'd',
-        'permissionlevel' => 'i',
-        'dailyworkinghour' => 'i',
-        'timeflexibility' => 'i',
-        'shiftno' => 'i',
-        'starttime' => 's',
-        'endtime' => 's',
-        'timezone' => 's',
-        'isactive' => 'i'
-    );
-
-    $columns = array_keys($optional_columns);
-    for ($index = 0; $index < count($columns); $index++) {
-        $key = $columns[$index];
-        $type = $optional_columns[$key];
-
-        if (isset($data[$key])) {
-
-            if (strcasecmp($type, "i") === 0) {
-                // int check
-                $valueOfKey = (int) trim(strip_tags($data[$key]));
-            } else if (strcasecmp($type, "d") === 0) {
-                // double/float/decimal check
-                $valueOfKey = (float) trim(strip_tags($data[$key]));
-            } else {
-                // string check: strip, trim, escape
-                $valueOfKey = mysqli_real_escape_string($dbcon, trim(strip_tags($data[$key])));
-            }
-
-            $params[] = "`$key`";
-            $values[] = $valueOfKey;
-            $qs[] = '?';
-
-            $types .= $type;
-        } else {
-            return -1;
-        }
-    }
-
-    $columns = array_keys($optional_columns);
-    for ($index = 0; $index < count($columns); $index++) {
-        $key = $columns[$index];
-        $type = $optional_columns[$key];
-
-        if (isset($data[$key])) {
-
-            if (strcasecmp($type, "i") === 0) {
-                // int check
-                $valueOfKey = (int) trim(strip_tags($data[$key]));
-            } else if (strcasecmp($type, "d") === 0) {
-                // double/float/decimal check
-                $valueOfKey = (float) trim(strip_tags($data[$key]));
-            } else {
-                // string check: strip, trim, escape
-                $valueOfKey = mysqli_real_escape_string($dbcon, trim(strip_tags($data[$key])));
-            }
-
-            $params[] = "`$key`";
-            $values[] = $valueOfKey;
-            $qs[] = '?';
-
-            $types .= $type;
-        }
-    }
-
-    if (count($params) <= 0) {
-        // found no allowed keys to update
-        return -1;
-    }
-
-    $queryParts = implode(", ", $params);
-    $qs = implode(", ", $qs);
-
-    $sql = "INSERT INTO com_orgs ($queryParts)
-            VALUES($qs)";
+    $sql="INSERT INTO com_userorg (orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,
+                  dailyworkinghour,timeflexibility,permissionlevel,timezone,shiftno,starttime,endtime,isactive)
+            VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)
+            ";
 
     $stmt = $dbcon->prepare($sql);
-    if ($dbcon->error) {
+    if (!$stmt) {
         echo $dbcon->error;
     }
-    $stmt->bind_param($types, ...$values);
-    if ($dbcon->error) {
-        echo $dbcon->error;
-    }
+
+    $stmt->bind_param("iisiiisddiiisiss", $orgno, $userno, 
+                                strip_tags($data['uuid']),
+                                (int)$data['ucatno'],
+                                (int)$data['supervisor'],#
+                                (int)$data['moduleno'],
+                                strip_tags($data['jobtitle']),
+                                (double)$data['hourlyrate'],
+                                (double)$data['monthlysalary'],
+                                (int)$data['dailyworkinghour'],
+                                (int)$data['timeflexibility'],
+                                (int)$data['permissionlevel'],
+                                strip_tags($data['timezone']),
+                                (int)$data['shiftno'],
+                                strip_tags($data['starttime']),
+                                strip_tags($data['endtime'])
+                            );
     $stmt->execute();
-    if ($dbcon->error) {
-        echo $dbcon->error;
-    }
     $result = $stmt->insert_id;
     $stmt->close();
-    // echo $result;
     return $result;
 }
 

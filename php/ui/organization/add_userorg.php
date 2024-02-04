@@ -27,6 +27,20 @@ try {
         throw new \Exception("User must be selected!", 1);
     }
 
+    $uuid=strip_tags($_POST['uuid']);
+    $ucatno=isset($_POST['ucatno'])?(int)$_POST['ucatno']:1;
+    $supervisor=isset($_POST['supervisor'])?(int)$_POST['supervisor']:NULL;
+    $moduleno=isset($_POST['moduleno'])?(int)$_POST['moduleno']:NULL;
+    $jobtitle=isset($_POST['jobtitle'])?strip_tags($_POST['jobtitle']):NULL;
+    $hourlyrate=isset($_POST['hourlyrate'])?(double)$_POST['hourlyrate']:NULL;
+    $monthlyrate=isset($_POST['monthlysalary'])?(double)$_POST['monthlysalary']:NULL;
+    $dailyworkinghour=isset($_POST['dailyworkinghour'])?(int)$_POST['dailyworkinghour']:8;
+    $timeflexibility=isset($_POST['timeflexibility'])?(int)$_POST['timeflexibility']:1;
+    $permissionlevel=isset($_POST['permissionlevel'])?(int)$_POST['permissionlevel']:NULL;
+    $timezone=isset($_POST['timezone'])?strip_tags($_POST['timezone']):'Asia/Dhaka';
+    $shiftno=isset($_POST['shiftno'])?(int)$_POST['shiftno']:1;
+    $starttime=isset($_POST['starttime'])?strip_tags($_POST['starttime']):'9:00:00';
+    $endtime=isset($_POST['endtime'])?strip_tags($_POST['endtime']):'18:00:00';
     // ==============
 
     if (isset($_POST['purchaseno']) && strlen($_POST['purchaseno']) > 0) {
@@ -36,7 +50,12 @@ try {
     }
 
     $dbcon->begin_transaction();
-    $anos = add_userorg($dbcon, $orgno, $userno, $_POST);
+    $anos = add_userorg($dbcon, $orgno, $userno, 
+                                $uuid,$ucatno,$supervisor,$moduleno,
+                                $jobtitle,$hourlyrate,$monthlyrate,$dailyworkinghour,
+                                $timeflexibility,$permissionlevel,$timezone,$shiftno,
+                                $starttime,$endtime
+                                );
     if ($anos > 0) {
         $appliedno = insert_appliedpackage($dbcon, $purchaseno, $orgno, $username, $userno);
         if ($appliedno > 0) {
@@ -63,7 +82,12 @@ $dbcon->close();
 //hr_user (userno,username,firstname,lastname,email,countrycode,primarycontact,passphrase,authkey,userstatusno,ucreatedatetime,updatetime)
 //com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,permissionlevel,
 //              dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
-function add_userorg($dbcon, $orgno, $userno, $data)
+function add_userorg($dbcon, $orgno, $userno, 
+                            $uuid,$ucatno,$supervisor,$moduleno,
+                            $jobtitle,$hourlyrate,$monthlyrate,$dailyworkinghour,
+                            $timeflexibility,$permissionlevel,$timezone,$shiftno,
+                            $starttime,$endtime
+                            )
 {
     $sql="INSERT INTO com_userorg (orgno,userno,uuid,ucatno,supervisor,moduleno,jobtitle,hourlyrate,monthlysalary,
                   dailyworkinghour,timeflexibility,permissionlevel,timezone,shiftno,starttime,endtime,isactive)
@@ -76,21 +100,10 @@ function add_userorg($dbcon, $orgno, $userno, $data)
     }
 
     $stmt->bind_param("iisiiisddiiisiss", $orgno, $userno, 
-                                strip_tags($data['uuid']),
-                                (int)$data['ucatno'],
-                                (int)$data['supervisor'],#
-                                (int)$data['moduleno'],
-                                strip_tags($data['jobtitle']),
-                                (double)$data['hourlyrate'],
-                                (double)$data['monthlysalary'],
-                                (int)$data['dailyworkinghour'],
-                                (int)$data['timeflexibility'],
-                                (int)$data['permissionlevel'],
-                                strip_tags($data['timezone']),
-                                (int)$data['shiftno'],
-                                strip_tags($data['starttime']),
-                                strip_tags($data['endtime'])
-                            );
+                                        $uuid,$ucatno,$supervisor,$moduleno,
+                                        $jobtitle,$hourlyrate,$monthlyrate,$dailyworkinghour,
+                                        $timeflexibility,$permissionlevel,$timezone,$shiftno,
+                                        $starttime,$endtime );
     $stmt->execute();
     $result = $stmt->insert_id;
     $stmt->close();

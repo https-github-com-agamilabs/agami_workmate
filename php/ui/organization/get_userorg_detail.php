@@ -46,6 +46,8 @@ $dbcon->close();
 //hr_user(userno,username,firstname,lastname,affiliation,jobtitle,email,primarycontact,passphrase,authkey,ucatno,supervisor,permissionlevel,createtime,lastupdatetime,isactive,userstatusno)
 //com_modules(moduleno,moduletitle)
 //com_shiftsettings(shiftno,shifttitle,starttime,endtime)
+//com_timeflexsettings(timeflexno,timeflextitle)
+//hr_userstatus(userstatusno, userstatustitle)
 function get_userorgs($dbcon, $orgno)
 {
     $sql = "SELECT uono,uo.orgno,
@@ -54,12 +56,11 @@ function get_userorgs($dbcon, $orgno)
                     uo.supervisor,(SELECT CONCAT(firstname,' ', lastname) FROM hr_user s WHERE s.userno=uo.supervisor) as supervisor_name,
                     uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle,
                     uo.designation,uo.hourlyrate,uo.monthlysalary,uo.permissionlevel,uo.dailyworkinghour,
-                    uo.timeflexibility,
+                    uo.timeflexibility,(SELECT timeflextitle FROM com_timeflexsettings WHERE timeflexno=uo.timeflexibility) as timeflextitle,
                     uo.shiftno,(SELECT shifttitle FROM com_shiftsettings WHERE shiftno=uo.shiftno) as shifttitle,
-                    uo.timezone,
-                    uo.starttime,uo.endtime,uo.isactive,
+                    uo.timezone,uo.starttime,uo.endtime,uo.isactive,
                     u.username,u.firstname,u.lastname,u.affiliation,u.jobtitle,u.email,u.primarycontact,
-                    u.userstatusno
+                    u.userstatusno,(SELECT userstatustitle FROM hr_userstatus WHERE userstatusno=uo.userstatusno) as userstatustitle
             FROM com_userorg AS uo
                 INNER JOIN hr_user as u ON u.userno=uo.userno
             WHERE uo.orgno=?

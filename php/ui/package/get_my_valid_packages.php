@@ -46,24 +46,24 @@ $dbcon->close();
 
 //pack_offer(offerno, offertitle, offerdetail, rate, tag, is_coupon_applicable, validuntil)
 //pack_offeritems(offerno,item,qty)
-//pack_appliedpackage(appliedno,purchaseno,item,orgno,assignedto, appliedat, appliedby)
+//pack_appliedpackage(appliedno,purchaseno,orgno,starttime, duration,appliedat, appliedby)
 function get_my_package_usability($dbcon,$userno,$orgno)
 {
     $sql = "SELECT po.purchaseno,
                     po.offerno,(SELECT offertitle FROM pack_offer WHERE offerno=po.offerno) as offertitle,
-                    po.licensekey,oi.item,oi.qty as max_user_qty
+                    po.licensekey,oi.item,oi.qty as max_user_qty, 
+                    ap.starttime, ap.duration
             FROM pack_purchaseoffer as po
                 INNER JOIN (
                     SELECT *
                     FROM pack_offeritems
                     WHERE item='ORGUSER') as oi ON oi.offerno=po.offerno
-            WHERE po.foruserno=?
-                AND po.purchaseno IN (
-                    (SELECT DISTINCT purchaseno
+                LEFT JOIN (
+                    SELECT purchaseno,starttime, duration
                     FROM pack_appliedpackage                
-                    WHERE orgno=? AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))
-                    )
-                )
+                    WHERE orgno=?) as ap ON po.purchaseno=ap.purchaseno
+            WHERE po.foruserno=?
+                AND (ap.starttime IS NULL OR (CURRENT_DATE() BETWEEN DATE(ap.starttime) AND DATE(DATE_ADD(ap.starttime, INTERVAL ap.duration DAY))))
             ";
 
     $stmt = $dbcon->prepare($sql);

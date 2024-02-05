@@ -26,12 +26,10 @@ try {
             if ($rs_validity->num_rows > 0) {
                 $vrow = $rs_validity->fetch_array(MYSQLI_ASSOC);
                 $row['pack_schemeno'] = $vrow['purchaseno'];
-                $row['pack_accyear'] = $vrow['assignedto'];
                 $row['pack_appliedat'] = $vrow['appliedat'];
                 $row['pack_validuntil'] = $vrow['closingdate'];
             } else {
                 $row['pack_schemeno'] = NULL;
-                $row['pack_accyear'] = NULL;
                 $row['pack_appliedat'] = NULL;
                 $row['pack_validuntil'] = NULL;
             }
@@ -92,7 +90,7 @@ function get_orgs_of_an_user($dbcon, $userno)
 //pack_appliedpackage(appliedno,purchaseno,orgno,starttime, duration,appliedat, appliedby)
 function check_org_validity($dbcon,$orgno){
 
-    $sql = "SELECT appliedno,purchaseno,starttime,DATE(DATE_ADD(starttime, INTERVAL duration DAY)) as closingdate
+    $sql = "SELECT appliedno,purchaseno,starttime,DATE(DATE_ADD(starttime, INTERVAL duration DAY)) as closingdate,appliedat
             FROM pack_appliedpackage
             WHERE orgno=? AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))";
 

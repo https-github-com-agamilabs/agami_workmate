@@ -586,8 +586,9 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				if (pack) {
 					pack.items = [...pack.items, {
 						item: value.item,
-						package_qty: value.package_qty,
-						user_qty: value.user_qty,
+						max_user_qty: value.max_user_qty,
+						duration: value.duration,
+						starttime: value.starttime
 					}];
 				} else {
 					packages = [...packages, {
@@ -597,8 +598,9 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						offertitle: value.offertitle,
 						items: [{
 							item: value.item,
-							package_qty: value.package_qty,
-							user_qty: value.user_qty,
+							max_user_qty: value.max_user_qty,
+							duration: value.duration,
+							starttime: value.starttime
 						}]
 					}];
 				}
@@ -813,40 +815,16 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 															</button>
 														</div>
 														<div class="table-responsive rounded shadow-sm">
-															<form class="userorg_add_form w-100 mb-0">
-																<div class="d-table w-100">
-																	<div class="d-table-row">
-																		<div class="d-table-cell align-bottom" style="min-width:350px;">
-																			<input name="username" class="form-control shadow-sm rounded-0" placeholder="Username..." required>
-																		</div>
-																		<div class="d-table-cell" style="width:200px;min-width:200px;">
-																			<select name="moduleno" class="form-control shadow-sm rounded-0" title="Select module" required></select>
-																		</div>
-																		<div class="d-table-cell align-middle" style="width:240px;min-width:240px;">
-																			<button class="btn btn-primary btn-block btn-lg rounded-0 ripple custom_shadow" type="submit">Add</button>
-																		</div>
-																	</div>
-																</div>
-															</form>
-
-															<table class="table table-sm table-bordered table-hover table-striped text-center mb-0">
-																<thead class="table-primary">
+															<table class="table table-sm table-bordered table-hover table-striped mb-0">
+																<thead class="table-primary text-center">
 																	<tr>
 																		<th>SL</th>
-																		<th class="text-left" style="min-width:300px;">Name</th>
-																		<th>ID</th>
-																		<th>Role</th>
-																		<th>Supervisor</th>
-																		<th>Module</th>
-																		<th>Designation</th>
-																		<th>Rate/Salary</th>
-																		<th>Daily work load</th>
-																		<th>Time flexibility</th>
-																		<th>Permission Level</th>
-																		<th>Time zone</th>
+																		<th style="min-width:300px;">User</th>
+																		<th>Module & Supervisor</th>
+																		<th>Work load & Salary</th>
 																		<th>Shift</th>
-																		<th style="width:120px;min-width:120px;">Validity</th>
-																		<th style="width:120px;min-width:120px;">Action</th>
+																		<th style="width:75px;min-width:75px;">Validity</th>
+																		<th style="width:115px;min-width:115px;">Action</th>
 																	</tr>
 																</thead>
 																<tbody class="userorg_info_container"></tbody>
@@ -872,7 +850,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						.appendTo(this.targetContainer);
 
 					let setidSelect = $(`.orgsettings_form [name="setid"]`, template);
-					let moduleSelect = $(`.userorg_add_form [name="moduleno"]`, template);
 					let packageSelect = $(`[name="purchaseno"]`, template);
 
 					let settingsContainer = $(`.settings_container`, template);
@@ -942,7 +919,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						$(`[href="#org_${value.orgno}_controller_collapse"]`, template).click(function(e) {
 							if (!$(this).data(`is_loaded`)) {
 								load_org_settings(setidSelect);
-								load_modules(moduleSelect);
 								get_my_valid_packages({
 									orgno: value.orgno
 								}, packageSelect);
@@ -963,8 +939,10 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							let purchaseno = packageSelect.val();
 							let aPackage = $(`option:selected`, packageSelect).data();
 							let item = aPackage.items.find(a => a.item == `ORGUSER`);
+							let userorgDetail = userOrgInfoContainer.data(`userorg_detail`);
+							let usedQty = userorgDetail ? userorgDetail.length : 1;
 
-							if (item.package_qty == item.user_qty) {
+							if (item.max_user_qty == usedQty) {
 								toastr.error(`Your package has already been used up. Please select a different package to add user.`);
 								return;
 							}
@@ -977,25 +955,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 									purchaseno,
 									userOrgInfoContainer
 								});
-						});
-
-						$(`.userorg_add_form`, template).submit(function(e) {
-							e.preventDefault();
-
-							let packageSelect = $(`#org_${value.orgno}_module_tabpane [name="purchaseno"]`);
-							let purchaseno = packageSelect.val();
-							let aPackage = $(`option:selected`, packageSelect).data();
-							let item = aPackage.items.find(a => a.item == `ORGUSER`);
-
-							if (item.package_qty == item.user_qty) {
-								toastr.error(`Your package has already been used up. Please select a different package to add user.`);
-								return;
-							}
-
-							if (!confirm(`You are going to add an user. It will use up your available quota which you can not alter. Are you sure to proceed?`)) return;
-
-							$(this).data(`orgno`, value.orgno).data(`purchaseno`, purchaseno);
-							add_userorg($(this), userOrgInfoContainer);
 						});
 
 						$(`.proceed_to_workmate`, template).click(function(e) {
@@ -1216,39 +1175,68 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		}
 
 		function show_userorg_detail(data, target) {
+			target.data(`userorg_detail`, data);
 			let isOwner = data.find(a => a.userno == USERNO && a.permissionlevel == 7 && a.ucatno == 19);
 
 			$.each(data, (index, value) => {
+				let shift = value.shifttitle || ``;
+				if (value.starttime && value.endtime) {
+					shift += ` <span class="text-nowrap">[${value.starttime} - ${value.endtime}]</span>`;
+				} else if (value.starttime) {
+					shift += ` <span class="text-nowrap">Start: ${value.starttime}</span>`;
+				} else if (value.endtime) {
+					shift += ` <span class="text-nowrap">End: ${value.endtime}</span>`;
+				}
+
+				let permissionlevel = ``;
+				if (value.permissionlevel == 0 || value.permissionlevel == null) {
+					permissionlevel = `Employee`;
+				} else if (value.permissionlevel == 1) {
+					permissionlevel = `Senior Employee`;
+				} else if (value.permissionlevel == 3) {
+					permissionlevel = `Manager`;
+				} else if (value.permissionlevel == 7) {
+					permissionlevel = `Admin`;
+				}
+
 				let template = $(`<tr class="${value.verified == 1 ? `table-success` : `table-danger`}">
 						<td>${1 + index}</td>
-						<td class="text-left">
-							${value.firstname || ``}
-							${value.lastname || ``}
-							(${value.userno != USERNO ? value.username : `you`})
+						<td class="text-nowrap">
+							<div class="text-primary font-weight-bold">
+								${value.firstname || ``}
+								${value.lastname || ``}
+								(${value.userno != USERNO ? value.username : `you`})
+							</div>
+							${value.jobtitle ? `<div>Designation: ${value.jobtitle}</div>` : ``}
+							${value.uuid ? `<div>ID: ${value.uuid}</div>` : ``}
+							${value.ucattitle ? `<div>Role: ${value.ucattitle}</div>` : ``}
+							${permissionlevel.length ? `<div>Permission Level: ${permissionlevel}</div>` : ``}
 						</td>
-						<td>${value.uuid || ``}</td>
-						<td>${value.ucattitle || ``}</td>
-						<td>${value.supervisor_name || ``}</td>
-						<td>${value.moduletitle || ``}</td>
-						<td>${value.jobtitle || ``}</td>
 						<td>
-							${value.hourlyrate || ``}
-							${value.monthlysalary || ``}
+							${value.moduletitle ? `<div>Module: <span class="text-nowrap">${value.moduletitle}</span></div>` : ``}
+							${value.supervisor_name ? `<div>Supervisor: <span class="text-nowrap">${value.supervisor_name}</span></div>` : ``}
 						</td>
-						<td>${value.dailyworkinghour || ``}</td>
-						<td>${value.timeflexibility || ``}</td>
-						<td>${value.permissionlevel || ``}</td>
-						<td>${value.timezone || ``}</td>
-						<td>${value.shiftno || ``}</td>
+						<td>
+							${value.dailyworkinghour ? `<div class="text-nowrap">${value.dailyworkinghour}Hour / Day</div>` : ``}
+							${value.hourlyrate ? `<div class="text-nowrap">${value.hourlyrate} / Hour</div>` : ``}
+							${value.monthlysalary ? `<div class="text-nowrap">${value.monthlysalary} / Month</div>` : ``}
+							${value.timeflextitle ? `<span class="badge badge-alternate" style="text-transform:none;">${value.timeflextitle}</span>` : ``}
+						</td>
+						<td>
+							${value.timezone ? `<div class="text-center mb-1">
+								<span class="badge badge-info" style="text-transform:none;">${value.timezone}</span>
+							</div>` : ``}
+							${shift}
+						</td>
 						<td class="text-center">
-							${value.userno != USERNO && isOwner
+							${true
 								? `<button class="toggle_userorgmodule_button btn btn-sm ${value.verified == 1 ? `btn-danger` : `btn-success`} ripple custom_shadow" type="button" title="${value.verified == 1 ? `Deactivate` : `Activate`} user">
 									${value.verified == 1 ? `Deactivate` : `Activate`}
 								</button>`
 								: ``}
 						</td>
 						<td class="text-center">
-							${value.userno != USERNO && isOwner
+							${isOwner
 								? `<button class="edit_userorgmodule_button btn btn-sm btn-info custom_shadow" type="button" title="Update module">
 									Edit
 								</button>

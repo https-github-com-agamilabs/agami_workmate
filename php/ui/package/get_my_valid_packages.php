@@ -49,22 +49,21 @@ $dbcon->close();
 //pack_appliedpackage(appliedno,purchaseno,item,orgno,assignedto, appliedat, appliedby)
 function get_my_package_usability($dbcon,$userno,$orgno)
 {
-    $sql = "SELECT mp.purchaseno,mp.licensekey,
-                    mp.offerno,(SELECT offertitle FROM pack_offer WHERE offerno=mp.offerno) as offertitle,
-                    mp.item, mp.package_qty, IFNULL(mu.user_qty,0) as user_qty
-            FROM
-                (SELECT po.purchaseno,po.offerno,po.licensekey,oi.item,oi.qty as package_qty
-                FROM pack_purchaseoffer as po
-                    INNER JOIN pack_offeritems oi ON oi.offerno=po.offerno
-                WHERE foruserno=?
-                ) as mp
-                LEFT JOIN
-                (SELECT purchaseno,'ORGUSER' as item, count(assignedto) as  user_qty
-                FROM pack_appliedpackage                
-                WHERE orgno=? AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))
-                GROUP BY purchaseno,item
-                ) as mu
-                ON mp.purchaseno=mu.purchaseno AND mp.item=mu.item AND mp.package_qty>mu.user_qty
+    $sql = "SELECT po.purchaseno,
+                    po.offerno,(SELECT offertitle FROM pack_offer WHERE offerno=po.offerno) as offertitle,
+                    po.licensekey,oi.item,oi.qty as max_user_qty
+            FROM pack_purchaseoffer as po
+                INNER JOIN (
+                    SELECT *
+                    FROM pack_offeritems
+                    WHERE item='ORGUSER') as oi ON oi.offerno=po.offerno
+            WHERE po.foruserno=?
+                AND po.purchaseno IN (
+                    (SELECT DISTINCT purchaseno
+                    FROM pack_appliedpackage                
+                    WHERE orgno=? AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))
+                    )
+                )
             ";
 
     $stmt = $dbcon->prepare($sql);

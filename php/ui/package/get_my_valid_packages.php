@@ -21,7 +21,7 @@ try {
         throw new Exception("Organization must be selected", 1);
     }
 
-    $rs_packages = get_my_package_usability($dbcon,$userno,$orgno);
+    $rs_packages = get_my_package_usability($dbcon,$orgno,$userno);
 
     if ($rs_packages->num_rows > 0) {
         $meta_array = array();
@@ -47,7 +47,7 @@ $dbcon->close();
 //pack_offer(offerno, offertitle, offerdetail,users, duration, rate, tag, is_coupon_applicable, validuntil)
 //pack_offeritems(offerno,item,qty)
 //pack_appliedpackage(appliedno,purchaseno,orgno,users,starttime, duration,appliedat, appliedby)
-function get_my_package_usability($dbcon,$userno,$orgno)
+function get_my_package_usability($dbcon,$orgno,$userno)
 {
     $sql = "SELECT po.purchaseno,
                     po.offerno,(SELECT offertitle FROM pack_offer WHERE offerno=po.offerno) as offertitle,
@@ -57,9 +57,10 @@ function get_my_package_usability($dbcon,$userno,$orgno)
                 LEFT JOIN (
                     SELECT appliedno,purchaseno,orgno,users,starttime, duration,appliedat, appliedby
                     FROM pack_appliedpackage                
-                    WHERE orgno=?) as ap ON po.purchaseno=ap.purchaseno
+                    WHERE orgno=?
+                        AND (CURRENT_DATE() BETWEEN DATE(ap.starttime) AND DATE(DATE_ADD(ap.starttime, INTERVAL ap.duration DAY)))
+                    ) as ap ON po.purchaseno=ap.purchaseno
             WHERE po.foruserno=?
-                AND (ap.starttime IS NULL OR (CURRENT_DATE() BETWEEN DATE(ap.starttime) AND DATE(DATE_ADD(ap.starttime, INTERVAL ap.duration DAY))))
             ";
 
     $stmt = $dbcon->prepare($sql);

@@ -58,7 +58,7 @@ function get_my_package_usability($dbcon,$orgno,$userno)
                     SELECT appliedno,purchaseno,orgno,users,starttime, duration,appliedat, appliedby
                     FROM pack_appliedpackage                
                     WHERE orgno=?
-                        AND (CURRENT_DATE() BETWEEN DATE(ap.starttime) AND DATE(DATE_ADD(ap.starttime, INTERVAL ap.duration DAY)))
+                        AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))
                     ) as ap ON po.purchaseno=ap.purchaseno
             WHERE po.foruserno=?
             ";

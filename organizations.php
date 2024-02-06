@@ -1231,8 +1231,8 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						</td>
 						<td class="text-center">
 							${value.userno != USERNO && isOwner
-								? `<button class="toggle_userorg_button btn btn-sm ${value.verified == 1 ? `btn-danger` : `btn-success`} ripple custom_shadow" type="button" title="${value.verified == 1 ? `Deactivate` : `Activate`} user">
-									${value.verified == 1 ? `Deactivate` : `Activate`}
+								? `<button class="toggle_userorg_button btn btn-sm ${value.isactive == 1 ? `btn-danger` : `btn-success`} ripple custom_shadow" type="button" title="${value.isactive == 1 ? `Deactivate` : `Activate`} user">
+									${value.isactive == 1 ? `Deactivate` : `Activate`}
 								</button>`
 								: ``}
 						</td>

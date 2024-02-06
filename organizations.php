@@ -1261,11 +1261,10 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						let form = $(`#userorg_setup_modal_form`)
 							.trigger("reset")
 							.data({
+								uono: value.uono,
 								orgno: value.orgno,
 								userOrgInfoContainer: target
 							});
-
-							console.log(form);
 
 						$(`[name]`, form).each((i, elem) => {
 							let elementName = $(elem).attr("name");
@@ -1286,6 +1285,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 
 		function add_userorg(form, target) {
 			let json = Object.fromEntries((new FormData(form[0])).entries());
+			json.uono = Number(form.data(`uono`)) || -1;
 			json.orgno = Number(form.data(`orgno`)) || -1;
 			json.purchaseno = Number(form.data(`purchaseno`)) || -1;
 

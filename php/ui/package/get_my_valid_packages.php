@@ -55,7 +55,7 @@ function get_my_package_usability($dbcon,$userno,$orgno)
                     ap.users as max_user_qty, ap.starttime, ap.duration
             FROM pack_purchaseoffer as po
                 LEFT JOIN (
-                    SELECT purchaseno,starttime, duration
+                    SELECT purchaseno,users, starttime, duration
                     FROM pack_appliedpackage                
                     WHERE orgno=?) as ap ON po.purchaseno=ap.purchaseno
             WHERE po.foruserno=?

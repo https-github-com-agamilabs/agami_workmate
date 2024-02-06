@@ -1200,7 +1200,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					permissionlevel = `Admin`;
 				}
 
-				let template = $(`<tr class="${value.verified == 1 ? `table-success` : `table-danger`}">
+				let template = $(`<tr class="${value.isactive == 1 ? `table-success` : `table-danger`}">
 						<td>${1 + index}</td>
 						<td class="text-nowrap">
 							<div class="text-primary font-weight-bold">

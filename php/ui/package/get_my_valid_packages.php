@@ -44,20 +44,17 @@ $dbcon->close();
 //pack_purchaseoffer(purchaseno, offerno, buyeruserno, foruserno, licensekey, entryat, coupon, amount, discount,
 //                  txrefidbase, txrefid, paymentID, pgno, ispaid, trxID, paidamount, paidat)
 
-//pack_offer(offerno, offertitle, offerdetail, rate, tag, is_coupon_applicable, validuntil)
+//pack_offer(offerno, offertitle, offerdetail,users, duration, rate, tag, is_coupon_applicable, validuntil)
 //pack_offeritems(offerno,item,qty)
 //pack_appliedpackage(appliedno,purchaseno,orgno,starttime, duration,appliedat, appliedby)
 function get_my_package_usability($dbcon,$userno,$orgno)
 {
     $sql = "SELECT po.purchaseno,
                     po.offerno,(SELECT offertitle FROM pack_offer WHERE offerno=po.offerno) as offertitle,
-                    po.licensekey,oi.item,oi.qty as max_user_qty, 
+                    po.licensekey,o.users as max_user_qty, 
                     ap.starttime, ap.duration
             FROM pack_purchaseoffer as po
-                INNER JOIN (
-                    SELECT *
-                    FROM pack_offeritems
-                    WHERE item='ORGUSER') as oi ON oi.offerno=po.offerno
+                INNER JOIN pack_offer as o ON o.offerno=po.offerno
                 LEFT JOIN (
                     SELECT purchaseno,starttime, duration
                     FROM pack_appliedpackage                

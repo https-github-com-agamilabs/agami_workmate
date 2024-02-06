@@ -32,10 +32,9 @@ CREATE TABLE pack_items(
 
 INSERT INTO pack_items(item, itemtitle) VALUES
 ('TIME','Time-tracking and Shift Management'),
-('TASK','Agile Task Management'),
-('ORGUSER','How Many Users');
+('TASK','Agile Task Management');
 
--- pack_offer(offerno, offertitle, offerdetail, rate, tag, is_coupon_applicable, validuntil)
+-- pack_offer(offerno, offertitle, offerdetail,users, duration, rate, tag, is_coupon_applicable, validuntil)
 CREATE TABLE pack_offer(
    offerno int NOT NULL AUTO_INCREMENT,
    offertitle VARCHAR(127) NOT NULL,

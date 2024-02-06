@@ -67,6 +67,6 @@ function get_my_package_usability($dbcon,$orgno,$userno)
     $stmt->bind_param("ii", $orgno,$userno);
     $stmt->execute();
     $result = $stmt->get_result();
-    //$stmt->close();
+    $stmt->close();
     return $result;
 }

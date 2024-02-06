@@ -104,7 +104,7 @@
                             AND empno IN
                                 (   SELECT userno
                                     FROM hr_user
-                                    WHERE isactive=1 AND (supervisor=? OR userno=?)
+                                    WHERE isactive=1 AND (userno in(SELECT userno FROM com_userorg WHERE supervisor=?) OR userno=?)
                                 )
                             AND (date(starttime) BETWEEN ? AND ?)
                             )
@@ -117,7 +117,7 @@
                             AND empno IN
                                 (   SELECT userno
                                     FROM hr_user
-                                    WHERE isactive=1 AND (supervisor=? OR userno=?)
+                                    WHERE isactive=1 AND (userno in(SELECT userno FROM com_userorg WHERE supervisor=?) OR userno=?)
                                 )
                             AND (date(endtime) BETWEEN ? AND ?)
                         )

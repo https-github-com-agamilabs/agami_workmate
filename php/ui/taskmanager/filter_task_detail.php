@@ -217,7 +217,7 @@
                                 AND assignedto IN (
                                     SELECT DISTINCT userno
                                     FROM hr_user
-                                    WHERE supervisor=? OR userno=?
+                                    WHERE userno in(SELECT userno FROM com_userorg WHERE supervisor=?) OR userno=?
                                     )
                             ) ";
             $params[] = &$login_userno;

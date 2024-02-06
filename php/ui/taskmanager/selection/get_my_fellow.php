@@ -70,7 +70,7 @@
     function get_my_fellow($dbcon,$userno){
         $sql = "SELECT userno, CONCAT(firstname,' ',lastname) as userfullname
                 FROM hr_user
-                WHERE isactive=1 AND (supervisor=? OR userno=?)
+                WHERE isactive=1 AND (userno in(SELECT userno FROM com_userorg WHERE supervisor=?) OR userno=?)
                 ORDER BY firstname ASC
                 ";
         $stmt = $dbcon->prepare($sql);

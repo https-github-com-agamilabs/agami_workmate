@@ -951,6 +951,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							$(`#userorg_setup_modal_form`)
 								.trigger(`reset`)
 								.data({
+									uono: -1,
 									orgno: value.orgno,
 									purchaseno,
 									userOrgInfoContainer

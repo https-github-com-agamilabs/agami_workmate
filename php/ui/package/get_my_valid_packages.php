@@ -46,7 +46,7 @@ $dbcon->close();
 
 //pack_offer(offerno, offertitle, offerdetail,users, duration, rate, tag, is_coupon_applicable, validuntil)
 //pack_offeritems(offerno,item,qty)
-//pack_appliedpackage(appliedno,purchaseno,orgno,starttime, duration,appliedat, appliedby)
+//pack_appliedpackage(appliedno,purchaseno,orgno,users,starttime, duration,appliedat, appliedby)
 function get_my_package_usability($dbcon,$userno,$orgno)
 {
     $sql = "SELECT po.purchaseno,
@@ -55,7 +55,7 @@ function get_my_package_usability($dbcon,$userno,$orgno)
                     ap.users as max_user_qty, ap.starttime, ap.duration
             FROM pack_purchaseoffer as po
                 LEFT JOIN (
-                    SELECT purchaseno,users, starttime, duration
+                    SELECT appliedno,purchaseno,orgno,users,starttime, duration,appliedat, appliedby
                     FROM pack_appliedpackage                
                     WHERE orgno=?) as ap ON po.purchaseno=ap.purchaseno
             WHERE po.foruserno=?

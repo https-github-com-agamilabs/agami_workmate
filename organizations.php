@@ -239,7 +239,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			<div class="modal-content">
 				<form id="userorg_setup_modal_form">
 					<div class="modal-header">
-						<h5 class="modal-title">Setup User Org</h5>
+						<h5 class="modal-title">Setup User Organization</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -474,7 +474,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				defaultOptionValue: ``
 			}],
 			optionText: `timezonetitle`,
-			optionValue: `timezoneno`
+			optionValue: `timezonetitle`
 		});
 
 		const shiftLoad = new SelectElemDataLoad({
@@ -606,7 +606,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				}
 			});
 
-			$.each(packages, (index, value) => {
+			$.each(data, (index, value) => {
 				let template = $(`<option value="${value.purchaseno}">${value.offertitle} (${value.licensekey})</option>`)
 					.data(value)
 					.appendTo(target);
@@ -938,11 +938,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							let packageSelect = $(`#org_${value.orgno}_module_tabpane [name="purchaseno"]`);
 							let purchaseno = packageSelect.val();
 							let aPackage = $(`option:selected`, packageSelect).data();
-							let item = aPackage.items.find(a => a.item == `ORGUSER`);
+							
 							let userorgDetail = userOrgInfoContainer.data(`userorg_detail`);
 							let usedQty = userorgDetail ? userorgDetail.length : 1;
 
-							if (item.max_user_qty == usedQty) {
+							if (aPackage.max_user_qty == usedQty) {
 								toastr.error(`Your package has already been used up. Please select a different package to add user.`);
 								return;
 							}
@@ -1319,6 +1319,8 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				} else {
 					toastr.success(resp.message);
 					form.trigger(`reset`);
+					$(`#userorg_setup_modal`).modal(`hide`);
+
 					get_my_valid_packages({
 						orgno: json.orgno
 					}, $(`[name="purchaseno"]`));

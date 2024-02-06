@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
     include_once  dirname(dirname(__FILE__))."/login/check_session.php";
 
     $response = array();

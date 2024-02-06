@@ -284,7 +284,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							<div class="col-lg-6 form-group">
 								<label class="d-block mb-0">
 									Position/designation at company
-									<input name="jobtitle" class="form-control shadow-sm mt-2" type="text" placeholder="Position/designation at company...">
+									<input name="designation" class="form-control shadow-sm mt-2" type="text" placeholder="Position/designation at company...">
 								</label>
 							</div>
 
@@ -824,7 +824,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 																		<th>Work load & Salary</th>
 																		<th>Shift</th>
 																		<th style="width:75px;min-width:75px;">Validity</th>
-																		<th style="width:115px;min-width:115px;">Action</th>
+																		<th style="width:60px;min-width:60px;">Action</th>
 																	</tr>
 																</thead>
 																<tbody class="userorg_info_container"></tbody>
@@ -947,7 +947,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 								return;
 							}
 
-							$(`#userorg_setup_modal`).modal(`show`);
+							$(`#userorg_setup_modal`).modal(`show`).html(`Create User Organization`);
 							$(`#userorg_setup_modal_form`)
 								.trigger(`reset`)
 								.data({
@@ -1177,6 +1177,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		function show_userorg_detail(data, target) {
 			target.data(`userorg_detail`, data);
 			let isOwner = data.find(a => a.userno == USERNO && a.permissionlevel == 7 && a.ucatno == 19);
+			console.log(`isOwner`, isOwner);
 
 			$.each(data, (index, value) => {
 				let shift = value.shifttitle || ``;
@@ -1207,7 +1208,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 								${value.lastname || ``}
 								(${value.userno != USERNO ? value.username : `you`})
 							</div>
-							${value.jobtitle ? `<div>Designation: ${value.jobtitle}</div>` : ``}
+							${value.designation ? `<div>Designation: ${value.designation}</div>` : ``}
 							${value.uuid ? `<div>ID: ${value.uuid}</div>` : ``}
 							${value.ucattitle ? `<div>Role: ${value.ucattitle}</div>` : ``}
 							${permissionlevel.length ? `<div>Permission Level: ${permissionlevel}</div>` : ``}
@@ -1229,7 +1230,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							${shift}
 						</td>
 						<td class="text-center">
-							${true
+							${value.userno != USERNO && isOwner
 								? `<button class="toggle_userorg_button btn btn-sm ${value.verified == 1 ? `btn-danger` : `btn-success`} ripple custom_shadow" type="button" title="${value.verified == 1 ? `Deactivate` : `Activate`} user">
 									${value.verified == 1 ? `Deactivate` : `Activate`}
 								</button>`
@@ -1239,20 +1240,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							${isOwner
 								? `<button class="edit_userorg_button btn btn-sm btn-info custom_shadow" type="button" title="Update module">
 									Edit
-								</button>
-								<button class="cancel_userorg_button btn btn-sm btn-secondary custom_shadow" style="display:none;" type="button" title="Cancel">
-									Cancel
-								</button>
-								<button class="save_userorg_button btn btn-sm btn-primary custom_shadow" style="display:none;" type="button" title="Save module">
-									Save
 								</button>`
 								: ``}
 						</td>
 					</tr>`)
 					.appendTo(target);
-
-				let moduleSelect = $(`[name="moduleno"]`, template);
-				load_modules(moduleSelect);
 
 				(function($) {
 					$(`.toggle_userorg_button`, template).click(function(e) {
@@ -1266,28 +1258,23 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					});
 
 					$(`.edit_userorg_button`, template).click(function(e) {
-						$(`.module_div, .edit_userorg_button, .save_userorg_button, .cancel_userorg_button`, template).toggle();
-
-						moduleSelect.val(value.moduleno);
-					});
-
-					$(`.cancel_userorg_button`, template).click(function(e) {
-						$(`.module_div, .edit_userorg_button, .save_userorg_button, .cancel_userorg_button`, template).toggle();
-					});
-
-					$(`.save_userorg_button`, template).click(function(e) {
-						let toggleElem = $(`.module_div, .edit_userorg_button, .save_userorg_button, .cancel_userorg_button`, template);
-
-						if (moduleSelect.val() != value.moduleno) {
-							update_userorg({
+						let modal = $(`#userorg_setup_modal`).modal(`show`).find(`.modal-title`).html(`Update User Organization`);
+						let form = $(`#userorg_setup_modal_form`)
+							.trigger("reset")
+							.data({
 								orgno: value.orgno,
-								foruserno: value.userno,
-								old_moduleno: value.moduleno,
-								new_moduleno: moduleSelect.val()
-							}, target);
-						} else {
-							toastr.error(`You haven't change the module.`);
-						}
+								userOrgInfoContainer: target
+							});
+
+							console.log(form);
+
+						$(`[name]`, form).each((i, elem) => {
+							let elementName = $(elem).attr("name");
+							console.log(elementName, value[elementName]);
+							if (value[elementName] != null) {
+								$(elem).val(value[elementName]);
+							}
+						});
 					});
 				})(jQuery);
 			});

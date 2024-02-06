@@ -1,6 +1,6 @@
 <?php
 $base_path = dirname(dirname(dirname(__FILE__)));
-include_once($base_path . "/ui/login/check_session.php");
+//include_once($base_path . "/ui/login/check_session.php");
 
 $response = array();
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -63,7 +63,7 @@ function get_my_package_usability($dbcon,$userno,$orgno)
             ";
 
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("ii", $userno,$orgno);
+    $stmt->bind_param("ii", $orgno,$userno);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();

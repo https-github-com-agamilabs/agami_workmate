@@ -24,5 +24,6 @@ if (!isset($_SESSION['cogo_userno'])) {
 
 
 $userno = $_SESSION['cogo_userno'];
+$ucatno = $_SESSION['cogo_ucatno'];
 
 ?>

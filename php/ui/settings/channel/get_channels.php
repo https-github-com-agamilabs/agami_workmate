@@ -166,7 +166,7 @@
                                 FROM msg_channelmember
                                 WHERE channelno=?) as cm
                     ON u.userno=cm.userno
-                ORDER BY isactive DESC, ucatno DESC, entrytime";
+                ORDER BY isactive DESC, entrytime";
 
         $stmt = $dbcon->prepare($sql);
         $stmt->bind_param("i", $channelno);

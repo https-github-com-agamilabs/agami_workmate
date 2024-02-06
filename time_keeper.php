@@ -179,7 +179,7 @@
 	</div>
 
 	<script>
-		const ucatno = <?= $_SESSION['cogo_ucatno'] ?>;
+		const ucatno = <?= $_SESSION['wm_ucatno'] ?>;
 
 		if (ucatno == 19) {
 			$("#time_keeper_table_tbody").siblings("thead").find("tr:first").prepend(`<th></th>`);

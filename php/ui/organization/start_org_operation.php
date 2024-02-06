@@ -22,8 +22,8 @@ try {
     $rs_userorg = get_info_organization($dbcon, $userno, $orgno);
     if ($rs_userorg->num_rows > 0) {
         $userorg = $rs_userorg->fetch_array(MYSQLI_ASSOC);
-        if (isset($_SESSION['cogo_orgno'])) {
-            unset($_SESSION['cogo_orgno']);
+        if (isset($_SESSION['wm_orgno'])) {
+            unset($_SESSION['wm_orgno']);
         }
         
         $isvalid = check_org_validity($dbcon,$orgno);
@@ -34,19 +34,19 @@ try {
                                         Please renew online OR\n
                                         Please contact the organization admin.", 1);
         } else {
-            $_SESSION['cogo_orgno'] = $userorg['orgno'];
-            $_SESSION['cogo_org_picurl'] = $userorg['picurl'];
-            $_SESSION['cogo_orgname'] = $userorg['orgname'];
-            $_SESSION['cogo_orglocation'] = $userorg['street'] . ', ' . $userorg['city'] . ', ' . $userorg['country'];
-            $_SESSION['cogo_timeflexibility'] = $userorg['timeflexibility'];
-            $_SESSION['cogo_starttime'] = $userorg['starttime'];
-            $_SESSION['cogo_endtime'] = $userorg['endtime'];
-            $_SESSION['cogo_ucatno'] = $userorg['ucatno'];
-            $_SESSION['cogo_ucattitle'] = $userorg['ucattitle'];
-            $_SESSION['cogo_designation'] = $userorg['designation'];
-            $_SESSION['cogo_permissionlevel'] = $userorg['permissionlevel'];
-            $_SESSION['cogo_moduleno'] = $userorg['moduleno'];
-            $_SESSION['cogo_moduletitle'] = $userorg['moduletitle'];
+            $_SESSION['wm_orgno'] = $userorg['orgno'];
+            $_SESSION['wm_org_picurl'] = $userorg['picurl'];
+            $_SESSION['wm_orgname'] = $userorg['orgname'];
+            $_SESSION['wm_orglocation'] = $userorg['street'] . ', ' . $userorg['city'] . ', ' . $userorg['country'];
+            $_SESSION['wm_timeflexibility'] = $userorg['timeflexibility'];
+            $_SESSION['wm_starttime'] = $userorg['starttime'];
+            $_SESSION['wm_endtime'] = $userorg['endtime'];
+            $_SESSION['wm_ucatno'] = $userorg['ucatno'];
+            $_SESSION['wm_ucattitle'] = $userorg['ucattitle'];
+            $_SESSION['wm_designation'] = $userorg['designation'];
+            $_SESSION['wm_permissionlevel'] = $userorg['permissionlevel'];
+            $_SESSION['wm_moduleno'] = $userorg['moduleno'];
+            $_SESSION['wm_moduletitle'] = $userorg['moduletitle'];
 
             $response['error'] = false;
             $response['redirecturl'] = "time_keeper.php";

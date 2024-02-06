@@ -32,8 +32,8 @@
 
         //$messenger,$channelno,$title,$message,$catno,$statusno,$chatflag
 
-        if (isset($_SESSION['cogo_userno']) && strlen($_SESSION['cogo_userno'])>0) {
-            $messenger = (int) $_SESSION['cogo_userno'];
+        if (isset($_SESSION['wm_userno']) && strlen($_SESSION['wm_userno'])>0) {
+            $messenger = (int) $_SESSION['wm_userno'];
         }else{
             throw new \Exception("You must login first!", 1);
         }

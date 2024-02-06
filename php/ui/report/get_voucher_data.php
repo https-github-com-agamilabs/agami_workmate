@@ -19,20 +19,20 @@
             throw new \Exception("Database is not connected!", 1);
         }
 
-        if(isset($_SESSION['cogo_userno'])){
-            $empno=(int) $_SESSION['cogo_userno'];
+        if(isset($_SESSION['wm_userno'])){
+            $empno=(int) $_SESSION['wm_userno'];
         }else{
             throw new \Exception("You must login first!", 1);
         }
 
-        if(isset($_SESSION['cogo_orgno'])){
-            $orgno=(int) $_SESSION['cogo_orgno'];
+        if(isset($_SESSION['wm_orgno'])){
+            $orgno=(int) $_SESSION['wm_orgno'];
         }else{
             throw new \Exception("You must selct an organization!", 1);
         }
 
-        if(isset($_SESSION['cogo_ucatno'])){
-            $ucatno=(int) $_SESSION['cogo_ucatno'];
+        if(isset($_SESSION['wm_ucatno'])){
+            $ucatno=(int) $_SESSION['wm_ucatno'];
         }else{
             throw new \Exception("You must login first!", 1);
         }

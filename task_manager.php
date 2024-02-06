@@ -257,8 +257,8 @@
 
 
 	<script>
-		const PERMISSION_LEVEL = <?= $_SESSION['cogo_permissionlevel']; ?>;
-		const USERNO = <?= $_SESSION['cogo_userno']; ?>;
+		const PERMISSION_LEVEL = <?= $_SESSION['wm_permissionlevel']; ?>;
+		const USERNO = <?= $_SESSION['wm_userno']; ?>;
 		let howToSolveTextEditor;
 
 		ClassicEditor

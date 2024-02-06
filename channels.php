@@ -124,8 +124,8 @@
 					<div class="modal-body px-2 px-md-3">
 						<div class="media mb-2">
 							<img src="<?php
-										if (!empty($_SESSION["cogo_photoname"])) {
-											echo $_SESSION["cogo_photoname"];
+										if (!empty($_SESSION["wm_photoname"])) {
+											echo $_SESSION["wm_photoname"];
 										} else {
 											echo 'assets/image/user_icon.png';
 										}
@@ -135,11 +135,11 @@
 								<div class="d-flex flex-wrap mb-2">
 									<div class="h6 font-weight-bold mr-4">
 										<?php
-										if (!empty($_SESSION["cogo_firstname"])) {
-											echo $_SESSION["cogo_firstname"];
+										if (!empty($_SESSION["wm_firstname"])) {
+											echo $_SESSION["wm_firstname"];
 										}
-										if (!empty($_SESSION["cogo_lastname"])) {
-											echo " " . $_SESSION["cogo_lastname"];
+										if (!empty($_SESSION["wm_lastname"])) {
+											echo " " . $_SESSION["wm_lastname"];
 										}
 										?>
 									</div>

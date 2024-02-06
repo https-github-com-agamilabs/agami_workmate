@@ -20,15 +20,15 @@ try {
     }
 
 
-    if (isset($_SESSION['cogo_userno'])) {
-        $userno = (int) $_SESSION['cogo_userno'];
+    if (isset($_SESSION['wm_userno'])) {
+        $userno = (int) $_SESSION['wm_userno'];
     } else {
         throw new \Exception("You must login first!", 1);
     }
 
     $ucatno = 0;
-    if (isset($_SESSION['cogo_ucatno'])) {
-        $ucatno = (int) $_SESSION['cogo_ucatno'];
+    if (isset($_SESSION['wm_ucatno'])) {
+        $ucatno = (int) $_SESSION['wm_ucatno'];
     }
 
     if (isset($_POST['empno'])) {

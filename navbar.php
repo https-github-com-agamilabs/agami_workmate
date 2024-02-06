@@ -161,8 +161,8 @@
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
                                     <img class="rounded-circle cogo_photo_url" src="<?php
-                                                                                    if (!empty($_SESSION["cogo_photo_url"])) {
-                                                                                        echo $_SESSION["cogo_photo_url"];
+                                                                                    if (!empty($_SESSION["wm_photo_url"])) {
+                                                                                        echo $_SESSION["wm_photo_url"];
                                                                                     } else {
                                                                                         echo 'assets/image/user_icon.png';
                                                                                     }
@@ -194,18 +194,18 @@
                         <div class="widget-content-left ml-3 header-user-info">
                             <div class="widget-heading">
                                 <?php
-                                if (!empty($_SESSION["cogo_firstname"])) {
-                                    echo $_SESSION["cogo_firstname"];
+                                if (!empty($_SESSION["wm_firstname"])) {
+                                    echo $_SESSION["wm_firstname"];
                                 }
-                                if (!empty($_SESSION["cogo_lastname"])) {
-                                    echo " " . $_SESSION["cogo_lastname"];
+                                if (!empty($_SESSION["wm_lastname"])) {
+                                    echo " " . $_SESSION["wm_lastname"];
                                 }
                                 ?>
                             </div>
                             <div class="widget-subheading">
                                 <?php
-                                if (!empty($_SESSION["cogo_designation"])) {
-                                    echo $_SESSION["cogo_designation"];
+                                if (!empty($_SESSION["wm_designation"])) {
+                                    echo $_SESSION["wm_designation"];
                                 }
                                 ?>
                             </div>
@@ -483,7 +483,7 @@
 
 <script>
     const ORGNAME = `<?= $response['orgname']; ?>`;
-    const UCAT_NO = <?= $_SESSION['cogo_ucatno']; ?>;
+    const UCAT_NO = <?= $_SESSION['wm_ucatno']; ?>;
     const USER_NO = <?= $userno ?>;
     const ONE_DAY_IN_SECOND = 86400; // 60 * 60 * 24
 

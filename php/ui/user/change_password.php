@@ -28,8 +28,8 @@
             throw new \Exception("User Name cannot be Empty!", 1);
         }
 
-        if(isset($_SESSION['cogo_userno'])){
-            $userno=(int) $_SESSION['cogo_userno'];
+        if(isset($_SESSION['wm_userno'])){
+            $userno=(int) $_SESSION['wm_userno'];
         }else{
             throw new \Exception("You must login first!", 1);
         }

@@ -78,7 +78,7 @@
 						</div>
 					</div>
 
-					<div class="card mb-3 <?= in_array($_SESSION['cogo_ucatno'], [13, 18]) ? 'd-none' : '' ?>">
+					<div class="card mb-3 <?= in_array($_SESSION['wm_ucatno'], [13, 18]) ? 'd-none' : '' ?>">
 						<div class="card-header">
 							<h5 class="font-weight-bold">Summary</h5>
 						</div>
@@ -115,7 +115,7 @@
 
 	<!-- Second card end -->
 	<script>
-		const UCATNO = <?= $_SESSION['cogo_ucatno'] ?>;
+		const UCATNO = <?= $_SESSION['wm_ucatno'] ?>;
 		const MONTH_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 		const WEEK_DAY = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 		// const ONE_DAY_IN_SECOND = 86400; // 60 * 60 * 24

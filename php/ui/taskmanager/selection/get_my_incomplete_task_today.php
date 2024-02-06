@@ -22,10 +22,10 @@
 
     try {
 
-        if(!isset($_SESSION['cogo_orgno'])){
+        if(!isset($_SESSION['wm_orgno'])){
             throw new \Exception("You must select an organization!", 1);
         }else{
-            $orgno= (int) $_SESSION['cogo_orgno'];
+            $orgno= (int) $_SESSION['wm_orgno'];
         }
         //$userno=1;
 

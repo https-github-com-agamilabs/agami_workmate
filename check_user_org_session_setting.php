@@ -9,16 +9,16 @@ if ($util->is_session_started() === false) {
     session_start();
 }
 
-if (!isset($_SESSION['cogo_userno'])) {
+if (!isset($_SESSION['wm_userno'])) {
     header("Location: index.php");
     exit();
 }
 
 $moduleno = -1;
-if (isset($_SESSION['cogo_moduleno'])) {
-    $moduleno = (int) $_SESSION['cogo_moduleno'];
+if (isset($_SESSION['wm_moduleno'])) {
+    $moduleno = (int) $_SESSION['wm_moduleno'];
 }
 
-$userno = $_SESSION['cogo_userno'];
+$userno = $_SESSION['wm_userno'];
 
 ?>

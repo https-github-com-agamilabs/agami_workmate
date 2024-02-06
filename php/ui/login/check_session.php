@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
 
-if (!isset($_SESSION['cogo_userno'])) {
+if (!isset($_SESSION['wm_userno'])) {
 
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$response = array();
@@ -23,7 +23,7 @@ if (!isset($_SESSION['cogo_userno'])) {
 } 
 
 
-$userno = $_SESSION['cogo_userno'];
-$ucatno = $_SESSION['cogo_ucatno'];
+$userno = $_SESSION['wm_userno'];
+$ucatno = $_SESSION['wm_ucatno'];
 
 ?>

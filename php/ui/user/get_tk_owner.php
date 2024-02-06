@@ -22,19 +22,19 @@
         if ($ucatno<=13) {
             $meta_array=array();
             $meta_array['userno']=$userno;
-            $meta_array['firstname']=$_SESSION['cogo_firstname'];
-            $meta_array['lastname']=$_SESSION['cogo_lastname'];
-            $meta_array['email']=$_SESSION['cogo_email'];
+            $meta_array['firstname']=$_SESSION['wm_firstname'];
+            $meta_array['lastname']=$_SESSION['wm_lastname'];
+            $meta_array['email']=$_SESSION['wm_email'];
             $response['results'][] = $meta_array;
             echo json_encode($response);
             $dbcon->close();
             exit();
         }
 
-        if(!isset($_SESSION['cogo_orgno'])){
+        if(!isset($_SESSION['wm_orgno'])){
             throw new \Exception("You must select an organization!", 1);
         }else{
-            $orgno= (int) $_SESSION['cogo_orgno'];
+            $orgno= (int) $_SESSION['wm_orgno'];
         }
 
         $list = get_tk_owner($dbcon, $orgno);

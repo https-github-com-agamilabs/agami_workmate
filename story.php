@@ -173,8 +173,8 @@ include_once "php/ui/login/check_session.php";
 						<div class="card-body py-2">
 							<div class="media py-2">
 								<img src="<?php
-											if (!empty($_SESSION["cogo_photoname"])) {
-												echo $_SESSION["cogo_photoname"];
+											if (!empty($_SESSION["wm_photoname"])) {
+												echo $_SESSION["wm_photoname"];
 											} else {
 												echo 'assets/image/user_icon.png';
 											}
@@ -247,8 +247,8 @@ include_once "php/ui/login/check_session.php";
 					<div class="modal-body">
 						<div class="media mb-2">
 							<img src="<?php
-										if (!empty($_SESSION["cogo_photoname"])) {
-											echo $_SESSION["cogo_photoname"];
+										if (!empty($_SESSION["wm_photoname"])) {
+											echo $_SESSION["wm_photoname"];
 										} else {
 											echo 'assets/image/user_icon.png';
 										}
@@ -256,18 +256,18 @@ include_once "php/ui/login/check_session.php";
 							<div class="media-body">
 								<div class="text-primary font-weight-bold">
 									<?php
-									if (!empty($_SESSION["cogo_firstname"])) {
-										echo $_SESSION["cogo_firstname"];
+									if (!empty($_SESSION["wm_firstname"])) {
+										echo $_SESSION["wm_firstname"];
 									}
-									if (!empty($_SESSION["cogo_lastname"])) {
-										echo " " . $_SESSION["cogo_lastname"];
+									if (!empty($_SESSION["wm_lastname"])) {
+										echo " " . $_SESSION["wm_lastname"];
 									}
 									?>
 								</div>
 								<div>
 									<?php
-									if (!empty($_SESSION["cogo_designation"])) {
-										echo $_SESSION["cogo_designation"];
+									if (!empty($_SESSION["wm_designation"])) {
+										echo $_SESSION["wm_designation"];
 									}
 									?>
 								</div>
@@ -446,7 +446,7 @@ include_once "php/ui/login/check_session.php";
 	</div>
 
 	<script>
-		const PERMISSION_LEVEL = `<?= $_SESSION['cogo_permissionlevel']; ?>`;
+		const PERMISSION_LEVEL = `<?= $_SESSION['wm_permissionlevel']; ?>`;
 
 		let howToSolveTextEditor;
 
@@ -464,7 +464,7 @@ include_once "php/ui/login/check_session.php";
 
 		// const CHANNELNO = parseInt(window.location.search.split("=").pop(), 10) || -1;
 		const LOGGEDIN_USERNO = Number(<?= $userno; ?>) || -1;
-		const UCATNO = Number(<?= $_SESSION['cogo_ucatno']; ?>) || -1;
+		const UCATNO = Number(<?= $_SESSION['wm_ucatno']; ?>) || -1;
 
 		const searchParams = new URLSearchParams(window.location.search);
 

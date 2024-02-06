@@ -118,11 +118,11 @@ $arrayData = array_merge($arrayData, langConverter($lang, 'profile'));
 						<div class="widget-content-left ml-3 header-user-info">
 							<div class="widget-heading">
 								<?php
-								if (!empty($_SESSION["cogo_firstname"])) {
-									echo $_SESSION["cogo_firstname"];
+								if (!empty($_SESSION["wm_firstname"])) {
+									echo $_SESSION["wm_firstname"];
 								}
-								if (!empty($_SESSION["cogo_lastname"])) {
-									echo " " . $_SESSION["cogo_lastname"];
+								if (!empty($_SESSION["wm_lastname"])) {
+									echo " " . $_SESSION["wm_lastname"];
 								}
 								?>
 							</div>

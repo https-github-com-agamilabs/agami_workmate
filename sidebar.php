@@ -143,7 +143,7 @@
             <ul id="channels_container" class="vertical-nav-menu mt-3">
 
                 <?php
-                if ($_SESSION['cogo_ucatno'] == 5) : ?>
+                if ($_SESSION['wm_ucatno'] == 5) : ?>
                     <li>
                         <a href="dashboard.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-tachometer-alt"></i> Dashboard
@@ -152,7 +152,7 @@
                 <?php endif; ?>
 
                 <?php
-                if ($_SESSION['cogo_ucatno'] != 5) : ?>
+                if ($_SESSION['wm_ucatno'] != 5) : ?>
                     <li class="app-sidebar__heading">Time Keeper</li>
 
                     <li>
@@ -168,7 +168,7 @@
                 <?php endif; ?>
 
                 <?php
-                if ($_SESSION['cogo_ucatno'] == 19) : ?>
+                if ($_SESSION['wm_ucatno'] == 19) : ?>
                     <!-- <li>
                         <a href="gantt_chart.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-chart-area"></i> Gantt Chart
@@ -195,7 +195,7 @@
                 </li> -->
 
                 <?php
-                if ($_SESSION['cogo_ucatno'] == 19) : ?>
+                if ($_SESSION['wm_ucatno'] == 19) : ?>
                     <li>
                         <a href="users.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-users"></i> Users
@@ -206,7 +206,7 @@
                 <!-- <li class="app-sidebar__heading">Task Manager</li> -->
 
                 <?php
-                if ($_SESSION['cogo_permissionlevel'] >= 1 || $_SESSION['cogo_ucatno'] == 19) : ?>
+                if ($_SESSION['wm_permissionlevel'] >= 1 || $_SESSION['wm_ucatno'] == 19) : ?>
                     <!-- <li>
                         <a href="task_manager.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-tasks"></i> Task Settings
@@ -221,7 +221,7 @@
                 </li> -->
 
                 <?php
-                if ($_SESSION['cogo_ucatno'] == 19) : ?>
+                if ($_SESSION['wm_ucatno'] == 19) : ?>
                     <!-- <li style="display: none;">
                         <a href="task_today.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-tasks"></i> Task Today
@@ -248,7 +248,7 @@
                 <li class="app-sidebar__heading">Channels</li>
 
                 <?php
-                if ($_SESSION['cogo_ucatno'] === 19) : ?>
+                if ($_SESSION['wm_ucatno'] === 19) : ?>
                     <li>
                         <a href="setup_channels.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-plus-square"></i> Setup Channel

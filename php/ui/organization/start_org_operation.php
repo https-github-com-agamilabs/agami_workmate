@@ -97,7 +97,7 @@ function get_info_organization($dbcon, $userno, $orgno)
 //pack_appliedpackage(appliedno,purchaseno,orgno,starttime, duration,appliedat, appliedby)
 function check_org_validity($dbcon,$orgno){
 
-    $sql = "SELECT appliedno,purchaseno,starttime,DATE(DATE_ADD(starttime, INTERVAL duration DAY)) as closingdate
+    $sql = "SELECT appliedno,purchaseno,users,starttime,DATE(DATE_ADD(starttime, INTERVAL duration DAY)) as closingdate
             FROM pack_appliedpackage
             WHERE orgno=? AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))";
 

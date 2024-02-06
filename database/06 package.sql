@@ -90,6 +90,7 @@ CREATE TABLE pack_appliedpackage(
   appliedno INT AUTO_INCREMENT,
   purchaseno INT NOT NULL,
   orgno INT NOT NULL,
+  users tinyint DEFAULT 10,
   starttime DATETIME DEFAULT NULL,
   duration INT NOT NULL,
   appliedat DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -99,3 +100,6 @@ CREATE TABLE pack_appliedpackage(
   CONSTRAINT fk_appliedpackage_purchaseno FOREIGN KEY (purchaseno) REFERENCES pack_purchaseoffer(purchaseno) ON UPDATE CASCADE,
   CONSTRAINT fk_appliedpackage_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno) ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE pack_appliedpackage
+-- ADD COLUMN users tinyint DEFAULT 10;

@@ -68,8 +68,8 @@ function apply_package($dbcon,$orgno,$foruserno,$purchaseno,$appliedby,$duration
     $lastvaliduntil=get_last_validuntil($dbcon, $orgno);
     $lastvaliduntil=isset($lastvaliduntil)?($lastvaliduntil>$appliedat?$lastvaliduntil:$appliedat):$appliedat;
 
-    $sql = "INSERT INTO pack_appliedpackage(purchaseno,orgno,starttime, duration,appliedat, appliedby)
-                SELECT po.purchaseno, ? as orgno, ? as starttime, o.duration, ? as appliedat,? as appliedby
+    $sql = "INSERT INTO pack_appliedpackage(purchaseno,orgno,users,starttime, duration,appliedat, appliedby)
+                SELECT po.purchaseno, ? as orgno, ? as starttime, o.users,o.duration, ? as appliedat,? as appliedby
                 FROM pack_purchaseoffer as po
                     INNER JOIN pack_offer as o ON po.offerno=o.offerno
                 WHERE po.purchaseno=? AND po.foruserno=?";

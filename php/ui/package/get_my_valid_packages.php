@@ -51,10 +51,9 @@ function get_my_package_usability($dbcon,$userno,$orgno)
 {
     $sql = "SELECT po.purchaseno,
                     po.offerno,(SELECT offertitle FROM pack_offer WHERE offerno=po.offerno) as offertitle,
-                    po.licensekey,o.users as max_user_qty, 
-                    ap.starttime, ap.duration
+                    po.licensekey,
+                    ap.users as max_user_qty, ap.starttime, ap.duration
             FROM pack_purchaseoffer as po
-                INNER JOIN pack_offer as o ON o.offerno=po.offerno
                 LEFT JOIN (
                     SELECT purchaseno,starttime, duration
                     FROM pack_appliedpackage                

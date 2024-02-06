@@ -1230,20 +1230,20 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						</td>
 						<td class="text-center">
 							${true
-								? `<button class="toggle_userorgmodule_button btn btn-sm ${value.verified == 1 ? `btn-danger` : `btn-success`} ripple custom_shadow" type="button" title="${value.verified == 1 ? `Deactivate` : `Activate`} user">
+								? `<button class="toggle_userorg_button btn btn-sm ${value.verified == 1 ? `btn-danger` : `btn-success`} ripple custom_shadow" type="button" title="${value.verified == 1 ? `Deactivate` : `Activate`} user">
 									${value.verified == 1 ? `Deactivate` : `Activate`}
 								</button>`
 								: ``}
 						</td>
 						<td class="text-center">
 							${isOwner
-								? `<button class="edit_userorgmodule_button btn btn-sm btn-info custom_shadow" type="button" title="Update module">
+								? `<button class="edit_userorg_button btn btn-sm btn-info custom_shadow" type="button" title="Update module">
 									Edit
 								</button>
-								<button class="cancel_userorgmodule_button btn btn-sm btn-secondary custom_shadow" style="display:none;" type="button" title="Cancel">
+								<button class="cancel_userorg_button btn btn-sm btn-secondary custom_shadow" style="display:none;" type="button" title="Cancel">
 									Cancel
 								</button>
-								<button class="save_userorgmodule_button btn btn-sm btn-primary custom_shadow" style="display:none;" type="button" title="Save module">
+								<button class="save_userorg_button btn btn-sm btn-primary custom_shadow" style="display:none;" type="button" title="Save module">
 									Save
 								</button>`
 								: ``}
@@ -1255,7 +1255,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				load_modules(moduleSelect);
 
 				(function($) {
-					$(`.toggle_userorgmodule_button`, template).click(function(e) {
+					$(`.toggle_userorg_button`, template).click(function(e) {
 						let json = {
 							orgno: value.orgno,
 							userno: value.userno,
@@ -1265,18 +1265,18 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						toggle_userorg_activation(json, target);
 					});
 
-					$(`.edit_userorgmodule_button`, template).click(function(e) {
-						$(`.module_div, .edit_userorgmodule_button, .save_userorgmodule_button, .cancel_userorgmodule_button`, template).toggle();
+					$(`.edit_userorg_button`, template).click(function(e) {
+						$(`.module_div, .edit_userorg_button, .save_userorg_button, .cancel_userorg_button`, template).toggle();
 
 						moduleSelect.val(value.moduleno);
 					});
 
-					$(`.cancel_userorgmodule_button`, template).click(function(e) {
-						$(`.module_div, .edit_userorgmodule_button, .save_userorgmodule_button, .cancel_userorgmodule_button`, template).toggle();
+					$(`.cancel_userorg_button`, template).click(function(e) {
+						$(`.module_div, .edit_userorg_button, .save_userorg_button, .cancel_userorg_button`, template).toggle();
 					});
 
-					$(`.save_userorgmodule_button`, template).click(function(e) {
-						let toggleElem = $(`.module_div, .edit_userorgmodule_button, .save_userorgmodule_button, .cancel_userorgmodule_button`, template);
+					$(`.save_userorg_button`, template).click(function(e) {
+						let toggleElem = $(`.module_div, .edit_userorg_button, .save_userorg_button, .cancel_userorg_button`, template);
 
 						if (moduleSelect.val() != value.moduleno) {
 							update_userorg({

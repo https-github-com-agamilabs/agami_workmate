@@ -1177,7 +1177,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		function show_userorg_detail(data, target) {
 			target.data(`userorg_detail`, data);
 			let isOwner = data.find(a => a.userno == USERNO && a.permissionlevel == 7 && a.ucatno == 19);
-			console.log(`isOwner`, isOwner);
 
 			$.each(data, (index, value) => {
 				let shift = value.shifttitle || ``;

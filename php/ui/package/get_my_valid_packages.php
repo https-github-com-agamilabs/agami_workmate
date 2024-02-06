@@ -1,6 +1,6 @@
 <?php
 $base_path = dirname(dirname(dirname(__FILE__)));
-//include_once($base_path . "/ui/login/check_session.php");
+include_once($base_path . "/ui/login/check_session.php");
 
 $response = array();
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {

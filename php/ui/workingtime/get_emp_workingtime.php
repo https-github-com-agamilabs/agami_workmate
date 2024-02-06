@@ -48,7 +48,7 @@ error_reporting(E_ALL);
             throw new \Exception("You must specify end date!", 1);
         }
 
-        $elapsedtime=get_my_current_workingtime($dbcon, $empno);
+        $elapsedtime=get_my_current_workingtime($dbcon, $empno, $orgno);
         $response['elapsedtime'] = $elapsedtime;
 
         if ($ucatno>=19) {

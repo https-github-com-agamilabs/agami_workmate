@@ -95,61 +95,78 @@ if (!$db->is_connected()) {
     exit();
 }
 
-$userLoginResult = get_user_info($dbcon, $username);
+try {
+    $userLoginResult = get_user_info($dbcon, $username);
 
-if ($userLoginResult->num_rows == 1) {
-    $row = $userLoginResult->fetch_array(MYSQLI_ASSOC);
-    $userno = $row['userno'];
-    $passphrase = $row['passphrase'];
+    if ($userLoginResult->num_rows == 1) {
+        $row = $userLoginResult->fetch_array(MYSQLI_ASSOC);
+        $userno = $row['userno'];
+        $passphrase = $row['passphrase'];
 
-    if (password_verify($password, $passphrase)) {
-        session_start();
+        if (password_verify($password, $passphrase)) {
+            session_start();
 
-        $_SESSION['wm_userno'] = $row['userno'];
-        $_SESSION['wm_firstname'] = $row['firstname'];
-        $_SESSION['wm_lastname'] = $row['lastname'];
-        $_SESSION['wm_photo_url'] = $row['photo_url'];
-        $_SESSION['wm_email'] = $row['email'];
-        $_SESSION['wm_userstatusno'] = $row['userstatusno'];
-        $response['error'] = false;
-        $response['message'] = "Login successful!";
+            $_SESSION['wm_userno'] = $row['userno'];
+            $_SESSION['wm_firstname'] = $row['firstname'];
+            $_SESSION['wm_lastname'] = $row['lastname'];
+            $_SESSION['wm_photo_url'] = $row['photo_url'];
+            $_SESSION['wm_email'] = $row['email'];
+            $_SESSION['wm_userstatusno'] = $row['userstatusno'];
+            $response['error'] = false;
+            $response['message'] = "Login successful!";
 
-        //userstatus=1 means active user amd 9 means agamian to set package
-        if ($row['userstatusno'] == 1) { //
-            $countorg = 0;
-            $rs_countorg = count_my_company($dbcon, $userno);
-            if ($rs_countorg->num_rows == 1) {
-                $userorg = $rs_countorg->fetch_array(MYSQLI_ASSOC);
-                $_SESSION['wm_orgno'] = $userorg['orgno'];
-                $_SESSION['wm_org_picurl'] = $userorg['picurl'];
-                $_SESSION['wm_orgname'] = $userorg['orgname'];
-                $_SESSION['wm_orglocation'] = $userorg['street'] . ', ' . $userorg['city'] . ', ' . $userorg['country'];
-                $_SESSION['wm_timeflexibility'] = $userorg['timeflexibility'];
-                $_SESSION['wm_starttime'] = $userorg['starttime'];
-                $_SESSION['wm_endtime'] = $userorg['endtime'];
-                $_SESSION['wm_ucatno'] = $userorg['ucatno'];
-                $_SESSION['wm_ucattitle'] = $userorg['ucattitle'];
-                $_SESSION['wm_designation'] = $userorg['designation'];
-                $_SESSION['wm_permissionlevel'] = $userorg['permissionlevel'];
-                $_SESSION['wm_moduleno'] = $userorg['moduleno'];
-                $_SESSION['wm_moduletitle'] = $userorg['moduletitle'];
-                $response['redirecturl'] = "time_keeper.php";
+            //userstatus=1 means active user amd 9 means agamian to set package
+            if ($row['userstatusno'] == 1) { 
+                $countorg = 0;
+                $rs_countorg = count_my_company($dbcon, $userno);
+                
+                if ($rs_countorg->num_rows == 1) {
+                    $userorg = $rs_countorg->fetch_array(MYSQLI_ASSOC);
+                    $orgno=$userorg['orgno'];
+
+                    //check validity
+                    $isvalid = check_org_validity($dbcon,$orgno);
+                    echo "$orgno,$isvalid";
+                    if ($isvalid!=1) {
+                        $response['redirecturl'] = "agami/organizations.php";
+                        exit();
+                    }
+
+                    $_SESSION['wm_orgno'] = $userorg['orgno'];
+                    $_SESSION['wm_org_picurl'] = $userorg['picurl'];
+                    $_SESSION['wm_orgname'] = $userorg['orgname'];
+                    $_SESSION['wm_orglocation'] = $userorg['street'] . ', ' . $userorg['city'] . ', ' . $userorg['country'];
+                    $_SESSION['wm_timeflexibility'] = $userorg['timeflexibility'];
+                    $_SESSION['wm_starttime'] = $userorg['starttime'];
+                    $_SESSION['wm_endtime'] = $userorg['endtime'];
+                    $_SESSION['wm_ucatno'] = $userorg['ucatno'];
+                    $_SESSION['wm_ucattitle'] = $userorg['ucattitle'];
+                    $_SESSION['wm_designation'] = $userorg['designation'];
+                    $_SESSION['wm_permissionlevel'] = $userorg['permissionlevel'];
+                    $_SESSION['wm_moduleno'] = $userorg['moduleno'];
+                    $_SESSION['wm_moduletitle'] = $userorg['moduletitle'];
+                    $response['redirecturl'] = "time_keeper.php";
+                } else {
+                    $response['redirecturl'] = "organizations.php";
+                }
+            } else if ($row['userstatusno'] == 9) {
+                $response['redirecturl'] = "agami/dashboard.php";
             } else {
-                $response['redirecturl'] = "organizations.php";
+                throw new Exception("You don't have valid user status. Please contact AGAMiLabs Support Center.", 1);
             }
-        } else if ($row['userstatusno'] == 9) {
-            $response['redirecturl'] = "agami/dashboard.php";
         } else {
-            throw new Exception("You don't have valid user status. Please contact AGAMiLabs Support Center.", 1);
+            $response['error'] = true;
+            $response['message'] = "Invalid login credential!";
         }
     } else {
         $response['error'] = true;
-        $response['message'] = "Invalid login credential!";
+        $response['message'] = "User is not valid!";
     }
-} else {
+} catch (\Exception $e) {
     $response['error'] = true;
-    $response['message'] = "User is not valid!";
+    $response['message'] = $e->getMessage();
 }
+
 
 echo json_encode($response);
 
@@ -196,4 +213,28 @@ function count_my_company($dbcon, $userno)
 
     return $result;
 }
+
+function check_org_validity($dbcon,$orgno){
+
+    $sql = "SELECT appliedno,purchaseno,users,starttime,DATE(DATE_ADD(starttime, INTERVAL duration DAY)) as closingdate
+            FROM pack_appliedpackage
+            WHERE orgno=? AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))";
+
+    $stmt = $dbcon->prepare($sql);
+    $stmt->bind_param("i", $orgno);
+
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $stmt->close();
+            return 1;
+        } else {
+            $stmt->close();
+            return 0;
+        }
+    } else {
+        return -1;
+    }
+}
+
 ?>

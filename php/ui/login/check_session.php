@@ -15,15 +15,17 @@ if (!isset($_SESSION['wm_userno'])) {
 	}
 
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-		header("Location:index.php");
+		header("Location: /");
 		exit();
 	}
 
 	exit();
-} 
+}
 
+if (isset($_SESSION['wm_ucatno'])) {
+	$ucatno = $_SESSION['wm_ucatno'];
+}
 
 $userno = $_SESSION['wm_userno'];
-$ucatno = $_SESSION['wm_ucatno'];
 
 ?>

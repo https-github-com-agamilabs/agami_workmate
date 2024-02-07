@@ -21,7 +21,7 @@
         border-left-width: 3px !important;
     }
 
-    .cogo_photo_url {
+    .wm_photo_url {
         width: 42px;
     }
 
@@ -39,7 +39,7 @@
             padding: 0;
         }
 
-        .cogo_photo_url {
+        .wm_photo_url {
             width: 30px;
         }
     }
@@ -160,7 +160,7 @@
                             <!-- Time keeper end -->
                             <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                    <img class="rounded-circle cogo_photo_url" src="<?php
+                                    <img class="rounded-circle wm_photo_url" src="<?php
                                                                                     if (!empty($_SESSION["wm_photo_url"])) {
                                                                                         echo $_SESSION["wm_photo_url"];
                                                                                     } else {

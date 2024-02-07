@@ -114,7 +114,8 @@ if ($userLoginResult->num_rows == 1) {
         $response['error'] = false;
         $response['message'] = "Login successful!";
 
-        if ($row['userstatusno'] == 1) {
+        //userstatus=1 means active user amd 9 means agamian to set package
+        if ($row['userstatusno'] == 1) { //
             $countorg = 0;
             $rs_countorg = count_my_company($dbcon, $userno);
             if ($rs_countorg->num_rows == 1) {

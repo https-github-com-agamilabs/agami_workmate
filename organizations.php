@@ -249,7 +249,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							<div class="col-lg-12 form-group">
 								<label class="d-block mb-0">
 									User <span class="text-danger">*</span>
-									<select name="userno" class="form-control shadow-sm mt-2" required></select>
+									<select name="foruserno" class="form-control shadow-sm mt-2" required></select>
 								</label>
 							</div>
 
@@ -441,11 +441,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		const usersLoad = new SelectElemDataLoad({
 			readURL: `${publicAccessUrl}php/ui/user/list_users.php`,
 			targets: [{
-				selectElem: `#userorg_setup_modal_form [name="userno"]`,
-				defaultOptionText: `Select...`,
-				defaultOptionValue: ``
-			}, {
-				selectElem: `#userorg_setup_modal_form [name="supervisor"]`,
+				selectElem: `#userorg_setup_modal_form [name="foruserno"]`,
 				defaultOptionText: `Select...`,
 				defaultOptionValue: ``
 			}],
@@ -827,7 +823,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 																		<th style="width:60px;min-width:60px;">Action</th>
 																	</tr>
 																</thead>
-																<tbody class="userorg_info_container"></tbody>
+																<tbody class="userorg_info_tbody"></tbody>
 															</table>
 														</div>
 													</div>
@@ -853,7 +849,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					let packageSelect = $(`[name="purchaseno"]`, template);
 
 					let settingsContainer = $(`.settings_container`, template);
-					let userOrgInfoContainer = $(`.userorg_info_container`, template);
+					let userOrgInfoTbody = $(`.userorg_info_tbody`, template);
 
 					if (value.picurl && value.picurl.length) {
 						$(`.preview_orglogo`, template)
@@ -929,7 +925,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 
 								get_userorg_detail({
 									orgno: value.orgno
-								}, userOrgInfoContainer);
+								}, userOrgInfoTbody);
 								$(this).data(`is_loaded`, true);
 							}
 						});
@@ -938,8 +934,13 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							let packageSelect = $(`#org_${value.orgno}_module_tabpane [name="purchaseno"]`);
 							let purchaseno = packageSelect.val();
 							let aPackage = $(`option:selected`, packageSelect).data();
-							
-							let userorgDetail = userOrgInfoContainer.data(`userorg_detail`);
+
+							if (!aPackage) {
+								toastr.error(`You don't have any valid package. Please buy a new package.`);
+								return;
+							}
+
+							let userorgDetail = userOrgInfoTbody.data(`userorg_detail`);
 							let usedQty = userorgDetail ? userorgDetail.length : 1;
 
 							if (aPackage.max_user_qty == usedQty) {
@@ -948,14 +949,28 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							}
 
 							$(`#userorg_setup_modal`).modal(`show`).html(`Create User Organization`);
-							$(`#userorg_setup_modal_form`)
+							let form = $(`#userorg_setup_modal_form`)
 								.trigger(`reset`)
 								.data({
 									uono: -1,
 									orgno: value.orgno,
 									purchaseno,
-									userOrgInfoContainer
+									userOrgInfoTbody
 								});
+
+							let supervisorSelect = $(`[name="supervisor"]`, form).empty().append(`<option value="">Select...</option>`);
+							console.log($(`tr`, userOrgInfoTbody));
+							$(`tr`, userOrgInfoTbody).each((index, elem) => {
+								let userOrg = $(elem).data();
+								if (userOrg && userOrg.userno > 0) {
+									$(`<option value="${userOrg.userno}">
+											${userOrg.firstname}
+											${userOrg.lastname || ``}
+											[${userOrg.username}]
+										</option>`)
+										.appendTo(supervisorSelect);
+								}
+							});
 						});
 
 						$(`.proceed_to_workmate`, template).click(function(e) {
@@ -1244,6 +1259,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 								: ``}
 						</td>
 					</tr>`)
+					.data(value)
 					.appendTo(target);
 
 				(function($) {
@@ -1264,13 +1280,25 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							.data({
 								uono: value.uono,
 								orgno: value.orgno,
-								userOrgInfoContainer: target
+								userOrgInfoTbody: target
 							});
+
+						let supervisorSelect = $(`[name="supervisor"]`, form).empty().append(`<option value="">Select...</option>`);
+						$.each(data, (_i, userOrg) => {
+							$(`<option value="${userOrg.userno}">
+									${userOrg.firstname}
+									${userOrg.lastname || ``}
+									[${userOrg.username}]
+								</option>`)
+								.appendTo(supervisorSelect);
+						});
 
 						$(`[name]`, form).each((i, elem) => {
 							let elementName = $(elem).attr("name");
-							console.log(elementName, value[elementName]);
-							if (value[elementName] != null) {
+
+							if (elementName == `foruserno` && value.hasOwnProperty(`userno`)) {
+								$(elem).val(value.userno);
+							} else if (value[elementName] != null) {
 								$(elem).val(value[elementName]);
 							}
 						});
@@ -1281,7 +1309,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 
 		$(`#userorg_setup_modal_form`).submit(function(e) {
 			e.preventDefault();
-			add_userorg($(this), $(this).data(`userOrgInfoContainer`));
+			add_userorg($(this), $(this).data(`userOrgInfoTbody`));
 		});
 
 		function add_userorg(form, target) {
@@ -1295,12 +1323,17 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				return;
 			}
 
-			if (json.purchaseno <= 0) {
+			if (json.uono <= 0 && json.purchaseno <= 0) {
 				toastr.error(`Select a package.`);
 				return;
 			}
 
-			$.post(`${publicAccessUrl}php/ui/organization/add_userorg.php`, json, resp => {
+			let url = `${publicAccessUrl}php/ui/organization/add_userorg.php`;
+			if (json.uono > 0) {
+				url = `${publicAccessUrl}php/ui/organization/update_userorg.php`;
+			}
+
+			$.post(url, json, resp => {
 				if (resp.error) {
 					toastr.error(resp.message);
 				} else {
@@ -1308,22 +1341,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					form.trigger(`reset`);
 					$(`#userorg_setup_modal`).modal(`hide`);
 
-					get_my_valid_packages({
-						orgno: json.orgno
-					}, $(`[name="purchaseno"]`));
-					get_userorg_detail({
-						orgno: json.orgno
-					}, target);
-				}
-			}, `json`);
-		}
-
-		function update_userorg(json, target) {
-			$.post(`${publicAccessUrl}php/ui/organization/update_userorg.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					toastr.success(resp.message);
+					if (json.uono <= 0) {
+						get_my_valid_packages({
+							orgno: json.orgno
+						}, $(`[name="purchaseno"]`));
+					}
 					get_userorg_detail({
 						orgno: json.orgno
 					}, target);

@@ -126,9 +126,12 @@ try {
 
                     //check validity
                     $isvalid = check_org_validity($dbcon,$orgno);
-                    echo "$orgno,$isvalid";
+                    //echo "$orgno,$isvalid";
                     if ($isvalid!=1) {
-                        $response['redirecturl'] = "agami/organizations.php";
+                        $response['redirecturl'] = "organizations.php";
+                        $response['error'] = false;
+                        $response['message'] = "Your orgnazation has no valid package yet! Buy and apply package to your organization.";
+                        echo json_encode($response);
                         exit();
                     }
 
@@ -169,7 +172,6 @@ try {
 
 
 echo json_encode($response);
-
 $dbcon->close();
 
 /**

@@ -1,5 +1,5 @@
 <?php
-    //include_once  dirname(dirname(__FILE__))."/login/check_session.php";
+    include_once  dirname(dirname(__FILE__))."/login/check_session.php";
 
     $response = array();
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -19,13 +19,11 @@
             throw new \Exception("Database is not connected!", 1);
         }
 
-        $userno=3;
-        $orgno=2;
-        // if(isset($_SESSION['wm_orgno'])){
-        //     $orgno=(int) $_SESSION['wm_orgno'];
-        // }else{
-        //     throw new \Exception("You must selct an organization!", 1);
-        // }
+        if(isset($_SESSION['wm_orgno'])){
+            $orgno=(int) $_SESSION['wm_orgno'];
+        }else{
+            throw new \Exception("You must selct an organization!", 1);
+        }
 
         if (isset($_POST['startdate'])) {
             $startdate=trim(strip_tags($_POST['startdate']));

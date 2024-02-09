@@ -1,5 +1,5 @@
 <?php
-    include_once  dirname(dirname(__FILE__))."/login/check_session.php";
+    //include_once  dirname(dirname(__FILE__))."/login/check_session.php";
 
     $response = array();
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -19,11 +19,13 @@
             throw new \Exception("Database is not connected!", 1);
         }
 
-        if(isset($_SESSION['wm_orgno'])){
-            $orgno=(int) $_SESSION['wm_orgno'];
-        }else{
-            throw new \Exception("You must selct an organization!", 1);
-        }
+        $userno=3;
+        $orgno=2;
+        // if(isset($_SESSION['wm_orgno'])){
+        //     $orgno=(int) $_SESSION['wm_orgno'];
+        // }else{
+        //     throw new \Exception("You must selct an organization!", 1);
+        // }
 
         if (isset($_POST['startdate'])) {
             $startdate=trim(strip_tags($_POST['startdate']));
@@ -144,7 +146,7 @@
                 HAVING sum(TIMESTAMPDIFF(SECOND,starttime, endtime))>0
                 ORDER BY empno";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("ss", $startdate, $enddate);
+        $stmt->bind_param("iss", $orgno,$startdate, $enddate);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
@@ -251,6 +253,20 @@
         return $result;
     }
 
+    //com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, primarycontact, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
+    function get_org_info($dbcon, $orgno)
+    {
+        $sql = "SELECT orgno, orgname, street, city, state, country,picurl, primarycontact, orgnote
+                FROM com_orgs 
+                WHERE orgno=?";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("i", $orgno);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
     
 ?>
 

@@ -346,14 +346,14 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							<div class="col-lg-3 form-group">
 								<label class="d-block mb-0">
 									From
-									<input name="starttime" class="form-control shadow-sm mt-2" type="datetime">
+									<input name="starttime" class="form-control shadow-sm mt-2" type="time">
 								</label>
 							</div>
 
 							<div class="col-lg-3 form-group">
 								<label class="d-block mb-0">
 									To
-									<input name="endtime" class="form-control shadow-sm mt-2" type="datetime">
+									<input name="endtime" class="form-control shadow-sm mt-2" type="time">
 								</label>
 							</div>
 						</div>
@@ -418,11 +418,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 										</select>
 									</th>
 									<th>
-										<input name="starttime" class="form-control shadow-sm mt-2" type="time">
+										<input name="starttime" class="form-control shadow-sm mt-2" type="datetime">
 
 									</th>
 									<th>
-										<input name="endtime" class="form-control shadow-sm mt-2" type="time">
+										<input name="endtime" class="form-control shadow-sm mt-2" type="datetime">
 
 
 									</th>

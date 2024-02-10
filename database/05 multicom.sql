@@ -228,3 +228,14 @@ ADD COLUMN attlon double DEFAULT NULL;
 ALTER TABLE asp_watchlist
 ADD COLUMN orgno int DEFAULT NULL,
 ADD CONSTRAINT fk_watchlist_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno) ON UPDATE CASCADE;
+
+
+-- user working location
+CREATE TABLE com_workinglocation(
+    locno INT NOT NULL AUTO_INCREMENT,
+    locname VARCHAR(255) NOT NULL,
+    loclat DECIMAL(10,6) NOT NULL,
+    loclon DECIMAL(10,6) NOT NULL,
+    active tinyint DEFAULT 1,
+    PRIMARY KEY(locno)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

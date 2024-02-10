@@ -159,17 +159,19 @@ CREATE TABLE com_userorg (
     CONSTRAINT fk_userorg_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- com_workinglocation(locno,locname,loclat,loclon,active)
+-- com_workinglocation(locno,orgno,locname,loclat,loclon,active)
 CREATE TABLE com_workinglocation(
     locno INT NOT NULL AUTO_INCREMENT,
+    orgno INT NOT NULL,
     locname VARCHAR(255) NOT NULL,
     loclat DECIMAL(10,6) NOT NULL,
     loclon DECIMAL(10,6) NOT NULL,
     active tinyint DEFAULT 1,
-    PRIMARY KEY(locno)
+    PRIMARY KEY(locno),
+    CONSTRAINT fk_workinglocation_orgno FOREIGN KEY (orgno) REFERENCES com_orgs (orgno) ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- com_userattlocset (attlocno,orgno,userno, loclat, loclon,starttime,endtime)
+-- com_userattlocset (attlocno,orgno,userno, locno,mindistance,starttime,endtime)
 CREATE TABLE com_userattlocset (
     attlocno INT AUTO_INCREMENT,
     orgno int NOT NULL,

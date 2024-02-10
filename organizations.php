@@ -1295,7 +1295,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		// working location
 		function get_available_org_working_locations() {
 			return new Promise((resolve, reject) => {
-				$.post(`${publicAccessUrl}php/ui/workinglocation/get_org_working_location.php`, {}, resp => {
+				$.post(`${publicAccessUrl}php/ui/workinglocation/get_workinglocation.php`, {}, resp => {
 					if (resp.error) {
 						toastr.error(resp.message);
 						return;

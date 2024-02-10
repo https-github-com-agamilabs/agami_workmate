@@ -45,6 +45,7 @@ VALUES(1, '#CC0000','RED'),
 (10, '#404040','BLACK'),
 (11,'#808080','GREY');
 
+-- asp_storyphase(storyphaseno, orgno, storyphasetitle, colorno)
 CREATE TABLE asp_storyphase(
     storyphaseno int AUTO_INCREMENT,
     storyphasetitle varchar(63) NOT NULL,

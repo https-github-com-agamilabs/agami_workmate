@@ -44,12 +44,14 @@
                 $response['message'] = "Cannot End Time!";
             }
         } else {
+            
             $workfor=NULL;
             if (isset($_POST['workfor']) && strlen($_POST['workfor'])>0) {
                 $workfor=(int) $_POST['workfor'];
             }
 
             if(isset($_POST['loclat']) && isset($_POST['loclon'])){
+                $is_allowed=false;
                 $loclat = (double) $_POST['loclat'];
                 $loclon = (double) $_POST['loclon'];
 
@@ -61,14 +63,17 @@
                         $target_loclat=(double)$row['loclat'];
                         $target_loclon=(double)$row['loclon'];
                         $calc_distance=getDistanceFromCoordinates($loclat, $loclon, $target_loclat, $target_loclon);
-                        $distance= $distance < $calc_distance ? $distance:$calc_distance;
+                        if($calc_distance<$row['mindistance']){
+                            $is_allowed=true;
+                            break;
+                        }
                     }
                 }
             }else{
-                $distance=0;
+                $is_allowed=true;
             }
 
-            if($distance<100){
+            if($is_allowed){
                 $userno=start_workingtime($dbcon, $empno,$workfor,$orgno,$loclat,$loclon);
                 if ($userno>0) {
                     $response['error'] = false;
@@ -192,14 +197,16 @@
         return $result;
     }
 
-    //com_userattlocset (attlocno,orgno,userno, loclat, loclon,starttime,endtime)
+    //com_userattlocset (attlocno,orgno,userno, locno,mindistance,starttime,endtime)
+    //com_workinglocation(locno,locname,loclat,loclon,active)
     function get_user_wherework($dbcon, $orgno,$userno)
     {
-        $sql = "SELECT loclat, loclon,starttime,endtime
-                FROM com_userattlocset
-                WHERE orgno=? 
-                    AND userno =?
-                    AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))
+        $sql = "SELECT wl.loclat, wl.loclon,uls.mindistance,starttime,endtime
+                FROM com_userattlocset as uls
+                    INNER JOIN com_workinglocation as wl ON uls.locno=wl.locno
+                WHERE uls.orgno=? 
+                    AND uls.userno =?
+                    AND (NOW() BETWEEN uls.starttime AND uls.endtime)
                 ";
 
         $stmt = $dbcon->prepare($sql);

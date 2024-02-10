@@ -43,7 +43,7 @@ include_once "dependency_style_script_online.php";
 <link href="css/multidatespicker.css" rel="stylesheet">
 <script type="text/javascript" src="js/multidatespicker.js" async defer></script>
 
-<script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
+<script src="//cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
 
 <style media="screen">
     body {

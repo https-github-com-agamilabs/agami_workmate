@@ -418,11 +418,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 										</select>
 									</th>
 									<th>
-										<input name="starttime" class="form-control shadow-sm mt-2" type="datetime">
+										<input name="starttime" class="form-control shadow-sm mt-2" type="datetime-local">
 
 									</th>
 									<th>
-										<input name="endtime" class="form-control shadow-sm mt-2" type="datetime">
+										<input name="endtime" class="form-control shadow-sm mt-2" type="datetime-local">
 
 
 									</th>

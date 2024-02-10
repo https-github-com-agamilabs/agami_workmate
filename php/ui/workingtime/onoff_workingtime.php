@@ -49,17 +49,37 @@
                 $workfor=(int) $_POST['workfor'];
             }
 
-            $userno=start_workingtime($dbcon, $empno,$workfor,$orgno);
-            if ($userno>0) {
-                $response['error'] = false;
-                if($workfor){
-                    $response['message'] = "Time is Started for client.";
-                }else{
-                    $response['message'] = "Time is Started for AGAMiLabs.";
+            if(isset($_POST['loclat']) && isset($_POST['loclon'])){
+                $loclat = (double) $_POST['loclat'];
+                $loclon = (double) $_POST['loclon'];
+
+                $distance=0;
+                $rs_workplace=get_user_wherework($dbcon, $orgno,$empno);
+                if($rs_workplace->num_rows>0){
+                    $row = $rs_workplace->fetch_array(MYSQLI_ASSOC);
+                    $target_loclat=(double)$row['loclat'];
+                    $target_loclon=(double)$row['loclon'];
+                    $distance=getDistanceFromCoordinates($loclat, $loclon, $target_loclat, $target_loclon)
                 }
-            } else {
-                $response['error'] = true;
-                $response['message'] = "Cannot Start Time!";
+            }else{
+                $distance=0;
+            }
+
+            if($distance<100){
+                $userno=start_workingtime($dbcon, $empno,$workfor,$orgno,$loclat,$loclon);
+                if ($userno>0) {
+                    $response['error'] = false;
+                    if($workfor){
+                        $response['message'] = "Time is Started for client.";
+                    }else{
+                        $response['message'] = "Time is Started for AGAMiLabs.";
+                    }
+                } else {
+                    $response['error'] = true;
+                    $response['message'] = "Cannot Start Time!";
+                }
+            }else{
+                throw new \Exception("You are away of your assigned working place. \n Please go to your assigned working area and try again!", 1);
             }
         }
     } catch (Exception $e) {
@@ -90,16 +110,16 @@
     }
 
     //emp_workingtime(timeno,empno,workfor,starttime,endtime,comment,isaccepted)
-    function start_workingtime($dbcon, $empno,$workfor, $orgno)
+    function start_workingtime($dbcon, $empno,$workfor, $orgno,$loclat,$loclon)
     {
         date_default_timezone_set("Asia/Dhaka");
         $now = date("Y-m-d H:i:s");
         $sql = "INSERT INTO emp_workingtime(
-                                orgno,empno,workfor,starttime,endtime
+                                orgno,empno,workfor,starttime,endtime,loclat,loclon
                             )
-                VALUES(?, ?,?,?,NULL)";
+                VALUES(?, ?,?,?,NULL,?,?)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("iiis", $orgno, $empno, $workfor,$now);
+        $stmt->bind_param("iiisdd", $orgno, $empno, $workfor,$now,$loclat,$loclon);
         $stmt->execute();
         return $stmt->insert_id;
     }
@@ -168,3 +188,38 @@
 
         return $result;
     }
+
+    //com_userattlocset (attlocno,orgno,userno, loclat, loclon,starttime,endtime)
+    function get_user_wherework($dbcon, $orgno,$userno)
+    {
+        $sql = "SELECT loclat, loclon,starttime,endtime
+                FROM com_userattlocset
+                WHERE orgno=? 
+                    AND userno =?
+                    AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))
+                ";
+
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("ii", $orgno,$userno);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        return $result;
+    }
+
+    function getDistanceFromCoordinates($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000)
+      {
+        // convert from degrees to radians
+        $latFrom = deg2rad($latitudeFrom);
+        $lonFrom = deg2rad($longitudeFrom);
+        $latTo = deg2rad($latitudeTo);
+        $lonTo = deg2rad($longitudeTo);
+      
+        $latDelta = $latTo - $latFrom;
+        $lonDelta = $lonTo - $lonFrom;
+      
+        $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
+          cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+        return $angle * $earthRadius;
+      }
+

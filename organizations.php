@@ -371,7 +371,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			<div class="modal-content">
 				<form id="userorg_workinglocation_modal_form">
 					<div class="modal-header">
-						<h5 class="modal-title">Setup User Working Location</h5>
+						<h5 class="modal-title">Restrict User Working Location</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -381,7 +381,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						<table class="table table-sm table-bordered" id="table_working_location">
 							<thead>
 								<tr>
-									<th>Working Location</th>
+									<th>Location</th>
 									<th>Radius</th>
 									<th>Start Time</th>
 									<th>End Time</th>
@@ -394,11 +394,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							<tfoot>
 								<tr class="text-center">
 									<th colspan="5">
-										Assign New Working Location
+										Restrict Working Location
 									</th>
 								</tr>
 								<tr>
-									<th>Working Location</th>
+									<th>Location</th>
 									<th>Radius</th>
 									<th>Start Time</th>
 									<th>End Time</th>
@@ -477,7 +477,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						</div>
 					</div>
 					<div class="modal-footer py-2">
-						<button type="submit" class="btn btn-primary rounded-pill px-5 ripple custom_shadow">Save</button>
+						<!-- <button type="submit" class="btn btn-primary rounded-pill px-5 ripple custom_shadow">Save</button> -->
 					</div>
 				</form>
 			</div>
@@ -1315,7 +1315,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			});
 		}
 
-		
+
 
 		// user working location
 
@@ -1330,6 +1330,21 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					resolve(resp);
 
 				}, `json`);
+			});
+		}
+
+		function display_user_working_ocation(working_locations) {
+
+			$.each(working_locations, (i, loc) => {
+				let wl_tr = `
+				<tr>
+					<td>${loc.locname}</td>
+					<td>${loc.radius}</td>
+					<td>${loc.starttime}</td>
+					<td>${loc.endtime}</td>
+					<td><button class='btn btn-sm btn-danger'>Remove</button></td>
+				</tr>`;
+				wl_table.append(wl_tr);
 			});
 		}
 
@@ -1418,8 +1433,8 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 									Edit
 								</button>
 								
-								<button class="user_workinglocation mx-1 my-1 btn btn-sm btn-warning custom_shadow" type="button" title="Add working location">
-									Add Working Location
+								<button class="user_workinglocation mx-1 my-1 btn btn-sm btn-warning custom_shadow" type="button" title="Restrict working location">
+									Restrict Working Location
 								</button>
 								`
 								: ``}
@@ -1473,8 +1488,8 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					$('.user_workinglocation', template).click(async function() {
 						let wl_modal = $('#userorg_workinglocation_modal').modal('show')
 							.find(`.modal-title`)
-							.html(`Setup User Working Location`);
-						$('#userorg_workinglocation_modal_form').data('data', value);
+							.html(`Restrict User Working Location`);
+						$('#userorg_workinglocation_modal_form').data(value);
 						let wl_table = $('#table_working_location tobdy').empty();
 
 						let json = {
@@ -1490,31 +1505,60 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						});
 
 						// user data
-						let resp = await get_user_working_locations(json);
+						get_user_working_locations(json).then((resp) => {
+							if (resp.error) {
+								toastr.warning(resp.message);
+								return;
+							}
 
-						if (resp.error) {
-							toastr.warning(resp.message);
-							return;
-						}
+							let working_locations = res.data;
+							display_user_working_ocation(working_locations);
 
-						let working_locations = res.data;
-
-						$.each(working_locations, (i, loc) => {
-							let wl_tr = `
-							<tr>
-								<td>${loc.locname}</td>
-								<td>${loc.radius}</td>
-								<td>${loc.starttime}</td>
-								<td>${loc.endtime}</td>
-								<td><button class='btn btn-sm btn-danger'>Remove</button></td>
-							</tr>`;
-							wl_table.append(wl_tr);
 						});
 
 					});
 				})(jQuery);
 			});
 		}
+
+		// 
+		$('#userorg_workinglocation_modal_form').submit(function(e) {
+			e.preventDefault();
+			let json = {
+				userno: $(this).data().userno,
+				locno: $('[name="locno"]', this).val(),
+				radius: $('[name="radius"]', this).val(),
+				starttime: $('[name="starttime"]', this).val(),
+				endtime: $('[name="endtime"]', this).val(),
+			}
+
+			setup_user_workinglocation(json);
+
+
+		});
+
+		function setup_user_workinglocation(json) {
+			$.post(`${publicAccessUrl}php/ui/userattlocset/setup_userattlocset.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+
+					get_user_working_locations(json).then((resp) => {
+						if (resp.error) {
+							toastr.warning(resp.message);
+							return;
+						}
+
+						let working_locations = res.data;
+						display_user_working_ocation(working_locations);
+
+					});
+				}
+			}, `json`);
+		}
+
+		//
 
 		$(`#userorg_setup_modal_form`).submit(function(e) {
 			e.preventDefault();

@@ -409,7 +409,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 										<select name="locno" class="form-control shadow-sm mt-2" required></select>
 									</th>
 									<th>
-										<select name="radius" class="form-control shadow-sm mt-2">
+										<select name="mindistance" class="form-control shadow-sm mt-2">
 											<option value="10">10 Meters</option>
 											<option value="25">25 Meters</option>
 											<option value="50">50 Meters</option>
@@ -451,7 +451,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							<div class="col-lg-6 form-group">
 								<label class="d-block mb-0">
 									Radius (Distance from Location)
-									<select name="radius" class="form-control shadow-sm mt-2">
+									<select name="mindistance" class="form-control shadow-sm mt-2">
 										<option value="10">10 Meters</option>
 										<option value="25">25 Meters</option>
 										<option value="50">50 Meters</option>
@@ -1339,7 +1339,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				let wl_tr = `
 				<tr>
 					<td>${loc.locname}</td>
-					<td>${loc.radius}</td>
+					<td>${loc.mindistance}</td>
 					<td>${loc.starttime}</td>
 					<td>${loc.endtime}</td>
 					<td><button class='btn btn-sm btn-danger'>Remove</button></td>
@@ -1528,7 +1528,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				userno: $(this).data().userno,
 				orgno: $(this).data().orgno,
 				locno: $('[name="locno"]', this).val(),
-				radius: $('[name="radius"]', this).val(),
+				mindistance: $('[name="mindistance"]', this).val(),
 				starttime: $('[name="starttime"]', this).val(),
 				endtime: $('[name="endtime"]', this).val(),
 			}

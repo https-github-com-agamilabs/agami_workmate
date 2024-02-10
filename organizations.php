@@ -1253,9 +1253,15 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						</td>
 						<td class="text-center">
 							${isOwner
-								? `<button class="edit_userorg_button btn btn-sm btn-info custom_shadow" type="button" title="Update module">
+								? 
+								`<button class="edit_userorg_button mx-1 my-1 btn btn-sm btn-info custom_shadow" type="button" title="Update module">
 									Edit
-								</button>`
+								</button>
+								
+								<button class="add_user_workinglocation mx-1 my-1 btn btn-sm btn-info custom_shadow" type="button" title="Add working location">
+									Add Working Location
+								</button>
+								`
 								: ``}
 						</td>
 					</tr>`)
@@ -1302,6 +1308,10 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 								$(elem).val(value[elementName]);
 							}
 						});
+					});
+
+					$('.add_user_workinglocation', template).click(function(){
+						
 					});
 				})(jQuery);
 			});

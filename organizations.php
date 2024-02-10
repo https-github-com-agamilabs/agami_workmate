@@ -376,7 +376,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<div class="modal-body">
+					<div class="modal-body table-responsive">
 
 						<table class="table table-sm table-bordered" id="table_working_location">
 							<thead>

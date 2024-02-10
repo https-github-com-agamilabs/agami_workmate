@@ -1321,6 +1321,22 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			}
 		});
 
+		// user working location
+
+		function get_user_working_locations(json) {
+			return new Promise((resolve, reject) => {
+				$.post(`${publicAccessUrl}php/ui/workinglocation/get_user_working_location.php`, json, resp => {
+					if (resp.error) {
+						toastr.error(resp.message);
+						return;
+					}
+
+					resolve(resp);
+
+				}, `json`);
+			});
+		}
+
 
 		// USER ORG MODULE
 
@@ -1406,7 +1422,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 									Edit
 								</button>
 								
-								<button class="add_user_workinglocation mx-1 my-1 btn btn-sm btn-warning custom_shadow" type="button" title="Add working location">
+								<button class="user_workinglocation mx-1 my-1 btn btn-sm btn-warning custom_shadow" type="button" title="Add working location">
 									Add Working Location
 								</button>
 								`
@@ -1458,15 +1474,37 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						});
 					});
 
-					$('.add_user_workinglocation', template).click(async function() {
+					$('.user_workinglocation', template).click(async function() {
 						let wl_modal = $('#userorg_workinglocation_modal').modal('show')
 							.find(`.modal-title`)
 							.html(`Setup User Working Location`);
 						$('#userorg_workinglocation_modal_form').data('data', value);
-						$('#table_working_location tobdy').empty();
+						let wl_table = $('#table_working_location tobdy').empty();
 
+						let json = {
+							userno: value.userno,
+							orgno: value.orgno,
+						};
+						let resp = await get_user_working_locations(json);
 
+						if (resp.error) {
+							toastr.warning(resp.message);
+							return;
+						}
 
+						let working_locations = res.data;
+
+						$.each(working_locations, (i, loc) => {
+							let wl_tr = `
+							<tr>
+								<td>${loc.locname}</td>
+								<td>${loc.radius}</td>
+								<td>${loc.starttime}</td>
+								<td>${loc.endtime}</td>
+								<td><button class='btn btn-sm btn-danger'>Remove</button></td>
+							</tr>`;
+							wl_table.append(wl_tr);
+						});
 
 					});
 				})(jQuery);

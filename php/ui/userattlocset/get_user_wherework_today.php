@@ -22,6 +22,12 @@ try {
         }
     }
 
+    if (isset($_POST['userno']) && strlen($_POST['userno']) > 0) {
+        $userno = (int) $_POST['userno'];
+    } else {
+        throw new Exception("Employee must be selected!!", 1);
+    }
+
     $rs_wherework = get_user_wherework($dbcon, $orgno,$userno);
 
     if ($rs_wherework->num_rows > 0) {

@@ -366,6 +366,124 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		</div>
 	</div>
 
+	<div id="userorg_workinglocation_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-xl" role="document" style="max-width: 85% !important;;">
+			<div class="modal-content">
+				<form id="userorg_workinglocation_modal_form">
+					<div class="modal-header">
+						<h5 class="modal-title">Setup User Working Location</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<table class="table table-sm table-bordered" id="table_working_location">
+							<thead>
+								<tr>
+									<th>Working Location</th>
+									<th>Radius</th>
+									<th>Start Time</th>
+									<th>End Time</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+							<tfoot>
+								<tr class="text-center">
+									<th colspan="5">
+										Assign New Working Location
+									</th>
+								</tr>
+								<tr>
+									<th>Working Location</th>
+									<th>Radius</th>
+									<th>Start Time</th>
+									<th>End Time</th>
+									<th>Action</th>
+								</tr>
+								<tr>
+									<th>
+										<select name="locno" class="form-control shadow-sm mt-2" required></select>
+									</th>
+									<th>
+										<select name="radius" class="form-control shadow-sm mt-2">
+											<option value="10">10 Meters</option>
+											<option value="25">25 Meters</option>
+											<option value="50">50 Meters</option>
+											<option value="100">100 Meters</option>
+											<option value="250">250 Meters</option>
+										</select>
+									</th>
+									<th>
+										<input name="starttime" class="form-control shadow-sm mt-2" type="time">
+
+									</th>
+									<th>
+										<input name="endtime" class="form-control shadow-sm mt-2" type="time">
+
+
+									</th>
+									<th>
+										<button class="btn btn-sm btn-success px-2">Add</button>
+									</th>
+								</tr>
+							</tfoot>
+						</table>
+
+						<div class="row">
+							<!-- <div class="col-lg-12 form-group">
+								<label class="d-block mb-0">
+									User <span class="text-danger">*</span>
+									<select name="userno" class="form-control shadow-sm mt-2" required></select>
+								</label>
+							</div> -->
+
+							<!-- <div class="col-lg-6 form-group">
+								<label class="d-block mb-0">
+									Working Location
+									<select name="locno" class="form-control shadow-sm mt-2" required></select>
+								</label>
+							</div>
+
+							<div class="col-lg-6 form-group">
+								<label class="d-block mb-0">
+									Radius (Distance from Location)
+									<select name="radius" class="form-control shadow-sm mt-2">
+										<option value="10">10 Meters</option>
+										<option value="25">25 Meters</option>
+										<option value="50">50 Meters</option>
+										<option value="100">100 Meters</option>
+										<option value="250">250 Meters</option>
+									</select>
+								</label>
+							</div>
+
+							<div class="col-lg-3 form-group">
+								<label class="d-block mb-0">
+									Start time
+									<input name="starttime" class="form-control shadow-sm mt-2" type="time">
+								</label>
+							</div>
+
+							<div class="col-lg-3 form-group">
+								<label class="d-block mb-0">
+									End time
+									<input name="endtime" class="form-control shadow-sm mt-2" type="time">
+								</label>
+							</div> -->
+						</div>
+					</div>
+					<div class="modal-footer py-2">
+						<button type="submit" class="btn btn-primary rounded-pill px-5 ripple custom_shadow">Save</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<?php require "modal_update_photo.php"; ?>
 
 	<script>
@@ -1174,6 +1292,52 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			}, `json`);
 		}
 
+		// working location
+		function get_available_org_working_locations() {
+			return new Promise((resolve, reject) => {
+				$.post(`${publicAccessUrl}php/ui/workinglocation/get_org_working_location.php`, {}, resp => {
+					if (resp.error) {
+						toastr.error(resp.message);
+						return;
+					}
+
+					resolve(resp);
+
+				}, `json`);
+			});
+		}
+
+		function display_org_working_locations(data) {
+			let locno = $('form [name="locno"]').empty();
+			$.each(data, (i, elm) => {
+				let option = `<option value='${elm.locno}'>${elm.locname}</option>`;
+				locno.append(option);
+			});
+		}
+
+		get_available_org_working_locations().then((resp) => {
+			if (!resp.data) {
+				display_org_working_locations(resp.data);
+			}
+		});
+
+		// user working location
+
+		function get_user_working_locations(json) {
+			return new Promise((resolve, reject) => {
+				$.post(`${publicAccessUrl}php/ui/workinglocation/get_user_working_location.php`, json, resp => {
+					if (resp.error) {
+						toastr.error(resp.message);
+						return;
+					}
+
+					resolve(resp);
+
+				}, `json`);
+			});
+		}
+
+
 		// USER ORG MODULE
 
 		function get_userorg_detail(json, target) {
@@ -1258,7 +1422,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 									Edit
 								</button>
 								
-								<button class="add_user_workinglocation mx-1 my-1 btn btn-sm btn-warning custom_shadow" type="button" title="Add working location">
+								<button class="user_workinglocation mx-1 my-1 btn btn-sm btn-warning custom_shadow" type="button" title="Add working location">
 									Add Working Location
 								</button>
 								`
@@ -1310,7 +1474,37 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						});
 					});
 
-					$('.add_user_workinglocation', template).click(function(){
+					$('.user_workinglocation', template).click(async function() {
+						let wl_modal = $('#userorg_workinglocation_modal').modal('show')
+							.find(`.modal-title`)
+							.html(`Setup User Working Location`);
+						$('#userorg_workinglocation_modal_form').data('data', value);
+						let wl_table = $('#table_working_location tobdy').empty();
+
+						let json = {
+							userno: value.userno,
+							orgno: value.orgno,
+						};
+						let resp = await get_user_working_locations(json);
+
+						if (resp.error) {
+							toastr.warning(resp.message);
+							return;
+						}
+
+						let working_locations = res.data;
+
+						$.each(working_locations, (i, loc) => {
+							let wl_tr = `
+							<tr>
+								<td>${loc.locname}</td>
+								<td>${loc.radius}</td>
+								<td>${loc.starttime}</td>
+								<td>${loc.endtime}</td>
+								<td><button class='btn btn-sm btn-danger'>Remove</button></td>
+							</tr>`;
+							wl_table.append(wl_tr);
+						});
 
 					});
 				})(jQuery);

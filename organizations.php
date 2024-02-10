@@ -867,7 +867,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 												</li>
 												<li class="nav-item">
 													<a data-toggle="tab" href="#org_${value.orgno}_module_tabpane" class="nav-link">
-														<span>Users Module</span>
+														<span>Employees</span>
 													</a>
 												</li>
 											</ul>
@@ -906,7 +906,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 												<div class="tab-pane" id="org_${value.orgno}_module_tabpane" role="tabpanel">
 													<div class="row">
 														<div class="col-md-8">
-															<p>Number of active user (along with assigned modules) is controlled by the applied package.</p>
+															<p>Number of active user is controlled by the applied package.</p>
 														</div>
 														<div class="col-md-4">
 															<label class="d-block">

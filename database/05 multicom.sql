@@ -159,19 +159,31 @@ CREATE TABLE com_userorg (
     CONSTRAINT fk_userorg_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- com_workinglocation(locno,locname,loclat,loclon,active)
+CREATE TABLE com_workinglocation(
+    locno INT NOT NULL AUTO_INCREMENT,
+    locname VARCHAR(255) NOT NULL,
+    loclat DECIMAL(10,6) NOT NULL,
+    loclon DECIMAL(10,6) NOT NULL,
+    active tinyint DEFAULT 1,
+    PRIMARY KEY(locno)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 -- com_userattlocset (attlocno,orgno,userno, loclat, loclon,starttime,endtime)
 CREATE TABLE com_userattlocset (
     attlocno INT AUTO_INCREMENT,
     orgno int NOT NULL,
     userno int NOT NULL,
-    loclat decimal(10,6) NOT NULL,
-    loclon decimal(10,6) NOT NULL,
+    locno INT NOT NULL,
+    mindistance INT DEFAULT 25,
     starttime DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     endtime DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(attlocno),
     CONSTRAINT fk_userattlocset_orgno FOREIGN KEY (orgno) REFERENCES com_orgs (orgno) ON UPDATE CASCADE,
-    CONSTRAINT fk_userattlocset_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
+    CONSTRAINT fk_userattlocset_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE,
+    CONSTRAINT fk_userattlocset_locno FOREIGN KEY (locno) REFERENCES com_workinglocation (locno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- ALTER TABLE com_userorg 
 -- CHANGE jobtitle designation VARCHAR(63) DEFAULT NULL;
@@ -228,14 +240,3 @@ ADD COLUMN attlon double DEFAULT NULL;
 ALTER TABLE asp_watchlist
 ADD COLUMN orgno int DEFAULT NULL,
 ADD CONSTRAINT fk_watchlist_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno) ON UPDATE CASCADE;
-
-
--- user working location
-CREATE TABLE com_workinglocation(
-    locno INT NOT NULL AUTO_INCREMENT,
-    locname VARCHAR(255) NOT NULL,
-    loclat DECIMAL(10,6) NOT NULL,
-    loclon DECIMAL(10,6) NOT NULL,
-    active tinyint DEFAULT 1,
-    PRIMARY KEY(locno)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

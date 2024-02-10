@@ -41,7 +41,7 @@ try {
     }
 
     if (isset($_POST['loclon']) && strlen($_POST['loclon']) > 0) {
-        $loclon = (int) $_POST['loclon'];
+        $loclon = (double) $_POST['loclon'];
     } else {
         throw new Exception("Longitude cannot be empty!!", 1);
     }

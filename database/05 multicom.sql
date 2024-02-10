@@ -159,6 +159,20 @@ CREATE TABLE com_userorg (
     CONSTRAINT fk_userorg_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- com_userattlocset (attlocno,orgno,userno, loclat, loclon,starttime,endtime)
+CREATE TABLE com_userattlocset (
+    attlocno INT AUTO_INCREMENT,
+    orgno int NOT NULL,
+    userno int NOT NULL,
+    loclat double DEFAULT NULL,
+    loclon double DEFAULT NULL,
+    starttime DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    endtime DATETIME DEFAULT NULL,
+    PRIMARY KEY(attlocno),
+    CONSTRAINT fk_userattlocset_orgno FOREIGN KEY (orgno) REFERENCES com_orgs (orgno) ON UPDATE CASCADE,
+    CONSTRAINT fk_userattlocset_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- ALTER TABLE com_userorg 
 -- CHANGE jobtitle designation VARCHAR(63) DEFAULT NULL;
 
@@ -206,6 +220,10 @@ ADD CONSTRAINT fk_channel_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno) O
 ALTER TABLE emp_workingtime
 ADD COLUMN orgno int DEFAULT NULL,
 ADD CONSTRAINT fk_workingtime_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno) ON UPDATE CASCADE;
+
+ALTER TABLE emp_workingtime
+ADD COLUMN attlat double DEFAULT NULL,
+ADD COLUMN attlon double DEFAULT NULL;
 
 ALTER TABLE asp_watchlist
 ADD COLUMN orgno int DEFAULT NULL,

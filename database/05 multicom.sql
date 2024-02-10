@@ -164,10 +164,10 @@ CREATE TABLE com_userattlocset (
     attlocno INT AUTO_INCREMENT,
     orgno int NOT NULL,
     userno int NOT NULL,
-    loclat double DEFAULT NULL,
-    loclon double DEFAULT NULL,
+    loclat double NOT NULL,
+    loclon double NOT NULL,
     starttime DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    endtime DATETIME DEFAULT NULL,
+    endtime DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(attlocno),
     CONSTRAINT fk_userattlocset_orgno FOREIGN KEY (orgno) REFERENCES com_orgs (orgno) ON UPDATE CASCADE,
     CONSTRAINT fk_userattlocset_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE

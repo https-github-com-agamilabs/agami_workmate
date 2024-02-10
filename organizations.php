@@ -1293,9 +1293,9 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		}
 
 		// working location
-		function get_available_org_working_locations() {
+		function get_available_org_working_locations(json) {
 			return new Promise((resolve, reject) => {
-				$.post(`${publicAccessUrl}php/ui/workinglocation/get_workinglocation.php`, {}, resp => {
+				$.post(`${publicAccessUrl}php/ui/workinglocation/get_active_workinglocation.php`, json, resp => {
 					if (resp.error) {
 						toastr.error(resp.message);
 						return;
@@ -1315,17 +1315,13 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			});
 		}
 
-		get_available_org_working_locations().then((resp) => {
-			if (!resp.data) {
-				display_org_working_locations(resp.data);
-			}
-		});
+		
 
 		// user working location
 
 		function get_user_working_locations(json) {
 			return new Promise((resolve, reject) => {
-				$.post(`${publicAccessUrl}php/ui/workinglocation/get_user_working_location.php`, json, resp => {
+				$.post(`${publicAccessUrl}php/ui/userattlocset/get_user_wherework_future.php`, json, resp => {
 					if (resp.error) {
 						toastr.error(resp.message);
 						return;
@@ -1485,6 +1481,15 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							userno: value.userno,
 							orgno: value.orgno,
 						};
+
+						// settings 
+						get_available_org_working_locations(json).then((resp) => {
+							if (!resp.data) {
+								display_org_working_locations(resp.data);
+							}
+						});
+
+						// user data
 						let resp = await get_user_working_locations(json);
 
 						if (resp.error) {

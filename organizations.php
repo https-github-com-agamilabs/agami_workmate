@@ -1088,7 +1088,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							</span>
 						</div>
 						<div class="position-absolute" style="top:0;right:5px;">
-							<button class="edit_orgsettings_button btn btn-sm btn-info rounded-circle custom_shadow p-1 m-1" type="button" title="Update">
+							<button class="edit_orgsettings_button btn btn-sm btn-info rounded-circle custom_shadow py-1 px-2 m-1" type="button" title="Update">
 								<i class="fas fa-edit"></i>
 							</button>
 							<button class="cancel_orgsettings_button btn btn-sm btn-secondary custom_shadow m-1" style="display: none;" type="button" title="Update">
@@ -1258,7 +1258,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 									Edit
 								</button>
 								
-								<button class="add_user_workinglocation mx-1 my-1 btn btn-sm btn-info custom_shadow" type="button" title="Add working location">
+								<button class="add_user_workinglocation mx-1 my-1 btn btn-sm btn-warning custom_shadow" type="button" title="Add working location">
 									Add Working Location
 								</button>
 								`
@@ -1311,7 +1311,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					});
 
 					$('.add_user_workinglocation', template).click(function(){
-						
+
 					});
 				})(jQuery);
 			});

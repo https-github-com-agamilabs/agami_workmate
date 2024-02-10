@@ -870,6 +870,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 														<span>Employees</span>
 													</a>
 												</li>
+												<li class="nav-item">
+													<a data-toggle="tab" href="#org_${value.orgno}_tasktype_tabpane" class="nav-link">
+														<span>Task Type</span>
+													</a>
+												</li>
 											</ul>
 											<div class="tab-content">
 												<div class="tab-pane active" id="org_${value.orgno}_setting_tabpane" role="tabpanel">
@@ -945,6 +950,9 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 															</table>
 														</div>
 													</div>
+												</div>
+
+												<div class="tab-pane" id="org_${value.orgno}_tasktype_tabpane" role="tabpanel">
 												</div>
 											</div>
 										</div>

@@ -209,9 +209,9 @@ CREATE TABLE com_settings(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO com_settings(setid, settitle) VALUES
-('TIME','0 (Flexible), 1 (Schedule), 2 (Strict Timeframe)'),
-('TASK','1 (FB-Feed Style), 2 (Tabular)'),
-('DIGEST','0 (None), 1 (Daily), 7 (Weekly), 30 (Monthly)');
+('TIME','Employee Timing: 0 (Flexible), 1 (Schedule), 2 (Strict Timeframe)'),
+('TASK','Task Management: 1 (FB-Feed Style), 2 (Tabular)'),
+('DIGEST','Scheduled Digest: 0 (None), 1 (Daily), 7 (Weekly), 30 (Monthly)');
 
 -- com_orgsettings(orgno,setid, setlabel, fileurl)
 CREATE TABLE com_orgsettings(
@@ -242,3 +242,7 @@ ADD COLUMN attlon double DEFAULT NULL;
 ALTER TABLE asp_watchlist
 ADD COLUMN orgno int DEFAULT NULL,
 ADD CONSTRAINT fk_watchlist_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno) ON UPDATE CASCADE;
+
+ALTER TABLE asp_storyphase
+ADD COLUMN orgno int DEFAULT NULL,
+ADD CONSTRAINT fk_storyphase_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno) ON UPDATE CASCADE;

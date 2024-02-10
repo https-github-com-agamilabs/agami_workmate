@@ -56,10 +56,13 @@
                 $distance=0;
                 $rs_workplace=get_user_wherework($dbcon, $orgno,$empno);
                 if($rs_workplace->num_rows>0){
-                    $row = $rs_workplace->fetch_array(MYSQLI_ASSOC);
-                    $target_loclat=(double)$row['loclat'];
-                    $target_loclon=(double)$row['loclon'];
-                    $distance=getDistanceFromCoordinates($loclat, $loclon, $target_loclat, $target_loclon)
+                    $distance = 999;
+                    while($row = $rs_workplace->fetch_array(MYSQLI_ASSOC)){
+                        $target_loclat=(double)$row['loclat'];
+                        $target_loclon=(double)$row['loclon'];
+                        $calc_distance=getDistanceFromCoordinates($loclat, $loclon, $target_loclat, $target_loclon);
+                        $distance= $distance < $calc_distance ? $distance:$calc_distance;
+                    }
                 }
             }else{
                 $distance=0;

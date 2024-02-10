@@ -34,16 +34,15 @@ try {
         throw new Exception("Employee must be selected!!", 1);
     }
 
-    if (isset($_POST['loclat']) && strlen($_POST['loclat']) > 0) {
-        $loclat = (double) $_POST['loclat'];
+    if (isset($_POST['locno']) && strlen($_POST['locno']) > 0) {
+        $locno = (int) $_POST['locno'];
     } else {
-        throw new Exception("Latitude cannot be empty!!", 1);
+        throw new Exception("You must select a working location!!", 1);
     }
 
-    if (isset($_POST['loclon']) && strlen($_POST['loclon']) > 0) {
-        $loclon = (double) $_POST['loclon'];
-    } else {
-        throw new Exception("Longitude cannot be empty!!", 1);
+    $mindistance=25;
+    if (isset($_POST['mindistance']) && strlen($_POST['mindistance']) > 0) {
+        $mindistance = (int) $_POST['mindistance'];
     }
 
     if (isset($_POST['starttime']) && strlen($_POST['starttime']) > 0) {
@@ -59,7 +58,7 @@ try {
     }
 
     if($attlocno>0){
-        $unos = update_userattlocset($dbcon,  $loclat, $loclon,$starttime,$endtime,$orgno,$attlocno);
+        $unos = update_userattlocset($dbcon,  $locno, $mindistance,$starttime,$endtime,$orgno,$attlocno);
     
         if ($unos == 0) {
             throw new Exception("Could not update!", 1);
@@ -68,7 +67,7 @@ try {
             $response['message'] = 'Updated successfully.';
         }
     }else{
-        $inos = add_userattlocset($dbcon, $orgno, $userno, $loclat, $loclon,$starttime,$endtime);
+        $inos = add_userattlocset($dbcon, $orgno, $userno, $locno, $mindistance,$starttime,$endtime);
     
         if ($inos == 0) {
             throw new Exception("Could not add!", 1);
@@ -86,10 +85,10 @@ echo json_encode($response);
 $dbcon->close();
 
 
-//com_userattlocset (attlocno,orgno,userno, loclat, loclon,starttime,endtime)
-function add_userattlocset($dbcon, $orgno, $userno, $loclat, $loclon,$starttime,$endtime)
+//com_userattlocset (attlocno,orgno,userno, locno, mindistance,starttime,endtime)
+function add_userattlocset($dbcon, $orgno, $userno, $locno, $mindistance,$starttime,$endtime)
 {
-    $sql = "INSERT INTO com_userattlocset(orgno,userno, loclat, loclon,starttime,endtime)
+    $sql = "INSERT INTO com_userattlocset(orgno,userno, locno, mindistance,starttime,endtime)
             VALUES(?,?,?,?,?,?)";
 
     $stmt = $dbcon->prepare($sql);
@@ -97,7 +96,7 @@ function add_userattlocset($dbcon, $orgno, $userno, $loclat, $loclon,$starttime,
         echo $dbcon->error;
     }
 
-    $stmt->bind_param("iiddss", $orgno, $userno, $loclat, $loclon,$starttime,$endtime);
+    $stmt->bind_param("iiiiss", $orgno, $userno, $locno, $mindistance,$starttime,$endtime);
 
     if ($stmt->execute()) {
         $result = $stmt->insert_id;
@@ -108,10 +107,10 @@ function add_userattlocset($dbcon, $orgno, $userno, $loclat, $loclon,$starttime,
     }
 }
 
-function update_userattlocset($dbcon,  $loclat, $loclon,$starttime,$endtime,$orgno,$attlocno)
+function update_userattlocset($dbcon,  $locno, $mindistance,$starttime,$endtime,$orgno,$attlocno)
 {
     $sql = "UPDATE com_userattlocset
-            SET loclat=?, loclon=?,starttime=?,endtime=?
+            SET locno=?, mindistance=?,starttime=?,endtime=?
             WHERE orgno=? AND attlocno=?";
 
     $stmt = $dbcon->prepare($sql);
@@ -119,7 +118,7 @@ function update_userattlocset($dbcon,  $loclat, $loclon,$starttime,$endtime,$org
         echo $dbcon->error;
     }
 
-    $stmt->bind_param("ddssii", $loclat, $loclon,$starttime,$endtime,$orgno,$attlocno);
+    $stmt->bind_param("iissii", $locno, $mindistance,$starttime,$endtime,$orgno,$attlocno);
 
     if ($stmt->execute()) {
         $result = $stmt->affected_rows;

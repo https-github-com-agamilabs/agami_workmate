@@ -1499,8 +1499,8 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 
 						// settings 
 						get_available_org_working_locations(json).then((resp) => {
-							if (!resp.data) {
-								display_org_working_locations(resp.data);
+							if (resp.results) {
+								display_org_working_locations(resp.results);
 							}
 						});
 
@@ -1526,6 +1526,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			e.preventDefault();
 			let json = {
 				userno: $(this).data().userno,
+				orgno: $(this).data().orgno,
 				locno: $('[name="locno"]', this).val(),
 				radius: $('[name="radius"]', this).val(),
 				starttime: $('[name="starttime"]', this).val(),

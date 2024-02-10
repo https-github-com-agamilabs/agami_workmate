@@ -42,14 +42,16 @@ try {
 echo json_encode($response);
 $dbcon->close();
 
-//com_userattlocset (attlocno,orgno,userno, loclat, loclon,starttime,endtime)
+//com_userattlocset (attlocno,orgno,userno, locno,mindistance,starttime,endtime)
+//com_workinglocation(locno,locname,loclat,loclon,active)
 function get_user_wherework($dbcon, $orgno,$userno)
 {
-    $sql = "SELECT loclat, loclon,starttime,endtime
-            FROM com_userattlocset
-            WHERE orgno=? 
-                AND userno =?
-                AND starttime> NOW()
+    $sql = "SELECT wl.loclat, wl.loclon,uls.starttime,uls.endtime
+            FROM com_userattlocset as uls
+                INNER JOIN com_workinglocation as wl ON uls.locno=wl.locno
+            WHERE uls.orgno=? 
+                AND uls.userno =?
+                AND uls.starttime> NOW()
             ";
 
     $stmt = $dbcon->prepare($sql);

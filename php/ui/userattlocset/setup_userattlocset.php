@@ -51,7 +51,7 @@ try {
         throw new Exception("Starting time cannot be empty!!", 1);
     }
 
-    if (isset($_POST['stendtimearttime']) && strlen($_POST['endtime']) > 0) {
+    if (isset($_POST['endtime']) && strlen($_POST['endtime']) > 0) {
         $endtime = trim(strip_tags($_POST['endtime']));
     } else {
         throw new Exception("End time cannot be empty!!", 1);

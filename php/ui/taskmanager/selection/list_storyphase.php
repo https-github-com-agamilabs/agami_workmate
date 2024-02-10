@@ -22,7 +22,13 @@
 
     try {
 
-        $results = get_filtered_storytype($dbcon);
+        if(isset($_SESSION['orgno']) && strlen($_SESSION['orgno'])>0){
+            $orgno=(int) $_SESSION['orgno']);
+        }else{
+            throw new \Exception("You must proceed with an organization!", 1);
+        }
+
+        $results = get_filtered_storytype($dbcon, $orgno);
 
         $results_array = array();
         if ($results->num_rows > 0) {
@@ -46,12 +52,14 @@
     */
 
     //asp_storyphase(storyphaseno, storyphasetitle, colorno)
-    function get_filtered_storytype($dbcon){
+    function get_filtered_storytype($dbcon, $orgno){
         $sql = "SELECT storyphaseno, storyphasetitle,
                         colorno, (SELECT colorcode FROM asp_color WHERE colorno=p.colorno) as colorcode
                 FROM asp_storyphase as p
+                WHERE orgno=?
                 ";
         $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("i", $orgno);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

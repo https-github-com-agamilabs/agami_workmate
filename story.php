@@ -1,5 +1,7 @@
 <?php
 include_once "php/ui/login/check_session.php";
+$base_path = dirname(__FILE__);
+date_default_timezone_set("Asia/Dhaka");
 ?>
 
 <!doctype html>
@@ -8,7 +10,8 @@ include_once "php/ui/login/check_session.php";
 <head>
 	<?php
 	include_once("header.php");
-	date_default_timezone_set("Asia/Dhaka"); ?>
+	require_once($base_path . "/configmanager/fileupload_configuration.php");
+	?>
 
 	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.css" integrity="sha512-vEia6TQGr3FqC6h55/NdU3QSM5XR6HSl5fW71QTKrgeER98LIMGwymBVM867C1XHIkYD9nMTfWK2A0xcodKHNA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js" integrity="sha512-hkvXFLlESjeYENO4CNi69z3A1puvONQV5Uh+G4TUDayZxSLyic5Kba9hhuiNLbHqdnKNMk2PxXKm0v7KDnWkYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
@@ -23,6 +26,24 @@ include_once "php/ui/login/check_session.php";
 	<style>
 		[type="submit"]:disabled {
 			cursor: not-allowed;
+		}
+
+		.sidebar_right {
+			position: relative;
+			width: 100%;
+			max-width: 100%;
+			padding: 0 1rem 1rem 1rem;
+		}
+
+		@media (min-width: 992px) {
+			.sidebar_right {
+				position: sticky;
+				top: 5rem;
+				right: 0;
+				width: 20%;
+				max-width: 220px;
+				padding: 0;
+			}
 		}
 	</style>
 
@@ -152,11 +173,6 @@ include_once "php/ui/login/check_session.php";
 			padding-bottom: 0;
 		}
 	</style>
-	<?php
-	$base_path = dirname(__FILE__);
-	require_once($base_path . "/configmanager/fileupload_configuration.php");
-	//require_once "configmanager/fileupload_configuration.php";
-	?>
 </head>
 
 <body>
@@ -229,8 +245,11 @@ include_once "php/ui/login/check_session.php";
 				</div>
 			</div>
 
-			<div class='my_watchlist mt-2' style="width:20%;max-width: 220px;"></div>
+			<div class="sidebar_right">
+				<div class="wherework_today my-3"></div>
 
+				<div class="my_watchlist"></div>
+			</div>
 		</div>
 	</div>
 
@@ -447,6 +466,7 @@ include_once "php/ui/login/check_session.php";
 
 	<script>
 		const PERMISSION_LEVEL = `<?= $_SESSION['wm_permissionlevel']; ?>`;
+		const link = `https://www.google.com/maps/search/?api=1`;
 
 		let howToSolveTextEditor;
 
@@ -908,7 +928,6 @@ include_once "php/ui/login/check_session.php";
 				}
 			}, `json`);
 		}
-
 
 		function show_channel_task_detail(data) {
 			let target = $(`#task_progress_container`);
@@ -1715,6 +1734,47 @@ include_once "php/ui/login/check_session.php";
 				}
 			}, `json`);
 		});
+
+		function padWithZero(value) {
+			return (value < 10) ? `0${value}` : value;
+		}
+
+		function formatTime(timeString = "00:00:00") {
+			let H = +timeString.substr(0, 2);
+			let h = H % 12 || 12;
+			let ampm = (H < 12 || H === 24) ? " AM" : " PM";
+			return padWithZero(h) + timeString.substr(2, 3) + ampm;
+		}
+
+		get_user_wherework_today();
+
+		function get_user_wherework_today() {
+			$.post(`php/ui/userattlocset/get_user_wherework_today.php`, resp => {
+				if (resp.error) {
+					// toastr.error(resp.message);
+				} else {
+					show_user_wherework_today(resp.results);
+				}
+			}, `json`);
+		}
+
+		function show_user_wherework_today(data) {
+			let target = $(`.wherework_today`);
+
+			$.each(data, (index, value) => {
+				let starttime = formatTime(value.starttime.split(` `)[1]);
+				let endtime = formatTime(value.endtime.split(` `)[1]);
+
+				let template = $(`<div class="card card-body p-2 mt-1">
+						<a href="${link}&query=${value.loclat}%2C${value.loclon}" style="text-decoration:underline;" target="_blank">${value.locname}</a>
+						<div>
+							[<span title="${formatDateTime(value.starttime)}">${starttime}</span> -
+							<span title="${formatDateTime(value.endtime)}">${endtime}</span>]
+						</div>
+					</div>`)
+					.appendTo(target);
+			});
+		}
 	</script>
 
 </body>

@@ -16,9 +16,9 @@ require_once dirname(dirname(__FILE__)) . "/dependency_checker.php";
 
 try {
 
-    $loclon=-1;
-    if (isset($_POST['loclon']) && strlen($_POST['loclon']) > 0) {
-        $loclon = (int) $_POST['loclon'];
+    $locno=-1;
+    if (isset($_POST['locno']) && strlen($_POST['locno']) > 0) {
+        $locno = (int) $_POST['locno'];
     }
 
     if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {

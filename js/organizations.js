@@ -430,7 +430,7 @@ class Organization extends BasicCRUD {
 
                                 <div class="tab-pane" id="org_${value.orgno}_tasktype_tabpane" role="tabpanel">
                                     <div id="org_${value.orgno}_storyphase_card">
-                                        <div class="d-flex justify-content-between mb-2">
+                                        <div class="d-flex justify-content-between">
                                             <h5 class="font-weight-bold mb-0">Story Phase</h5>
                                             <button class="add_button btn btn-primary btn-sm rounded-pill px-3 custom_shadow" type="button">
                                                 <i class="fa fa-plus-circle mr-1"></i> Add

@@ -379,62 +379,58 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<div class="modal-body table-responsive">
-
-						<table class="table table-sm table-bordered" id="table_working_location">
-							<thead>
-								<tr>
-									<th>Location</th>
-									<th>Radius</th>
-									<th>From</th>
-									<th>To</th>
-									<th>Action</th>
-								</tr>
-							</thead>
-							<tbody>
-
-							</tbody>
-							<tfoot>
-								<tr class="text-center">
-									<th colspan="5">
-										Restrict Working Location
-									</th>
-								</tr>
-								<tr>
-									<th>Location</th>
-									<th>Radius</th>
-									<th>From</th>
-									<th>To</th>
-									<th>Action</th>
-								</tr>
-								<tr>
-									<th>
-										<select name="locno" class="form-control shadow-sm mt-2" required></select>
-									</th>
-									<th>
-										<select name="mindistance" class="form-control shadow-sm mt-2">
-											<option value="10">10 Meters</option>
-											<option value="25">25 Meters</option>
-											<option value="50">50 Meters</option>
-											<option value="100">100 Meters</option>
-											<option value="250">250 Meters</option>
-										</select>
-									</th>
-									<th>
-										<input name="starttime" class="form-control shadow-sm mt-2" type="datetime-local">
-
-									</th>
-									<th>
-										<input name="endtime" class="form-control shadow-sm mt-2" type="datetime-local">
-
-
-									</th>
-									<th>
-										<button class="btn btn-sm btn-success px-2">Add</button>
-									</th>
-								</tr>
-							</tfoot>
-						</table>
+					<div class="modal-body">
+						<div class="table-responsive">
+							<table id="table_working_location" class="table table-sm table-bordered">
+								<thead>
+									<tr>
+										<th>Location</th>
+										<th>Radius</th>
+										<th>From</th>
+										<th>To</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+								<tfoot>
+									<tr class="text-center">
+										<th colspan="5">
+											Restrict Working Location
+										</th>
+									</tr>
+									<tr>
+										<th>Location</th>
+										<th>Radius</th>
+										<th>From</th>
+										<th>To</th>
+										<th>Action</th>
+									</tr>
+									<tr>
+										<th>
+											<select name="locno" class="form-control shadow-sm mt-2" required></select>
+										</th>
+										<th>
+											<select name="mindistance" class="form-control shadow-sm mt-2">
+												<option value="10">10 Meters</option>
+												<option value="25">25 Meters</option>
+												<option value="50">50 Meters</option>
+												<option value="100">100 Meters</option>
+												<option value="250">250 Meters</option>
+											</select>
+										</th>
+										<th>
+											<input name="starttime" class="form-control shadow-sm mt-2" type="datetime-local">
+										</th>
+										<th>
+											<input name="endtime" class="form-control shadow-sm mt-2" type="datetime-local">
+										</th>
+										<th>
+											<button class="btn btn-sm btn-success px-2">Add</button>
+										</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
 
 						<div class="row">
 							<!-- <div class="col-lg-12 form-group">

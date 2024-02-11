@@ -1349,7 +1349,10 @@ function setup_user_workinglocation(json) {
         } else {
             toastr.success(resp.message);
 
-            get_user_working_locations(json).then((resp) => {
+            get_user_working_locations({
+                orgno: json.orgno,
+                userno: json.userno
+            }).then((resp) => {
                 if (resp.error) {
                     toastr.warning(resp.message);
                     return;

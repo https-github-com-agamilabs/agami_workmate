@@ -250,7 +250,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						<div class="form-group">
 							<label class="d-block mb-0">
 								Location <span class="text-danger">*</span>
-								<input name="locname" class="form-control shadow-sm mt-2" type="text" placeholder="Location..." required>
+								<input name="locname" class="form-control form-control-sm shadow-sm mt-2" type="text" placeholder="Location..." required>
 							</label>
 						</div>
 

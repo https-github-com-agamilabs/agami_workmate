@@ -1127,10 +1127,12 @@ function display_user_working_ocation(working_locations) {
     $.each(working_locations, (i, loc) => {
         let wl_tr = $(`<tr>
                 <td>${loc.locname}</td>
-                <td>${loc.mindistance}</td>
+                <td>${loc.mindistance} Meters</td>
                 <td>${loc.starttime}</td>
                 <td>${loc.endtime}</td>
-                <td><button class='btn btn-sm btn-danger'>Remove</button></td>
+                <td class="py-0">
+                    <button class="btn btn-danger btn-block ripple custom_shadow">Remove</button>
+                </td>
             </tr>`)
             .appendTo(target);
     });

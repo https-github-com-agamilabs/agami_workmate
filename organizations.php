@@ -235,6 +235,45 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		</div>
 	</div>
 
+	<!-- ORGANIZATION WORKING LOCATION MODAL -->
+	<div id="org_working_location_modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form class="setup_form">
+					<div class="modal-header">
+						<h5 class="modal-title">Setup Organization Working Location</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="d-block mb-0">
+								Location <span class="text-danger">*</span>
+								<input name="locname" class="form-control shadow-sm mt-2" type="text" placeholder="Location..." required>
+							</label>
+						</div>
+
+						<div class="form-group">
+							<label class="d-block mb-0">
+								Latitude <span class="text-danger">*</span>
+								<input name="loclat" class="form-control form-control-sm shadow-sm mt-2" type="text" placeholder="Latitude..." required>
+							</label>
+						</div>
+
+						<label class="d-block mb-0">
+							Latitude <span class="text-danger">*</span>
+							<input name="loclon" class="form-control form-control-sm shadow-sm mt-2" type="text" placeholder="Latitude..." required>
+						</label>
+					</div>
+					<div class="modal-footer py-2">
+						<button type="submit" class="btn btn-primary rounded-pill px-4 custom_shadow">Save</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<!-- USER ORG SETUP MODAL -->
 	<div id="userorg_setup_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-xl" role="document">
@@ -368,7 +407,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		</div>
 	</div>
 
-	<!-- WORKING LOCATION -->
+	<!-- USER WORKING LOCATION -->
 	<div id="userorg_workinglocation_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-xl" role="document" style="max-width: 85% !important;;">
 			<div class="modal-content">

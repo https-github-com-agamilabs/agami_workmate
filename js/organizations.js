@@ -462,7 +462,7 @@ class Organization extends BasicCRUD {
                                 <div class="tab-pane" id="org_${value.orgno}_tasktype_tabpane" role="tabpanel">
                                     <div id="org_${value.orgno}_storyphase_card">
                                         <div class="d-flex justify-content-between">
-                                            <h5 class="font-weight-bold mb-0">Story Phase</h5>
+                                            <h5 class="font-weight-bold mb-0">Task Type</h5>
                                             <button class="add_button btn btn-primary btn-sm rounded-pill px-3 custom_shadow" type="button">
                                                 <i class="fa fa-plus-circle mr-1"></i> Add
                                             </button>
@@ -472,7 +472,7 @@ class Organization extends BasicCRUD {
                                                 <thead class="table-primary text-center">
                                                     <tr>
                                                         <th>SL</th>
-                                                        <th>Story Phase</th>
+                                                        <th>Task Type</th>
                                                         <th>Color</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -1491,7 +1491,7 @@ function orgStoryPhaseSettings() {
         updateURL: `${publicAccessUrl}php/ui/storyphase/setup_org_storyphase.php`,
         deleteURL: `${publicAccessUrl}php/ui/storyphase/remove_org_storyphase.php`,
         setupModal: `#org_storyphase_modal`,
-        topic: `Story Phase`,
+        topic: `Task Type`,
         tablePK: `storyphaseno`
     };
 }

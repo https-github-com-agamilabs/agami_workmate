@@ -71,7 +71,7 @@ $dbcon->close();
 //asp_storyphase(storyphaseno, orgno, storyphasetitle, colorno)
 function add_storyphase($dbcon, $orgno, $storyphasetitle, $colorno)
 {
-    $sql = "INSERT INTO com_storyphase(orgno, storyphasetitle, colorno)
+    $sql = "INSERT INTO asp_storyphase(orgno, storyphasetitle, colorno)
             VALUES(?,?,?)";
 
     $stmt = $dbcon->prepare($sql);
@@ -92,7 +92,7 @@ function add_storyphase($dbcon, $orgno, $storyphasetitle, $colorno)
 
 function update_storyphase($dbcon,  $storyphasetitle, $colorno, $orgno, $storyphaseno)
 {
-    $sql = "UPDATE com_storyphase
+    $sql = "UPDATE asp_storyphase
             SET storyphasetitle=?, colorno=?
             WHERE orgno=? AND storyphaseno=?";
 
@@ -111,4 +111,3 @@ function update_storyphase($dbcon,  $storyphasetitle, $colorno, $orgno, $storyph
         return 0;
     }
 }
-?>

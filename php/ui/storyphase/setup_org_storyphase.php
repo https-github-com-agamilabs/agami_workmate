@@ -17,7 +17,7 @@ require_once dirname(dirname(__FILE__)) . "/dependency_checker.php";
 try {
 
     //storyphaseno, orgno, storyphasetitle, colorno
-    $storyphaseno=-1;
+    $storyphaseno = -1;
     if (isset($_POST['storyphaseno']) && strlen($_POST['storyphaseno']) > 0) {
         $storyphaseno = (int) $_POST['storyphaseno'];
     }
@@ -34,24 +34,24 @@ try {
         throw new Exception("Title cannot be empty!!", 1);
     }
 
-    $color=NULL:
+    $color = NULL;
     if (isset($_POST['colorno']) && strlen($_POST['colorno']) > 0) {
         $colorno = (int) $_POST['colorno'];
-    } 
+    }
 
 
-    if($storyphaseno>0){
-        $unos = update_storyphase($dbcon,  $storyphasetitle, $colorno,$orgno,$storyphaseno);
-    
+    if ($storyphaseno > 0) {
+        $unos = update_storyphase($dbcon,  $storyphasetitle, $colorno, $orgno, $storyphaseno);
+
         if ($unos == 0) {
             throw new Exception("Could not update!", 1);
         } else {
             $response['error'] = false;
             $response['message'] = 'Updated successfully.';
         }
-    }else{
-        $inos = add_storyphase($dbcon, $orgno, $storyphasetitle,$colorno);
-    
+    } else {
+        $inos = add_storyphase($dbcon, $orgno, $storyphasetitle, $colorno);
+
         if ($inos == 0) {
             throw new Exception("Could not add!", 1);
         } else {
@@ -69,7 +69,7 @@ $dbcon->close();
 
 
 //asp_storyphase(storyphaseno, orgno, storyphasetitle, colorno)
-function add_storyphase($dbcon, $orgno, $storyphasetitle,$colorno)
+function add_storyphase($dbcon, $orgno, $storyphasetitle, $colorno)
 {
     $sql = "INSERT INTO com_storyphase(orgno, storyphasetitle, colorno)
             VALUES(?,?,?)";
@@ -90,7 +90,7 @@ function add_storyphase($dbcon, $orgno, $storyphasetitle,$colorno)
     }
 }
 
-function update_storyphase($dbcon,  $storyphasetitle, $colorno,$orgno,$storyphaseno)
+function update_storyphase($dbcon,  $storyphasetitle, $colorno, $orgno, $storyphaseno)
 {
     $sql = "UPDATE com_storyphase
             SET storyphasetitle=?, colorno=?
@@ -101,7 +101,7 @@ function update_storyphase($dbcon,  $storyphasetitle, $colorno,$orgno,$storyphas
         echo $dbcon->error;
     }
 
-    $stmt->bind_param("siii", $storyphasetitle, $colorno,$orgno,$storyphaseno);
+    $stmt->bind_param("siii", $storyphasetitle, $colorno, $orgno, $storyphaseno);
 
     if ($stmt->execute()) {
         $result = $stmt->affected_rows;
@@ -111,3 +111,4 @@ function update_storyphase($dbcon,  $storyphasetitle, $colorno,$orgno,$storyphas
         return 0;
     }
 }
+?>

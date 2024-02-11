@@ -1090,7 +1090,7 @@ function get_available_org_working_locations(json) {
         $.post(`${publicAccessUrl}php/ui/workinglocation/get_active_workinglocation.php`, json, resp => {
             if (resp.error) {
                 toastr.error(resp.message);
-                return;
+                reject(resp.message);
             }
 
             resolve(resp);
@@ -1112,7 +1112,7 @@ function get_user_working_locations(json) {
         $.post(`${publicAccessUrl}php/ui/userattlocset/get_user_wherework_future.php`, json, resp => {
             if (resp.error) {
                 toastr.error(resp.message);
-                return;
+                reject(resp.message);
             }
 
             resolve(resp);

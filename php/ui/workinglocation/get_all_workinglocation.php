@@ -45,7 +45,7 @@ $dbcon->close();
 //com_workinglocation(locno,orgno,locname,loclat,loclon,active)
 function get_workinglocation($dbcon, $orgno)
 {
-    $sql = "SELECT locno,locname, loclat,loclon
+    $sql = "SELECT locno,locname, loclat,loclon, active
             FROM com_workinglocation
             WHERE orgno=? 
             ";

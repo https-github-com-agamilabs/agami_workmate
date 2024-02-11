@@ -383,7 +383,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						<div class="table-responsive">
 							<table id="table_working_location" class="table table-sm table-bordered">
 								<thead>
-									<tr>
+									<tr class="table-primary text-center">
 										<th>Location</th>
 										<th>Radius</th>
 										<th>From</th>
@@ -398,7 +398,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 											Restrict Working Location
 										</th>
 									</tr>
-									<tr>
+									<tr class="table-primary text-center">
 										<th>Location</th>
 										<th>Radius</th>
 										<th>From</th>
@@ -406,11 +406,11 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 										<th>Action</th>
 									</tr>
 									<tr>
-										<th>
-											<select name="locno" class="form-control shadow-sm mt-2" required></select>
+										<th class="p-0 border-0">
+											<select name="locno" class="form-control shadow-sm rounded-0" required></select>
 										</th>
-										<th>
-											<select name="mindistance" class="form-control shadow-sm mt-2">
+										<th class="p-0 border-0">
+											<select name="mindistance" class="form-control shadow-sm rounded-0">
 												<option value="10">10 Meters</option>
 												<option value="25">25 Meters</option>
 												<option value="50">50 Meters</option>
@@ -418,65 +418,19 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 												<option value="250">250 Meters</option>
 											</select>
 										</th>
-										<th>
-											<input name="starttime" class="form-control shadow-sm mt-2" type="datetime-local">
+										<th class="p-0 border-0">
+											<input name="starttime" class="form-control shadow-sm rounded-0" type="datetime-local">
 										</th>
-										<th>
-											<input name="endtime" class="form-control shadow-sm mt-2" type="datetime-local">
+										<th class="p-0 border-0">
+											<input name="endtime" class="form-control shadow-sm rounded-0" type="datetime-local">
 										</th>
-										<th>
-											<button class="btn btn-sm btn-success px-2">Add</button>
+										<th class="py-0">
+											<button class="btn btn-success btn-block ripple custom_shadow">Add</button>
 										</th>
 									</tr>
 								</tfoot>
 							</table>
 						</div>
-
-						<div class="row">
-							<!-- <div class="col-lg-12 form-group">
-								<label class="d-block mb-0">
-									User <span class="text-danger">*</span>
-									<select name="userno" class="form-control shadow-sm mt-2" required></select>
-								</label>
-							</div> -->
-
-							<!-- <div class="col-lg-6 form-group">
-								<label class="d-block mb-0">
-									Working Location
-									<select name="locno" class="form-control shadow-sm mt-2" required></select>
-								</label>
-							</div>
-
-							<div class="col-lg-6 form-group">
-								<label class="d-block mb-0">
-									Radius (Distance from Location)
-									<select name="mindistance" class="form-control shadow-sm mt-2">
-										<option value="10">10 Meters</option>
-										<option value="25">25 Meters</option>
-										<option value="50">50 Meters</option>
-										<option value="100">100 Meters</option>
-										<option value="250">250 Meters</option>
-									</select>
-								</label>
-							</div>
-
-							<div class="col-lg-3 form-group">
-								<label class="d-block mb-0">
-									Start time
-									<input name="starttime" class="form-control shadow-sm mt-2" type="time">
-								</label>
-							</div>
-
-							<div class="col-lg-3 form-group">
-								<label class="d-block mb-0">
-									End time
-									<input name="endtime" class="form-control shadow-sm mt-2" type="time">
-								</label>
-							</div> -->
-						</div>
-					</div>
-					<div class="modal-footer py-2">
-						<!-- <button type="submit" class="btn btn-primary rounded-pill px-5 ripple custom_shadow">Save</button> -->
 					</div>
 				</form>
 			</div>

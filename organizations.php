@@ -1300,61 +1300,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			}, `json`);
 		}
 
-		// working location
-		function get_available_org_working_locations(json) {
-			return new Promise((resolve, reject) => {
-				$.post(`${publicAccessUrl}php/ui/workinglocation/get_active_workinglocation.php`, json, resp => {
-					if (resp.error) {
-						toastr.error(resp.message);
-						return;
-					}
-
-					resolve(resp);
-
-				}, `json`);
-			});
-		}
-
-		function display_org_working_locations(data) {
-			let locno = $('form [name="locno"]').empty();
-			$.each(data, (i, elm) => {
-				let option = `<option value='${elm.locno}'>${elm.locname}</option>`;
-				locno.append(option);
-			});
-		}
-
-		// user working location
-
-		function get_user_working_locations(json) {
-			return new Promise((resolve, reject) => {
-				$.post(`${publicAccessUrl}php/ui/userattlocset/get_user_wherework_future.php`, json, resp => {
-					if (resp.error) {
-						toastr.error(resp.message);
-						return;
-					}
-
-					resolve(resp);
-
-				}, `json`);
-			});
-		}
-
-		function display_user_working_ocation(working_locations) {
-
-			$.each(working_locations, (i, loc) => {
-				let wl_tr = `
-				<tr>
-					<td>${loc.locname}</td>
-					<td>${loc.mindistance}</td>
-					<td>${loc.starttime}</td>
-					<td>${loc.endtime}</td>
-					<td><button class='btn btn-sm btn-danger'>Remove</button></td>
-				</tr>`;
-				wl_table.append(wl_tr);
-			});
-		}
-
-
 		// USER ORG MODULE
 
 		function get_userorg_detail(json, target) {
@@ -1583,7 +1528,59 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			}, `json`);
 		}
 
-		//
+		// WORKING LOCATION
+
+		function get_available_org_working_locations(json) {
+			return new Promise((resolve, reject) => {
+				$.post(`${publicAccessUrl}php/ui/workinglocation/get_active_workinglocation.php`, json, resp => {
+					if (resp.error) {
+						toastr.error(resp.message);
+						return;
+					}
+
+					resolve(resp);
+
+				}, `json`);
+			});
+		}
+
+		function display_org_working_locations(data) {
+			let locno = $('form [name="locno"]').empty();
+			$.each(data, (i, elm) => {
+				let option = `<option value='${elm.locno}'>${elm.locname}</option>`;
+				locno.append(option);
+			});
+		}
+
+		function get_user_working_locations(json) {
+			return new Promise((resolve, reject) => {
+				$.post(`${publicAccessUrl}php/ui/userattlocset/get_user_wherework_future.php`, json, resp => {
+					if (resp.error) {
+						toastr.error(resp.message);
+						return;
+					}
+
+					resolve(resp);
+
+				}, `json`);
+			});
+		}
+
+		function display_user_working_ocation(working_locations) {
+
+			$.each(working_locations, (i, loc) => {
+				let wl_tr = `
+				<tr>
+					<td>${loc.locname}</td>
+					<td>${loc.mindistance}</td>
+					<td>${loc.starttime}</td>
+					<td>${loc.endtime}</td>
+					<td><button class='btn btn-sm btn-danger'>Remove</button></td>
+				</tr>`;
+				wl_table.append(wl_tr);
+			});
+		}
+
 		$('#userorg_workinglocation_modal_form').submit(function(e) {
 			e.preventDefault();
 			let json = {
@@ -1621,7 +1618,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			}, `json`);
 		}
 
-		//
+		// ORG LOGO
 
 		$(document).on(`change`, `[name="fileurl"]`, function(e) {
 			show_image_cropping_modal($(this), {

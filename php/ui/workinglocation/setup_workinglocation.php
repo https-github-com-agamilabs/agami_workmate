@@ -46,7 +46,7 @@ try {
         throw new Exception("Longitude cannot be empty!!", 1);
     }
 
-    if($loclon>0){
+    if($locno>0){
         $unos = update_workinglocation($dbcon,  $locname,$loclat,$loclon,$orgno,$locno);
     
         if ($unos == 0) {

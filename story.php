@@ -490,6 +490,17 @@ date_default_timezone_set("Asia/Dhaka");
 
 		const selected_channel = searchParams.has('channelno') ? searchParams.get('channelno') : '';
 
+		function padWithZero(value) {
+			return (value < 10) ? `0${value}` : value;
+		}
+
+		function formatTime(timeString = "00:00:00") {
+			let H = +timeString.substr(0, 2);
+			let h = H % 12 || 12;
+			let ampm = (H < 12 || H === 24) ? " AM" : " PM";
+			return padWithZero(h) + timeString.substr(2, 3) + ampm;
+		}
+
 		// show_available_channels([]);
 		let channelInterval = setInterval(() => {
 			let channel_data = $(`#channels_container`).data(`channel_data`);
@@ -1734,17 +1745,6 @@ date_default_timezone_set("Asia/Dhaka");
 				}
 			}, `json`);
 		});
-
-		function padWithZero(value) {
-			return (value < 10) ? `0${value}` : value;
-		}
-
-		function formatTime(timeString = "00:00:00") {
-			let H = +timeString.substr(0, 2);
-			let h = H % 12 || 12;
-			let ampm = (H < 12 || H === 24) ? " AM" : " PM";
-			return padWithZero(h) + timeString.substr(2, 3) + ampm;
-		}
 
 		get_user_wherework_today();
 

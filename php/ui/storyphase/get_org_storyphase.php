@@ -43,11 +43,14 @@ echo json_encode($response);
 $dbcon->close();
 
 //asp_storyphase(storyphaseno, orgno, storyphasetitle, colorno)
+//asp_color(colorno, colorcode, colortitle)
 function get_storyphase($dbcon, $orgno)
 {
-    $sql = "SELECT storyphaseno,storyphasetitle, colorno
-            FROM asp_storyphase
-            WHERE orgno=?
+    $sql = "SELECT sp.storyphaseno,sp.storyphasetitle, 
+                sp.colorno,c.colorcode, c.colortitle
+            FROM asp_storyphase as sp
+                LEFT JOIN asp_color as c ON c.colorno=sp.colorno
+            WHERE sp.orgno=?
             ";
 
     $stmt = $dbcon->prepare($sql);

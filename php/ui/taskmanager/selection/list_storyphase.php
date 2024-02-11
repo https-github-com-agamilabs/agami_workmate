@@ -22,10 +22,9 @@
 
     try {
 
-        if(isset($_SESSION['orgno']) && strlen($_SESSION['orgno'])>0){
-            $orgno=(int) $_SESSION['orgno'];
-        }else{
+        if(!isset($orgno)){
             throw new \Exception("You must proceed with an organization!", 1);
+            // $orgno=(int) $_SESSION['orgno'];
         }
 
         $results = get_filtered_storytype($dbcon, $orgno);

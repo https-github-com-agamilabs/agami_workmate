@@ -1436,15 +1436,12 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 						</td>
 						<td class="text-center">
 							${isOwner
-								? 
-								`<button class="edit_userorg_button mx-1 my-1 btn btn-sm btn-info custom_shadow" type="button" title="Update module">
+								? `<button class="edit_userorg_button mx-1 my-1 btn btn-sm btn-info custom_shadow" type="button" title="Update module">
 									Edit
 								</button>
-								
 								<button class="user_workinglocation mx-1 my-1 btn btn-sm btn-warning custom_shadow" type="button" title="Restrict working location">
 									Restrict Working Location
-								</button>
-								`
+								</button>`
 								: ``}
 						</td>
 					</tr>`)
@@ -1505,7 +1502,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							orgno: value.orgno,
 						};
 
-						// settings 
+						// settings
 						get_available_org_working_locations(json).then((resp) => {
 							if (resp.results) {
 								display_org_working_locations(resp.results);
@@ -1529,7 +1526,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			});
 		}
 
-		// 
+		//
 		$('#userorg_workinglocation_modal_form').submit(function(e) {
 			e.preventDefault();
 			let json = {
@@ -1571,10 +1568,10 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 
 		$(`#userorg_setup_modal_form`).submit(function(e) {
 			e.preventDefault();
-			add_userorg($(this), $(this).data(`userOrgInfoTbody`));
+			setup_userorg($(this), $(this).data(`userOrgInfoTbody`));
 		});
 
-		function add_userorg(form, target) {
+		function setup_userorg(form, target) {
 			let json = Object.fromEntries((new FormData(form[0])).entries());
 			json.uono = Number(form.data(`uono`)) || -1;
 			json.orgno = Number(form.data(`orgno`)) || -1;

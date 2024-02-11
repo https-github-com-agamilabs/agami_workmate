@@ -418,6 +418,27 @@ class Organization extends BasicCRUD {
                                 </div>
 
                                 <div class="tab-pane" id="org_${value.orgno}_tasktype_tabpane" role="tabpanel">
+                                    <div id="org_${value.orgno}_storyphase_card">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <h5 class="font-weight-bold mb-0">Story Phase</h5>
+                                            <button class="add_button btn btn-primary btn-sm rounded-pill px-3 custom_shadow" type="button">
+                                                <i class="fa fa-plus-circle mr-1"></i> Add
+                                            </button>
+                                        </div>
+                                        <div class="table-responsive mt-3">
+                                            <table class="table table-sm table-striped table-bordered table-hover mb-0">
+                                                <thead class="table-primary text-center">
+                                                    <tr>
+                                                        <th>SL</th>
+                                                        <th>Story Phase</th>
+                                                        <th>Color</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="org_${value.orgno}_storyphase_tbody"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -564,6 +585,13 @@ class Organization extends BasicCRUD {
                     }
                 });
 
+                $(`.orgsettings_form`, template).submit((e) => {
+                    e.preventDefault();
+                    let json = Object.fromEntries((new FormData(e.target)).entries());
+                    json.orgno = value.orgno;
+                    setup_orgsettings(json, settingsContainer);
+                });
+
                 $(`.userorg_add_button`, template).click(function (e) {
                     let packageSelect = $(`#org_${value.orgno}_module_tabpane [name="purchaseno"]`);
                     let purchaseno = packageSelect.val();
@@ -607,25 +635,14 @@ class Organization extends BasicCRUD {
                     });
                 });
 
+                if (isOrgControllerAllowed) {
+
+                }
+
                 $(`.proceed_to_workmate`, template).click(function (e) {
-                    let json = {
+                    start_org_operation({
                         orgno: value.orgno
-                    };
-
-                    $.post(`${publicAccessUrl}php/ui/organization/start_org_operation.php`, json, resp => {
-                        if (resp.error) {
-                            toastr.error(resp.message);
-                        } else {
-                            location.href = resp.redirecturl;
-                        }
-                    }, `json`);
-                });
-
-                $(`.orgsettings_form`, template).submit((e) => {
-                    e.preventDefault();
-                    let json = Object.fromEntries((new FormData(e.target)).entries());
-                    json.orgno = value.orgno;
-                    setup_orgsettings(json, settingsContainer);
+                    });
                 });
             })(jQuery);
         });
@@ -688,6 +705,16 @@ function get_lat_lon() {
 
     $(`#orgs_modal [name=gpslat]`).val(latitude);
     $(`#orgs_modal [name=gpslon]`).val(longitude);
+}
+
+function start_org_operation(json) {
+    $.post(`${publicAccessUrl}php/ui/organization/start_org_operation.php`, json, resp => {
+        if (resp.error) {
+            toastr.error(resp.message);
+        } else {
+            location.href = resp.redirecturl;
+        }
+    }, `json`);
 }
 
 // ORG SETTINGS

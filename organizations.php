@@ -1323,8 +1323,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			});
 		}
 
-
-
 		// user working location
 
 		function get_user_working_locations(json) {
@@ -1526,46 +1524,6 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 			});
 		}
 
-		//
-		$('#userorg_workinglocation_modal_form').submit(function(e) {
-			e.preventDefault();
-			let json = {
-				userno: $(this).data().userno,
-				orgno: $(this).data().orgno,
-				locno: $('[name="locno"]', this).val(),
-				mindistance: $('[name="mindistance"]', this).val(),
-				starttime: $('[name="starttime"]', this).val(),
-				endtime: $('[name="endtime"]', this).val(),
-			}
-
-			setup_user_workinglocation(json);
-
-
-		});
-
-		function setup_user_workinglocation(json) {
-			$.post(`${publicAccessUrl}php/ui/userattlocset/setup_userattlocset.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					toastr.success(resp.message);
-
-					get_user_working_locations(json).then((resp) => {
-						if (resp.error) {
-							toastr.warning(resp.message);
-							return;
-						}
-
-						let working_locations = res.data;
-						display_user_working_ocation(working_locations);
-
-					});
-				}
-			}, `json`);
-		}
-
-		//
-
 		$(`#userorg_setup_modal_form`).submit(function(e) {
 			e.preventDefault();
 			setup_userorg($(this), $(this).data(`userOrgInfoTbody`));
@@ -1624,6 +1582,46 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 				}
 			}, `json`);
 		}
+
+		//
+		$('#userorg_workinglocation_modal_form').submit(function(e) {
+			e.preventDefault();
+			let json = {
+				userno: $(this).data().userno,
+				orgno: $(this).data().orgno,
+				locno: $('[name="locno"]', this).val(),
+				mindistance: $('[name="mindistance"]', this).val(),
+				starttime: $('[name="starttime"]', this).val(),
+				endtime: $('[name="endtime"]', this).val(),
+			}
+
+			setup_user_workinglocation(json);
+
+
+		});
+
+		function setup_user_workinglocation(json) {
+			$.post(`${publicAccessUrl}php/ui/userattlocset/setup_userattlocset.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+
+					get_user_working_locations(json).then((resp) => {
+						if (resp.error) {
+							toastr.warning(resp.message);
+							return;
+						}
+
+						let working_locations = res.data;
+						display_user_working_ocation(working_locations);
+
+					});
+				}
+			}, `json`);
+		}
+
+		//
 
 		$(document).on(`change`, `[name="fileurl"]`, function(e) {
 			show_image_cropping_modal($(this), {

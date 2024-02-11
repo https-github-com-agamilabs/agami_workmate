@@ -62,9 +62,11 @@ try {
         $relativepriority = (int) $_POST['relativepriority'];
     }
 
-    $storyphaseno = 1;
+    // $storyphaseno = 1;
     if (isset($_POST['storyphaseno'])) {
         $storyphaseno = (int) $_POST['storyphaseno'];
+    }else{
+        throw new \Exception("Story cannot be empty!", 1);
     }
 
     $parentbacklogno = NULL;
@@ -106,7 +108,6 @@ $dbcon->close();
 //asp_channelbacklog(backlogno,channelno,story,points,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
 function create_channelbacklog($dbcon, $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $parentbacklogno, $approved, $userno)
 {
-
     $sql = "INSERT INTO asp_channelbacklog(channelno, story, points,storytype, prioritylevelno, relativepriority, storyphaseno,  parentbacklogno, approved,userno)
             VALUES(?,?,?,?,?,?,?,?,?,?)";
     $stmt = $dbcon->prepare($sql);
@@ -119,7 +120,6 @@ function create_channelbacklog($dbcon, $channelno, $story, $points,$storytype, $
 
 function update_channel($dbcon, $backlogno, $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $userno)
 {
-
     $sql = "UPDATE asp_channelbacklog
             SET channelno=?, story=?, points=?,storytype=?, prioritylevelno=?, relativepriority=?, storyphaseno=?, userno=?
             WHERE backlogno=?";

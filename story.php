@@ -1657,6 +1657,19 @@ include_once "php/ui/login/check_session.php";
 			formSubmit(json, this, `php/ui/taskmanager/schedule/setup_schedule.php`);
 		});
 
+		function delete_schedule(json, parentContainer) {
+			$.post(`php/ui/taskmanager/schedule/remove_schedule.php`, json, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				} else {
+					toastr.success(resp.message);
+					$(parentContainer).remove();
+					let pageno = $("#task_manager_table_pageno_input").val();
+					get_channel_task_detail(pageno);
+				}
+			}, `json`);
+		}
+
 		// function formSubmit0(json, formElem, url) {
 		// 	let backlogno = $(formElem).data("backlogno");
 		// 	if (backlogno > 0) {

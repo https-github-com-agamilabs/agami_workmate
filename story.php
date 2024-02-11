@@ -1490,7 +1490,7 @@ include_once "php/ui/login/check_session.php";
 						let json = {
 							channelno: selected_channel,
 							parentbacklogno: value.backlogno,
-							storyphaseno: 16,
+							storyphaseno: value.storyphaseno,
 							storytype: 1,
 							story: comment
 						};

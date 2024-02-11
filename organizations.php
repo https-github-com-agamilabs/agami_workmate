@@ -368,6 +368,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		</div>
 	</div>
 
+	<!-- WORKING LOCATION -->
 	<div id="userorg_workinglocation_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-xl" role="document" style="max-width: 85% !important;;">
 			<div class="modal-content">
@@ -480,6 +481,38 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 					</div>
 					<div class="modal-footer py-2">
 						<!-- <button type="submit" class="btn btn-primary rounded-pill px-5 ripple custom_shadow">Save</button> -->
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- ORG STORY PHASE MODAL -->
+	<div id="org_storyphase_modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<form class="setup_form">
+					<div class="modal-header">
+						<h5 class="modal-title">Setup Org Story Phase</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="d-block mb-0">
+								Story Phase <span class="text-danger">*</span>
+								<input name="storyphasetitle" class="form-control shadow-sm mt-2" type="text" placeholder="Story Phase..." required>
+							</label>
+						</div>
+
+						<label class="d-block mb-0">
+							Color
+							<select name="colorno" class="form-control shadow-sm mt-2"></select>
+						</label>
+					</div>
+					<div class="modal-footer py-2">
+						<button type="submit" class="btn btn-primary rounded-pill px-4 custom_shadow">Save</button>
 					</div>
 				</form>
 			</div>

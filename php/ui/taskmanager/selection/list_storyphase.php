@@ -23,7 +23,7 @@
     try {
 
         if(isset($_SESSION['orgno']) && strlen($_SESSION['orgno'])>0){
-            $orgno=(int) $_SESSION['orgno']);
+            $orgno=(int) $_SESSION['orgno'];
         }else{
             throw new \Exception("You must proceed with an organization!", 1);
         }

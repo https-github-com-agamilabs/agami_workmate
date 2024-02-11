@@ -751,14 +751,17 @@ const organization = new Organization({
 
 organization.get();
 
-$(`#get_lat_lon_button`).click(() => get_lat_lon());
+$(`.lat_lon_button`).click(function() {
+    let form = $(this).parents(`form`);
+    get_lat_lon(form);
+});
 
 // $(`#googlemapurl`).on('paste', function() {
 //     get_lat_lon();
 // });
 
-function get_lat_lon() {
-    let url = $(`#googlemapurl`).val();
+function get_lat_lon(form) {
+    let url = $(`.googlemapurl`, form).val();
 
     let splitUrl = url.split('!3d');
     let latLong = splitUrl[splitUrl.length - 1].split('!4d');
@@ -773,8 +776,8 @@ function get_lat_lon() {
 
     longitude = parseFloat(longitude);
 
-    $(`#orgs_modal [name=gpslat]`).val(latitude);
-    $(`#orgs_modal [name=gpslon]`).val(longitude);
+    $(`[name].latitude`, form).val(latitude);
+    $(`[name].longitude`, form).val(longitude);
 }
 
 function start_org_operation(json) {

@@ -16,19 +16,17 @@ require_once dirname(dirname(__FILE__)) . "/dependency_checker.php";
 try {
     if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {
         $orgno = (int) $_POST['orgno'];
-    } else {
-        if (!isset($orgno) || strlen($orgno) <= 0) {
-            throw new Exception("Organization must be selected!!", 1);
-        }
+    } else if (!isset($orgno) || strlen($orgno) <= 0) {
+        throw new Exception("Organization must be selected!!", 1);
     }
 
     if (isset($_POST['userno']) && strlen($_POST['userno']) > 0) {
         $userno = (int) $_POST['userno'];
-    } else {
+    } else if (!isset($userno) || strlen($userno) <= 0) {
         throw new Exception("Employee must be selected!!", 1);
     }
 
-    $rs_wherework = get_user_wherework($dbcon, $orgno,$userno);
+    $rs_wherework = get_user_wherework($dbcon, $orgno, $userno);
 
     if ($rs_wherework->num_rows > 0) {
         $meta_array = array();
@@ -50,20 +48,21 @@ $dbcon->close();
 
 //com_userattlocset (attlocno,orgno,userno, locno,mindistance,starttime,endtime)
 //com_workinglocation(locno,locname,loclat,loclon,active)
-function get_user_wherework($dbcon, $orgno,$userno)
+function get_user_wherework($dbcon, $orgno, $userno)
 {
     $sql = "SELECT wl.loclat, wl.loclon,uls.starttime,uls.endtime
             FROM com_userattlocset as uls
                 INNER JOIN com_workinglocation as wl ON uls.locno=wl.locno
-            WHERE uls.orgno=? 
+            WHERE uls.orgno=?
                 AND uls.userno =?
                 AND (NOW() BETWEEN starttime AND endtime)
             ";
 
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("ii", $orgno,$userno);
+    $stmt->bind_param("ii", $orgno, $userno);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();
     return $result;
 }
+?>

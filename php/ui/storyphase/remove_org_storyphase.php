@@ -47,7 +47,7 @@ $dbcon->close();
 function delete_a_storyphase($dbcon, $orgno, $storyphaseno)
 {
     $sql = "DELETE
-            FROM com_storyphase
+            FROM asp_storyphase
             WHERE orgno=? AND storyphaseno=?";
 
     $stmt = $dbcon->prepare($sql);

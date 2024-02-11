@@ -52,7 +52,7 @@ $dbcon->close();
 //com_workinglocation(locno,locname,loclat,loclon,active)
 function get_user_wherework($dbcon, $orgno,$userno)
 {
-    $sql = "SELECT wl.locno, wl.loclat, wl.loclon, uls.mindistance, uls.starttime, uls.endtime
+    $sql = "SELECT wl.locno, wl.locname, wl.loclat, wl.loclon, uls.mindistance, uls.starttime, uls.endtime
             FROM 
                 com_userattlocset as uls
             INNER JOIN 

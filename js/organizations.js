@@ -995,7 +995,6 @@ function show_userorg_detail(data, target) {
                     .find(`.modal-title`)
                     .html(`Restrict User Working Location`);
                 $('#userorg_workinglocation_modal_form').data(value);
-                let wl_table = $('#table_working_location tbody').empty();
 
                 let json = {
                     userno: value.userno,
@@ -1017,7 +1016,7 @@ function show_userorg_detail(data, target) {
                     }
 
                     let working_locations = resp.results;
-                    display_user_working_ocation(working_locations);
+                    display_user_working_ocation(working_locations, json.orgno);
                 });
             });
         })(jQuery);
@@ -1121,20 +1120,31 @@ function get_user_working_locations(json) {
     });
 }
 
-function display_user_working_ocation(working_locations) {
-    let target = $(`#table_working_location tbody`);
+function display_user_working_ocation(working_locations, orgno) {
+    let target = $(`#table_working_location tbody`).empty();
 
     $.each(working_locations, (i, loc) => {
-        let wl_tr = $(`<tr>
+        let template = $(`<tr>
                 <td>${loc.locname}</td>
                 <td>${loc.mindistance} Meters</td>
                 <td>${loc.starttime}</td>
                 <td>${loc.endtime}</td>
                 <td class="py-0">
-                    <button class="btn btn-danger btn-block ripple custom_shadow">Remove</button>
+                    <button class="delete_button btn btn-danger btn-block ripple custom_shadow" type="button">Remove</button>
                 </td>
             </tr>`)
             .appendTo(target);
+
+        (function ($) {
+            $(`.delete_button`, template).click(function (e) {
+                if (!confirm(`Your are going to delete this user working location. Are you sure to proceed?`)) return;
+
+                remove_userattlocset({
+                    orgno,
+                    attlocno: value.attlocno
+                });
+            });
+        })(jQuery);
     });
 }
 
@@ -1166,8 +1176,18 @@ function setup_user_workinglocation(json) {
                 }
 
                 let working_locations = resp.results;
-                display_user_working_ocation(working_locations);
+                display_user_working_ocation(working_locations, json.orgno);
             });
+        }
+    }, `json`);
+}
+
+function remove_userattlocset(json) {
+    $.post(`php/ui/userattlocset/remove_userattlocset.php`, json, resp => {
+        if (resp.error) {
+            toastr.error(resp.message);
+        } else {
+            toastr.success(resp.message);
         }
     }, `json`);
 }

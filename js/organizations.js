@@ -995,7 +995,7 @@ function show_userorg_detail(data, target) {
                     .find(`.modal-title`)
                     .html(`Restrict User Working Location`);
                 $('#userorg_workinglocation_modal_form').data(value);
-                let wl_table = $('#table_working_location tobdy').empty();
+                let wl_table = $('#table_working_location tbody').empty();
 
                 let json = {
                     userno: value.userno,
@@ -1016,9 +1016,8 @@ function show_userorg_detail(data, target) {
                         return;
                     }
 
-                    let working_locations = res.data;
+                    let working_locations = resp.results;
                     display_user_working_ocation(working_locations);
-
                 });
             });
         })(jQuery);
@@ -1123,15 +1122,17 @@ function get_user_working_locations(json) {
 }
 
 function display_user_working_ocation(working_locations) {
+    let target = $(`#table_working_location tbody`);
+
     $.each(working_locations, (i, loc) => {
-        let wl_tr = `<tr>
+        let wl_tr = $(`<tr>
                 <td>${loc.locname}</td>
                 <td>${loc.mindistance}</td>
                 <td>${loc.starttime}</td>
                 <td>${loc.endtime}</td>
                 <td><button class='btn btn-sm btn-danger'>Remove</button></td>
-            </tr>`;
-        wl_table.append(wl_tr);
+            </tr>`)
+            .appendTo(target);
     });
 }
 
@@ -1162,7 +1163,7 @@ function setup_user_workinglocation(json) {
                     return;
                 }
 
-                let working_locations = res.data;
+                let working_locations = resp.results;
                 display_user_working_ocation(working_locations);
             });
         }

@@ -27,5 +27,6 @@ if (isset($_SESSION['wm_ucatno'])) {
 }
 
 $userno = $_SESSION['wm_userno'];
+$orgno = $_SESSION['wm_orgno'];
 
 ?>

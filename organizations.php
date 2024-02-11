@@ -63,6 +63,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		</div>
 	</div>
 
+	<!-- ORG SETUP MODAL -->
 	<div id="orgs_modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
 		<div class="modal-dialog modal-xl" role="document">
 			<div class="modal-content">
@@ -234,6 +235,7 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 		</div>
 	</div>
 
+	<!-- USER ORG SETUP MODAL -->
 	<div id="userorg_setup_modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-xl" role="document">
 			<div class="modal-content">

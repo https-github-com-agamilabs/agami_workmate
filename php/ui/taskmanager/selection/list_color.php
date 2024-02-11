@@ -45,9 +45,9 @@
     *   LOCAL FUNCTIONS
     */
 
-    //asp_priority(priorityno, prioritytitle, colorno)
+    //asp_color(colorno, colorcode, colortitle)
     function get_all_color($dbcon){
-        $sql = "SELECT colorno as id, colortitle as text
+        $sql = "SELECT colorno, colorcode, colortitle
                 FROM asp_color
                 ";
         $stmt = $dbcon->prepare($sql);

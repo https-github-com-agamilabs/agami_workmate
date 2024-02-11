@@ -199,9 +199,9 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 
 								<div class="col-lg-12">
 									<div class="input-group input-group-sm mb-2">
-										<input id="googlemapurl" type="text" class="form-control shadow-sm" placeholder="https://www.google.com/maps/place/...">
+										<input type="text" class="googlemapurl form-control shadow-sm" placeholder="https://www.google.com/maps/place/...">
 										<div class="input-group-append">
-											<button id="get_lat_lon_button" class="btn btn-secondary custom_shadow" type="button"><?= $orgData['lang_get_lat_&_lon']; ?></button>
+											<button class="lat_lon_button btn btn-secondary custom_shadow" type="button"><?= $orgData['lang_get_lat_&_lon']; ?></button>
 										</div>
 									</div>
 								</div>
@@ -209,14 +209,14 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 								<div class="col-6 pr-1 pr-sm-3 mb-2">
 									<label class="d-block mb-0">
 										<?= $orgData['lang_latitude']; ?>
-										<input name="gpslat" class="form-control form-control-sm shadow-sm mt-1" type="text" placeholder="<?= $orgData['lang_latitude']; ?>...">
+										<input name="gpslat" class="latitude form-control form-control-sm shadow-sm mt-1" type="text" placeholder="<?= $orgData['lang_latitude']; ?>...">
 									</label>
 								</div>
 
 								<div class="col-6 pl-1 pl-sm-3 mb-2">
 									<label class="d-block mb-0">
 										<?= $orgData['lang_longitude']; ?>
-										<input name="gpslon" class="form-control form-control-sm shadow-sm mt-1" type="text" placeholder="<?= $orgData['lang_longitude']; ?>...">
+										<input name="gpslon" class="longitude form-control form-control-sm shadow-sm mt-1" type="text" placeholder="<?= $orgData['lang_longitude']; ?>...">
 									</label>
 								</div>
 							</div>
@@ -254,16 +254,23 @@ $orgData = array_merge($orgData, langConverter($lang, 'organizations'));
 							</label>
 						</div>
 
+						<div class="input-group input-group-sm mb-2">
+							<input type="text" class="googlemapurl form-control shadow-sm" placeholder="https://www.google.com/maps/place/...">
+							<div class="input-group-append">
+								<button class="lat_lon_button btn btn-secondary custom_shadow" type="button"><?= $orgData['lang_get_lat_&_lon']; ?></button>
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="d-block mb-0">
 								Latitude <span class="text-danger">*</span>
-								<input name="loclat" class="form-control form-control-sm shadow-sm mt-2" type="text" placeholder="Latitude..." required>
+								<input name="loclat" class="latitude form-control form-control-sm shadow-sm mt-2" type="text" placeholder="Latitude..." required>
 							</label>
 						</div>
 
 						<label class="d-block mb-0">
 							Latitude <span class="text-danger">*</span>
-							<input name="loclon" class="form-control form-control-sm shadow-sm mt-2" type="text" placeholder="Latitude..." required>
+							<input name="loclon" class="longitude form-control form-control-sm shadow-sm mt-2" type="text" placeholder="Latitude..." required>
 						</label>
 					</div>
 					<div class="modal-footer py-2">

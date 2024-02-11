@@ -390,7 +390,29 @@ class Organization extends BasicCRUD {
                                 </div>
 
                                 <div class="tab-pane" id="org_${value.orgno}_working_location_tabpane" role="tabpanel">
-
+                                    <div id="org_${value.orgno}_working_location_card">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="font-weight-bold mb-0">Organization Working Location</h5>
+                                            <button class="add_button btn btn-primary btn-sm rounded-pill px-3 custom_shadow" type="button">
+                                                <i class="fa fa-plus-circle mr-1"></i> Add
+                                            </button>
+                                        </div>
+                                        <div class="table-responsive mt-3">
+                                            <table class="table table-sm table-striped table-bordered table-hover mb-0">
+                                                <thead class="table-primary text-center">
+                                                    <tr>
+                                                        <th>SL</th>
+                                                        <th>Location</th>
+                                                        <th>Latitude</th>
+                                                        <th>Longitude</th>
+                                                        <th class="text-center">Activation</th>
+                                                        <th class="text-center">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="org_${value.orgno}_working_location_tbody"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="org_${value.orgno}_module_tabpane" role="tabpanel">
@@ -428,7 +450,7 @@ class Organization extends BasicCRUD {
                                                         <th>Work load & Salary</th>
                                                         <th>Shift</th>
                                                         <th style="width:75px;min-width:75px;">Validity</th>
-                                                        <th style="width:60px;min-width:60px;">Action</th>
+                                                        <th style="width:134px;min-width:134px;">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="userorg_info_tbody"></tbody>
@@ -440,7 +462,7 @@ class Organization extends BasicCRUD {
                                 <div class="tab-pane" id="org_${value.orgno}_tasktype_tabpane" role="tabpanel">
                                     <div id="org_${value.orgno}_storyphase_card">
                                         <div class="d-flex justify-content-between">
-                                            <h5 class="font-weight-bold mb-0">Story Phase</h5>
+                                            <h5 class="font-weight-bold mb-0">Task Type</h5>
                                             <button class="add_button btn btn-primary btn-sm rounded-pill px-3 custom_shadow" type="button">
                                                 <i class="fa fa-plus-circle mr-1"></i> Add
                                             </button>
@@ -450,7 +472,7 @@ class Organization extends BasicCRUD {
                                                 <thead class="table-primary text-center">
                                                     <tr>
                                                         <th>SL</th>
-                                                        <th>Story Phase</th>
+                                                        <th>Task Type</th>
                                                         <th>Color</th>
                                                         <th>Action</th>
                                                     </tr>
@@ -587,75 +609,96 @@ class Organization extends BasicCRUD {
 
                 thisObj.deleteButtonTrigger(template, value);
 
-                $(`[href="#org_${value.orgno}_controller_collapse"]`, template).click(function (e) {
-                    if (!$(this).data(`is_loaded`)) {
-                        load_org_settings(setidSelect);
-                        get_my_valid_packages({
-                            orgno: value.orgno
-                        }, packageSelect);
-
-                        get_orgsettings({
-                            orgno: value.orgno
-                        }, settingsContainer);
-
-                        get_userorg_detail({
-                            orgno: value.orgno
-                        }, userOrgInfoTbody);
-                        $(this).data(`is_loaded`, true);
-                    }
-                });
-
-                $(`.orgsettings_form`, template).submit((e) => {
-                    e.preventDefault();
-                    let json = Object.fromEntries((new FormData(e.target)).entries());
-                    json.orgno = value.orgno;
-                    setup_orgsettings(json, settingsContainer);
-                });
-
-                $(`.userorg_add_button`, template).click(function (e) {
-                    let packageSelect = $(`#org_${value.orgno}_module_tabpane [name="purchaseno"]`);
-                    let purchaseno = packageSelect.val();
-                    let aPackage = $(`option:selected`, packageSelect).data();
-
-                    if (!aPackage) {
-                        toastr.error(`You don't have any valid package. Please buy a new package.`);
-                        return;
-                    }
-
-                    let userorgDetail = userOrgInfoTbody.data(`userorg_detail`);
-                    let usedQty = userorgDetail ? userorgDetail.length : 1;
-
-                    if (aPackage.max_user_qty == usedQty) {
-                        toastr.error(`Your package has already been used up. Please select a different package to add user.`);
-                        return;
-                    }
-
-                    $(`#userorg_setup_modal`).modal(`show`).html(`Create User Organization`);
-                    let form = $(`#userorg_setup_modal_form`)
-                        .trigger(`reset`)
-                        .data({
-                            uono: -1,
-                            orgno: value.orgno,
-                            purchaseno,
-                            userOrgInfoTbody
-                        });
-
-                    let supervisorSelect = $(`[name="supervisor"]`, form).empty().append(`<option value="">Select...</option>`);
-                    console.log($(`tr`, userOrgInfoTbody));
-                    $(`tr`, userOrgInfoTbody).each((index, elem) => {
-                        let userOrg = $(elem).data();
-                        if (userOrg && userOrg.userno > 0) {
-                            $(`<option value="${userOrg.userno}">
-                                    ${userOrg.firstname}
-                                    ${userOrg.lastname || ``}
-                                    [${userOrg.username}]
-                                </option>`)
-                                .appendTo(supervisorSelect);
-                        }
+                $(`.proceed_to_workmate`, template).click(function (e) {
+                    start_org_operation({
+                        orgno: value.orgno
                     });
                 });
 
                 if (isOrgControllerAllowed) {
+                    $(`[href="#org_${value.orgno}_controller_collapse"]`, template).click(function (e) {
+                        if (!$(this).data(`is_loaded`)) {
+                            load_org_settings(setidSelect);
+                            get_my_valid_packages({
+                                orgno: value.orgno
+                            }, packageSelect);
+
+                            get_orgsettings({
+                                orgno: value.orgno
+                            }, settingsContainer);
+
+                            get_userorg_detail({
+                                orgno: value.orgno
+                            }, userOrgInfoTbody);
+                            $(this).data(`is_loaded`, true);
+                        }
+                    });
+
+                    $(`.orgsettings_form`, template).submit((e) => {
+                        e.preventDefault();
+                        let json = Object.fromEntries((new FormData(e.target)).entries());
+                        json.orgno = value.orgno;
+                        setup_orgsettings(json, settingsContainer);
+                    });
+
+                    $(`.userorg_add_button`, template).click(function (e) {
+                        let packageSelect = $(`#org_${value.orgno}_module_tabpane [name="purchaseno"]`);
+                        let purchaseno = packageSelect.val();
+                        let aPackage = $(`option:selected`, packageSelect).data();
+
+                        if (!aPackage) {
+                            toastr.error(`You don't have any valid package. Please buy a new package.`);
+                            return;
+                        }
+
+                        let userorgDetail = userOrgInfoTbody.data(`userorg_detail`);
+                        let usedQty = userorgDetail ? userorgDetail.length : 1;
+
+                        if (aPackage.max_user_qty == usedQty) {
+                            toastr.error(`Your package has already been used up. Please select a different package to add user.`);
+                            return;
+                        }
+
+                        $(`#userorg_setup_modal`).modal(`show`).html(`Create User Organization`);
+                        let form = $(`#userorg_setup_modal_form`)
+                            .trigger(`reset`)
+                            .data({
+                                uono: -1,
+                                orgno: value.orgno,
+                                purchaseno,
+                                userOrgInfoTbody
+                            });
+
+                        let supervisorSelect = $(`[name="supervisor"]`, form).empty().append(`<option value="">Select...</option>`);
+                        console.log($(`tr`, userOrgInfoTbody));
+                        $(`tr`, userOrgInfoTbody).each((index, elem) => {
+                            let userOrg = $(elem).data();
+                            if (userOrg && userOrg.userno > 0) {
+                                $(`<option value="${userOrg.userno}">
+                                                        ${userOrg.firstname}
+                                                        ${userOrg.lastname || ``}
+                                                        [${userOrg.username}]
+                                                    </option>`)
+                                    .appendTo(supervisorSelect);
+                            }
+                        });
+                    });
+
+                    $(`[href="#org_${value.orgno}_working_location_tabpane"]`, template).on(`shown.bs.tab`, function (e) {
+                        if (!$(this).data(`is_loaded`)) {
+                            let settings = orgWorkingLocationSettings();
+                            settings.targetCard = `#org_${value.orgno}_working_location_card`;
+                            settings.targetContainer = `#org_${value.orgno}_working_location_tbody`;
+
+                            const orgWorkingLocation = new OrgWorkingLocation(settings);
+                            orgWorkingLocation.get({
+                                orgno: value.orgno
+                            });
+
+                            $(this).data(`is_loaded`, true);
+                        }
+                    });
+
                     $(`[href="#org_${value.orgno}_tasktype_tabpane"]`, template).on(`shown.bs.tab`, function (e) {
                         if (!$(this).data(`is_loaded`)) {
                             let settings = orgStoryPhaseSettings();
@@ -671,12 +714,6 @@ class Organization extends BasicCRUD {
                         }
                     });
                 }
-
-                $(`.proceed_to_workmate`, template).click(function (e) {
-                    start_org_operation({
-                        orgno: value.orgno
-                    });
-                });
             })(jQuery);
         });
     }
@@ -950,7 +987,7 @@ function show_userorg_detail(data, target) {
                             Edit
                         </button>
                         <button class="user_workinglocation mx-1 my-1 btn btn-sm btn-warning custom_shadow" type="button" title="Restrict working location">
-                            Restrict Working Location
+                            Working Location
                         </button>` : ``}
                 </td>
             </tr>`)
@@ -1092,6 +1129,139 @@ function toggle_userorg_activation(json, target) {
 }
 
 // WORKING LOCATION
+
+class OrgWorkingLocation extends BasicCRUD {
+    constructor(settings) {
+        super(settings);
+        this.toggleStatusURL = settings.toggleStatusURL;
+    }
+
+    get(json = {}) {
+        this.targetContainer.empty();
+        this.orgno = json.orgno;
+
+        $.post(this.readURL, json, (resp) => {
+            if (resp.error) {
+                // toastr.error(resp.message);
+
+                $(`<th colspan="${this.targetContainer.closest(`table`).find(`thead th`).length}">
+                        <div class="text-center text-secondary w-100">
+                            <div class="py-4">
+                                <i class="fas fa-calendar-alt fa-3x"></i>
+                                <h5 class="text-500 font-weight-normal mb-0">${resp.message || `You haven't added any ${this.topic} yet.`}</h5>
+                            </div>
+                        </div>
+                    </th>`)
+                    .appendTo(this.targetContainer);
+            } else {
+                this.data = resp.results;
+                this.show(this.data);
+            }
+        }, "json");
+    }
+
+    successCallback(resp) {
+        if (resp.error) {
+            toastr.error(resp.message);
+        } else {
+            toastr.success(resp.message);
+            this.get({
+                orgno: this.orgno
+            });
+            if (this.setupModal.is(`:visible`)) {
+                this.setupModal.modal(`hide`);
+            }
+        }
+    }
+
+    show(data) {
+        let thisObj = this;
+
+        $.each(data, (index, value) => {
+            let template = $(`<tr class="${value.active == 0 ? `table-danger` : `table-success`}">
+                    <td>${1 + index}</td>
+                    <td>${value.locname}</td>
+                    <td>${value.loclat}</td>
+                    <td>${value.loclon}</td>
+                    <td class="text-center">
+                        <button class="activation_button btn btn-sm ${value.active == 0 ? `btn-success` : `btn-danger`} ripple custom_shadow m-1" type="button" title="Activation">
+                            ${value.active == 0 ? `Activate` : `Deactivate`}
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center p-0">
+                            <button class="edit_button btn btn-sm btn-info ripple rounded-circle custom_shadow mr-2" type="button" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="delete_button btn btn-sm btn-danger ripple rounded-circle custom_shadow" type="button" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>`)
+                .data(value)
+                .appendTo(this.targetContainer);
+
+            (function ($) {
+                $(`.activation_button`, template).click((e) => {
+                    if (confirm("Are you sure you want to change this status?")) {
+                        $.post(thisObj.toggleStatusURL, {
+                            orgno: thisObj.orgno,
+                            locno: value.locno,
+                            active: (value.active == 1) ? 0 : 1
+                        }, resp => thisObj.successCallback(resp), `json`);
+                    }
+                });
+
+                thisObj.editButtonTrigger(template, value);
+
+                thisObj.deleteButtonTrigger(template, value);
+            })(jQuery);
+        });
+    }
+
+    setupFormSubmitTrigger() {
+        this.setupForm.submit((e) => {
+            e.preventDefault();
+            let json = Object.fromEntries((new FormData(this.setupForm[0])).entries());
+            json.orgno = this.orgno;
+            let tablePK = Number(this.setupForm.data(this.tablePK)) || 0;
+            let url = this.setupForm.data(`action`);
+
+            if (tablePK > 0) {
+                json[this.tablePK] = tablePK;
+            }
+
+            $.post(url, json, resp => this.successCallback(resp), "json");
+        });
+    }
+
+    deleteButtonTrigger(template, value) {
+        $(`.delete_button`, template).click((e) => {
+            if (!confirm(`Your are going to delete this working location. Are you sure to proceed?`)) return;
+
+            $.post(this.deleteURL, {
+                [this.tablePK]: value[this.tablePK],
+                orgno: this.orgno
+            }, resp => this.successCallback(resp), "json");
+        });
+    }
+}
+
+function orgWorkingLocationSettings() {
+    return {
+        readURL: `${publicAccessUrl}php/ui/workinglocation/get_all_workinglocation.php`,
+        createURL: `${publicAccessUrl}php/ui/workinglocation/setup_workinglocation.php`,
+        updateURL: `${publicAccessUrl}php/ui/workinglocation/setup_workinglocation.php`,
+        deleteURL: `${publicAccessUrl}php/ui/workinglocation/remove_workinglocation.php`,
+        toggleStatusURL: `${publicAccessUrl}php/ui/workinglocation/toggle_activation_workinglocation.php`,
+        setupModal: `#org_working_location_modal`,
+        topic: `Location`,
+        tablePK: `locno`
+    };
+}
+
+// USER WORKING LOCATION
 
 function get_available_org_working_locations(json) {
     return new Promise((resolve, reject) => {
@@ -1321,7 +1491,7 @@ function orgStoryPhaseSettings() {
         updateURL: `${publicAccessUrl}php/ui/storyphase/setup_org_storyphase.php`,
         deleteURL: `${publicAccessUrl}php/ui/storyphase/remove_org_storyphase.php`,
         setupModal: `#org_storyphase_modal`,
-        topic: `Story Phase`,
+        topic: `Task Type`,
         tablePK: `storyphaseno`
     };
 }

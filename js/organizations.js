@@ -121,6 +121,17 @@ const modules = new SelectElemDataLoad({
     optionValue: `moduleno`
 });
 
+const colorLoad = new SelectElemDataLoad({
+    readURL: `${publicAccessUrl}php/ui/taskmanager/selection/list_color.php`,
+    targets: [{
+        selectElem: `#org_storyphase_modal [name="colorno"]`,
+        defaultOptionText: `Select...`,
+        defaultOptionValue: ``
+    }],
+    optionText: `colortitle`,
+    optionValue: `colorno`
+});
+
 const orgAccS2Settings = (additionalParams = {}, placeholder = `Select account...`) => {
     return {
         placeholder,
@@ -636,7 +647,20 @@ class Organization extends BasicCRUD {
                 });
 
                 if (isOrgControllerAllowed) {
+                    $(`[href="#org_${value.orgno}_tasktype_tabpane"]`, template).on(`shown.bs.tab`, function (e) {
+                        if (!$(this).data(`is_loaded`)) {
+                            let settings = orgStoryPhaseSettings();
+                            settings.targetCard = `#org_${value.orgno}_storyphase_card`;
+                            settings.targetContainer = `#org_${value.orgno}_storyphase_tbody`;
 
+                            const orgStoryPhase = new OrgStoryPhase(settings);
+                            orgStoryPhase.get({
+                                orgno: value.orgno
+                            });
+
+                            $(this).data(`is_loaded`, true);
+                        }
+                    });
                 }
 
                 $(`.proceed_to_workmate`, template).click(function (e) {
@@ -1143,6 +1167,119 @@ function setup_user_workinglocation(json) {
             });
         }
     }, `json`);
+}
+
+// TASK TYPE || ORG STORY PHASE
+
+class OrgStoryPhase extends BasicCRUD {
+    get(json = {}) {
+        this.targetContainer.empty();
+        this.orgno = json.orgno;
+
+        $.post(this.readURL, json, (resp) => {
+            if (resp.error) {
+                // toastr.error(resp.message);
+
+                $(`<th colspan="${this.targetContainer.closest(`table`).find(`thead th`).length}">
+                        <div class="text-center text-secondary w-100">
+                            <div class="py-4">
+                                <i class="fas fa-calendar-alt fa-3x"></i>
+                                <h5 class="text-500 font-weight-normal mb-0">${resp.message || `You haven't added any ${this.topic} yet.`}</h5>
+                            </div>
+                        </div>
+                    </th>`)
+                    .appendTo(this.targetContainer);
+            } else {
+                this.data = resp.results;
+                this.show(this.data);
+            }
+        }, "json");
+    }
+
+    successCallback(resp) {
+        if (resp.error) {
+            toastr.error(resp.message);
+        } else {
+            toastr.success(resp.message);
+            this.get({
+                orgno: this.orgno
+            });
+            if (this.setupModal.is(`:visible`)) {
+                this.setupModal.modal(`hide`);
+            }
+        }
+    }
+
+    show(data) {
+        let thisObj = this;
+
+        $.each(data, (index, value) => {
+            let template = $(`<tr>
+                    <td>${1 + index}</td>
+                    <td>${value.storyphasetitle}</td>
+                    <td class="text-center">
+                        ${value.colorcode ? `<span class="text-white rounded shadow-sm px-2 py-1" style="background-color:${value.colorcode};">${value.colortitle}</span>` : ``}
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center p-0">
+                            <button class="edit_button btn btn-sm btn-info ripple rounded-circle custom_shadow mr-2" type="button" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="delete_button btn btn-sm btn-danger ripple rounded-circle custom_shadow" type="button" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>`)
+                .data(value)
+                .appendTo(this.targetContainer);
+
+            (function ($) {
+                thisObj.editButtonTrigger(template, value);
+
+                thisObj.deleteButtonTrigger(template, value);
+            })(jQuery);
+        });
+    }
+
+    setupFormSubmitTrigger() {
+        this.setupForm.submit((e) => {
+            e.preventDefault();
+            let json = Object.fromEntries((new FormData(this.setupForm[0])).entries());
+            json.orgno = this.orgno;
+            let tablePK = Number(this.setupForm.data(this.tablePK)) || 0;
+            let url = this.setupForm.data(`action`);
+
+            if (tablePK > 0) {
+                json[this.tablePK] = tablePK;
+            }
+
+            $.post(url, json, resp => this.successCallback(resp), "json");
+        });
+    }
+
+    deleteButtonTrigger(template, value) {
+        $(`.delete_button`, template).click((e) => {
+            if (!confirm(`Your are going to delete this record. Are you sure to proceed?`)) return;
+
+            $.post(this.deleteURL, {
+                [this.tablePK]: value[this.tablePK],
+                orgno: this.orgno
+            }, resp => this.successCallback(resp), "json");
+        });
+    }
+}
+
+function orgStoryPhaseSettings() {
+    return {
+        readURL: `${publicAccessUrl}php/ui/storyphase/get_org_storyphase.php`,
+        createURL: `${publicAccessUrl}php/ui/storyphase/setup_org_storyphase.php`,
+        updateURL: `${publicAccessUrl}php/ui/storyphase/setup_org_storyphase.php`,
+        deleteURL: `${publicAccessUrl}php/ui/storyphase/remove_org_storyphase.php`,
+        setupModal: `#org_storyphase_modal`,
+        topic: `Story Phase`,
+        tablePK: `storyphaseno`
+    };
 }
 
 // ORG LOGO

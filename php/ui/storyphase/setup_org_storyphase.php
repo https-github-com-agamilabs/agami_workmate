@@ -34,7 +34,7 @@ try {
         throw new Exception("Title cannot be empty!!", 1);
     }
 
-    $color = NULL;
+    $colorno = NULL;
     if (isset($_POST['colorno']) && strlen($_POST['colorno']) > 0) {
         $colorno = (int) $_POST['colorno'];
     }

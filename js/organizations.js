@@ -342,6 +342,11 @@ class Organization extends BasicCRUD {
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a data-toggle="tab" href="#org_${value.orgno}_working_location_tabpane" class="nav-link">
+                                        <span>Working Location</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a data-toggle="tab" href="#org_${value.orgno}_module_tabpane" class="nav-link">
                                         <span>Employees</span>
                                     </a>
@@ -382,6 +387,10 @@ class Organization extends BasicCRUD {
                                             </div>
                                         </form>
                                     </fieldset>
+                                </div>
+
+                                <div class="tab-pane" id="org_${value.orgno}_working_location_tabpane" role="tabpanel">
+
                                 </div>
 
                                 <div class="tab-pane" id="org_${value.orgno}_module_tabpane" role="tabpanel">
@@ -1016,7 +1025,7 @@ function show_userorg_detail(data, target) {
                     }
 
                     let working_locations = resp.results;
-                    display_user_working_ocation(working_locations, json.orgno);
+                    display_user_working_ocation(working_locations, json);
                 });
             });
         })(jQuery);
@@ -1120,7 +1129,7 @@ function get_user_working_locations(json) {
     });
 }
 
-function display_user_working_ocation(working_locations, orgno) {
+function display_user_working_ocation(working_locations, json) {
     let target = $(`#table_working_location tbody`).empty();
 
     $.each(working_locations, (i, loc) => {
@@ -1139,10 +1148,8 @@ function display_user_working_ocation(working_locations, orgno) {
             $(`.delete_button`, template).click(function (e) {
                 if (!confirm(`Your are going to delete this user working location. Are you sure to proceed?`)) return;
 
-                remove_userattlocset({
-                    orgno,
-                    attlocno: value.attlocno
-                });
+                json.attlocno = loc.attlocno;
+                remove_userattlocset(json);
             });
         })(jQuery);
     });
@@ -1176,7 +1183,10 @@ function setup_user_workinglocation(json) {
                 }
 
                 let working_locations = resp.results;
-                display_user_working_ocation(working_locations, json.orgno);
+                display_user_working_ocation(working_locations, {
+                    orgno: json.orgno,
+                    userno: json.userno
+                });
             });
         }
     }, `json`);
@@ -1188,6 +1198,17 @@ function remove_userattlocset(json) {
             toastr.error(resp.message);
         } else {
             toastr.success(resp.message);
+
+            delete json.attlocno;
+            get_user_working_locations(json).then((resp) => {
+                if (resp.error) {
+                    toastr.warning(resp.message);
+                    return;
+                }
+
+                let working_locations = resp.results;
+                display_user_working_ocation(working_locations, json);
+            });
         }
     }, `json`);
 }

@@ -450,7 +450,7 @@ class Organization extends BasicCRUD {
                                                         <th>Work load & Salary</th>
                                                         <th>Shift</th>
                                                         <th style="width:75px;min-width:75px;">Validity</th>
-                                                        <th style="width:60px;min-width:60px;">Action</th>
+                                                        <th style="width:134px;min-width:134px;">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="userorg_info_tbody"></tbody>
@@ -987,7 +987,7 @@ function show_userorg_detail(data, target) {
                             Edit
                         </button>
                         <button class="user_workinglocation mx-1 my-1 btn btn-sm btn-warning custom_shadow" type="button" title="Restrict working location">
-                            Restrict Working Location
+                            Working Location
                         </button>` : ``}
                 </td>
             </tr>`)

@@ -32,7 +32,7 @@
 			<?php include_once("sidebar.php"); ?>
 
 			<div class="app-main__outer">
-				<div class="app-main__inner pt-3 pl-0 pr-3">
+				<div class="app-main__inner pt-3 pl-3 pl-lg-0 pr-3">
 
 					<div class="card mb-3">
 						<div class="card-header d-flex justify-content-between">
@@ -502,7 +502,7 @@
 	</script>
 
 
-<iframe src="voucher.php" id="iView" style="width: 100% !important;height: calc(800px - 0px);border:dotted 1px red" frameborder="0"></iframe>
+	<iframe src="voucher.php" id="iView" style="width: 100% !important;height: calc(800px - 0px);border:dotted 1px red" frameborder="0"></iframe>
 
 </body>
 

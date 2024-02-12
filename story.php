@@ -1492,8 +1492,8 @@ date_default_timezone_set("Asia/Dhaka");
 
 					let shortCard = $(`<div class="card card-body${cardClass} cursor-pointer p-2 my-3 short_card_${value.backlogno}" style="border-radius:15px;">
 							<div class="d-flex flex-wrap justify-content-between align-items-center">
-								<div>${value.story}</div>
-								<div class="d-flex flex-wrap align-items-center">
+								<div class="mb-1">${value.story}</div>
+								<div class="d-flex flex-wrap justify-content-end align-items-center">
 									${lastDeadline.length ? `<div class="font-weight-bold mr-1">${formatDate(lastDeadline)}</div>` : ``}
 									${lastProgress ? `<div class="${progressClass}shadow-sm rounded px-2 py-1 mr-1" title="${lastProgress.result || ``}">
 											${lastProgress.statustitle}

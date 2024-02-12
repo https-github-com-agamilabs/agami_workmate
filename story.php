@@ -28,6 +28,12 @@ date_default_timezone_set("Asia/Dhaka");
 			cursor: not-allowed;
 		}
 
+		.large_card_header {
+			width: -webkit-fill-available;
+			width: -moz-available;
+			width: fill-available;
+		}
+
 		.sidebar_right {
 			position: relative;
 			width: 100%;

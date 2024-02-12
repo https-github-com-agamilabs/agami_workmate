@@ -93,7 +93,7 @@ CREATE TABLE emp_workingtime(
 	empno int NOT NULL,
 	workfor int DEFAULT NULL,
 	starttime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	endtime DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+	endtime DATETIME DEFAULT NULL,
 	comment varchar(511) DEFAULT NULL,
 	isaccepted int DEFAULT 0,
 	PRIMARY KEY(timeno),

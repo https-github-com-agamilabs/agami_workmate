@@ -3,23 +3,24 @@
     "nav-title": "Welcome to <span>Hi, Workmate! </span>",
     "about": "HiWorkmate can make your business more transparent and more profitable. <br> 🕒 Effortless Time Tracking: Monitor your work hours seamlessly and gain valuable insights into your daily, weekly, and monthly activities. Say goodbye to manual timekeeping and embrace the simplicity of automated tracking! <br> 📅 Task Management Simplified: Easily create, assign, and prioritize tasks with our intuitive interface. Collaborate effortlessly with your team, ensuring everyone stays on track and meets deadlines with ease.",
     "subscription": "Community blog may help solving your frequent problems.",
-    "network":[
-            {
-                "icon":"fa fb",
-                "link":""
-            },
-            {
-                "icon":"fa twitter",
-                "link":""
-            },
-            {
-                "icon":"fa youtube",
-                "link":""
-            },{
-                "icon":"fa scribe",
-                "link":""
-            }
-        ],
+    "network": [
+        {
+            "icon": "fa fb",
+            "link": ""
+        },
+        {
+            "icon": "fa twitter",
+            "link": ""
+        },
+        {
+            "icon": "fa youtube",
+            "link": ""
+        },
+        {
+            "icon": "fa scribe",
+            "link": ""
+        }
+    ],
     "head-carousel": [
         {
             "imageurl": "https://smartacc.agamilabs.com/assets/image/background/bg01.webp",
@@ -59,52 +60,52 @@
             "description": "Tired of juggling multiple tasks and losing track of time? Unlock the potential of your workday with HiWorkmate. Join today!",
             "list": [
                 {
-                    "icon": "fas fa-user-md",
+                    "icon": "fas fa-location-arrow",
                     "title": "Access anytime, any where",
                     "short-description": "Embrace the flexibility of cloud-based technology. Access your data anytime, anywhere, and never worry about losing important information."
                 },
                 {
-                    "icon": "fas fa-prescription",
+                    "icon": "fas fa-user-tie",
                     "title": "Effortless Time Tracking",
                     "short-description": "Monitor your work hours seamlessly and gain valuable insights into your daily, weekly, and monthly activities. Say goodbye to manual timekeeping and embrace the simplicity of automated tracking!"
                 },
                 {
-                    "icon": "icon-medicine-2",
+                    "icon": "fas fa-clock",
                     "title": "Real-Time Tracking",
                     "short-description": "Stay on top of your schedule with our real-time tracking feature. Know exactly where your time goes and make every minute count!"
                 },
                 {
-                    "icon": "icon-medicine",
+                    "icon": "fas fa-tasks",
                     "title": "Task Management Simplified",
                     "short-description": "Easily create, assign, and prioritize tasks with our intuitive interface. Collaborate effortlessly with your team, ensuring everyone stays on track and meets deadlines with ease."
                 },
                 {
-                    "icon": "fas fa-blog",
+                    "icon": "fas fa-chart-pie",
                     "title": "Performance Analytics",
                     "short-description": "Dive into detailed analytics to understand your workflow better. Identify bottlenecks, track project progress, and make informed decisions to enhance overall efficiency."
                 },
                 {
-                    "icon": "icon-medicine-2",
+                    "icon": "fas fa-mobile-alt",
                     "title": "Mobile Accessibility",
                     "short-description": "Stay productive on the go! Our software is accessible from anywhere, allowing you to track time and manage tasks whether you're in the office, at home, or on a business trip."
                 },
                 {
-                    "icon": "icon-medicine-2",
+                    "icon": "fab fa-autoprefixer",
                     "title": "Automated Reminders",
                     "short-description": "Never miss a deadline again! HiWorkmate sends automated reminders, keeping you on track and ensuring you meet every milestone."
                 },
                 {
-                    "icon": "icon-medicine-2",
+                    "icon": "fas fa-chart-line",
                     "title": "Automated KPI",
                     "short-description": "Track your progress with detailed performance reports. Identify your strengths, address weaknesses, and elevate your productivity game."
                 },
                 {
-                    "icon": "icon-medicine-2",
+                    "icon": "fas fa-heart",
                     "title": "One-Click Favorites",
                     "short-description": "Instantly mark your most important tasks or projects as favorites with a single click. Keep your priorities in focus and make progress effortlessly."
                 },
                 {
-                    "icon": "fas fa-user-nurse",
+                    "icon": "fas fa-shield-alt",
                     "title": "Safe & secure",
                     "short-description": "Rest easy knowing your data is secure with our robust security measures. We prioritize the confidentiality and integrity of your information. "
                 }

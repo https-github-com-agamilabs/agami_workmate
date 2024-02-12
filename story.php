@@ -1471,12 +1471,33 @@ date_default_timezone_set("Asia/Dhaka");
 						priorityClass = `bg-success text-white `;
 					}
 
+					let scheduleHTML = ``;
+					if (schedule.length) {
+						$.each(schedule, (_i, valueOfSchedule) => {
+							let progressTitle = ``;
+							if (valueOfSchedule.progress.length) {
+								let lastProgress = valueOfSchedule.progress[valueOfSchedule.progress.length - 1];
+								progressTitle = `: ${lastProgress.statustitle} (${lastProgress.percentile}%)`;
+							}
+
+							let image = `<img src="${valueOfSchedule.photo_url || `assets/image/user_icon.png`}"
+									class="rounded-circle custom_shadow" style="width:40px;"
+									title="${valueOfSchedule.assignee}${progressTitle}" alt="${valueOfSchedule.assignee}">`;
+
+							scheduleHTML += image;
+						});
+
+						scheduleHTML = `<div>${scheduleHTML}</div>`
+					}
+
 					let shortCard = $(`<div class="card card-body${cardClass} cursor-pointer p-2 my-3 short_card_${value.backlogno}" style="border-radius:15px;">
 							<div class="d-flex flex-wrap justify-content-between align-items-center">
 								<div>${value.story}</div>
 								<div class="d-flex flex-wrap align-items-center">
 									${lastDeadline.length ? `<div class="font-weight-bold mr-1">${formatDate(lastDeadline)}</div>` : ``}
-									${lastProgress ? `<div class="${progressClass}shadow-sm rounded px-2 py-1 mr-1">${lastProgress.statustitle}</div>` : ``}
+									${lastProgress ? `<div class="${progressClass}shadow-sm rounded px-2 py-1 mr-1" title="${lastProgress.result || ``}">
+											${lastProgress.statustitle}
+										</div>` : ``}
 									<div class="${priorityClass}font-weight-bold h6 text-center border rounded-circle shadow-sm pt-2 mb-0 mr-1"
 										style="width:40px;height:40px;padding-top:6px;" title="${value.priorityleveltitle} (${value.relativepriority})">
 										${value.relativepriority}
@@ -1494,10 +1515,7 @@ date_default_timezone_set("Asia/Dhaka");
 											</div>
 										</div>
 									</div>
-									${schedule.length ? `<div class="">
-											${schedule.map(a => `<img src="${a.photo_url || `assets/image/user_icon.png`}"
-												class="rounded-circle custom_shadow" style="width:40px;" title="${a.assignee}" alt="${a.assignee}">`).join(``)}
-										</div>` : ``}
+									${scheduleHTML}
 								</div>
 							</div>
 						</div>`)

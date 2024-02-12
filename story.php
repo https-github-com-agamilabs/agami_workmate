@@ -176,8 +176,8 @@ date_default_timezone_set("Asia/Dhaka");
 
 	<style>
 		.progress {
-			width: 40px;
-			height: 40px;
+			width: 35px;
+			height: 35px;
 			background: none;
 			position: relative;
 		}
@@ -1481,7 +1481,7 @@ date_default_timezone_set("Asia/Dhaka");
 							}
 
 							let image = `<img src="${valueOfSchedule.photo_url || `assets/image/user_icon.png`}"
-									class="rounded-circle custom_shadow" style="width:40px;"
+									class="rounded-circle custom_shadow" style="width:35px;"
 									title="${valueOfSchedule.assignee}${progressTitle}" alt="${valueOfSchedule.assignee}">`;
 
 							scheduleHTML += image;
@@ -1499,7 +1499,7 @@ date_default_timezone_set("Asia/Dhaka");
 											${lastProgress.statustitle}
 										</div>` : ``}
 									<div class="${priorityClass}font-weight-bold h6 text-center border rounded-circle shadow-sm pt-2 mb-0 mr-1"
-										style="width:40px;height:40px;padding-top:6px;" title="${value.priorityleveltitle} (${value.relativepriority})">
+										style="width:35px;height:35px;padding-top:6px;" title="${value.priorityleveltitle} (${value.relativepriority})">
 										${value.relativepriority}
 									</div>
 									<div class="progress mr-1" data-value="0">

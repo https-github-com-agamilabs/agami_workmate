@@ -173,6 +173,78 @@ date_default_timezone_set("Asia/Dhaka");
 			padding-bottom: 0;
 		}
 	</style>
+
+	<style>
+		.progress {
+			width: 40px;
+			height: 40px;
+			background: none;
+			position: relative;
+		}
+
+		.progress::after {
+			content: "";
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+			border: 2px solid #eee;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		.progress>span {
+			width: 50%;
+			height: 100%;
+			overflow: hidden;
+			position: absolute;
+			top: 0;
+			z-index: 1;
+		}
+
+		.progress .progress-left {
+			left: 0;
+		}
+
+		.progress .progress-bar {
+			width: 100%;
+			height: 100%;
+			background: none;
+			border-width: 2px;
+			border-style: solid;
+			position: absolute;
+			top: 0;
+		}
+
+		.progress .progress-left .progress-bar {
+			left: 100%;
+			border-top-right-radius: 80px;
+			border-bottom-right-radius: 80px;
+			border-left: 0;
+			-webkit-transform-origin: center left;
+			transform-origin: center left;
+		}
+
+		.progress .progress-right {
+			right: 0;
+		}
+
+		.progress .progress-right .progress-bar {
+			left: -100%;
+			border-top-left-radius: 80px;
+			border-bottom-left-radius: 80px;
+			border-right: 0;
+			-webkit-transform-origin: center right;
+			transform-origin: center right;
+		}
+
+		.progress .progress-value {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+	</style>
+
 </head>
 
 <body>
@@ -183,7 +255,7 @@ date_default_timezone_set("Asia/Dhaka");
 			<?php include_once("sidebar.php"); ?>
 
 			<div class="app-main__outer">
-				<div class="app-main__inner pt-3 pl-0 pr-3">
+				<div class="app-main__inner pt-3 pl-3 pl-lg-0 pr-3">
 
 					<div class="card mb-3" style="border-radius: 15px">
 						<div class="card-body py-2">
@@ -512,7 +584,7 @@ date_default_timezone_set("Asia/Dhaka");
 		}, 500);
 
 		//get_channels_available_task();
-		get_channel_task_detail();
+		// get_channel_task_detail();
 
 		function get_channel_task_detail(pageno = 1) {
 			// if (pageno == 1) {
@@ -996,12 +1068,12 @@ date_default_timezone_set("Asia/Dhaka");
 
 		function get_header(value) {
 			return `<div class="d-flex justify-content-between px-3 py-2">
-						<div class="d-flex flex-row align-items-center">
+						<div class="d-flex flex-row align-items-center large_card_header">
 							<img class='rounded-semi-circle mr-2' src="${value.photo_url||"assets/image/user_icon.png"}" width="40">
 							<div class="d-flex flex-column">
 								<div class="d-flex flex-wrap align-items-center">
 									<div class="mr-2" style='font-weight: bold;font-family: monospace;color:black'>${value.postedby || value.assignedby || ``}</div>
-									<div class="small">${value.storytype == 3 ? `${value.priorityleveltitle} (${value.relativepriority})`:``}</div>
+									<div class="small">${value.storytype == 3 ? `${value.priorityleveltitle} (${value.relativepriority})` : ``}</div>
 								</div>
 								<small class="mr-2">
 									${value.storytime ? formatDateTime(value.storytime) : ``}
@@ -1346,7 +1418,7 @@ date_default_timezone_set("Asia/Dhaka");
 					}
 				}
 
-				let card = $(`<div class="card task-card my-3 ${cardClass} ${bgClass}" style='border-radius:15px;'>
+				let card = $(`<div class="card task-card my-3 ${cardClass} ${bgClass}" style="border-radius:15px;">
 						${get_header(value)}
 						${get_body(value)}
 						<hr class='my-0 py-2'/>
@@ -1359,7 +1431,128 @@ date_default_timezone_set("Asia/Dhaka");
 					</div>`)
 					.appendTo(targetContainer);
 
+				if (value.storytype == 3) {
+					let schedule = value.schedule.length ? value.schedule : [];
+					let deadlines = schedule.length ? schedule[schedule.length - 1].deadlines : [];
+					let lastDeadline = deadlines.map(a => a.deadline).reduce((a, d) => a && new Date(a) > new Date(d) ? a : d, ``);
+
+					let progress = schedule.length ? schedule[schedule.length - 1].progress : [];
+					let lastProgress = progress.length ? progress[progress.length - 1] : null;
+
+					let cardClass = ``;
+					let progressClass = ``;
+
+					if (!lastProgress) {} else if (lastProgress.wstatusno == 4) {
+						cardClass = ` border-left border-danger card-shadow-danger`;
+						progressClass = `bg-danger text-white `;
+					} else if (lastProgress.wstatusno == 3) {
+						if (deadlines && deadlines.length > 1) {
+							cardClass = ` border-left border-warning card-shadow-warning`;
+							progressClass = `bg-warning `;
+						} else {
+							cardClass = ` border-left border-success card-shadow-success`;
+							progressClass = `bg-success text-white `;
+						}
+					} else if (lastProgress.wstatusno == 2) {
+						cardClass = ` border-left border-info card-shadow-info`;
+						progressClass = `bg-info text-white `;
+					}
+
+					let priorityClass = ``;
+					if (value.prioritylevelno == 1) {
+						priorityClass = `bg-danger text-white `;
+					} else if (value.prioritylevelno == 2) {
+						priorityClass = `alert-danger `;
+					} else if (value.prioritylevelno == 3) {
+						priorityClass = `bg-warning `;
+					} else if (value.prioritylevelno == 4) {
+						priorityClass = `alert-success `;
+					} else if (value.prioritylevelno == 5) {
+						priorityClass = `bg-success text-white `;
+					}
+
+					let shortCard = $(`<div class="card card-body${cardClass} cursor-pointer p-2 my-3 short_card_${value.backlogno}" style="border-radius:15px;">
+							<div class="d-flex flex-wrap justify-content-between align-items-center">
+								<div>${value.story}</div>
+								<div class="d-flex flex-wrap align-items-center">
+									${lastDeadline.length ? `<div class="font-weight-bold mr-1">${formatDate(lastDeadline)}</div>` : ``}
+									${lastProgress ? `<div class="${progressClass}shadow-sm rounded px-2 py-1 mr-1">${lastProgress.statustitle}</div>` : ``}
+									<div class="${priorityClass}font-weight-bold h6 text-center border rounded-circle shadow-sm pt-2 mb-0 mr-1"
+										style="width:40px;height:40px;padding-top:6px;" title="${value.priorityleveltitle} (${value.relativepriority})">
+										${value.relativepriority}
+									</div>
+									<div class="progress mr-1" data-value="0">
+										<span class="progress-left">
+											<span class="progress-bar border-primary"></span>
+										</span>
+										<span class="progress-right">
+											<span class="progress-bar border-primary"></span>
+										</span>
+										<div class="progress-value w-100 he-100 rounded-circle d-flex align-items-center justify-content-center">
+											<div class="font-weight-bold">
+												<span class="task_progress_value">0</span><sup class="small">%</sup>
+											</div>
+										</div>
+									</div>
+									${schedule.length ? `<div class="">
+											${schedule.map(a => `<img src="${a.photo_url || `assets/image/user_icon.png`}"
+												class="rounded-circle custom_shadow" style="width:40px;" title="${a.assignee}" alt="${a.assignee}">`).join(``)}
+										</div>` : ``}
+								</div>
+							</div>
+						</div>`)
+						.appendTo(targetContainer);
+
+					setProgress(lastProgress ? lastProgress.percentile : 0, $(`.progress`, shortCard));
+					card.hide();
+
+					(function($) {
+						// shortCard.dblclick(function(e) {
+						// 	shortCard.hide();
+						// 	card.show();
+						// });
+
+						let touchtime = 0;
+						shortCard.on("click", function() {
+							if (touchtime == 0) {
+								// set first click
+								touchtime = new Date().getTime();
+							} else {
+								// compare first click to this click and see if they occurred within double click threshold
+								if (((new Date().getTime()) - touchtime) < 800) {
+									// double click occurred
+									shortCard.hide();
+									card.show();
+									touchtime = 0;
+								} else {
+									// not a double click so set as a new first click
+									touchtime = new Date().getTime();
+								}
+							}
+						});
+					})(jQuery);
+				}
+
 				(function($) {
+					let touchtime = 0;
+					$(`.large_card_header`, card).on("click", function() {
+						if (touchtime == 0) {
+							// set first click
+							touchtime = new Date().getTime();
+						} else {
+							// compare first click to this click and see if they occurred within double click threshold
+							if (((new Date().getTime()) - touchtime) < 800) {
+								// double click occurred
+								card.hide();
+								$(`.short_card_${value.backlogno}`, targetContainer).show();
+								touchtime = 0;
+							} else {
+								// not a double click so set as a new first click
+								touchtime = new Date().getTime();
+							}
+						}
+					});
+
 					$(`.assign_task_button`, card).click(function(e) {
 						$(`#assign_task_modal`).modal("show");
 						let form = $(`#assign_task_modal_form`).trigger("reset").data(`backlogno`, value.backlogno).data(`cblscheduleno`, -1);
@@ -1546,6 +1739,32 @@ date_default_timezone_set("Asia/Dhaka");
 						}
 					});
 				})(jQuery);
+			});
+		}
+
+		function percentageToDegrees(percentage) {
+			return percentage / 100 * 360;
+		}
+
+		function setProgress(progress = 0, target) {
+			if (progress < 0) {
+				progress = 0;
+			}
+
+			target.attr(`data-value`, progress);
+			$(`.task_progress_value`, target).html(progress);
+
+			target.each(function() {
+				let left = $(this).find(`.progress-left .progress-bar`);
+				let right = $(this).find(`.progress-right .progress-bar`);
+
+				if (progress <= 50) {
+					right.css(`transform`, `rotate(${percentageToDegrees(progress)}deg)`);
+					left.css(`transform`, `rotate(0deg)`);
+				} else {
+					right.css(`transform`, `rotate(180deg)`);
+					left.css(`transform`, `rotate(${percentageToDegrees(progress - 50)}deg)`);
+				}
 			});
 		}
 

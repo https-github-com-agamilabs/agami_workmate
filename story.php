@@ -1068,7 +1068,7 @@ date_default_timezone_set("Asia/Dhaka");
 
 		function get_header(value) {
 			return `<div class="d-flex justify-content-between px-3 py-2">
-						<div class="d-flex flex-row align-items-center large_card_header">
+						<div class="d-flex flex-row align-items-center large_card_header cursor-pointer">
 							<img class='rounded-semi-circle mr-2' src="${value.photo_url||"assets/image/user_icon.png"}" width="40">
 							<div class="d-flex flex-column">
 								<div class="d-flex flex-wrap align-items-center">

@@ -517,7 +517,10 @@
 
     function formatDate(date) {
         date = new Date(date);
-        return date.getDate().toString().padStart(2, 0) + "-" + (date.getMonth() + 1).toString().padStart(2, 0) + "-" + date.getFullYear();
+        let month_short = date.toLocaleString('default', {
+            month: 'short'
+        });
+        return `${padZero(date.getDate())} ${month_short} ${date.getFullYear()}`;
     }
 
     function formatTime(timeString = "00:00:00") {

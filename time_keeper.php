@@ -63,7 +63,7 @@
 			<?php include_once("sidebar.php"); ?>
 
 			<div class="app-main__outer">
-				<div class="app-main__inner pt-3 pl-0 pr-3">
+				<div class="app-main__inner pt-3 pl-3 pl-lg-0 pr-3">
 
 					<div id="top_div">
 						<div class="d-flex flex-wrap-reverse justify-content-between p-2">

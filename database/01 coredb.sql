@@ -87,7 +87,7 @@ CREATE TABLE msg_channelmember(
 	CONSTRAINT fk_channelmember_userno FOREIGN KEY(userno) REFERENCES hr_user(userno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- emp_workingtime(timeno,empno,workfor,starttime,endtime,comment,isaccepted)
+-- emp_workingtime(timeno,empno,workfor,starttime,endtime,comment,isaccepted,attlat,attlon)
 CREATE TABLE emp_workingtime(
 	timeno int AUTO_INCREMENT,
 	empno int NOT NULL,

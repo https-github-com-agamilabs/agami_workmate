@@ -125,7 +125,7 @@
         date_default_timezone_set("Asia/Dhaka");
         $now = date("Y-m-d H:i:s");
         $sql = "INSERT INTO emp_workingtime(
-                                orgno,empno,workfor,starttime,endtime,loclat,loclon
+                                orgno,empno,workfor,starttime,endtime,attlat,attlon
                             )
                 VALUES(?, ?,?,?,NULL,?,?)";
         $stmt = $dbcon->prepare($sql);

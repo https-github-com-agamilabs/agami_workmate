@@ -50,6 +50,8 @@
                 $workfor=(int) $_POST['workfor'];
             }
 
+            $loclat=NULL;
+            $loclon=NULL;
             if(isset($_POST['loclat']) && isset($_POST['loclon'])){
                 $is_allowed=false;
                 $loclat = (double) $_POST['loclat'];

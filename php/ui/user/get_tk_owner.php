@@ -76,7 +76,7 @@
                 ORDER BY userno DESC";
 
         $stmt = $dbcon->prepare($sql);
-        //$stmt->bind_param("i", $userno);
+        $stmt->bind_param("i", $orgno);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

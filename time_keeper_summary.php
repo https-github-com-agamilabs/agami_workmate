@@ -155,7 +155,7 @@
 
 			$.post(`php/ui/user/get_tk_owner.php`, resp => {
 				if (resp.error) {
-					toastr.error(resp.message);
+					//toastr.error(resp.message);
 				} else {
 					show_tk_owner(resp.results);
 				}

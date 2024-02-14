@@ -65,12 +65,13 @@ $dbcon->close();
 //com_orgs (orgno, orgname, street, city, state, country, gpslat, gpslon, orgtypeid, privacy, picurl, contactno, orgnote, weekend1, weekend2, starttime, endtime, verifiedno)
 //com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,permissionlevel,dailyworkinghour,timeflexibility,shiftno,starttime,endtime,isactive)
 //com_modules(moduleno,moduletitle)
+//hr_usercat(ucatno, ucattitle)
 function get_info_organization($dbcon, $userno, $orgno)
 {
 
     $sql = "SELECT 
                 uo.uuid,
-                uo.ucatno,
+                uo.ucatno,(SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
                 uo.moduleno,(SELECT moduletitle FROM com_modules WHERE moduleno=uo.moduleno) as moduletitle,
                 uo.designation,uo.hourlyrate,uo.monthlysalary,uo.permissionlevel,uo.dailyworkinghour,
                 uo.timeflexibility,

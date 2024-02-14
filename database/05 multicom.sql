@@ -120,7 +120,7 @@ CREATE TABLE com_shiftsettings (
 
 -- Time Flexibility: 1 (Flexible), 2 (Encourage Scheduling), 3 (Strict Time-frame)
 INSERT INTO com_shiftsettings(shiftno,shifttitle,starttime,endtime) VALUES
-(1,'One Shift','09:00:00','18:00:00'),
+(1,'Only','09:00:00','18:00:00'),
 (2,'3S: Morning Shift','06:00:00','14:00:00'),
 (3,'3S: Day Shift','14:00:00','22:00:00'),
 (4,'3S: Night Shift','22:00:00','06:00:00'),
@@ -153,7 +153,7 @@ CREATE TABLE com_userorg (
     CONSTRAINT fk_userorg_orgno FOREIGN KEY (orgno) REFERENCES com_orgs (orgno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorg_moduleno FOREIGN KEY (moduleno) REFERENCES com_modules (moduleno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorg_ucatno FOREIGN KEY(ucatno) REFERENCES hr_usercat(ucatno) ON UPDATE CASCADE,
-    CONSTRAINT fk_userorg_supervisor FOREIGN KEY(orgno,supervisor) REFERENCES com_userorg(orgno,userno) ON UPDATE CASCADE,
+    CONSTRAINT fk_userorg_supervisor FOREIGN KEY(supervisor) REFERENCES com_userorg(userno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorg_timeflexibility FOREIGN KEY (timeflexibility) REFERENCES com_timeflexsettings (timeflexno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorg_shiftno FOREIGN KEY (shiftno) REFERENCES com_shiftsettings (shiftno) ON UPDATE CASCADE,
     CONSTRAINT fk_userorg_userno FOREIGN KEY (userno) REFERENCES hr_user (userno) ON UPDATE CASCADE
@@ -246,3 +246,6 @@ ADD CONSTRAINT fk_watchlist_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno)
 ALTER TABLE asp_storyphase
 ADD COLUMN orgno int DEFAULT NULL,
 ADD CONSTRAINT fk_storyphase_orgno FOREIGN KEY (orgno) REFERENCES com_orgs(orgno) ON UPDATE CASCADE;
+
+-- ALTER TABLE com_userorg
+-- CONSTRAINT fk_userorg_supervisor FOREIGN KEY(supervisor) REFERENCES hr_user(userno) ON UPDATE CASCADE

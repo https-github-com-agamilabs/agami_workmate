@@ -25,6 +25,12 @@
         //cblscheduleno,backlogno,howto,takentime,scheduledate,userno
         //$userno=1;
 
+        if(!isset($_SESSION['wm_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['wm_orgno'];
+        }
+
         $cblscheduleno=-1;
         if (isset($_POST['cblscheduleno'])) {
             $cblscheduleno = (int) $_POST['cblscheduleno'];
@@ -100,6 +106,9 @@
                     $dbcon->rollback();
                     throw new \Exception("Deadline Error! Cannot Update Schedule.", 1);
                 }
+
+                $wno=insert_watchlist($dbcon, $assignedto,$backlogno, $orgno);
+
                 $response['error'] = false;
                 $response['message'] = "Schedule is Successfully Added.";
             }else{
@@ -186,5 +195,22 @@
         $result=$stmt->affected_rows;
         $stmt->close();
         return $result;
+    }
+
+    // asp_watchlist(userno,backlogno,createtime)
+    function insert_watchlist($dbcon, $userno,$backlogno, $orgno)
+    {
+        date_default_timezone_set("Asia/Dhaka");
+        $createtime = date('Y-m-d H:i:s');
+
+        $sql = "INSERT INTO asp_watchlist(orgno,userno,backlogno,createtime)
+                VALUES(?,?,?,?)";
+        $stmt = $dbcon->prepare($sql);
+        if ($dbcon->error) {
+            echo $dbcon->error;
+        }
+        $stmt->bind_param("iiis", $orgno,$userno,$backlogno, $createtime);
+        $stmt->execute();
+        return $stmt->affected_rows;
     }
 

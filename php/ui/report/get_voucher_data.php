@@ -164,13 +164,13 @@
 
     function get_workfor_info($dbcon, $orgno,$workfor)
     {
-        $sql = "SELECT u.userno,uo.uuid,firstname,lastname,affiliation,jobtitle,uo.designation,email,primarycontact
+        $sql = "SELECT u.userno,uo.uuid,u.firstname,u.lastname,u.affiliation,u.jobtitle,uo.designation,u.email,u.primarycontact
                 FROM hr_user as u
                     INNER JOIN (
                         SELECT userno,uuid, designation
                         FROM com_userorg 
                         WHERE orgno=? AND userno=?) as uo ON u.userno=uo.userno
-                WHERE userno=?";
+                WHERE u.userno=?";
         $stmt = $dbcon->prepare($sql);
         $stmt->bind_param("iii", $orgno,$workfor,$workfor);
         $stmt->execute();

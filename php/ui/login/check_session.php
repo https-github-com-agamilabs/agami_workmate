@@ -24,11 +24,11 @@ if (!isset($_SESSION['wm_userno'])) {
 
 if (isset($_SESSION['wm_ucatno'])) {
 	$ucatno = $_SESSION['wm_ucatno'];
+	$my_permissionlevel = $_SESSION['wm_permissionlevel'];
+	$orgno = $_SESSION['wm_orgno'];
 }
 
 $userno = $_SESSION['wm_userno'];
-$orgno = $_SESSION['wm_orgno'];
 
-$my_permissionlevel = $_SESSION['wm_permissionlevel'];
 
 ?>

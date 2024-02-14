@@ -19,6 +19,12 @@
             throw new \Exception("Database is not connected!", 1);
         }
 
+        if(!isset($_SESSION['wm_orgno'])){
+            throw new \Exception("You must select an organization!", 1);
+        }else{
+            $orgno= (int) $_SESSION['wm_orgno'];
+        }
+
         $ucatno=-1;
         if (isset($_POST['ucatno'])) {
             $ucatno = (int) $_POST['ucatno'];
@@ -39,7 +45,7 @@
             $selected_user = $userno;
         }
 
-        $list = get_all_users($dbcon, $ucatno, $selected_user, $isactive);
+        $list = get_all_users($dbcon, $orgno, $ucatno, $selected_user, $isactive);
 
         if ($list->num_rows > 0) {
             $meta_array = array();
@@ -67,7 +73,7 @@
     *   LOCAL FUNCTIONS
     */
 
-    function get_all_users($dbcon, $ucatno, $selected_user, $isactive){
+    function get_all_users($dbcon, $orgno, $ucatno, $selected_user, $isactive){
 
         $params = array();
         $types = "";
@@ -102,7 +108,9 @@
                         uo.permissionlevel,uo.designation,
                         createtime,lastupdatetime,u.isactive
                 FROM hr_user as u
-                    INNER JOIN com_userorg as uo ON u.userno=uo.userno
+                    INNER JOIN (SELECT *
+                                FROM com_userorg
+                                WHERE orgno=$orgno) as uo ON u.userno=uo.userno
                 $dataset
                 ORDER BY u.isactive DESC,u.userno DESC";
 

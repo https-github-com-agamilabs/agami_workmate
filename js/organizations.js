@@ -927,15 +927,16 @@ function get_userorg_detail(json, target) {
 function show_userorg_detail(data, target) {
     target.data(`userorg_detail`, data);
     let isOwner = data.find(a => a.userno == USERNO && a.permissionlevel == 7 && a.ucatno == 19);
+    let regex_time = /\d\d[:]\d\d/g;
 
     $.each(data, (index, value) => {
         let shift = value.shifttitle || ``;
         if (value.starttime && value.endtime) {
-            shift += ` <span class="text-nowrap">[${value.starttime} - ${value.endtime}]</span>`;
+            shift += ` <span class="text-nowrap">[${value.starttime.match(regex_time)} - ${value.endtime.match(regex_time)}]</span>`;
         } else if (value.starttime) {
-            shift += ` <span class="text-nowrap">Start: ${value.starttime}</span>`;
+            shift += ` <span class="text-nowrap">Start: ${value.starttime.match(regex_time)}</span>`;
         } else if (value.endtime) {
-            shift += ` <span class="text-nowrap">End: ${value.endtime}</span>`;
+            shift += ` <span class="text-nowrap">End: ${value.endtime.match(regex_time)}</span>`;
         }
 
         let permissionlevel = ``;
@@ -959,24 +960,28 @@ function show_userorg_detail(data, target) {
                     </div>
                     ${value.designation ? `<div>Designation: ${value.designation}</div>` : ``}
                     ${value.uuid ? `<div>ID: ${value.uuid}</div>` : ``}
-                    ${value.ucattitle ? `<div>Role: ${value.ucattitle}</div>` : ``}
-                    ${permissionlevel.length ? `<div>Permission Level: ${permissionlevel}</div>` : ``}
+                    ${value.ucattitle ? `<div>Role: ${value.ucattitle}; Permission : ${permissionlevel}</div>` : ``}
+                    
                 </td>
                 <td>
-                    ${value.moduletitle ? `<div>Module: <span class="text-nowrap">${value.moduletitle}</span></div>` : ``}
+                    ${value.moduletitle ? `<div><span class="text-nowrap">${value.moduletitle}</span></div>` : ``}
                     ${value.supervisor_name ? `<div>Supervisor: <span class="text-nowrap">${value.supervisor_name}</span></div>` : ``}
                 </td>
                 <td>
                     ${value.dailyworkinghour ? `<div class="text-nowrap">${value.dailyworkinghour}Hour / Day</div>` : ``}
-                    ${value.hourlyrate ? `<div class="text-nowrap">${value.hourlyrate} / Hour</div>` : ``}
-                    ${value.monthlysalary ? `<div class="text-nowrap">${value.monthlysalary} / Month</div>` : ``}
+                    <div class="text-nowrap">
+                    ${value.hourlyrate ? `${value.hourlyrate} / Hour ` : ``}
+                    ${value.monthlysalary ? ` ${value.monthlysalary} / Month ` : ``}
+                    </div>
                     ${value.timeflextitle ? `<span class="badge badge-alternate" style="text-transform:none;">${value.timeflextitle}</span>` : ``}
                 </td>
                 <td>
-                    ${value.timezone ? `<div class="text-center mb-1">
-                        <span class="badge badge-info" style="text-transform:none;">${value.timezone}</span>
-                    </div>` : ``}
+                    
+                    ${value.timezone ? `
+                    <div class="text-center mb-1"><span class="badge badge-info" style="text-transform:none;">${value.timezone}</span></div>
+                    ` : ``}
                     ${shift}
+                    
                 </td>
                 <td class="text-center">
                     ${value.userno != USERNO && isOwner ? `<button class="toggle_userorg_button btn btn-sm ${value.isactive == 1 ? `btn-danger` : `btn-success`} ripple custom_shadow"

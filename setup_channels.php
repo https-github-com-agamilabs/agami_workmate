@@ -161,7 +161,7 @@
 						toastr.error(resp.message);
 					} else {
 						toastr.success(resp.message);
-						get_list_of_channels();
+						//get_list_of_channels();
 						// $(`#setup_channel_members_modal_form [name="channelno"]`).val(channelno);
 						// $("#setup_channel_members_modal").modal("hide");
 					}
@@ -182,7 +182,7 @@
 						toastr.error(resp.message);
 					} else {
 						toastr.success(resp.message);
-						get_list_of_channels();
+						//get_list_of_channels();
 						// $(`#setup_channel_members_modal_form [name="channelno"]`).val(channelno);
 						// $("#setup_channel_members_modal").modal("hide");
 					}

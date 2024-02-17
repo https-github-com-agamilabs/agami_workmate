@@ -646,10 +646,10 @@ class Organization extends BasicCRUD {
                         let purchaseno = packageSelect.val();
                         let aPackage = $(`option:selected`, packageSelect).data();
 
-                        if (!aPackage) {
-                            toastr.error(`You don't have any valid package. Please buy a new package.`);
-                            return;
-                        }
+                        // if (!aPackage) {
+                        //     toastr.error(`You don't have any valid package. Please buy a new package.`);
+                        //     return;
+                        // }
 
                         let userorgDetail = userOrgInfoTbody.data(`userorg_detail`);
                         let usedQty = userorgDetail ? userorgDetail.length : 1;

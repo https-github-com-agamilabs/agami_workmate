@@ -60,9 +60,8 @@ function get_my_package_usability($dbcon,$orgno,$userno)
                     WHERE orgno=?
                         AND (CURRENT_DATE() BETWEEN DATE(starttime) AND DATE(DATE_ADD(starttime, INTERVAL duration DAY)))
                     ) as ap ON po.purchaseno=ap.purchaseno
-            WHERE po.foruserno=?
             ";
-
+    //            WHERE po.foruserno=?
     $stmt = $dbcon->prepare($sql);
     $stmt->bind_param("ii", $orgno,$userno);
     $stmt->execute();

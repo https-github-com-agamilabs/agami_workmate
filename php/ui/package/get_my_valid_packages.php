@@ -15,23 +15,27 @@ require_once dirname(dirname(__FILE__)) . "/dependency_checker.php";
 
 try {
 
-    if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {
-        $orgno = (int) $_POST['orgno'];
-    } else {
-        throw new Exception("Organization must be selected", 1);
-    }
-
-    $rs_packages = get_my_package_usability($dbcon,$orgno,$userno);
-
-    if ($rs_packages->num_rows > 0) {
-        $meta_array = array();
-        while ($row = $rs_packages->fetch_array(MYSQLI_ASSOC)) {
-            $meta_array[] = $row;
+    if($ucatno==19){
+        if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {
+            $orgno = (int) $_POST['orgno'];
+        } else {
+            throw new Exception("Organization must be selected", 1);
         }
-        $response['error'] = false;
-        $response['results'] = $meta_array;
-    } else {
-        throw new \Exception("No Valid Package Found!", 1);
+    
+        $rs_packages = get_my_package_usability($dbcon,$orgno);
+    
+        if ($rs_packages->num_rows > 0) {
+            $meta_array = array();
+            while ($row = $rs_packages->fetch_array(MYSQLI_ASSOC)) {
+                $meta_array[] = $row;
+            }
+            $response['error'] = false;
+            $response['results'] = $meta_array;
+        } else {
+            throw new \Exception("No Valid Package Found!", 1);
+        }
+    }else{
+        throw new \Exception("You don't have enough permission!", 1);
     }
 } catch (Exception $e) {
     $response['error'] = true;
@@ -47,7 +51,7 @@ $dbcon->close();
 //pack_offer(offerno, offertitle, offerdetail,users, duration, rate, tag, is_coupon_applicable, validuntil)
 //pack_offeritems(offerno,item,qty)
 //pack_appliedpackage(appliedno,purchaseno,orgno,users,starttime, duration,appliedat, appliedby)
-function get_my_package_usability($dbcon,$orgno,$userno)
+function get_my_package_usability($dbcon,$orgno)
 {
     $sql = "SELECT po.purchaseno,
                     po.offerno,(SELECT offertitle FROM pack_offer WHERE offerno=po.offerno) as offertitle,
@@ -63,7 +67,7 @@ function get_my_package_usability($dbcon,$orgno,$userno)
             ";
     //            WHERE po.foruserno=?
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("ii", $orgno,$userno);
+    $stmt->bind_param("i", $orgno);
     $stmt->execute();
     $result = $stmt->get_result();
     $stmt->close();

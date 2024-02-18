@@ -32,15 +32,39 @@
             throw new \Exception("No Member Selected!", 1);
         }
 
-
-        $nos=insert_channelmember($dbcon, $channelno, $userno);
-        if($nos>0){
-            $response['error'] = false;
-            $response['message'] = "Member is Added to a Channel/Project.";
+        $rs_subchannels = get_subchannels($dbcon, $channelno);
+        if($rs_subchannels->num_rows>0){
+            $dbcon->begin_transaction();
+            $count=0;
+            while ($scrow = $rs_subchannels->fetch_array(MYSQLI_ASSOC)) {
+                $schannelno=$scrow['channelno'];
+                $nos=insert_channelmember($dbcon, $channelno, $userno);
+                if($nos>0){
+                    $count++;
+                }
+            }
+            $dbcon->commit();
+            if($rs_subchannels->num_rows == $count){
+                $response['error'] = false;
+                $response['message'] = "Member is Added to all sub-channels/project.";
+            }else if($count>0){
+                $response['error'] = false;
+                $response['message'] = "Member is dded to ".$count." of ".$rs_subchannels->num_rows." sub-channels/project.";
+            }else{
+                $response['error'] = true;
+                $response['message'] = "Cannot a member to any sub-channels/project!";
+            }
         }else{
-            $response['error'] = true;
-            $response['message'] = "Cannot Add Member to a Channel/Project!";
+            $nos=insert_channelmember($dbcon, $channelno, $userno);
+            if($nos>0){
+                $response['error'] = false;
+                $response['message'] = "Member is Added to a Channel/Project.";
+            }else{
+                $response['error'] = true;
+                $response['message'] = "Cannot Add Member to a Channel/Project!";
+            }
         }
+
     } catch (Exception $e) {
         $response['error'] = true;
         $response['message'] = $e->getMessage();
@@ -53,6 +77,21 @@
     /**
      * Local Function
      */
+
+    //msg_channel(channelno,channeltitle,parentchannel)
+    function get_subchannels($dbcon, $channelno){
+
+        $sql = "SELECT channelno
+                FROM msg_channel
+                WHERE parentchannel=?";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("i", $channelno);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
 
     function insert_channelmember($dbcon, $channelno, $userno){
 

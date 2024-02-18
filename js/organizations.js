@@ -669,7 +669,14 @@ class Organization extends BasicCRUD {
                                 userOrgInfoTbody
                             });
 
-                        let supervisorSelect = $(`[name="supervisor"]`, form).empty().append(`<option value="">Select...</option>`);
+                        let supervisorSelect = $(`[name="supervisor"]`, form);
+                        if(!supervisorSelect.length){
+                            supervisorSelect.empty().append(`<option value="">Select...</option>`);
+                        }else{
+                            alert('Supervisor not found!');
+                            return;
+                        }
+
                         console.log($(`tr`, userOrgInfoTbody));
                         $(`tr`, userOrgInfoTbody).each((index, elem) => {
                             let userOrg = $(elem).data();
@@ -1023,7 +1030,14 @@ function show_userorg_detail(data, target) {
                         userOrgInfoTbody: target
                     });
 
-                let supervisorSelect = $(`[name="supervisor"]`, form).empty().append(`<option value="">Select...</option>`);
+                let supervisorSelect = $(`[name="supervisor"]`, form);
+                if(!supervisorSelect.length){
+                    supervisorSelect.empty().append(`<option value="">Select...</option>`)
+                }else{
+                    alert('Supervisor not found!');
+                    return;
+                }
+                
                 $.each(data, (_i, userOrg) => {
                     $(`<option value="${userOrg.userno}">
                             ${userOrg.firstname}

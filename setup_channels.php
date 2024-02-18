@@ -242,7 +242,8 @@
 				let actionCell = $("<td>").attr("class", "border-left-0");
 				let actionDiv = $("<div>").attr("class", "d-flex justify-content-end p-0").appendTo(actionCell);
 
-				if (value.parentchannel) {
+				// value.parentchannel
+				if (true) {
 					let memberButton = $("<button>")
 						.append(`<i class="far fa-edit"></i>`)
 						.appendTo(actionDiv)

@@ -38,9 +38,11 @@
             $count=0;
             while ($scrow = $rs_subchannels->fetch_array(MYSQLI_ASSOC)) {
                 $schannelno=$scrow['channelno'];
-                $nos=insert_channelmember($dbcon, $channelno, $userno);
-                if($nos>0){
-                    $count++;
+                if(!is_exists_channelmember($dbcon, $channelno,$userno)){
+                    $nos=insert_channelmember($dbcon, $channelno, $userno);
+                    if($nos>0){
+                        $count++;
+                    }
                 }
             }
             $dbcon->commit();
@@ -91,6 +93,21 @@
         $stmt->close();
 
         return $result;
+    }
+
+    //msg_channelmember(channelno, userno, entrytime)
+    function is_exists_channelmember($dbcon, $channelno,$userno){
+
+        $sql = "SELECT entrytime
+                FROM msg_channelmember
+                WHERE channelno=? AND userno=?";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("ii", $channelno,$userno);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result->num_rows;
     }
 
     function insert_channelmember($dbcon, $channelno, $userno){

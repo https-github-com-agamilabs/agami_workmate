@@ -37,9 +37,9 @@
             $dbcon->begin_transaction();
             $count=0;
             while ($scrow = $rs_subchannels->fetch_array(MYSQLI_ASSOC)) {
-                $schannelno=$scrow['channelno'];
-                if(!is_exists_channelmember($dbcon, $channelno,$userno)){
-                    $nos=insert_channelmember($dbcon, $channelno, $userno);
+                $subchannelno=$scrow['channelno'];
+                if(!is_exists_channelmember($dbcon, $subchannelno,$userno)){
+                    $nos=insert_channelmember($dbcon, $subchannelno, $userno);
                     if($nos>0){
                         $count++;
                     }

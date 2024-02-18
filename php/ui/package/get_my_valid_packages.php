@@ -15,7 +15,7 @@ require_once dirname(dirname(__FILE__)) . "/dependency_checker.php";
 
 try {
 
-    if($ucatno==19){
+    if($_SESSION['wm_ucatno']==19){
         if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {
             $orgno = (int) $_POST['orgno'];
         } else {

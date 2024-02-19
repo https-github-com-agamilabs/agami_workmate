@@ -52,43 +52,43 @@
     }
 
     .bg-percent-55 {
-        background-color: lightgreen !important;
+        background-color: #f4db00 !important;
     }
 
     .bg-percent-60 {
-        background-color: lightcoral !important;
+        background-color: #e9df00 !important;
     }
 
     .bg-percent-65 {
-        background-color: lightsalmon !important;
+        background-color: #dce400 !important;
     }
 
     .bg-percent-70 {
-        background-color: lightseagreen !important;
+        background-color: #cee800 !important;
     }
 
     .bg-percent-75 {
-        background-color: lightsteelblue !important;
+        background-color: #bfec00 !important;
     }
 
     .bg-percent-80 {
-        background-color: lightskyblue !important;
+        background-color: #aef000 !important;
     }
 
     .bg-percent-85 {
-        background-color: lightyellow !important;
+        background-color: #9bf400 !important;
     }
 
     .bg-percent-90 {
-        background-color: mediumaquamarine !important;
+        background-color: #85f800 !important;
     }
 
     .bg-percent-95 {
-        background-color: mediumorchid !important;
+        background-color: #69fc00 !important;
     }
 
     .bg-percent-100 {
-        background-color: mediumspringgreen !important;
+        background-color: #42ff00 !important;
     }
 </style>
 

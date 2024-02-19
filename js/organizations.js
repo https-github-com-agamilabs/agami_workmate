@@ -659,7 +659,7 @@ class Organization extends BasicCRUD {
                             return;
                         }
 
-                        $(`#userorg_setup_modal`).modal(`show`).html(`Create User Organization`);
+                        $(`#userorg_setup_modal`).modal(`show`).find(`.modal-title`).html(`Create User Organization`);
                         let form = $(`#userorg_setup_modal_form`)
                             .trigger(`reset`)
                             .data({
@@ -669,23 +669,16 @@ class Organization extends BasicCRUD {
                                 userOrgInfoTbody
                             });
 
-                        let supervisorSelect = $(`[name="supervisor"]`, form);
-                        if(!supervisorSelect.length){
-                            supervisorSelect.empty().append(`<option value="">Select...</option>`);
-                        }else{
-                            alert('Supervisor not found!');
-                            return;
-                        }
+                        let supervisorSelect = $(`[name="supervisor"]`, form).empty().append(`<option value="">Select...</option>`);
 
-                        console.log($(`tr`, userOrgInfoTbody));
                         $(`tr`, userOrgInfoTbody).each((index, elem) => {
                             let userOrg = $(elem).data();
                             if (userOrg && userOrg.userno > 0) {
                                 $(`<option value="${userOrg.userno}">
-                                                        ${userOrg.firstname}
-                                                        ${userOrg.lastname || ``}
-                                                        [${userOrg.username}]
-                                                    </option>`)
+                                        ${userOrg.firstname}
+                                        ${userOrg.lastname || ``}
+                                        [${userOrg.username}]
+                                    </option>`)
                                     .appendTo(supervisorSelect);
                             }
                         });
@@ -758,7 +751,7 @@ const organization = new Organization({
 
 organization.get();
 
-$(`.lat_lon_button`).click(function() {
+$(`.lat_lon_button`).click(function () {
     let form = $(this).parents(`form`);
     get_lat_lon(form);
 });
@@ -968,7 +961,7 @@ function show_userorg_detail(data, target) {
                     ${value.designation ? `<div>Designation: ${value.designation}</div>` : ``}
                     ${value.uuid ? `<div>ID: ${value.uuid}</div>` : ``}
                     ${value.ucattitle ? `<div>Role: ${value.ucattitle}; Permission : ${permissionlevel}</div>` : ``}
-                    
+
                 </td>
                 <td>
                     ${value.moduletitle ? `<div><span class="text-nowrap">${value.moduletitle}</span></div>` : ``}
@@ -983,12 +976,12 @@ function show_userorg_detail(data, target) {
                     ${value.timeflextitle ? `<span class="badge badge-alternate" style="text-transform:none;">${value.timeflextitle}</span>` : ``}
                 </td>
                 <td>
-                    
+
                     ${value.timezone ? `
                     <div class="text-center mb-1"><span class="badge badge-info" style="text-transform:none;">${value.timezone}</span></div>
                     ` : ``}
                     ${shift}
-                    
+
                 </td>
                 <td class="text-center">
                     ${value.userno != USERNO && isOwner ? `<button class="toggle_userorg_button btn btn-sm ${value.isactive == 1 ? `btn-danger` : `btn-success`} ripple custom_shadow"
@@ -1030,15 +1023,13 @@ function show_userorg_detail(data, target) {
                         userOrgInfoTbody: target
                     });
 
-                let supervisorSelect = $(`[name="supervisor"]`, form);
-                if(!supervisorSelect.length){
-                    supervisorSelect.empty().append(`<option value="">Select...</option>`)
-                }else{
-                    alert('Supervisor not found!');
-                    return;
-                }
-                
+                let supervisorSelect = $(`[name="supervisor"]`, form).empty().append(`<option value="">Select...</option>`);
+
                 $.each(data, (_i, userOrg) => {
+                    if (userOrg.userno == value.userno) {
+                        return true;
+                    }
+
                     $(`<option value="${userOrg.userno}">
                             ${userOrg.firstname}
                             ${userOrg.lastname || ``}

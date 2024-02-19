@@ -8,87 +8,87 @@
 
 <style>
     .bg-percent-0 {
-        background-color: #ff0000 !important;
+        border-color: #ff0000 !important;
     }
 
     .bg-percent-5 {
-        background-color: #ff3900 !important;
+        border-color: #ff3900 !important;
     }
 
     .bg-percent-10 {
-        background-color: #ff5600 !important;
+        border-color: #ff5600 !important;
     }
 
     .bg-percent-15 {
-        background-color: #ff6c00 !important;
+        border-color: #ff6c00 !important;
     }
 
     .bg-percent-20 {
-        background-color: #ff7e00 !important;
+        border-color: #ff7e00 !important;
     }
 
     .bg-percent-25 {
-        background-color: #ff8f00 !important;
+        border-color: #ff8f00 !important;
     }
 
     .bg-percent-30 {
-        background-color: #ff9e00 !important;
+        border-color: #ff9e00 !important;
     }
 
     .bg-percent-35 {
-        background-color: #ffad00 !important;
+        border-color: #ffad00 !important;
     }
 
     .bg-percent-40 {
-        background-color: #ffbc00 !important;
+        border-color: #ffbc00 !important;
     }
 
     .bg-percent-45 {
-        background-color: #ffcb00 !important;
+        border-color: #ffcb00 !important;
     }
 
     .bg-percent-50 {
-        background-color: #ffd900 !important;
+        border-color: #ffd900 !important;
     }
 
     .bg-percent-55 {
-        background-color: #f4db00 !important;
+        border-color: #f4db00 !important;
     }
 
     .bg-percent-60 {
-        background-color: #e9df00 !important;
+        border-color: #e9df00 !important;
     }
 
     .bg-percent-65 {
-        background-color: #dce400 !important;
+        border-color: #dce400 !important;
     }
 
     .bg-percent-70 {
-        background-color: #cee800 !important;
+        border-color: #cee800 !important;
     }
 
     .bg-percent-75 {
-        background-color: #bfec00 !important;
+        border-color: #bfec00 !important;
     }
 
     .bg-percent-80 {
-        background-color: #aef000 !important;
+        border-color: #aef000 !important;
     }
 
     .bg-percent-85 {
-        background-color: #9bf400 !important;
+        border-color: #9bf400 !important;
     }
 
     .bg-percent-90 {
-        background-color: #85f800 !important;
+        border-color: #85f800 !important;
     }
 
     .bg-percent-95 {
-        background-color: #69fc00 !important;
+        border-color: #69fc00 !important;
     }
 
     .bg-percent-100 {
-        background-color: #42ff00 !important;
+        border-color: #42ff00 !important;
     }
 </style>
 
@@ -433,40 +433,32 @@
         const my_watchlist = $('.my_watchlist').empty();
 
         $.each(result, function(index, elm) {
+            let tpl = $(`<div class="card mt-1" style="border-radius:10px 0px 0 10px;">
+                    <div class='card-body pl-2 pr-2 py-2'>
+                        <div style='color:black;'>
+                            <i class='cursor-pointer remove_watch_list fa fa-window-close text-danger'></i> ${elm.channeltitle}
+                        </div>
+                        <div style='font-size:10px;' title='${elm.story||""}'>
+                            ${(elm.story || ``).substr(0, 100)} ${elm.story.length > 100 ? "..." : ""}
+                        </div>
+                        <div class='card-footer pt-2 pb-0 px-0 w-100' style='overflow-x: auto;'>
+                        ${elm.schedule_progress.map((prg, i)=>{
+                            let percentile = (Math.round( ( prg.percentile || 0 ) % 101 / 10 ) * 10).toFixed(0);
 
-
-            let tpl = $('<div>')
-                .attr({
-                    'class': 'card mt-1',
-                    'style': 'border-radius:10px 0px 0 10px;'
-                })
-                .append(`
-            <div class='card-body pl-2 pr-2 py-2'>
-                <div style='color:black;'>
-                    <i class='cursor-pointer remove_watch_list fa fa-window-close text-danger'></i> ${elm.channeltitle}
-                </div>
-                <div style='font-size:10px;' title='${elm.story||""}'>
-                    ${(elm.story||"").substr(0, 100)} ${elm.story.length>100?"...":""}
-                </div>
-                <div class='card-footer pt-2 pb-0 px-0 w-100' style='overflow-x: auto;'>
-                ${elm.schedule_progress.map((prg, i)=>{
-                    let percentile = (Math.round( ( prg.percentile || 0 ) % 101 / 10 ) * 10).toFixed(0);
-
-                    return `
-                    <div class='mr-1'>
-                        <a class='position-relative cursor-pointer' title='${prg.assignee}'>
-                            <div class='bg-percent-${percentile} rounded-circle' style='width:34px; height:34px;'></div>
-                            <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>
-                        </a>
-                        <div style='font-size:10px;' class='text-center'>${prg.percentile||0}%</div>
+                            return `
+                            <div class='mr-1'>
+                                <a class='position-relative cursor-pointer' title='${prg.assignee}'>
+                                    <div class='bg-percent-${percentile} rounded-circle' style='width:34px; height:34px;'></div>
+                                    <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>
+                                </a>
+                                <div style='font-size:10px;' class='text-center'>${prg.percentile||0}%</div>
+                            </div>`;
+                        }).join("")}
+                        ${elm.schedule_progress.length==0?"<i>No progress yet!</i>":""}
+                        </div>
                     </div>
-
-                    `;
-                }).join("")}
-                ${elm.schedule_progress.length==0?"<i>No progress yet!</i>":""}
-                </div>
-            </div>`);
-            my_watchlist.append(tpl);
+                </div>`)
+                .appendTo(my_watchlist);
 
             (function() {
                 $('.remove_watch_list', tpl).click(function() {
@@ -477,8 +469,6 @@
                     }
                 });
             })();
-
-
         });
     }
 

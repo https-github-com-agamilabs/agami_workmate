@@ -1194,8 +1194,6 @@ date_default_timezone_set("Asia/Dhaka");
 					delay = delayedDate(today, start);
 				}
 
-
-
 				tpl.push(`
 						<div class="single_schedule w-100 px-2 py-2 ${cardClass}" id='collapse_parent_${aSchedule.cblscheduleno}'>
 							<div class='d-flex flex-wrap justify-content-between'>
@@ -1481,19 +1479,31 @@ date_default_timezone_set("Asia/Dhaka");
 					if (schedule.length) {
 						$.each(schedule, (_i, valueOfSchedule) => {
 							let progressTitle = ``;
+							let lastProgress;
 							if (valueOfSchedule.progress.length) {
-								let lastProgress = valueOfSchedule.progress[valueOfSchedule.progress.length - 1];
+								lastProgress = valueOfSchedule.progress[valueOfSchedule.progress.length - 1];
 								progressTitle = `: ${lastProgress.statustitle} (${lastProgress.percentile}%)`;
 							}
 
-							let image = `<img src="${valueOfSchedule.photo_url || `assets/image/user_icon.png`}"
-									class="rounded-circle custom_shadow" style="width:35px;"
-									title="${valueOfSchedule.assignee}${progressTitle}" alt="${valueOfSchedule.assignee}">`;
+							let progressHTML = `<div class="progress mr-1" data-value="${lastProgress ? lastProgress.percentile : 0}" title="${valueOfSchedule.assignee}${progressTitle}">
+										<span class="progress-left">
+											<span class="progress-bar border-primary"></span>
+										</span>
+										<span class="progress-right">
+											<span class="progress-bar border-primary"></span>
+										</span>
+										<div class="progress-value w-100 he-100 rounded-circle d-flex align-items-center justify-content-center">
+											<div class="font-weight-bold">
+												<img src="${valueOfSchedule.photo_url || `assets/image/user_icon.png`}"
+													class="rounded-circle" style="width:31px;" alt="${valueOfSchedule.assignee}">
+											</div>
+										</div>
+									</div>`;
 
-							scheduleHTML += image;
+							scheduleHTML += progressHTML;
 						});
 
-						scheduleHTML = `<div>${scheduleHTML}</div>`
+						scheduleHTML = `<div class="d-flex">${scheduleHTML}</div>`
 					}
 
 					let shortCard = $(`<div class="card card-body${cardClass} cursor-pointer p-2 my-3 short_card_${value.backlogno}" style="border-radius:15px;">
@@ -1508,26 +1518,12 @@ date_default_timezone_set("Asia/Dhaka");
 										style="width:35px;height:35px;padding-top:6px;" title="${value.priorityleveltitle} (${value.relativepriority})">
 										${value.relativepriority}
 									</div>
-									<div class="progress mr-1" data-value="0">
-										<span class="progress-left">
-											<span class="progress-bar border-primary"></span>
-										</span>
-										<span class="progress-right">
-											<span class="progress-bar border-primary"></span>
-										</span>
-										<div class="progress-value w-100 he-100 rounded-circle d-flex align-items-center justify-content-center">
-											<div class="font-weight-bold">
-												<span class="task_progress_value">0</span><sup class="small">%</sup>
-											</div>
-										</div>
-									</div>
 									${scheduleHTML}
 								</div>
 							</div>
 						</div>`)
 						.appendTo(targetContainer);
 
-					setProgress(lastProgress ? lastProgress.percentile : 0, $(`.progress`, shortCard));
 					card.hide();
 
 					(function($) {
@@ -1764,23 +1760,24 @@ date_default_timezone_set("Asia/Dhaka");
 					});
 				})(jQuery);
 			});
+
+			setProgress();
 		}
 
 		function percentageToDegrees(percentage) {
 			return percentage / 100 * 360;
 		}
 
-		function setProgress(progress = 0, target) {
-			if (progress < 0) {
-				progress = 0;
-			}
+		function setProgress() {
+			$(`.progress`).each(function(_i, elem) {
+				let progress = Number($(elem).attr(`data-value`)) || 0;
 
-			target.attr(`data-value`, progress);
-			$(`.task_progress_value`, target).html(progress);
+				if (progress < 0) {
+					progress = 0;
+				}
 
-			target.each(function() {
-				let left = $(this).find(`.progress-left .progress-bar`);
-				let right = $(this).find(`.progress-right .progress-bar`);
+				let left = $(elem).find(`.progress-left .progress-bar`);
+				let right = $(elem).find(`.progress-right .progress-bar`);
 
 				if (progress <= 50) {
 					right.css(`transform`, `rotate(${percentageToDegrees(progress)}deg)`);

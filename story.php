@@ -1217,7 +1217,7 @@ date_default_timezone_set("Asia/Dhaka");
 																		<i data-cblprogressno="${b.cblprogressno}" class="progress_delete_button fas fa-times cursor-pointer"></i>
 																	</div>
 																</div>
-																<div class="progress ml-2 mt-1" style="width:111px;">
+																<div class="progress ml-2 my-1" style="width:111px;">
 																	<div class="progress-bar ${percentileClass}" role="progressbar" aria-valuenow="${b.percentile || 0}" aria-valuemin="0"
 																		aria-valuemax="100" style="width:${b.percentile || 0}%;">${b.percentile || 0}%</div>
 																</div>

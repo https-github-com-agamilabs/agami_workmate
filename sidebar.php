@@ -7,14 +7,14 @@
 </style>
 
 <style>
-    .progress {
+    .progress-circle {
         width: 40px;
         height: 40px;
         background: none;
         position: relative;
     }
 
-    .progress::after {
+    .progress-circle::after {
         content: "";
         width: 100%;
         height: 100%;
@@ -25,7 +25,7 @@
         left: 0;
     }
 
-    .progress>span {
+    .progress-circle>span {
         width: 50%;
         height: 100%;
         overflow: hidden;
@@ -34,11 +34,11 @@
         z-index: 1;
     }
 
-    .progress .progress-left {
+    .progress-circle .progress-left {
         left: 0;
     }
 
-    .progress .progress-bar {
+    .progress-circle .progress-bar {
         width: 100%;
         height: 100%;
         background: none;
@@ -48,7 +48,7 @@
         top: 0;
     }
 
-    .progress .progress-left .progress-bar {
+    .progress-circle .progress-left .progress-bar {
         left: 100%;
         border-top-right-radius: 80px;
         border-bottom-right-radius: 80px;
@@ -57,11 +57,11 @@
         transform-origin: center left;
     }
 
-    .progress .progress-right {
+    .progress-circle .progress-right {
         right: 0;
     }
 
-    .progress .progress-right .progress-bar {
+    .progress-circle .progress-right .progress-bar {
         left: -100%;
         border-top-left-radius: 80px;
         border-bottom-left-radius: 80px;
@@ -70,7 +70,7 @@
         transform-origin: center right;
     }
 
-    .progress .progress-value {
+    .progress-circle .progress-value {
         position: absolute;
         top: 0;
         left: 0;
@@ -511,7 +511,7 @@
 
                     let percentileClass = `border-percent-${(Math.round((prog.percentile || 0) % 101 / 10) * 10).toFixed(0)}`;
 
-                    let progressHTML = `<div class="progress mr-1" data-value="${prog.percentile || 0}" title="${prog.assignee}${progressTitle}">
+                    let progressHTML = `<div class="progress-circle mr-1" data-value="${prog.percentile || 0}" title="${prog.assignee}${progressTitle}">
                             <span class="progress-left">
                                 <span class="progress-bar ${percentileClass}"></span>
                             </span>

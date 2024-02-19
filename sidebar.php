@@ -8,47 +8,47 @@
 
 <style>
     .bg-percent-0 {
-        background-color: red !important;
+        background-color: #ff0000 !important;
     }
 
     .bg-percent-5 {
-        background-color: orange !important;
+        background-color: #ff3900 !important;
     }
 
     .bg-percent-10 {
-        background-color: yellow !important;
+        background-color: #ff5600 !important;
     }
 
     .bg-percent-15 {
-        background-color: green !important;
+        background-color: #ff6c00 !important;
     }
 
     .bg-percent-20 {
-        background-color: blue !important;
+        background-color: #ff7e00 !important;
     }
 
     .bg-percent-25 {
-        background-color: indigo !important;
+        background-color: #ff8f00 !important;
     }
 
     .bg-percent-30 {
-        background-color: violet !important;
+        background-color: #ff9e00 !important;
     }
 
     .bg-percent-35 {
-        background-color: brown !important;
+        background-color: #ffad00 !important;
     }
 
     .bg-percent-40 {
-        background-color: gray !important;
+        background-color: #ffbc00 !important;
     }
 
     .bg-percent-45 {
-        background-color: pink !important;
+        background-color: #ffcb00 !important;
     }
 
     .bg-percent-50 {
-        background-color: lightblue !important;
+        background-color: #ffd900 !important;
     }
 
     .bg-percent-55 {
@@ -90,17 +90,16 @@
     .bg-percent-100 {
         background-color: mediumspringgreen !important;
     }
-
 </style>
 
 <style>
-    .card-body .remove_watch_list{
-        display:none;
+    .card-body .remove_watch_list {
+        display: none;
         transition: .3s all;
     }
 
-    .card-body:hover .remove_watch_list{
-        display:inline;
+    .card-body:hover .remove_watch_list {
+        display: inline;
     }
 </style>
 
@@ -160,7 +159,7 @@
                             <i class="metismenu-icon fas fa-play-circle"></i> Time Keeper
                         </a>
                     </li>
-                    <li  style="margin: -0.5rem 0;">
+                    <li style="margin: -0.5rem 0;">
                         <a href="time_keeper_summary.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-chart-bar"></i> Time Keeper Summary
                         </a>
@@ -402,7 +401,7 @@
 </script>
 
 <script>
-     function get_my_watchlist() {
+    function get_my_watchlist() {
         return new Promise((resolve, reject) => {
             let channel_data = $(`#watchlist_container`).data(`watchlist_data`);
 
@@ -430,15 +429,18 @@
         error => console.log(error)
     );
 
-    function show_watchlist(result){
+    function show_watchlist(result) {
         const my_watchlist = $('.my_watchlist').empty();
 
-        $.each(result, function(index, elm){
+        $.each(result, function(index, elm) {
 
 
             let tpl = $('<div>')
-            .attr({'class':'card mt-1', 'style':'border-radius:10px 0px 0 10px;'})
-            .append(`
+                .attr({
+                    'class': 'card mt-1',
+                    'style': 'border-radius:10px 0px 0 10px;'
+                })
+                .append(`
             <div class='card-body pl-2 pr-2 py-2'>
                 <div style='color:black;'>
                     <i class='cursor-pointer remove_watch_list fa fa-window-close text-danger'></i> ${elm.channeltitle}
@@ -466,8 +468,8 @@
             </div>`);
             my_watchlist.append(tpl);
 
-            (function(){
-                $('.remove_watch_list', tpl).click(function(){
+            (function() {
+                $('.remove_watch_list', tpl).click(function() {
                     if (confirm("Are you sure?")) {
                         remove_my_watchlist({
                             backlogno: elm.backlogno
@@ -481,44 +483,44 @@
     }
 
     function add_my_watchlist(json, parentContainer) {
-			$.post(`php/ui/watchlist/add_my_watchlist.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					toastr.success(resp.message);
-					$(parentContainer).next(`.fa-arrow-right`).remove();
-					$(parentContainer).remove();
-					let pageno = $("#task_manager_table_pageno_input").val();
-					get_channel_task_detail(pageno);
-					// get_channel_backlogs(pageno);
-				}
+        $.post(`php/ui/watchlist/add_my_watchlist.php`, json, resp => {
+            if (resp.error) {
+                toastr.error(resp.message);
+            } else {
+                toastr.success(resp.message);
+                $(parentContainer).next(`.fa-arrow-right`).remove();
+                $(parentContainer).remove();
+                let pageno = $("#task_manager_table_pageno_input").val();
+                get_channel_task_detail(pageno);
+                // get_channel_backlogs(pageno);
+            }
 
-				(get_my_watchlist()).then(
-					result => show_watchlist(result),
-					error => console.log(error)
-				);
-			}, `json`);
-		}
+            (get_my_watchlist()).then(
+                result => show_watchlist(result),
+                error => console.log(error)
+            );
+        }, `json`);
+    }
 
-		function remove_my_watchlist(json, parentContainer) {
-			$.post(`php/ui/watchlist/remove_my_watchlist.php`, json, resp => {
-				if (resp.error) {
-					toastr.error(resp.message);
-				} else {
-					toastr.success(resp.message);
-					$(parentContainer).next(`.fa-arrow-right`).remove();
-					$(parentContainer).remove();
-					let pageno = $("#task_manager_table_pageno_input").val();
-					get_channel_task_detail(pageno);
-					// get_channel_backlogs(pageno);
-				}
+    function remove_my_watchlist(json, parentContainer) {
+        $.post(`php/ui/watchlist/remove_my_watchlist.php`, json, resp => {
+            if (resp.error) {
+                toastr.error(resp.message);
+            } else {
+                toastr.success(resp.message);
+                $(parentContainer).next(`.fa-arrow-right`).remove();
+                $(parentContainer).remove();
+                let pageno = $("#task_manager_table_pageno_input").val();
+                get_channel_task_detail(pageno);
+                // get_channel_backlogs(pageno);
+            }
 
-				(get_my_watchlist()).then(
-					result => show_watchlist(result),
-					error => console.log(error)
-				);
-			}, `json`);
-		}
+            (get_my_watchlist()).then(
+                result => show_watchlist(result),
+                error => console.log(error)
+            );
+        }, `json`);
+    }
 </script>
 
 <script type="text/javascript">

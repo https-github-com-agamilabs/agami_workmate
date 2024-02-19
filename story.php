@@ -1216,6 +1216,10 @@ date_default_timezone_set("Asia/Dhaka");
 																		<i data-cblprogressno="${b.cblprogressno}" class="progress_delete_button fas fa-times cursor-pointer"></i>
 																	</div>
 																</div>
+																<div class="progress ml-2 mt-1" style="width:111px;">
+																	<div class="progress-bar" role="progressbar" aria-valuenow="${b.percentile || 0}" aria-valuemin="0"
+																		aria-valuemax="100" style="width:${b.percentile || 0}%;">${b.percentile || 0}%</div>
+																</div>
 															</div>`;
 
 													// return `<div class="media mb-3 bg-info border border-info ">
@@ -1418,7 +1422,7 @@ date_default_timezone_set("Asia/Dhaka");
 
 							let percentileClass = `border-percent-${(Math.round((lastProgress ? lastProgress.percentile : 0) % 101 / 10) * 10).toFixed(0)}`;
 
-							let progressHTML = `<div class="progress mr-1" data-value="${lastProgress ? lastProgress.percentile : 0}" title="${valueOfSchedule.assignee}${progressTitle}">
+							let progressHTML = `<div class="progress-circle mr-1" data-value="${lastProgress ? lastProgress.percentile : 0}" title="${valueOfSchedule.assignee}${progressTitle}">
 										<span class="progress-left">
 											<span class="progress-bar ${percentileClass}"></span>
 										</span>
@@ -1697,7 +1701,7 @@ date_default_timezone_set("Asia/Dhaka");
 		}
 
 		function setProgress() {
-			$(`.progress`).each(function(_i, elem) {
+			$(`.progress-circle`).each(function(_i, elem) {
 				let progress = Number($(elem).attr(`data-value`)) || 0;
 
 				if (progress < 0) {

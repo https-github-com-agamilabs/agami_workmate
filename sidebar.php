@@ -82,84 +82,168 @@
         border-color: #ff0000 !important;
     }
 
+    .bg-percent-0 {
+        background-color: #ff0000 !important;
+    }
+
     .border-percent-5 {
         border-color: #ff3900 !important;
+    }
+
+    .bg-percent-5 {
+        background-color: #ff3900 !important;
     }
 
     .border-percent-10 {
         border-color: #ff5600 !important;
     }
 
+    .bg-percent-10 {
+        background-color: #ff5600 !important;
+    }
+
     .border-percent-15 {
         border-color: #ff6c00 !important;
+    }
+
+    .bg-percent-15 {
+        background-color: #ff6c00 !important;
     }
 
     .border-percent-20 {
         border-color: #ff7e00 !important;
     }
 
+    .bg-percent-20 {
+        background-color: #ff7e00 !important;
+    }
+
     .border-percent-25 {
         border-color: #ff8f00 !important;
+    }
+
+    .bg-percent-25 {
+        background-color: #ff8f00 !important;
     }
 
     .border-percent-30 {
         border-color: #ff9e00 !important;
     }
 
+    .bg-percent-30 {
+        background-color: #ff9e00 !important;
+    }
+
     .border-percent-35 {
         border-color: #ffad00 !important;
+    }
+
+    .bg-percent-35 {
+        background-color: #ffad00 !important;
     }
 
     .border-percent-40 {
         border-color: #ffbc00 !important;
     }
 
+    .bg-percent-40 {
+        background-color: #ffbc00 !important;
+    }
+
     .border-percent-45 {
         border-color: #ffcb00 !important;
+    }
+
+    .bg-percent-45 {
+        background-color: #ffcb00 !important;
     }
 
     .border-percent-50 {
         border-color: #ffd900 !important;
     }
 
+    .bg-percent-50 {
+        background-color: #ffd900 !important;
+    }
+
     .border-percent-55 {
         border-color: #f4db00 !important;
+    }
+
+    .bg-percent-55 {
+        background-color: #f4db00 !important;
     }
 
     .border-percent-60 {
         border-color: #e9df00 !important;
     }
 
+    .bg-percent-60 {
+        background-color: #e9df00 !important;
+    }
+
     .border-percent-65 {
         border-color: #dce400 !important;
+    }
+
+    .bg-percent-65 {
+        background-color: #dce400 !important;
     }
 
     .border-percent-70 {
         border-color: #cee800 !important;
     }
 
+    .bg-percent-70 {
+        background-color: #cee800 !important;
+    }
+
     .border-percent-75 {
         border-color: #bfec00 !important;
+    }
+
+    .bg-percent-75 {
+        background-color: #bfec00 !important;
     }
 
     .border-percent-80 {
         border-color: #aef000 !important;
     }
 
+    .bg-percent-80 {
+        background-color: #aef000 !important;
+    }
+
     .border-percent-85 {
         border-color: #9bf400 !important;
+    }
+
+    .bg-percent-85 {
+        background-color: #9bf400 !important;
     }
 
     .border-percent-90 {
         border-color: #85f800 !important;
     }
 
+    .bg-percent-90 {
+        background-color: #85f800 !important;
+    }
+
     .border-percent-95 {
         border-color: #69fc00 !important;
     }
 
+    .bg-percent-95 {
+        background-color: #69fc00 !important;
+    }
+
     .border-percent-100 {
         border-color: #42ff00 !important;
+    }
+
+    .bg-percent-100 {
+        background-color: #42ff00 !important;
     }
 </style>
 

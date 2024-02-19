@@ -1485,12 +1485,14 @@ date_default_timezone_set("Asia/Dhaka");
 								progressTitle = `: ${lastProgress.statustitle} (${lastProgress.percentile}%)`;
 							}
 
+							let percentileClass = `bg-percent-${(Math.round((lastProgress ? lastProgress.percentile : 0) % 101 / 10) * 10).toFixed(0)}`;
+
 							let progressHTML = `<div class="progress mr-1" data-value="${lastProgress ? lastProgress.percentile : 0}" title="${valueOfSchedule.assignee}${progressTitle}">
 										<span class="progress-left">
-											<span class="progress-bar border-primary"></span>
+											<span class="progress-bar ${percentileClass}"></span>
 										</span>
 										<span class="progress-right">
-											<span class="progress-bar border-primary"></span>
+											<span class="progress-bar ${percentileClass}"></span>
 										</span>
 										<div class="progress-value w-100 he-100 rounded-circle d-flex align-items-center justify-content-center">
 											<div class="font-weight-bold">

@@ -1207,6 +1207,7 @@ date_default_timezone_set("Asia/Dhaka");
 											${aSchedule.progress.length
 												? aSchedule.progress
 													.map((b) => {
+														let percentileClass = `bg-percent-${(Math.round((b.percentile || 0) % 101 / 10) * 10).toFixed(0)}`;
 
 														return `<div class="progress_parent_div">
 																<div title='Time: ${formatDateTime(b.progresstime)}' style='min-width: 100px;' class='text-center border mx-2 pl-2 d-flex position-relative'>
@@ -1217,7 +1218,7 @@ date_default_timezone_set("Asia/Dhaka");
 																	</div>
 																</div>
 																<div class="progress ml-2 mt-1" style="width:111px;">
-																	<div class="progress-bar" role="progressbar" aria-valuenow="${b.percentile || 0}" aria-valuemin="0"
+																	<div class="progress-bar ${percentileClass}" role="progressbar" aria-valuenow="${b.percentile || 0}" aria-valuemin="0"
 																		aria-valuemax="100" style="width:${b.percentile || 0}%;">${b.percentile || 0}%</div>
 																</div>
 															</div>`;

@@ -78,87 +78,87 @@
 </style>
 
 <style>
-    .bg-percent-0 {
+    .border-percent-0 {
         border-color: #ff0000 !important;
     }
 
-    .bg-percent-5 {
+    .border-percent-5 {
         border-color: #ff3900 !important;
     }
 
-    .bg-percent-10 {
+    .border-percent-10 {
         border-color: #ff5600 !important;
     }
 
-    .bg-percent-15 {
+    .border-percent-15 {
         border-color: #ff6c00 !important;
     }
 
-    .bg-percent-20 {
+    .border-percent-20 {
         border-color: #ff7e00 !important;
     }
 
-    .bg-percent-25 {
+    .border-percent-25 {
         border-color: #ff8f00 !important;
     }
 
-    .bg-percent-30 {
+    .border-percent-30 {
         border-color: #ff9e00 !important;
     }
 
-    .bg-percent-35 {
+    .border-percent-35 {
         border-color: #ffad00 !important;
     }
 
-    .bg-percent-40 {
+    .border-percent-40 {
         border-color: #ffbc00 !important;
     }
 
-    .bg-percent-45 {
+    .border-percent-45 {
         border-color: #ffcb00 !important;
     }
 
-    .bg-percent-50 {
+    .border-percent-50 {
         border-color: #ffd900 !important;
     }
 
-    .bg-percent-55 {
+    .border-percent-55 {
         border-color: #f4db00 !important;
     }
 
-    .bg-percent-60 {
+    .border-percent-60 {
         border-color: #e9df00 !important;
     }
 
-    .bg-percent-65 {
+    .border-percent-65 {
         border-color: #dce400 !important;
     }
 
-    .bg-percent-70 {
+    .border-percent-70 {
         border-color: #cee800 !important;
     }
 
-    .bg-percent-75 {
+    .border-percent-75 {
         border-color: #bfec00 !important;
     }
 
-    .bg-percent-80 {
+    .border-percent-80 {
         border-color: #aef000 !important;
     }
 
-    .bg-percent-85 {
+    .border-percent-85 {
         border-color: #9bf400 !important;
     }
 
-    .bg-percent-90 {
+    .border-percent-90 {
         border-color: #85f800 !important;
     }
 
-    .bg-percent-95 {
+    .border-percent-95 {
         border-color: #69fc00 !important;
     }
 
-    .bg-percent-100 {
+    .border-percent-100 {
         border-color: #42ff00 !important;
     }
 </style>
@@ -509,7 +509,7 @@
                 $.each(elm.schedule_progress, (_i, prog) => {
                     let progressTitle = `: ${prog.statustitle} (${prog.percentile}%)`;
 
-                    let percentileClass = `bg-percent-${(Math.round((prog.percentile || 0) % 101 / 10) * 10).toFixed(0)}`;
+                    let percentileClass = `border-percent-${(Math.round((prog.percentile || 0) % 101 / 10) * 10).toFixed(0)}`;
 
                     let progressHTML = `<div class="progress mr-1" data-value="${prog.percentile || 0}" title="${prog.assignee}${progressTitle}">
                             <span class="progress-left">

@@ -167,83 +167,83 @@
     }
 
     .border-percent-55 {
-        border-color: #f4db00 !important;
+        border-color: #e9d70c !important;
     }
 
     .bg-percent-55 {
-        background-color: #f4db00 !important;
+        background-color: #e9d70c !important;
     }
 
     .border-percent-60 {
-        border-color: #e9df00 !important;
+        border-color: #d4d81c !important;
     }
 
     .bg-percent-60 {
-        background-color: #e9df00 !important;
+        background-color: #d4d81c !important;
     }
 
     .border-percent-65 {
-        border-color: #dce400 !important;
+        border-color: #bfd82a !important;
     }
 
     .bg-percent-65 {
-        background-color: #dce400 !important;
+        background-color: #bfd82a !important;
     }
 
     .border-percent-70 {
-        border-color: #cee800 !important;
+        border-color: #abd738 !important;
     }
 
     .bg-percent-70 {
-        background-color: #cee800 !important;
+        background-color: #abd738 !important;
     }
 
     .border-percent-75 {
-        border-color: #bfec00 !important;
+        border-color: #97d545 !important;
     }
 
     .bg-percent-75 {
-        background-color: #bfec00 !important;
+        background-color: #97d545 !important;
     }
 
     .border-percent-80 {
-        border-color: #aef000 !important;
+        border-color: #84d251 !important;
     }
 
     .bg-percent-80 {
-        background-color: #aef000 !important;
+        background-color: #84d251 !important;
     }
 
     .border-percent-85 {
-        border-color: #9bf400 !important;
+        border-color: #72d05d !important;
     }
 
     .bg-percent-85 {
-        background-color: #9bf400 !important;
+        background-color: #72d05d !important;
     }
 
     .border-percent-90 {
-        border-color: #85f800 !important;
+        border-color: #5fcc69 !important;
     }
 
     .bg-percent-90 {
-        background-color: #85f800 !important;
+        background-color: #5fcc69 !important;
     }
 
     .border-percent-95 {
-        border-color: #69fc00 !important;
+        border-color: #4dc873 !important;
     }
 
     .bg-percent-95 {
-        background-color: #69fc00 !important;
+        background-color: #4dc873 !important;
     }
 
     .border-percent-100 {
-        border-color: #42ff00 !important;
+        border-color: #3bc47d !important;
     }
 
     .bg-percent-100 {
-        background-color: #42ff00 !important;
+        background-color: #3bc47d !important;
     }
 </style>
 

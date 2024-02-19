@@ -21,8 +21,8 @@ try {
         throw new \Exception("Organization must be selected!", 1);
     }
 
-    if (isset($_POST['userno']) && strlen($_POST['userno']) > 0) {
-        $foruserno = (int) $_POST['userno'];
+    if (isset($_POST['foruserno']) && strlen($_POST['foruserno']) > 0) {
+        $foruserno = (int) $_POST['foruserno'];
     } else {
         throw new \Exception("User must be selected!", 1);
     }
@@ -49,7 +49,7 @@ try {
         throw new \Exception("Package must be selected!", 1);
     }
 
-    $anos = add_userorg($dbcon, $orgno, $foruserno, 
+    $anos = add_userorg($dbcon, $orgno, $foruserno,
                                 $uuid,$ucatno,$supervisor,$moduleno,
                                 $designation,$hourlyrate,$monthlyrate,$dailyworkinghour,
                                 $timeflexibility,$permissionlevel,$timezone,$shiftno,
@@ -73,7 +73,7 @@ $dbcon->close();
 //hr_user (userno,username,firstname,lastname,affiliation,jobtitle,email,countrycode,primarycontact,passphrase,authkey,userstatusno,ucreatedatetime,updatetime)
 //com_userorg (uono,orgno,userno,uuid,ucatno,supervisor,moduleno,designation,hourlyrate,monthlysalary,permissionlevel,
 //              dailyworkinghour,timeflexibility,shiftno,starttime,endtime,timezone,isactive)
-function add_userorg($dbcon, $orgno, $userno, 
+function add_userorg($dbcon, $orgno, $userno,
                             $uuid,$ucatno,$supervisor,$moduleno,
                             $designation,$hourlyrate,$monthlyrate,$dailyworkinghour,
                             $timeflexibility,$permissionlevel,$timezone,$shiftno,
@@ -90,7 +90,7 @@ function add_userorg($dbcon, $orgno, $userno,
         echo $dbcon->error;
     }
 
-    $stmt->bind_param("iisiiisddiiisiss", $orgno, $userno, 
+    $stmt->bind_param("iisiiisddiiisiss", $orgno, $userno,
                                         $uuid,$ucatno,$supervisor,$moduleno,
                                         $designation,$hourlyrate,$monthlyrate,$dailyworkinghour,
                                         $timeflexibility,$permissionlevel,$timezone,$shiftno,

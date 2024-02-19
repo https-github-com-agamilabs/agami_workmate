@@ -7,6 +7,77 @@
 </style>
 
 <style>
+    .progress {
+        width: 40px;
+        height: 40px;
+        background: none;
+        position: relative;
+    }
+
+    .progress::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 2px solid #eee;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .progress>span {
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        z-index: 1;
+    }
+
+    .progress .progress-left {
+        left: 0;
+    }
+
+    .progress .progress-bar {
+        width: 100%;
+        height: 100%;
+        background: none;
+        border-width: 2px;
+        border-style: solid;
+        position: absolute;
+        top: 0;
+    }
+
+    .progress .progress-left .progress-bar {
+        left: 100%;
+        border-top-right-radius: 80px;
+        border-bottom-right-radius: 80px;
+        border-left: 0;
+        -webkit-transform-origin: center left;
+        transform-origin: center left;
+    }
+
+    .progress .progress-right {
+        right: 0;
+    }
+
+    .progress .progress-right .progress-bar {
+        left: -100%;
+        border-top-left-radius: 80px;
+        border-bottom-left-radius: 80px;
+        border-right: 0;
+        -webkit-transform-origin: center right;
+        transform-origin: center right;
+    }
+
+    .progress .progress-value {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+</style>
+
+<style>
     .bg-percent-0 {
         border-color: #ff0000 !important;
     }
@@ -442,7 +513,7 @@
                             ${(elm.story || ``).substr(0, 100)} ${elm.story.length > 100 ? "..." : ""}
                         </div>
                         <div class='card-footer pt-2 pb-0 px-0 w-100' style='overflow-x: auto;'>
-                        ${elm.schedule_progress.map((prg, i)=>{
+                        ${elm.schedule_progress.map((prg, i) => {
                             let percentile = (Math.round( ( prg.percentile || 0 ) % 101 / 10 ) * 10).toFixed(0);
 
                             return `

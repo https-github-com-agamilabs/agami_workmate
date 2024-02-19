@@ -105,6 +105,7 @@ try {
 
         if (password_verify($password, $passphrase)) {
             session_start();
+            session_regenerate_id(true);
 
             $_SESSION['wm_userno'] = $row['userno'];
             $_SESSION['wm_firstname'] = $row['firstname'];

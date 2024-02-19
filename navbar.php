@@ -414,7 +414,7 @@
                         <div class="col-12 col-md-6 form-group">
                             <label class="d-block mb-0">
                                 Percentage of Completion <span class="text-danger">*</span>
-                                <input name="percentile" type='number' class="form-control shadow-sm mt-2" required />
+                                <input name="percentile" class="form-control shadow-sm mt-2" type="number" min="0" max="100" required />
                             </label>
                         </div>
                     </div>

@@ -1208,13 +1208,15 @@ date_default_timezone_set("Asia/Dhaka");
 												? aSchedule.progress
 													.map((b) => {
 
-														return `<div title='Time: ${formatDateTime(b.progresstime)}' style='min-width: 100px;' class='progress_parent_div text-center border mx-2 pl-2 d-flex position-relative'>
+														return `<div class="progress_parent_div">
+																<div title='Time: ${formatDateTime(b.progresstime)}' style='min-width: 100px;' class='text-center border mx-2 pl-2 d-flex position-relative'>
 																	<div><i class='fa fa-circle ${b.statustitle.split(" ").join('_')}'></i></div>
 																	<div class='ml-1 mr-1'>${b.statustitle}</div>
 																	<div class="progress_delete_button_root px-2 border-left bg-danger text-white" style0="top:-12px;right:-4px;">
 																		<i data-cblprogressno="${b.cblprogressno}" class="progress_delete_button fas fa-times cursor-pointer"></i>
 																	</div>
-																</div>`;
+																</div>
+															</div>`;
 
 													// return `<div class="media mb-3 bg-info border border-info ">
 													// 			<div class="mr-2">${formatDateTime(b.progresstime)}</div>
@@ -1414,7 +1416,7 @@ date_default_timezone_set("Asia/Dhaka");
 								progressTitle = `: ${lastProgress.statustitle} (${lastProgress.percentile}%)`;
 							}
 
-							let percentileClass = `bg-percent-${(Math.round((lastProgress ? lastProgress.percentile : 0) % 101 / 10) * 10).toFixed(0)}`;
+							let percentileClass = `border-percent-${(Math.round((lastProgress ? lastProgress.percentile : 0) % 101 / 10) * 10).toFixed(0)}`;
 
 							let progressHTML = `<div class="progress mr-1" data-value="${lastProgress ? lastProgress.percentile : 0}" title="${valueOfSchedule.assignee}${progressTitle}">
 										<span class="progress-left">

@@ -1458,11 +1458,6 @@ date_default_timezone_set("Asia/Dhaka");
 					card.hide();
 
 					(function($) {
-						// shortCard.dblclick(function(e) {
-						// 	shortCard.hide();
-						// 	card.show();
-						// });
-
 						let touchtime = 0;
 						shortCard.on("click", function() {
 							if (touchtime == 0) {

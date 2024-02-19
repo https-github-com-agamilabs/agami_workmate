@@ -504,6 +504,36 @@
         const my_watchlist = $('.my_watchlist').empty();
 
         $.each(result, function(index, elm) {
+            let scheduleHTML = ``;
+            if (elm.schedule_progress.length) {
+                $.each(elm.schedule_progress, (_i, prog) => {
+                    let progressTitle = `: ${prog.statustitle} (${prog.percentile}%)`;
+
+                    let percentileClass = `bg-percent-${(Math.round((prog.percentile || 0) % 101 / 10) * 10).toFixed(0)}`;
+
+                    let progressHTML = `<div class="progress mr-1" data-value="${prog.percentile || 0}" title="${prog.assignee}${progressTitle}">
+                            <span class="progress-left">
+                                <span class="progress-bar ${percentileClass}"></span>
+                            </span>
+                            <span class="progress-right">
+                                <span class="progress-bar ${percentileClass}"></span>
+                            </span>
+                            <div class="progress-value w-100 he-100 rounded-circle d-flex align-items-center justify-content-center">
+                                <div class="font-weight-bold">
+                                    <img src="${prog.photo_url || `assets/image/user_icon.png`}"
+                                        class="rounded-circle" style="width:36px;" alt="${prog.assignee}">
+                                </div>
+                            </div>
+                        </div>`;
+
+                    scheduleHTML += progressHTML;
+                });
+
+                scheduleHTML = `<div class="d-flex">${scheduleHTML}</div>`
+            } else {
+                scheduleHTML = `<i>No progress yet!</i>`;
+            }
+
             let tpl = $(`<div class="card mt-1" style="border-radius:10px 0px 0 10px;">
                     <div class='card-body pl-2 pr-2 py-2'>
                         <div style='color:black;'>
@@ -513,19 +543,7 @@
                             ${(elm.story || ``).substr(0, 100)} ${elm.story.length > 100 ? "..." : ""}
                         </div>
                         <div class='card-footer pt-2 pb-0 px-0 w-100' style='overflow-x: auto;'>
-                        ${elm.schedule_progress.map((prg, i) => {
-                            let percentile = (Math.round( ( prg.percentile || 0 ) % 101 / 10 ) * 10).toFixed(0);
-
-                            return `
-                            <div class='mr-1'>
-                                <a class='position-relative cursor-pointer' title='${prg.assignee}'>
-                                    <div class='bg-percent-${percentile} rounded-circle' style='width:34px; height:34px;'></div>
-                                    <img height='30' class="rounded-circle position-absolute" src="${prg.photo_url || 'assets/image/user_icon.png'}" style='top:2px; left:2px;'/>
-                                </a>
-                                <div style='font-size:10px;' class='text-center'>${prg.percentile||0}%</div>
-                            </div>`;
-                        }).join("")}
-                        ${elm.schedule_progress.length==0?"<i>No progress yet!</i>":""}
+                            ${scheduleHTML}
                         </div>
                     </div>
                 </div>`)

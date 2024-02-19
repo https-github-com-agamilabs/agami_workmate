@@ -182,8 +182,8 @@ date_default_timezone_set("Asia/Dhaka");
 
 	<style>
 		.progress {
-			width: 35px;
-			height: 35px;
+			width: 40px;
+			height: 40px;
 			background: none;
 			position: relative;
 		}
@@ -1497,7 +1497,7 @@ date_default_timezone_set("Asia/Dhaka");
 										<div class="progress-value w-100 he-100 rounded-circle d-flex align-items-center justify-content-center">
 											<div class="font-weight-bold">
 												<img src="${valueOfSchedule.photo_url || `assets/image/user_icon.png`}"
-													class="rounded-circle" style="width:31px;" alt="${valueOfSchedule.assignee}">
+													class="rounded-circle" style="width:36px;" alt="${valueOfSchedule.assignee}">
 											</div>
 										</div>
 									</div>`;
@@ -1517,7 +1517,7 @@ date_default_timezone_set("Asia/Dhaka");
 											${lastProgress.statustitle}
 										</div>` : ``}
 									<div class="${priorityClass}font-weight-bold h6 text-center border rounded-circle shadow-sm pt-2 mb-0 mr-1"
-										style="width:35px;height:35px;padding-top:6px;" title="${value.priorityleveltitle} (${value.relativepriority})">
+										style="width:40px;height:40px;" title="${value.priorityleveltitle} (${value.relativepriority})">
 										${value.relativepriority}
 									</div>
 									${scheduleHTML}

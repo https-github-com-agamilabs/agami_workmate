@@ -714,27 +714,27 @@
         }
     }
 
-    const isDarkTheme = localStorage.getItem("isDarkTheme") == "true";
-    $("#theme_custom_switch").prop("checked", isDarkTheme);
+    // const isDarkTheme = localStorage.getItem("isDarkTheme") == "true";
+    // $("#theme_custom_switch").prop("checked", isDarkTheme);
 
-    if (isDarkTheme) {
-        $(".app-header").addClass("bg-dark header-text-light");
-        $(".app-sidebar").addClass("bg-dark sidebar-text-light");
-    }
+    // if (isDarkTheme) {
+    //     $(".app-header").addClass("bg-dark header-text-light");
+    //     $(".app-sidebar").addClass("bg-dark sidebar-text-light");
+    // }
 
-    $("#dark_theme").click(function(e) {
-        e.preventDefault();
-        localStorage.setItem("isDarkTheme", true);
-        $("#theme_custom_switch").prop("checked", true);
-        $(".app-header").addClass("bg-dark header-text-light");
-        $(".app-sidebar").addClass("bg-dark sidebar-text-light");
-    });
+    // $("#dark_theme").click(function(e) {
+    //     e.preventDefault();
+    //     localStorage.setItem("isDarkTheme", true);
+    //     $("#theme_custom_switch").prop("checked", true);
+    //     $(".app-header").addClass("bg-dark header-text-light");
+    //     $(".app-sidebar").addClass("bg-dark sidebar-text-light");
+    // });
 
-    $("#light_theme").click(function(e) {
-        e.preventDefault();
-        localStorage.setItem("isDarkTheme", false);
-        $("#theme_custom_switch").prop("checked", false);
-        $(".app-header").removeClass("bg-dark header-text-light");
-        $(".app-sidebar").removeClass("bg-dark sidebar-text-light");
-    });
+    // $("#light_theme").click(function(e) {
+    //     e.preventDefault();
+    //     localStorage.setItem("isDarkTheme", false);
+    //     $("#theme_custom_switch").prop("checked", false);
+    //     $(".app-header").removeClass("bg-dark header-text-light");
+    //     $(".app-sidebar").removeClass("bg-dark sidebar-text-light");
+    // });
 </script>

@@ -170,7 +170,7 @@
                                     <i class="fa fa-angle-down ml-lg-2 opacity-8 d-none d-sm-inline-block"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-180px, 44px, 0px);">
-                                    <h6 tabindex="-1" class="dropdown-header d-flex justify-content-between align-self-center">
+                                    <h6 tabindex="-1" class="dropdown-header d-none justify-content-between align-self-center">
                                         <span id="light_theme" class="badge badge-light shadow-sm border grow cursor-pointer">Light</span>
                                         <div class="custom-control custom-switch">
                                             <input type="checkbox" class="custom-control-input" id="theme_custom_switch" checked>

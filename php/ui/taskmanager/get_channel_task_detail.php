@@ -45,6 +45,16 @@
                 $backlogno = $row['backlogno'];
                 $storytype = $row['storytype'];
 
+                //retrieve tagged persons
+                $rs_tags=get_tags($dbcon,$backlogno);
+                $tag_array = array();
+                if ($rs_tags->num_rows > 0) {
+                    while ($trow = $rs_tags->fetch_array(MYSQLI_ASSOC)) {
+                        $tag_array[]=$trow;
+                    }
+                }
+                $row['tags']=$tag_array;
+
                 if($storytype == 3){
                     $rs_cbschedule=get_task_schedule($dbcon, $backlogno);
                     $schedule_array = array();
@@ -133,6 +143,21 @@
         $stmt->close();
 
         return $result;
+    }
+
+    //asp_tags(tagno,backlogno,tagto,tagtime,tagby)
+    function get_tags($dbcon,$backlogno)
+    {
+        $sql = "SELECT tagno,backlogno,
+                        tagto,(SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=t.tagto) as tagto_name,
+                        tagby,(SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=t.tagby) as tagby_name,
+                        tagtime
+                FROM asp_tags as t
+                WHERE backlogno=?";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("i", $backlogno);
+        $stmt->execute();
+        return $stmt->get_result();
     }
 
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,duration,userno)

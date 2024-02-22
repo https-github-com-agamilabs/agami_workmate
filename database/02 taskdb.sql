@@ -155,6 +155,7 @@ CREATE TABLE asp_logattachment(
 	CONSTRAINT fk_logattachment_filetypeno FOREIGN KEY(filetypeno) REFERENCES asp_filetype(filetypeno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- asp_tags(tagno,backlogno,tagto,tagtime,tagby)
 CREATE TABLE asp_tags(
     tagno int AUTO_INCREMENT,
     backlogno int NOT NULL,

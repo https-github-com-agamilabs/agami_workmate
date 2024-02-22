@@ -155,6 +155,18 @@ CREATE TABLE asp_logattachment(
 	CONSTRAINT fk_logattachment_filetypeno FOREIGN KEY(filetypeno) REFERENCES asp_filetype(filetypeno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE asp_tags(
+    tagno int AUTO_INCREMENT,
+    backlogno int NOT NULL,
+    tagto int NOT NULL,
+    tagtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    tagby int NOT NULL,
+    PRIMARY KEY(tagno),
+    CONSTRAINT fk_tags_backlogno FOREIGN KEY (backlogno) REFERENCES asp_channelbacklog(backlogno) ON UPDATE CASCADE,
+    CONSTRAINT fk_tags_tagto FOREIGN KEY (tagto) REFERENCES hr_user(userno) ON UPDATE CASCADE,
+    CONSTRAINT fk_tags_tagby FOREIGN KEY (tagby) REFERENCES hr_user(userno) ON UPDATE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE asp_cblschedule(
     cblscheduleno int AUTO_INCREMENT,
     backlogno int NOT NULL,

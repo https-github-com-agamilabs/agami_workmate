@@ -43,93 +43,69 @@
         }
         
         //Organization wise employee task-and-time history
-        $rs_company_wide_time=get_all_emp_elapsedtime($dbcon, $startdate, $enddate,$orgno);
-        if ($rs_company_wide_time->num_rows > 0) {
-            $meta_array = array();
-            while ($row = $rs_company_wide_time->fetch_array(MYSQLI_ASSOC)) {
-                $empno=$row['empno'];
-                $workingdate=$row['workingdate'];
-                
-                //What is the task update by the user
-                $taskupdate_array = array();
-                $rs_taskupdate=get_emp_date_taskupdate($dbcon, $orgno,$workingdate,$userno);
-                if ($rs_taskupdate->num_rows > 0) {
-                    while ($trow = $rs_taskupdate->fetch_array(MYSQLI_ASSOC)) {
-                        $taskupdate_array[] = $trow;
-                    }
-                }
-                $row['taskupdate']=$taskupdate_array;
+        $rs_emp=get_all_employee($dbcon,$orgno, $startdate, $enddate);
+        if ($rs_emp->num_rows > 0) {
+            $emp_array = array();
+            while ($erow = $rs_emp->fetch_array(MYSQLI_ASSOC)) {
+                $empno=$erow['empno'];
 
-                //What is the textual update by the user
-                $chatupdate_array = array();
-                $rs_chatupdate=get_emp_date_chatupdate($dbcon, $orgno,$workingdate,$userno);
-                if ($rs_chatupdate->num_rows > 0) {
-                    while ($crow = $rs_chatupdate->fetch_array(MYSQLI_ASSOC)) {
-                        $chatupdate_array[] = $crow;
-                    }
-                }
-                $row['chatupdate']=$chatupdate_array;
-                
-
-                $meta_array[] = $row;
-            }
-            $response['error'] = false;
-            $response['companywise'] = $meta_array;
-        }
-
-        //Special date note
-        $specialdate_array = array();
-        $rs_special=get_date_special($dbcon, $orgno, $startdate, $enddate);
-        if ($rs_special->num_rows > 0) {
-            while ($srow = $rs_special->fetch_array(MYSQLI_ASSOC)) {
-                $specialdate_array[] = $srow;
-            }
-        }
-        $response['specialdate']=$specialdate_array;
-
-        //Workfor wise employee working history
-        $workfor_array=array();
-        $rs_workfor=get_all_workfor($dbcon, $orgno, $startdate, $enddate);
-        if($rs_workfor->num_rows>0){
-            while ($wrow = $rs_company_wide_time->fetch_array(MYSQLI_ASSOC)) {
-                $workfor=$wrow['workfor'];
-
-                $emp_array = array();
-                $rs_workfor_wide_time=get_emp_elapsedtime_workfor($dbcon, $orgno, $workfor, $startdate, $enddate);
+                $time_array = array();
+                $rs_company_wide_time=get_all_emp_elapsedtime($dbcon, $startdate, $enddate,$orgno,$empno);
                 if ($rs_company_wide_time->num_rows > 0) {
-                    while ($row = $rs_company_wide_time->fetch_array(MYSQLI_ASSOC)) {
-                        $empno=$row['empno'];
+                    while ($trow = $rs_company_wide_time->fetch_array(MYSQLI_ASSOC)) {
+                        $workingdate=$trow['workingdate'];
                         
                         //What is the task update by the user
                         $taskupdate_array = array();
-                        $rs_taskupdate=get_all_emp_taskupdate($dbcon, $orgno,$startdate, $enddate,$userno);
+                        $rs_taskupdate=get_emp_date_taskupdate($dbcon, $orgno,$workingdate,$userno);
                         if ($rs_taskupdate->num_rows > 0) {
                             while ($trow = $rs_taskupdate->fetch_array(MYSQLI_ASSOC)) {
                                 $taskupdate_array[] = $trow;
                             }
                         }
-                        $row['taskupdate']=$taskupdate_array;
-        
+                        $trow['taskupdate']=$taskupdate_array;
+
                         //What is the textual update by the user
                         $chatupdate_array = array();
-                        $rs_chatupdate=get_emp_date_chatupdate($dbcon, $orgno,$chatdate,$userno);
+                        $rs_chatupdate=get_emp_date_chatupdate($dbcon, $orgno,$workingdate,$userno);
                         if ($rs_chatupdate->num_rows > 0) {
                             while ($crow = $rs_chatupdate->fetch_array(MYSQLI_ASSOC)) {
                                 $chatupdate_array[] = $crow;
                             }
                         }
-                        $row['chatupdate']=$chatupdate_array;
-                        
-                        $emp_array[] = $row;
+                        $trow['chatupdate']=$chatupdate_array;
+                        $time_array[] = $trow;
                     }
                 }
-                $wrow['employee'] = $meta_array;
-                $workfor_array[]=$wrow;
+                $erow['updates']=$time_array;
+                
+                //Special date note
+                $leave_array = array();
+                $rs_leave=get_emp_date_leave($dbcon, $orgno, $userno,$startdate, $enddate);
+                if ($rs_leave->num_rows > 0) {
+                    while ($srow = $rs_leave->fetch_array(MYSQLI_ASSOC)) {
+                        $leave_array[] = $srow;
+                    }
+                }
+                $erow['leaves']=$leave_array;
+                $emp_array[]=$erow;
             }
-            
-            $response['workfor'] = $workfor_array;
+            $response['digest']=$emp_array;
 
+            //Special date note
+            $specialdate_array = array();
+            $rs_special=get_date_special($dbcon, $orgno, $startdate, $enddate);
+            if ($rs_special->num_rows > 0) {
+                while ($srow = $rs_special->fetch_array(MYSQLI_ASSOC)) {
+                    $specialdate_array[] = $srow;
+                }
+            }
+            $response['specialdate']=$specialdate_array;
+            $response['error']=false;
+        }else{
+            throw new \Exception("No information found!", 1);
         }
+
     } catch (Exception $e) {
         $response['error'] = true;
         $response['message'] = $e->getMessage();
@@ -143,9 +119,25 @@
     *   LOCAL FUNCTIONS
     */
 
+    //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
+    function get_all_employee($dbcon,$orgno, $startdate, $enddate)
+    {
+        $sql = "SELECT DISTINCT empno
+                FROM emp_workingtime
+                WHERE orgno=? AND date(starttime) BETWEEN ? AND ?)
+                ORDER BY empno";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("iss", $orgno, $startdate, $enddate);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
+    
     
     //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
-    function get_all_emp_elapsedtime($dbcon, $startdate, $enddate,$orgno)
+    function get_all_emp_elapsedtime($dbcon, $startdate, $enddate,$orgno,$empno)
     {
         $sql = "SELECT empno,
                         (SELECT concat(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=dt.empno) as empfullname,
@@ -157,19 +149,19 @@
                                     ELSE TIMESTAMPDIFF(SECOND,starttime, endtime)
                                 END as elapsedtime
                         FROM emp_workingtime
-                        WHERE orgno=? AND (date(starttime) BETWEEN ? AND ?)
+                        WHERE orgno=? AND empno=? AND (date(starttime) BETWEEN ? AND ?)
                         )
                         UNION ALL
                         (SELECT empno, date(endtime) as workingdate,
                                 TIMESTAMPDIFF(SECOND,date(endtime),endtime) as elapsedtime
                         FROM emp_workingtime
-                        WHERE orgno=? AND day(starttime)!=day(endtime) AND (date(endtime) BETWEEN ? AND ?)
+                        WHERE orgno=? AND empno=? AND day(starttime)!=day(endtime) AND (date(endtime) BETWEEN ? AND ?)
                         )
                     ) as dt
                 GROUP BY empno,workingdate
                 ORDER BY empno,workingdate";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("ississ", $orgno,$startdate, $enddate,$orgno,$startdate, $enddate);
+        $stmt->bind_param("iissiiss", $orgno,$empno,$startdate, $enddate,$orgno,$empno,$startdate, $enddate);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
@@ -258,6 +250,29 @@
 
         return $result;
     }
+
+    // emp_leaveapplication(lappno,orgno,empno,leavetypeno,reasontext,leavestatusno,actiontakenby,createdatetime,updatetime)
+    // emp_leavedates(lappno,leavedate)
+    // emp_leavetype(leavetypeno,leavetypeshort, leavetypetitle, leavedescription)
+    //emp_leavestatus(leavestatusno,leavestatustitle, leavestatucolor)
+    function get_emp_date_leave($dbcon, $orgno, $userno,$startdate, $enddate)
+    {
+        $sql = "SELECT l.leavetypeno, (SELECT leavetypeshort FROM emp_leavetype WHERE leavetypeno=l.leavetypeno) as leavetypeshort,
+                        l.leavestatusno, (SELECT leavestatustitle FROM emp_leavestatus WHERE leavestatusno=l.leavestatusno) as leavestatustitle,
+                        d.leavedate,
+                        l.actiontakenby
+                FROM emp_leaveapplication as l
+                    INNER JOIN emp_leavedates as d ON l.lappno=d.lappno
+                WHERE l.orgno=? AND l.empno=? AND (d.leavedate  BETWEEN ? AND ?)";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("iiss", $orgno,$userno,$startdate, $enddate);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
+   
 
     /*******
      * NOT YET FINALISED

@@ -42,16 +42,17 @@
             $response['org'] = $rs_org->fetch_array(MYSQLI_ASSOC);
         }
         
-        //Organization wise employee working history
-        $rs_company_wide_time=get_all_emp_elapsedtime($dbcon, $orgno, $startdate, $enddate);
+        //Organization wise employee task-and-time history
+        $rs_company_wide_time=get_all_emp_elapsedtime($dbcon, $startdate, $enddate,$orgno);
         if ($rs_company_wide_time->num_rows > 0) {
             $meta_array = array();
             while ($row = $rs_company_wide_time->fetch_array(MYSQLI_ASSOC)) {
                 $empno=$row['empno'];
+                $workingdate=$row['workingdate'];
                 
                 //What is the task update by the user
                 $taskupdate_array = array();
-                $rs_taskupdate=get_all_emp_taskupdate($dbcon, $orgno,$startdate, $enddate,$userno);
+                $rs_taskupdate=get_emp_date_taskupdate($dbcon, $orgno,$workingdate,$userno);
                 if ($rs_taskupdate->num_rows > 0) {
                     while ($trow = $rs_taskupdate->fetch_array(MYSQLI_ASSOC)) {
                         $taskupdate_array[] = $trow;
@@ -61,7 +62,7 @@
 
                 //What is the textual update by the user
                 $chatupdate_array = array();
-                $rs_chatupdate=get_all_emp_taskupdate($dbcon, $orgno,$startdate, $enddate,$userno);
+                $rs_chatupdate=get_emp_date_chatupdate($dbcon, $orgno,$workingdate,$userno);
                 if ($rs_chatupdate->num_rows > 0) {
                     while ($crow = $rs_chatupdate->fetch_array(MYSQLI_ASSOC)) {
                         $chatupdate_array[] = $crow;
@@ -69,11 +70,22 @@
                 }
                 $row['chatupdate']=$chatupdate_array;
                 
+
                 $meta_array[] = $row;
             }
             $response['error'] = false;
             $response['companywise'] = $meta_array;
         }
+
+        //Special date note
+        $specialdate_array = array();
+        $rs_special=get_date_special($dbcon, $orgno, $startdate, $enddate);
+        if ($rs_special->num_rows > 0) {
+            while ($srow = $rs_special->fetch_array(MYSQLI_ASSOC)) {
+                $specialdate_array[] = $srow;
+            }
+        }
+        $response['specialdate']=$specialdate_array;
 
         //Workfor wise employee working history
         $workfor_array=array();
@@ -100,7 +112,7 @@
         
                         //What is the textual update by the user
                         $chatupdate_array = array();
-                        $rs_chatupdate=get_all_emp_taskupdate($dbcon, $orgno,$startdate, $enddate,$userno);
+                        $rs_chatupdate=get_emp_date_chatupdate($dbcon, $orgno,$chatdate,$userno);
                         if ($rs_chatupdate->num_rows > 0) {
                             while ($crow = $rs_chatupdate->fetch_array(MYSQLI_ASSOC)) {
                                 $chatupdate_array[] = $crow;
@@ -133,36 +145,50 @@
 
     
     //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
-    function get_all_emp_elapsedtime($dbcon, $orgno, $startdate, $enddate)
+    function get_all_emp_elapsedtime($dbcon, $startdate, $enddate,$orgno)
     {
         $sql = "SELECT empno,
-                        (SELECT concat(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=wt.empno) as empfullname,
-                        sum(TIMESTAMPDIFF(SECOND,starttime, endtime)) as totalelapsedtime
-                FROM emp_workingtime as wt
-                WHERE orgno=? AND (date(starttime) BETWEEN ? AND ?)
-                GROUP BY empno
-                HAVING sum(TIMESTAMPDIFF(SECOND,starttime, endtime))>0
-                ORDER BY empno";
+                        (SELECT concat(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=dt.empno) as empfullname,
+                        workingdate,sum(elapsedtime) as dailyelapsedtime
+                FROM (
+                        (SELECT empno, date(starttime) as workingdate,
+                                CASE
+                                    WHEN day(starttime)!=day(endtime) THEN TIMESTAMPDIFF(SECOND,starttime,date(endtime))
+                                    ELSE TIMESTAMPDIFF(SECOND,starttime, endtime)
+                                END as elapsedtime
+                        FROM emp_workingtime
+                        WHERE orgno=? AND (date(starttime) BETWEEN ? AND ?)
+                        )
+                        UNION ALL
+                        (SELECT empno, date(endtime) as workingdate,
+                                TIMESTAMPDIFF(SECOND,date(endtime),endtime) as elapsedtime
+                        FROM emp_workingtime
+                        WHERE orgno=? AND day(starttime)!=day(endtime) AND (date(endtime) BETWEEN ? AND ?)
+                        )
+                    ) as dt
+                GROUP BY empno,workingdate
+                ORDER BY empno,workingdate";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("iss", $orgno,$startdate, $enddate);
+        $stmt->bind_param("ississ", $orgno,$startdate, $enddate,$orgno,$startdate, $enddate);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
 
         return $result;
     }
+    
 
     // asp_channelbacklog(backlogno,channelno,story,storytype,points,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
     // asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,duration,userno)
     // asp_deadlines(dno,cblscheduleno,deadline,entrytime,userno)
     // asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile, userno)
-    function get_all_emp_taskupdate($dbcon, $orgno,$startdate, $enddate,$userno)
+    function get_emp_date_taskupdate($dbcon, $orgno,$progressdate,$userno)
     {
         $sql = "SELECT  
                     p.userno, 
                     bs.channelno, (SELECT channeltitle FROM msg_channel WHERE channelno=bs.channelno) as channeltitle,
                     bs.backlogno,bs.story,
-                    p.cblscheduleno,d.deadline,
+                    p.cblscheduleno,d.deadline,date(progresstime) as progressdate,
                     p.wstatusno,(SELECT statustitle FROM asp_workstatus WHERE wstatusno=p.wstatusno) as statustitle 
                 FROM asp_cblprogress as p
                         LEFT JOIN 
@@ -182,10 +208,10 @@
                                         )
                                     )as b ON s.backlogno=b.backlogno
                             ) as bs ON p.cblscheduleno=bs.cblscheduleno AND p.userno=bs.assignedto
-                WHERE (date(p.progresstime) BETWEEN ? AND ?)
+                WHERE (date(p.progresstime) = ?)
                     AND p.userno=?";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("issi", $orgno,$startdate, $enddate,$userno);
+        $stmt->bind_param("isi", $orgno,$progressdate,$userno);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
@@ -193,7 +219,7 @@
         return $result;
     }
 
-    function get_all_emp_chatupdate($dbcon, $orgno,$startdate, $enddate,$userno)
+    function get_emp_date_chatupdate($dbcon, $orgno,$chatdate,$userno)
     {
         $sql = "SELECT userno,
                     channelno,(SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
@@ -201,13 +227,29 @@
                 FROM asp_channelbacklog as b
                 WHERE userno=? 
                     AND parentbacklogno IS NOT NULL
-                    AND (date(lastupdatetime) BETWEEN ? AND ?)
+                    AND (date(lastupdatetime) = ?)
                     AND channelno IN (
                         SELECT DISTINCT channelno
                         FROM msg_channel
                         WHERE orgno=?
                         )
                 ";
+        $stmt = $dbcon->prepare($sql);
+        $stmt->bind_param("is", $orgno,$chatdate);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
+
+    //emp_specialdays(specialdayno, orgno, specialdate, reasontext, sdtypeid, minworkinghour)
+    //emp_specialdaytype(sdtypeid, displaytitle, minworkinghour, color)
+    function get_date_special($dbcon, $orgno, $startdate, $enddate)
+    {
+        $sql = "SELECT specialdate,reasontext,sdtypeid, minworkinghour
+                FROM emp_specialdays as s
+                WHERE orgno=? AND (specialdate  BETWEEN ? AND ?)";
         $stmt = $dbcon->prepare($sql);
         $stmt->bind_param("iss", $orgno,$startdate, $enddate);
         $stmt->execute();
@@ -217,6 +259,9 @@
         return $result;
     }
 
+    /*******
+     * NOT YET FINALISED
+     */
     function get_emp_elapsedtime_workfor($dbcon, $orgno, $workfor, $startdate, $enddate)
     {
         $sql = "SELECT empno,

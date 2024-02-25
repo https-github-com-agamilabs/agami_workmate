@@ -15,8 +15,10 @@ INSERT INTO emp_specialdaytype(sdtypeid, displaytitle, minworkinghour, color) VA
 ('HALF_DAY', 'Half Day Office', 4, '#20c997'),
 ('FULL_DAY', 'Full Day Office', 8, '#17a2b8');
 
+-- emp_specialdays(specialdayno, orgno, specialdate, reasontext, sdtypeid, minworkinghour)
 CREATE TABLE emp_specialdays(
 	specialdayno int NOT NULL AUTO_INCREMENT,
+	orgno INT NOT NULL,
 	specialdate DATE NOT NULL,
 	reasontext varchar(50) DEFAULT null,
 	sdtypeid varchar(20) NOT NULL,
@@ -24,3 +26,6 @@ CREATE TABLE emp_specialdays(
 	PRIMARY KEY(specialdayno),
 	CONSTRAINT fk_specialdays_sdtypeid FOREIGN KEY(sdtypeid) REFERENCES emp_specialdaytype(sdtypeid) ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE emp_specialdays
+-- ADD COLUMN orgno INT NOT NULL;

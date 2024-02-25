@@ -141,8 +141,7 @@
                 FROM (
                         (SELECT empno, date(starttime) as workingdate,
                                 CASE
-                                    WHEN day(starttime)!=day(endtime)
-                                        THEN TIMESTAMPDIFF(SECOND,starttime,date(endtime))
+                                    WHEN day(starttime)!=day(endtime) THEN TIMESTAMPDIFF(SECOND,starttime,date(endtime))
                                     ELSE TIMESTAMPDIFF(SECOND,starttime, endtime)
                                 END as elapsedtime
                         FROM emp_workingtime

@@ -322,14 +322,11 @@
 
                 <?php endif; ?>
 
-                <?php
-                    if ($_SESSION['wm_ucatno'] == 19) : ?>
-                    <li>
-                        <a href="gantt_chart.php" class="menu-anchor menu-anchor-lvl-1">
-                            <i class="metismenu-icon fas fa-chart-area"></i> Gantt Chart
-                        </a>
-                    </li>
-                <?php endif; ?>
+                <li>
+                    <a href="gantt_chart.php" class="menu-anchor menu-anchor-lvl-1">
+                        <i class="metismenu-icon fas fa-chart-area"></i> Gantt Chart
+                    </a>
+                </li>
                     
 
                 <li>

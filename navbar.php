@@ -796,27 +796,27 @@
         return `${yyyy}-${mm.padStart(2, 0)}-${dd.padStart(2, 0)}`;
     }
 
-    // $.post("php/ui/leave/get_leavetypes.php", {}, (resp) => {
-    //     if (resp.error) {
-    //         toastr.error(resp.message);
-    //     } else {
-    //         $.each(resp.data, (index, value) => $(`#leave_application_modal_form [name="leavetypeno"]`).append(
-    //             new Option(value.leavetypetitle, value.leavetypeno)));
-    //     }
-    // }, "json");
+    $.post("php/ui/leave/get_leavetypes.php", {}, (resp) => {
+        if (resp.error) {
+            toastr.error(resp.message);
+        } else {
+            $.each(resp.data, (index, value) => $(`#leave_application_modal_form [name="leavetypeno"]`).append(
+                new Option(value.leavetypetitle, value.leavetypeno)));
+        }
+    }, "json");
 
-    // $.post("php/ui/leave/get_leavestatus.php", {}, (resp) => {
-    //     if (resp.error) {
-    //         toastr.error(resp.message);
-    //     } else {
-    //         $.each(resp.data, (index, value) => $(`#leave_application_modal_form [name="leavestatusno"]`).append(
-    //             new Option(value.leavestatustitle, value.leavestatusno)));
-    //     }
-    // }, "json");
+    $.post("php/ui/leave/get_leavestatus.php", {}, (resp) => {
+        if (resp.error) {
+            toastr.error(resp.message);
+        } else {
+            $.each(resp.data, (index, value) => $(`#leave_application_modal_form [name="leavestatusno"]`).append(
+                new Option(value.leavestatustitle, value.leavestatusno)));
+        }
+    }, "json");
 
-    // $(function() {
-    //     get_leave_application_list();
-    // });
+    $(function() {
+        get_leave_application_list();
+    });
 
     function get_leave_application_list() {
         $("#previous_application_table_tbody").empty();

@@ -275,10 +275,10 @@
                     <div class="card-header-tab card-header-tab-animation card-header">
                         <ul class="nav">
                             <li class="nav-item">
-                                <a data-toggle="tab" href="#new_application_tab" class="nav-link">New Application</a>
+                                <a data-toggle="tab" href="#new_application_tab" class="nav-link">New</a>
                             </li>
                             <li class="nav-item">
-                                <a data-toggle="tab" href="#previous_application_tab" class="nav-link active show">Previous Application</a>
+                                <a data-toggle="tab" href="#previous_application_tab" class="nav-link  active show">Previous</a>
                             </li>
                         </ul>
                     </div>
@@ -288,7 +288,7 @@
                                 <form id="leave_application_modal_form">
                                     <div class="form-group">
                                         <label class="d-block mb-0">
-                                            Leave Date <span class="text-danger">*</span>
+                                            Leave Date (Select from Calendar)<span class="text-danger">*</span>
                                             <input id="leave_dates_input" name="leavedates" class="form-control shadow-sm mt-2" type="text" readonly required />
                                         </label>
                                     </div>

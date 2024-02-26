@@ -19,6 +19,7 @@
             throw new \Exception("Database is not connected!", 1);
         }
 
+        //$orgno=1;
         if(isset($_SESSION['wm_orgno'])){
             $orgno=(int) $_SESSION['wm_orgno'];
         }else{
@@ -57,7 +58,7 @@
                         
                         //What is the task update by the user
                         $taskupdate_array = array();
-                        $rs_taskupdate=get_emp_date_taskupdate($dbcon, $orgno,$workingdate,$userno);
+                        $rs_taskupdate=get_emp_date_taskupdate($dbcon, $orgno,$workingdate,$empno);
                         if ($rs_taskupdate->num_rows > 0) {
                             while ($trow = $rs_taskupdate->fetch_array(MYSQLI_ASSOC)) {
                                 $taskupdate_array[] = $trow;
@@ -67,7 +68,7 @@
 
                         //What is the textual update by the user
                         $chatupdate_array = array();
-                        $rs_chatupdate=get_emp_date_chatupdate($dbcon, $orgno,$workingdate,$userno);
+                        $rs_chatupdate=get_emp_date_chatupdate($dbcon, $orgno,$workingdate,$empno);
                         if ($rs_chatupdate->num_rows > 0) {
                             while ($crow = $rs_chatupdate->fetch_array(MYSQLI_ASSOC)) {
                                 $chatupdate_array[] = $crow;
@@ -81,7 +82,7 @@
                 
                 //Special date note
                 $leave_array = array();
-                $rs_leave=get_emp_date_leave($dbcon, $orgno, $userno,$startdate, $enddate);
+                $rs_leave=get_emp_date_leave($dbcon, $orgno, $empno,$startdate, $enddate);
                 if ($rs_leave->num_rows > 0) {
                     while ($srow = $rs_leave->fetch_array(MYSQLI_ASSOC)) {
                         $leave_array[] = $srow;
@@ -122,9 +123,9 @@
     //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
     function get_all_employee($dbcon,$orgno, $startdate, $enddate)
     {
-        $sql = "SELECT DISTINCT empno
-                FROM emp_workingtime
-                WHERE orgno=? AND date(starttime) BETWEEN ? AND ?)
+        $sql = "SELECT DISTINCT empno,(SELECT concat(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=wt.empno) as empfullname
+                FROM emp_workingtime as wt
+                WHERE orgno=? AND (date(starttime) BETWEEN ? AND ?)
                 ORDER BY empno";
         $stmt = $dbcon->prepare($sql);
         $stmt->bind_param("iss", $orgno, $startdate, $enddate);
@@ -139,9 +140,7 @@
     //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
     function get_all_emp_elapsedtime($dbcon, $startdate, $enddate,$orgno,$empno)
     {
-        $sql = "SELECT empno,
-                        (SELECT concat(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=dt.empno) as empfullname,
-                        workingdate,sum(elapsedtime) as dailyelapsedtime
+        $sql = "SELECT empno,workingdate,sum(elapsedtime) as dailyelapsedtime
                 FROM (
                         (SELECT empno, date(starttime) as workingdate,
                                 CASE
@@ -181,7 +180,8 @@
                     bs.channelno, (SELECT channeltitle FROM msg_channel WHERE channelno=bs.channelno) as channeltitle,
                     bs.backlogno,bs.story,
                     p.cblscheduleno,d.deadline,date(progresstime) as progressdate,
-                    p.wstatusno,(SELECT statustitle FROM asp_workstatus WHERE wstatusno=p.wstatusno) as statustitle 
+                    p.wstatusno,(SELECT statustitle FROM asp_workstatus WHERE wstatusno=p.wstatusno) as statustitle,
+                    percentile
                 FROM asp_cblprogress as p
                         LEFT JOIN 
                             (SELECT cblscheduleno,max(deadline) as deadline
@@ -227,7 +227,7 @@
                         )
                 ";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("is", $orgno,$chatdate);
+        $stmt->bind_param("isi", $userno,$chatdate,$orgno);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
@@ -277,24 +277,24 @@
     /*******
      * NOT YET FINALISED
      */
-    function get_emp_elapsedtime_workfor($dbcon, $orgno, $workfor, $startdate, $enddate)
-    {
-        $sql = "SELECT empno,
-                        (SELECT concat(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=wt.empno) as empfullname,
-                        sum(TIMESTAMPDIFF(SECOND,starttime, endtime)) as totalelapsedtime
-                FROM emp_workingtime as wt
-                WHERE orgno=? AND workfor=? AND (date(starttime) BETWEEN ? AND ?)
-                GROUP BY empno
-                HAVING sum(TIMESTAMPDIFF(SECOND,starttime, endtime))>0
-                ORDER BY empno";
-        $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("iiss", $orgno,$workfor,$startdate, $enddate);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
+    // function get_emp_elapsedtime_workfor($dbcon, $orgno, $workfor, $startdate, $enddate)
+    // {
+    //     $sql = "SELECT empno,
+    //                     (SELECT concat(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=wt.empno) as empfullname,
+    //                     sum(TIMESTAMPDIFF(SECOND,starttime, endtime)) as totalelapsedtime
+    //             FROM emp_workingtime as wt
+    //             WHERE orgno=? AND workfor=? AND (date(starttime) BETWEEN ? AND ?)
+    //             GROUP BY empno
+    //             HAVING sum(TIMESTAMPDIFF(SECOND,starttime, endtime))>0
+    //             ORDER BY empno";
+    //     $stmt = $dbcon->prepare($sql);
+    //     $stmt->bind_param("iiss", $orgno,$workfor,$startdate, $enddate);
+    //     $stmt->execute();
+    //     $result = $stmt->get_result();
+    //     $stmt->close();
 
-        return $result;
-    }
+    //     return $result;
+    // }
 
     function get_all_workfor($dbcon, $orgno, $startdate, $enddate)
     {

@@ -280,7 +280,8 @@
 				dates = [...dates, new Date(date)];
 				date.setDate(date.getDate() + 1);
 			}
-
+			date.setDate(date.getDate() + 1);
+			
 			let lastMonthIndex = -1;
 
 			$.each(dates, (indexInDates, valueOfDates) => {

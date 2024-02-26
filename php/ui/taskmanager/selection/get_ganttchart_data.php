@@ -46,9 +46,9 @@
         }
 
         if($assignedto>0){
-            $results = get_individual_schedule_data($dbcon, $assignedto,$startdate,$enddate);
+            $results = get_individual_schedule_data($dbcon, $orgno,$assignedto,$startdate,$enddate);
         }else{
-            $results = get_schedule_data($dbcon, $startdate,$enddate);
+            $results = get_schedule_data($dbcon, $orgno,$startdate,$enddate);
         }
         $results_array = array();
         if ($results->num_rows > 0) {
@@ -74,7 +74,7 @@
     //asp_channelbacklog(backlogno,channelno,story,storytype,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
     //asp_cblschedule(cblscheduleno,backlogno,howto,assignedto, assigntime,scheduledate,userno)
     //asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile,userno)
-    function get_schedule_data($dbcon, $startdate,$enddate){
+    function get_schedule_data($dbcon, $orgno, $startdate,$enddate){
         $sql = "SELECT s.backlogno,
                     b.channelno, (SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
                     assignedto,(SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=s.assignedto) as assignee,
@@ -92,7 +92,7 @@
                                             FROM asp_deadlines
                                             GROUP BY cblscheduleno)
                                 ) as d ON s.cblscheduleno=d.cblscheduleno
-                    INNER JOIN asp_channelbacklog as b ON s.backlogno=b.backlogno
+                    INNER JOIN (SELECT * FROM asp_channelbacklog WHERE channelno IN (SELECT channelno FROM msg_channel WHERE orgno=?))as b ON s.backlogno=b.backlogno
                     LEFT JOIN (SELECT cblscheduleno, DATE(progresstime) as lastprogressdate
                                 FROM asp_cblprogress
                                 WHERE cblprogressno IN (SELECT max(cblprogressno)
@@ -102,7 +102,7 @@
                 ORDER BY assignedto,scheduledate
                 ";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("ssssss", $startdate,$enddate,$startdate,$enddate,$startdate,$enddate);
+        $stmt->bind_param("ssssssi", $startdate,$enddate,$startdate,$enddate,$startdate,$enddate,$orgno);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
@@ -110,7 +110,7 @@
         return $result;
     }
 
-    function get_individual_schedule_data($dbcon, $assignedto,$startdate,$enddate){
+    function get_individual_schedule_data($dbcon, $orgno,$assignedto,$startdate,$enddate){
         $sql = "SELECT s.backlogno,
                     b.channelno, (SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
                     assignedto,(SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=s.assignedto) as assignee,
@@ -128,7 +128,7 @@
                                             FROM asp_deadlines
                                             GROUP BY cblscheduleno)
                                 ) as d ON s.cblscheduleno=d.cblscheduleno
-                    INNER JOIN asp_channelbacklog as b ON s.backlogno=b.backlogno
+                    INNER JOIN (SELECT * FROM asp_channelbacklog WHERE channelno IN (SELECT channelno FROM msg_channel WHERE orgno=?))as b ON s.backlogno=b.backlogno
                     LEFT JOIN (SELECT cblscheduleno, DATE(progresstime) as lastprogressdate
                                 FROM asp_cblprogress
                                 WHERE cblprogressno IN (SELECT max(cblprogressno)
@@ -138,7 +138,7 @@
                 ORDER BY assignedto,scheduledate
                 ";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("issssss", $assignedto,$startdate,$enddate,$startdate,$enddate,$startdate,$enddate);
+        $stmt->bind_param("issssssi", $assignedto,$startdate,$enddate,$startdate,$enddate,$startdate,$enddate,$orgno);
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();

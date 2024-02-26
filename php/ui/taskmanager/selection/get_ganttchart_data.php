@@ -79,7 +79,7 @@
                     b.channelno, (SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
                     assignedto,(SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=s.assignedto) as assignee,
                     scheduledate as startdate,
-                    DATE_ADD(scheduledate, INTERVAL duration DAY) as enddate,
+                    DATE_ADD(scheduledate, INTERVAL (duration-1) DAY) as enddate,
                     extendeddate,
                     lastprogressdate
                 FROM (SELECT *
@@ -115,7 +115,7 @@
                     b.channelno, (SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
                     assignedto,(SELECT CONCAT(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=s.assignedto) as assignee,
                     scheduledate as startdate,
-                    DATE_ADD(scheduledate, INTERVAL duration DAY) as enddate,
+                    DATE_ADD(scheduledate, INTERVAL (duration-1) DAY) as enddate,
                     extendeddate,
                     lastprogressdate
                 FROM (SELECT *

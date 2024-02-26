@@ -133,7 +133,7 @@ try {
         }
 
         // dont delete dates before today
-        $r = delete_leavedates($dbcon, $orgno, $lappno);
+        $r = delete_leavedates($dbcon, $lappno);
 
         for ($i = 0; $i < count($leavedates); $i++) {
             $ldr = insert_leavedates($dbcon, $lappno, $leavedates[$i]);
@@ -260,13 +260,13 @@ function insert_leavedates($dbcon, $lappno, $leavedate)
     return $stmt->affected_rows;
 }
 
-function delete_leavedates($dbcon, $orgno, $lappno)
+function delete_leavedates($dbcon, $lappno)
 {
     $today = date('Y-m-d');
     $sql = "DELETE FROM emp_leavedates
-            WHERE orgno=? AND lappno=? AND leavedate > ?";
+            WHERElappno=? AND leavedate > ?";
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("iis", $orgno, $lappno, $today);
+    $stmt->bind_param("is", $lappno, $today);
     $stmt->execute();
     return $stmt->affected_rows;
 }

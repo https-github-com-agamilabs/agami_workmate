@@ -323,20 +323,20 @@
                 <?php endif; ?>
 
                 <?php
-                if ($_SESSION['wm_ucatno'] == 19) : ?>
-                    <!-- <li>
+                    if ($_SESSION['wm_ucatno'] == 19) : ?>
+                    <li>
                         <a href="gantt_chart.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-chart-area"></i> Gantt Chart
                         </a>
-                    </li> -->
-
-                    <!-- <li>
-                        <a href="key_performance_indicator.php" class="menu-anchor menu-anchor-lvl-1">
-                            <i class="metismenu-icon fas fa-chart-line"></i> KPI Setting
-                        </a>
-                    </li> -->
+                    </li>
                 <?php endif; ?>
+                    
 
+                <li>
+                    <a id="leave-application-side-menu" class="menu-anchor menu-anchor-lvl-1">
+                        <i class="metismenu-icon fas fa-sign-out-alt"></i> Leave Application
+                    </a>
+                </li>
                 <!-- <li>
                     <a href="kpi_report.php" class="menu-anchor menu-anchor-lvl-1">
                         <i class="metismenu-icon fas fa-chart-pie"></i> KPI Report
@@ -739,4 +739,11 @@
     //     $(".app-header").removeClass("bg-dark header-text-light");
     //     $(".app-sidebar").removeClass("bg-dark sidebar-text-light");
     // });
+</script>
+
+<script>
+    $(`#leave-application-side-menu`).click(function(e) {
+        $(`#leave_application_modal`).modal("show");
+        $(`#leave_application_modal_form`).trigger("reset");
+    });
 </script>

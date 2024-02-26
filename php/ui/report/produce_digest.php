@@ -23,7 +23,7 @@
         if(isset($_SESSION['wm_orgno'])){
             $orgno=(int) $_SESSION['wm_orgno'];
         }else{
-            throw new \Exception("You must selct an organization!", 1);
+            throw new \Exception("You must select an organization!", 1);
         }
 
         if (isset($_POST['startdate'])) {

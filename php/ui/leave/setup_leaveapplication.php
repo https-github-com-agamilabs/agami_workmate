@@ -264,7 +264,7 @@ function delete_leavedates($dbcon, $lappno)
 {
     $today = date('Y-m-d');
     $sql = "DELETE FROM emp_leavedates
-            WHERElappno=? AND leavedate > ?";
+            WHERE lappno=? AND leavedate > ?";
     $stmt = $dbcon->prepare($sql);
     $stmt->bind_param("is", $lappno, $today);
     $stmt->execute();

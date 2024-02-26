@@ -277,10 +277,9 @@
 			let date = new Date(json.startdate);
 			let enddate = new Date(json.enddate);
 			while (date <= new Date(enddate)) {
-				dates = [...dates, new Date(date)];
 				date.setDate(date.getDate() + 1);
+				dates = [...dates, new Date(date)];
 			}
-			date.setDate(date.getDate() + 1);
 			
 			let lastMonthIndex = -1;
 

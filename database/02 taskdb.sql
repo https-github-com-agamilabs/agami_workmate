@@ -8,7 +8,7 @@
 -- asp_cblprogress(cblprogressno,cblscheduleno,progresstime,result,wstatusno,percentile, userno)
 -- asp_deadlines(dno,cblscheduleno,deadline,entrytime,userno)
 -- asp_storytype(storytypeno,storytypetitle)
--- asp_watchlist(userno,backlogno,createtime)
+-- asp_watchlist(userno,backlogno,channelurl,createtime)
 
 CREATE TABLE asp_filetype(
 	filetypeno int AUTO_INCREMENT,
@@ -155,18 +155,28 @@ CREATE TABLE asp_logattachment(
 	CONSTRAINT fk_logattachment_filetypeno FOREIGN KEY(filetypeno) REFERENCES asp_filetype(filetypeno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- asp_tags(tagno,backlogno,tagto,tagtime,tagby)
+-- asp_tags(tagno,backlogno,tagto,channelurl,tagtime,tagby)
 CREATE TABLE asp_tags(
     tagno int AUTO_INCREMENT,
     backlogno int NOT NULL,
     tagto int NOT NULL,
+    channelurl VARCHAR(255) DEFAULT NULL,
     tagtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     tagby int NOT NULL,
     PRIMARY KEY(tagno),
-    CONSTRAINT fk_tags_backlogno FOREIGN KEY (backlogno) REFERENCES asp_channelbacklog(backlogno) ON UPDATE CASCADE,
+    CONSTRAINT fk_tags_backlogno FOREIGN KEY (backlogno) REFERENCES asp_channelbacklog(backlogno) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_tags_tagto FOREIGN KEY (tagto) REFERENCES hr_user(userno) ON UPDATE CASCADE,
     CONSTRAINT fk_tags_tagby FOREIGN KEY (tagby) REFERENCES hr_user(userno) ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE asp_watchlist
+-- ADD COLUMN channelurl VARCHAR(255) DEFAULT NULL;
+
+-- ALTER TABLE asp_tags
+-- DROP CONSTRAINT fk_tags_backlogno
+
+-- ALTER TABLE asp_tags
+-- ADD CONSTRAINT fk_tags_backlogno FOREIGN KEY (backlogno) REFERENCES asp_channelbacklog(backlogno) ON UPDATE CASCADE ON DELETE CASCADE
 
 CREATE TABLE asp_cblschedule(
     cblscheduleno int AUTO_INCREMENT,
@@ -216,8 +226,18 @@ CREATE TABLE asp_cblprogress(
 CREATE TABLE asp_watchlist(
     userno INT NOT NULL,
     backlogno int NOT NULL,
+    channelurl VARCHAR(255) DEFAULT NULL,
     createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT uk_watchlist_userno_backlogno UNIQUE(userno,backlogno),
     CONSTRAINT fk_watchlist_userno FOREIGN KEY (userno) REFERENCES hr_user(userno) ON UPDATE CASCADE,
-    CONSTRAINT fk_watchlist_backlogno FOREIGN KEY (backlogno) REFERENCES asp_channelbacklog(backlogno) ON UPDATE CASCADE
+    CONSTRAINT fk_watchlist_backlogno FOREIGN KEY (backlogno) REFERENCES asp_channelbacklog(backlogno) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE asp_watchlist
+-- ADD COLUMN channelurl VARCHAR(255) DEFAULT NULL;
+
+-- ALTER TABLE asp_watchlist
+-- DROP CONSTRAINT fk_watchlist_backlogno
+
+-- ALTER TABLE asp_watchlist
+-- ADD CONSTRAINT fk_watchlist_backlogno FOREIGN KEY (backlogno) REFERENCES asp_channelbacklog(backlogno) ON UPDATE CASCADE ON DELETE CASCADE

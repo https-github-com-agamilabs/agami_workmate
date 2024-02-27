@@ -40,12 +40,14 @@
             throw new \Exception("Tag-to-whom cannot be empty!", 1);
         }
 
+        $channelurl=get_channelurl($dbcon,$backlogno);
+
         $count=0;
         $dbcon->begin_transaction();
         foreach($tags as $tagto){
-            $result=add_tag($dbcon, $backlogno,$tagto,$userno);
+            $result=add_tag($dbcon, $backlogno,$tagto,$channelurl,$userno);
             if($result>0) $count++;
-            $wno=insert_watchlist($dbcon, $tagto,$backlogno, $orgno);
+            $wno=insert_watchlist($dbcon, $tagto,$backlogno, $channelurl, $orgno);
         }
         if($count==count($tags) && $dbcon->commit()){
             $response['error'] = false;
@@ -64,14 +66,14 @@
     $dbcon->close();
 
     //asp_tags(tagno,backlogno,tagto,tagtime,tagby)
-    function add_tag($dbcon, $backlogno,$tagto,$tagby){
+    function add_tag($dbcon, $backlogno,$tagto,$channelurl,$tagby){
         date_default_timezone_set("Asia/Dhaka");
         $tagtime = date("Y-m-d H:i:s");
 
-        $sql = "INSERT INTO asp_tags(backlogno,tagto,tagtime,tagby)
-                VALUES(?,?,?,?)";
+        $sql = "INSERT INTO asp_tags(backlogno,tagto,channelurl,tagtime,tagby)
+                VALUES(?,?,?,?,?)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("iisi", $backlogno,$tagto,$tagtime,$tagby);
+        $stmt->bind_param("iissi", $backlogno,$tagto,$channelurl,$tagtime,$tagby);
         $stmt->execute();
         $result=$stmt->insert_id;
         $stmt->close();
@@ -79,19 +81,44 @@
     }
 
     // asp_watchlist(userno,backlogno,createtime)
-    function insert_watchlist($dbcon, $userno,$backlogno, $orgno)
+    function insert_watchlist($dbcon, $userno,$backlogno, $channelurl, $orgno)
     {
         date_default_timezone_set("Asia/Dhaka");
         $createtime = date('Y-m-d H:i:s');
 
-        $sql = "INSERT INTO asp_watchlist(orgno,userno,backlogno,createtime)
-                VALUES(?,?,?,?)";
+        $sql = "INSERT INTO asp_watchlist(orgno,userno,backlogno,channelurl,createtime)
+                VALUES(?,?,?,?,?)";
         $stmt = $dbcon->prepare($sql);
         if ($dbcon->error) {
             echo $dbcon->error;
         }
-        $stmt->bind_param("iiis", $orgno,$userno,$backlogno, $createtime);
+        $stmt->bind_param("iiiss", $orgno,$userno,$backlogno,$channelurl, $createtime);
         $stmt->execute();
         return $stmt->affected_rows;
     }
+
+    function get_channelurl($dbcon,$backlogno){
+        $sql = "SELECT channelno
+                FROM asp_channelbacklog
+                WHERE backlogno=?";
+        $stmt = $dbcon->prepare($sql);
+        if ($dbcon->error) {
+            echo $dbcon->error;
+        }
+        $stmt->bind_param("i", $backlogno);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        $channelno=NULL;
+        if($result->num_rows>0){
+            $channelno=$result->fetch_array(MYSQLI_ASSOC)['channelno'];
+            $channelurl="https://workmate.agamilab.com/story.php?channelno=".$channelno;
+        }else{
+            $channelurl=NULL;
+        }
+        $stmt->close();
+    
+        return $channelurl;
+    }
+
 

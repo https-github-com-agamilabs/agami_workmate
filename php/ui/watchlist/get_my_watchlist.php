@@ -64,7 +64,7 @@ $dbcon->close();
 //asp_storytype(storytypeno,storytypetitle)
 function get_watchlist($dbcon, $userno, $orgno)
 {
-    $sql = "SELECT w.backlogno, 
+    $sql = "SELECT w.backlogno, channelurl,
                     b.channelno, (SELECT channeltitle FROM msg_channel WHERE channelno=b.channelno) as channeltitle,
                     b.story, b.points,
                     b.storytype,(SELECT storytypetitle FROM asp_storytype WHERE storytypeno=b.storytype) as storytypetitle,

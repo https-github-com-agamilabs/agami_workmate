@@ -58,8 +58,9 @@ $dbcon->close();
 
 
 /*
-    *   LOCAL FUNCTIONS
-    */
+*   LOCAL FUNCTIONS
+*/
+
 //asp_channelbacklog(backlogno,channelno,story,storytype,points,prioritylevelno,relativepriority,storyphaseno,parentbacklogno,approved,accessibility,lastupdatetime,userno)
 //asp_storytype(storytypeno,storytypetitle)
 function get_watchlist($dbcon, $userno, $orgno)

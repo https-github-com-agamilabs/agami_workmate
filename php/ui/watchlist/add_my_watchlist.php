@@ -31,9 +31,8 @@ try {
     } else {
         throw new \Exception("Task is not set!", 1);
     }
-    
-    
-    $rs_watchlist = insert_watchlist($dbcon, $userno,$backlogno, $orgno);
+    $channelurl=get_channelurl($dbcon,$backlogno);
+    $rs_watchlist = insert_watchlist($dbcon, $userno,$backlogno, $channelurl, $orgno);
 
     if ($rs_watchlist > 0) {
         $response['error'] = false;
@@ -56,20 +55,44 @@ if (isset($dbcon)) {
  * Local Function
  */
 
-
-// asp_watchlist(userno,backlogno,createtime)
-function insert_watchlist($dbcon, $userno,$backlogno, $orgno)
-{
-    date_default_timezone_set("Asia/Dhaka");
-    $createtime = date('Y-m-d H:i:s');
-
-    $sql = "INSERT INTO asp_watchlist(orgno,userno,backlogno,createtime)
-            VALUES(?,?,?,?)";
+ function get_channelurl($dbcon,$backlogno){
+    $sql = "SELECT channelno
+            FROM asp_channelbacklog
+            WHERE backlogno=?";
     $stmt = $dbcon->prepare($sql);
     if ($dbcon->error) {
         echo $dbcon->error;
     }
-    $stmt->bind_param("iiis", $orgno,$userno,$backlogno, $createtime);
+    $stmt->bind_param("i", $backlogno);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    $channelno=NULL;
+    if($result->num_rows>0){
+        $channelno=$result->fetch_array(MYSQLI_ASSOC)['channelno'];
+        $channelurl="https://workmate.agamilab.com/story.php?channelno=".$channelno;
+    }else{
+        $channelurl=NULL;
+    }
+    $stmt->close();
+
+    return $channelurl;
+}
+
+
+// asp_watchlist(userno,backlogno,channelurl,createtime)
+function insert_watchlist($dbcon, $userno,$backlogno, $channelurl, $orgno)
+{
+    date_default_timezone_set("Asia/Dhaka");
+    $createtime = date('Y-m-d H:i:s');
+
+    $sql = "INSERT INTO asp_watchlist(orgno,userno,backlogno,channelurl,createtime)
+            VALUES(?,?,?,?,?)";
+    $stmt = $dbcon->prepare($sql);
+    if ($dbcon->error) {
+        echo $dbcon->error;
+    }
+    $stmt->bind_param("iiiss", $orgno,$userno,$backlogno, $channelurl, $createtime);
     $stmt->execute();
     return $stmt->affected_rows;
 }

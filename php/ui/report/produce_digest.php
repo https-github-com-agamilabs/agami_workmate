@@ -53,18 +53,18 @@
                 $time_array = array();
                 $rs_company_wide_time=get_all_emp_elapsedtime($dbcon, $startdate, $enddate,$orgno,$empno);
                 if ($rs_company_wide_time->num_rows > 0) {
-                    while ($trow = $rs_company_wide_time->fetch_array(MYSQLI_ASSOC)) {
-                        $workingdate=$trow['workingdate'];
+                    while ($timerow = $rs_company_wide_time->fetch_array(MYSQLI_ASSOC)) {
+                        $workingdate=$timerow['workingdate'];
                         
                         //What is the task update by the user
                         $taskupdate_array = array();
                         $rs_taskupdate=get_emp_date_taskupdate($dbcon, $orgno,$workingdate,$empno);
                         if ($rs_taskupdate->num_rows > 0) {
-                            while ($trow = $rs_taskupdate->fetch_array(MYSQLI_ASSOC)) {
-                                $taskupdate_array[] = $trow;
+                            while ($taskrow = $rs_taskupdate->fetch_array(MYSQLI_ASSOC)) {
+                                $taskupdate_array[] = $taskrow;
                             }
                         }
-                        $trow['taskupdate']=$taskupdate_array;
+                        $timerow['taskupdate']=$taskupdate_array;
 
                         //What is the textual update by the user
                         $chatupdate_array = array();
@@ -74,8 +74,9 @@
                                 $chatupdate_array[] = $crow;
                             }
                         }
-                        $trow['chatupdate']=$chatupdate_array;
-                        $time_array[] = $trow;
+                        $timerow['chatupdate']=$chatupdate_array;
+
+                        $time_array[] = $timerow;
                     }
                 }
                 $erow['updates']=$time_array;
@@ -121,12 +122,16 @@
     */
 
     //emp_workingtime(timeno, empno, starttime, endtime, comment, isaccepted)
+    //hr_user(userno,username,firstname,lastname,affiliation,jobtitle,photo_url,email,primarycontact,passphrase,authkey,createtime,lastupdatetime,isactive,userstatusno)
     function get_all_employee($dbcon,$orgno, $startdate, $enddate)
     {
-        $sql = "SELECT DISTINCT empno,(SELECT concat(firstname,' ',IFNULL(lastname,'')) FROM hr_user WHERE userno=wt.empno) as empfullname
-                FROM emp_workingtime as wt
-                WHERE orgno=? AND (date(starttime) BETWEEN ? AND ?)
-                ORDER BY empno";
+        $sql = "SELECT wt.empno,u.firstname,u.lastname,u.photo_url,u.email,u.primarycontact
+                FROM (SELECT DISTINCT empno
+                    FROM emp_workingtime 
+                    WHERE orgno=? AND (date(starttime) BETWEEN ? AND ?)
+                    ) as wt
+                  INNER JOIN hr_user as u ON wt.empno=u.userno
+                ORDER BY wt.empno";
         $stmt = $dbcon->prepare($sql);
         $stmt->bind_param("iss", $orgno, $startdate, $enddate);
         $stmt->execute();

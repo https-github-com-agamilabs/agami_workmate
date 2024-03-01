@@ -327,6 +327,12 @@
                         <i class="metismenu-icon fas fa-chart-area"></i> Gantt Chart
                     </a>
                 </li>
+
+                <li>
+                    <a href="digest.php" class="menu-anchor menu-anchor-lvl-1">
+                        <i class="metismenu-icon fas fa-chart-area"></i> Activity Digest
+                    </a>
+                </li>
                     
 
                 <li>

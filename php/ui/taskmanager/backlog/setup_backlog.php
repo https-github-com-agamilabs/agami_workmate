@@ -81,7 +81,7 @@ try {
         $approved = 0;
 
     if ($backlogno > 0) {
-        $result = update_channel($dbcon, $backlogno, $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $userno);
+        $result = update_channel($dbcon, $backlogno, $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno);
         if ($result > 0) {
             $response['error'] = false;
             $response['message'] = "Successfully Updated.";
@@ -118,13 +118,13 @@ function create_channelbacklog($dbcon, $channelno, $story, $points,$storytype, $
     return $result;
 }
 
-function update_channel($dbcon, $backlogno, $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $userno)
+function update_channel($dbcon, $backlogno, $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno)
 {
     $sql = "UPDATE asp_channelbacklog
-            SET channelno=?, story=?, points=?,storytype=?, prioritylevelno=?, relativepriority=?, storyphaseno=?, userno=?
+            SET channelno=?, story=?, points=?,storytype=?, prioritylevelno=?, relativepriority=?, storyphaseno=?
             WHERE backlogno=?";
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("isiiiiiii", $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $userno, $backlogno);
+    $stmt->bind_param("isiiiiiii", $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $backlogno);
     $stmt->execute();
     $result = $stmt->affected_rows;
     $stmt->close();

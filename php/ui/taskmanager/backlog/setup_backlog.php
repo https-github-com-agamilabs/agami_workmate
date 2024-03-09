@@ -124,7 +124,7 @@ function update_channel($dbcon, $backlogno, $channelno, $story, $points,$storyty
             SET channelno=?, story=?, points=?,storytype=?, prioritylevelno=?, relativepriority=?, storyphaseno=?
             WHERE backlogno=?";
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("isiiiiiii", $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $backlogno);
+    $stmt->bind_param("isiiiiii", $channelno, $story, $points,$storytype, $prioritylevelno, $relativepriority, $storyphaseno, $backlogno);
     $stmt->execute();
     $result = $stmt->affected_rows;
     $stmt->close();

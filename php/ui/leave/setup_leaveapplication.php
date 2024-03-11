@@ -23,9 +23,9 @@ try {
 
     $dbcon->begin_transaction();
 
-    if(isset($_SESSION['wm_orgno'])){
-        $orgno=(int) $_SESSION['wm_orgno'];
-    }else{
+    if (isset($_SESSION['wm_orgno'])) {
+        $orgno = (int) $_SESSION['wm_orgno'];
+    } else {
         throw new \Exception("You must select an organization!", 1);
     }
 
@@ -182,14 +182,17 @@ if (isset($dbcon)) {
 
 function get_user_info($dbcon, $userno)
 {
-    $sql = "SELECT userno,username,firstname,lastname,
+    $sql = "SELECT u.userno,username,firstname,lastname,
                     CONCAT(firstname, ' ', lastname) as fullname,
                     affiliation,jobtitle,email,primarycontact,
                     passphrase,createtime,lastupdatetime,
-                    ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=u.ucatno) as ucattitle,
-                    isactive
-               FROM hr_user as u
-               WHERE isactive=1 AND userno=?";
+                    uo.ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
+                    uo.isactive
+            FROM hr_user as u
+            LEFT JOIN
+                com_userorg AS uo
+            ON uo.userno = u.userno
+            WHERE uo.isactive=1 AND u.userno=?";
     $stmt = $dbcon->prepare($sql);
     $stmt->bind_param("i", $userno);
     $stmt->execute();
@@ -218,7 +221,7 @@ function insert_leaveapplication($dbcon, $orgno, $userno, $leavetypeno, $reasont
             (orgno,empno, leavetypeno, reasontext, leavestatusno)
             VALUES (?,?,?,?,?)";
     $stmt = $dbcon->prepare($sql);
-    $stmt->bind_param("iiisi", $orgno,$userno, $leavetypeno, $reasontext, $leavestatusno);
+    $stmt->bind_param("iiisi", $orgno, $userno, $leavetypeno, $reasontext, $leavestatusno);
     $stmt->execute();
     return $stmt->insert_id;
 }
@@ -346,7 +349,7 @@ function get_leaveapplication_body($emp_name, $jobtitle, $leavedates, $reasontex
                     Employee ID: ' . $jobtitle . '<br/>
                     Reason: ' . $reasontext . '<br/>
                     Applied Time: ' . date('Y-m-d H:i:s') . '
-                    
+
                     Leave Dates: ' . $leavedates . '<br/><br/>
 
                     <br/><br/>
@@ -385,7 +388,7 @@ function get_leaveapplication_update_body($lappno, $emp_name, $jobtitle, $leaved
                     Employee ID: ' . $jobtitle . '<br/>
                     Reason: ' . $reasontext . '<br/>
                     Applied Time: ' . date('Y-m-d H:i:s') . '<br/><br/>
-                    
+
                     Leave Dates: ' . $leavedates . '<br/><br/>
 
                     Please click on the bellow <b>\'Take Action\'</b> button to take necessary action.

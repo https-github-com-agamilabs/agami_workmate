@@ -146,9 +146,9 @@ function get_filtered_applications_of_user_for_user($dbcon, $orgno,$wm_userno, $
                 INNER JOIN
                 (SELECT  `userno`, `username`, `firstname`, `lastname`,
                     `affiliation`, `jobtitle`, `email`, `primarycontact`,
-                    `ucatno`, `createtime`, `lastupdatetime`, `isactive`
+                    `createtime`, `lastupdatetime`, `isactive`
                     FROM hr_user
-                    WHERE userno=? OR EXISTS (SELECT userno FROM hr_user WHERE userno=? AND ucatno>=10)
+                    WHERE userno=? OR EXISTS (SELECT userno FROM com_userorg WHERE userno=? AND ucatno>=10)
                 ) as emp
                 ON la.empno=emp.userno
                 INNER JOIN

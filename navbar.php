@@ -142,13 +142,13 @@
                         </div>
 
                         <div class="mb-0 mr-1 mr-sm-3">
-                            <button id="leave_application_button" class="d-flex alert alert-primary shadow-sm border border-primary btn btn-sm btn-default border px-1 shadow-sm py-0" type="button" data-toggle="tooltip" data-placement="bottom" title="Leave Application">
+                            <button id="leave_application_button" class="d-flex alert-primary shadow-sm border border-primary btn btn-sm btn-default border px-1 shadow-sm py-0" type="button" data-toggle="tooltip" data-placement="bottom" title="Leave Application">
                                 <img src="assets/image/exit.png" width="20" alt="">
                             </button>
                         </div>
 
                         <div class="widget-content-left d-flex">
-                            
+
                             <!-- Timekeppeer Start -->
                             <div class="mt-lg-2 mr-1 mr-sm-2 mr-md-4">
                                 <div class="alert alert-primary d-flex shadow-sm text-center px-0 px-sm-1 px-md-2 py-0 mb-0" style="height:max-content; border-radius: 15px;">
@@ -196,7 +196,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="widget-content-left ml-3 header-user-info">
                             <div class="widget-heading">
                                 <?php

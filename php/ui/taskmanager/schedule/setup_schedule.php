@@ -264,7 +264,9 @@
             
             $message .= "Task: ".$story."<br>";
             $message .= "Priority: ".$priority."<br>";
-            $message .= isset($howto)?"How-to: ".$howto."<br>":"";
+            if(isset($howto) && strlen(trim($howto))>5){
+                $message .= isset($howto)?"How-to: ".$howto."<br>":"";
+            }
             $message .= "Start-date: ".$scheduledate."<br>";
             $message .= "Deadline: In ".$duration." day(s). <br>";
 

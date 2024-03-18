@@ -262,13 +262,13 @@
             $story=$srow['story'];
             $priority=$srow['priorityleveltitle'];
             
-            $message .= "Task: ".$story."br>";
+            $message .= "Task: ".$story."<br>";
             $message .= "Priority: ".$priority."<br>";
             $message .= isset($howto)?"How-to: ".$howto."<br>":"";
             $message .= "Start-date: ".$scheduledate."<br>";
             $message .= "Deadline: In ".$duration." day(s). <br>";
 
-            $message .= "<br><br>Your task may affect our customer\'s expectation. <br><br>Therefore, you are obliged to inform early with explanation if you cannot complete the task in-time.<br>We appreciate your understanding.";
+            $message .= "<br>Your task may affect our customer\'s expectation. <br>Therefore, you are obliged to inform early with explanation if you cannot complete the task in-time.<br>We appreciate your understanding.";
             $message .= "<br><br>With best wishes,<br>AGAMiLabs Limited.";
         }
         return $message;

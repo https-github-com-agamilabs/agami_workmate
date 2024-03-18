@@ -107,7 +107,7 @@
                     throw new \Exception("Deadline Error! Cannot Update Schedule.", 1);
                 }
 
-                $wno=insert_watchlist($dbcon, $assignedto,$backlogno, $orgno);
+                $wno=setup_watchlist($dbcon, $assignedto,$backlogno, $orgno);
 
 
                 $rs_to = get_userinfo($dbcon,$assignedto);
@@ -216,18 +216,19 @@
     }
 
     // asp_watchlist(userno,backlogno,createtime)
-    function insert_watchlist($dbcon, $userno,$backlogno, $orgno)
+    function setup_watchlist($dbcon, $userno,$backlogno, $orgno)
     {
         date_default_timezone_set("Asia/Dhaka");
         $createtime = date('Y-m-d H:i:s');
 
         $sql = "INSERT INTO asp_watchlist(orgno,userno,backlogno,createtime)
-                VALUES(?,?,?,?)";
+                VALUES(?,?,?,?)
+                ON DUPLICATE KEY UPDATE createtime=?";
         $stmt = $dbcon->prepare($sql);
         if ($dbcon->error) {
             echo $dbcon->error;
         }
-        $stmt->bind_param("iiis", $orgno,$userno,$backlogno, $createtime);
+        $stmt->bind_param("iiiss", $orgno,$userno,$backlogno, $createtime,$createtime);
         $stmt->execute();
         return $stmt->affected_rows;
     }

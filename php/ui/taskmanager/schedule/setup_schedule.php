@@ -296,3 +296,13 @@
     }
 
     
+    function validateEmail($email)
+    {
+        if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    

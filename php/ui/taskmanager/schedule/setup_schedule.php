@@ -119,6 +119,7 @@
                     $from = "info@agamilabs.com";
                     $cc =  "khanam.toslima@gmail.com";
                     $message=build_message($dbcon, $backlogno, $howto, $scheduledate, $duration, $greet);
+                    $subject="[Workmate Update] A ".$duration." day(s) task is assigned to you from ".$scheduledate;
                     $is_sent=sendMail($from, $to, $cc, $subject, $message);
                 }
 
@@ -270,6 +271,7 @@
             $message .= "<br><br>Your task may affect our customer\'s expectation. <br><br>Therefore, you are obliged to inform early with explanation if you cannot complete the task in-time.<br>We appreciate your understanding.";
             $message .= "<br><br>With best wishes,<br>AGAMiLabs Limited.";
         }
+        return $message;
     }
 
     function sendMail($from, $to, $cc, $subject, $message){

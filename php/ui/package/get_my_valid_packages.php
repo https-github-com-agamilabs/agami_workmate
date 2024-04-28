@@ -14,28 +14,25 @@ require_once dirname(dirname(__FILE__)) . "/dependency_checker.php";
 
 
 try {
-    if($_SESSION['wm_ucatno']>=19){
-        if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {
-            $orgno = (int) $_POST['orgno'];
-        } else {
-            throw new Exception("Organization must be selected", 1);
-        }
-    
-        $rs_packages = get_my_package_usability($dbcon,$orgno);
-    
-        if ($rs_packages->num_rows > 0) {
-            $meta_array = array();
-            while ($row = $rs_packages->fetch_array(MYSQLI_ASSOC)) {
-                $meta_array[] = $row;
-            }
-            $response['error'] = false;
-            $response['results'] = $meta_array;
-        } else {
-            throw new \Exception("No Valid Package Found!", 1);
-        }
-    }else{
-        throw new \Exception("You don't have enough permission!", 1);
+    if (isset($_POST['orgno']) && strlen($_POST['orgno']) > 0) {
+        $orgno = (int) $_POST['orgno'];
+    } else {
+        throw new Exception("Organization must be selected", 1);
     }
+
+    $rs_packages = get_my_package_usability($dbcon,$orgno);
+
+    if ($rs_packages->num_rows > 0) {
+        $meta_array = array();
+        while ($row = $rs_packages->fetch_array(MYSQLI_ASSOC)) {
+            $meta_array[] = $row;
+        }
+        $response['error'] = false;
+        $response['results'] = $meta_array;
+    } else {
+        throw new \Exception("No Valid Package Found!", 1);
+    }
+    
 } catch (Exception $e) {
     $response['error'] = true;
     $response['message'] = $e->getMessage();

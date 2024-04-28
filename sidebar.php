@@ -354,11 +354,11 @@
 
                 <?php
                 if ($_SESSION['wm_ucatno'] == 19) : ?>
-                    <li style="margin: -0.5rem 0;">
+                    <!-- <li style="margin: -0.5rem 0;">
                         <a href="users.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-users"></i> Users
                         </a>
-                    </li>
+                    </li> -->
                 <?php endif; ?>
 
                 <!-- <li class="app-sidebar__heading">Task Manager</li> -->

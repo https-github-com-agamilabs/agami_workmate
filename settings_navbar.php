@@ -232,7 +232,7 @@ $arrayData = array_merge($arrayData, langConverter($lang, 'profile'));
 			return;
 		}
 
-		$.post(`php/ui/user/change_password_of_an_user.php`, json, resp => {
+		$.post(`php/ui/user/change_password.php`, json, resp => {
 			if (resp.error) {
 				get_alert(`alert-warning`, `fa-exclamation-circle`, result.message);
 			} else {

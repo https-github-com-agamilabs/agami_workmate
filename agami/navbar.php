@@ -180,7 +180,7 @@
 			return;
 		}
 
-		$.post(`php/ui/users/change_password_of_a_user.php`, json, resp => {
+		$.post(`php/ui/users/change_password.php`, json, resp => {
 			if (resp.error) {
 				get_alert(`alert-warning`, `fa-exclamation-circle`, result.message);
 			} else {

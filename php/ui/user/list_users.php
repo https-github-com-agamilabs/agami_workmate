@@ -24,7 +24,7 @@
             $pageno = (int) $_POST['pageno'];
         }
 
-        $limit=10;
+        $limit=100;
         if (isset($_POST['limit'])) {
             $limit = (int) $_POST['limit'];
         }

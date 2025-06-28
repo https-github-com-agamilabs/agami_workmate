@@ -8,6 +8,7 @@ from pynput import keyboard
 from threading import Lock
 from PIL import Image
 from pystray import Icon, MenuItem as item
+from PIL import ImageDraw, ImageFont
 
 # === CONFIGURATION ===
 INTERVAL = 60  # seconds
@@ -42,21 +43,57 @@ def start_key_listener():
 def take_and_upload_screenshot():
     global char_count
 
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    now = datetime.now()
+    timestamp = now.strftime("%Y%m%d_%H%M%S")               # for filename
+    time_display = now.strftime("%Y-%m-%d %H:%M:%S")        # for text on image
     filename = f"{EMPLOYEE_ID}_{timestamp}.png"
     filepath = os.path.join(SAVE_FOLDER, filename)
 
     # Take screenshot
     screenshot = pyautogui.screenshot()
-    screenshot.save(filepath)
 
-    # Get and reset char count
+    # Get and reset character count
     with char_lock:
         typed = char_count
         char_count = 0
 
-    print(f"[{timestamp}] Screenshot taken. Keystrokes: {typed}")
+    # Create draw object
+    draw = ImageDraw.Draw(screenshot)
+    text = f"{time_display} | Keystrokes: {typed}"
 
+    # Load font
+    try:
+        font = ImageFont.truetype("arial.ttf", 20)
+    except:
+        font = ImageFont.load_default()
+
+    # Calculate text size
+    try:
+        bbox = draw.textbbox((0, 0), text, font=font)
+        text_width = bbox[2] - bbox[0]
+        text_height = bbox[3] - bbox[1]
+    except AttributeError:
+        text_width, text_height = font.getsize(text)
+
+    # Bottom-right positioning
+    x = screenshot.width - text_width - 20
+    y = screenshot.height - text_height - 20
+
+    # Draw white background behind text
+    margin = 5
+    draw.rectangle(
+        [x - margin, y - margin, x + text_width + margin, y + text_height + margin],
+        fill="white"
+    )
+
+    # Draw red text
+    draw.text((x, y), text, fill="red", font=font)
+
+    # Save image
+    screenshot.save(filepath)
+    print(f"[{timestamp}] Screenshot saved | {text}")
+
+    # Upload to server
     try:
         with open(filepath, 'rb') as img_file:
             response = requests.post(
@@ -67,6 +104,35 @@ def take_and_upload_screenshot():
         print(f"[{timestamp}] Uploaded. Server responded: {response.status_code}")
     except Exception as e:
         print(f"Upload failed: {e}")
+
+# def take_and_upload_screenshot():
+#     global char_count
+
+#     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+#     filename = f"{EMPLOYEE_ID}_{timestamp}.png"
+#     filepath = os.path.join(SAVE_FOLDER, filename)
+
+#     # Take screenshot
+#     screenshot = pyautogui.screenshot()
+#     screenshot.save(filepath)
+
+#     # Get and reset char count
+#     with char_lock:
+#         typed = char_count
+#         char_count = 0
+
+#     print(f"[{timestamp}] Screenshot taken. Keystrokes: {typed}")
+
+#     try:
+#         with open(filepath, 'rb') as img_file:
+#             response = requests.post(
+#                 UPLOAD_URL,
+#                 files={'screenshot': (filename, img_file)},
+#                 data={'keystrokes': str(typed), 'employee_id': EMPLOYEE_ID}
+#             )
+#         print(f"[{timestamp}] Uploaded. Server responded: {response.status_code}")
+#     except Exception as e:
+#         print(f"Upload failed: {e}")
 
 # === SCHEDULER THREAD ===
 def scheduler_loop():

@@ -36,6 +36,12 @@ error_reporting(E_ALL);
             $orgno= (int) $_SESSION['wm_orgno'];
         }
 
+if(!isset($_SESSION['wm_ucatno'])){
+            throw new \Exception("You have an user category!", 1);
+        }else{
+            $ucatno= (int) $_SESSION['wm_ucatno'];
+        }
+
         if (isset($_POST['startdate'])) {
             $startdate=trim(strip_tags($_POST['startdate']));
         } else {

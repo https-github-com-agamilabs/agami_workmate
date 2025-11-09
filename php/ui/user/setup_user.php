@@ -75,6 +75,16 @@
             $primarycontact = trim(strip_tags($_POST['primarycontact']));
         }
 
+        $permissionlevel=NULL;
+        if (isset($_POST['permissionlevel']) && strlen($_POST['permissionlevel'])>0) {
+            $permissionlevel = trim(strip_tags($_POST['permissionlevel']));
+        }
+
+        $ucatno=NULL;
+        if (isset($_POST['ucatno']) && strlen($_POST['ucatno'])>0) {
+            $ucatno = (int) trim(strip_tags($_POST['ucatno']));
+        }
+
         if($userno<0){ //password operation is performed during insert, not during update
             if (isset($_POST['password']) && strlen($_POST['password'])>6) {
                 $password = trim(strip_tags($_POST['password']));
@@ -98,6 +108,7 @@
             $nos=update_user($dbcon, $username,$firstname,$lastname,
                                     $affiliation,$jobtitle,$photo_url,
                                     $email,$primarycontact,
+                                    $ucatno, $permissionlevel,
                                     $userno);
             if($nos>0){
                 $response['error'] = false;
@@ -109,7 +120,9 @@
         }else{
             $userno=insert_user($dbcon, $username,$firstname,$lastname,
                                     $affiliation,$jobtitle,$photo_url,
-                                    $email,$primarycontact,$passphrase);
+                                    $email,$primarycontact,
+                                    $ucatno, $permissionlevel,
+                                    $passphrase);
             if($userno>0){
                 $response['error'] = false;
                 $response['message'] = "User is Added.";
@@ -133,18 +146,21 @@
 
     function insert_user($dbcon, $username,$firstname,$lastname,
                                 $affiliation,$jobtitle,$photo_url,
-                                $email,$primarycontact,$passphrase){
+                                $email,$primarycontact,
+                                $ucatno, $permissionlevel,
+                                $passphrase){
 
         $sql = "INSERT INTO hr_user(
                                 username,firstname,lastname,
                                 affiliation,jobtitle,photo_url,
-                                email,primarycontact,passphrase
+                                email,primarycontact,passphrase,
+                                ucatno,permissionlevel
                             )
-                VALUES(?,?,?,?,?,?,?,?,?)";
+                VALUES(?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("sssssssss",$username,$firstname,$lastname,
+        $stmt->bind_param("sssssssssii",$username,$firstname,$lastname,
                             $affiliation,$jobtitle,$photo_url,
-                            $email,$primarycontact,$passphrase);
+                            $email,$primarycontact,$passphrase,$ucatno,$permissionlevel);
         $stmt->execute();
         return $stmt->insert_id;
 
@@ -153,7 +169,9 @@
 
     function update_user($dbcon, $username,$firstname,$lastname, 
                                 $affiliation,$jobtitle,$photo_url, 
-                                $email,$primarycontact,$userno){
+                                $email,$primarycontact,
+                                $ucatno, $permissionlevel,
+                                $userno){
 
         $params = array();
         $types = array();
@@ -198,6 +216,18 @@
             $dataset[] ="email=?";
             $params[] = &$email;
             $types[] = "s";
+        }
+
+        if(!is_null($ucatno)){
+            $dataset[] ="ucatno=?";
+            $params[] = &$ucatno;
+            $types[] = "i";
+        }
+
+        if(!is_null($permissionlevel)){
+            $dataset[] ="permissionlevel=?";
+            $params[] = &$permissionlevel;
+            $types[] = "i";
         }
 
         if(!is_null($primarycontact)){

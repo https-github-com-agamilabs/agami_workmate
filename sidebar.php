@@ -292,7 +292,7 @@
         </span>
     </div>
 
-    <div class="scrollbar-sidebar" style="overflow-y:auto;">
+    <div class="scrollbar-sidebar" style="overflow-y:auto; background: #fff;">
         <div class="app-sidebar__inner">
             <ul id="channels_container" class="vertical-nav-menu mt-3">
 

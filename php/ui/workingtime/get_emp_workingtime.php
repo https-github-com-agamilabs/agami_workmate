@@ -57,17 +57,25 @@ if(!isset($_SESSION['wm_ucatno'])){
         $elapsedtime=get_my_current_workingtime($dbcon, $empno, $orgno);
         $response['elapsedtime'] = $elapsedtime;
 
+        $log=1;
         if ($ucatno>=19) {
             if (isset($_POST['workfor']) && strlen($_POST['workfor'])>0) {
+                        $log=2;
+
                 $workfor=(int) $_POST['workfor'];
-                if($workfor>0)
+                if($workfor>0){
+                        $log=3;
                     $list = get_workfor_workingtime($dbcon, $workfor, $startdate, $enddate, $orgno);
+                }
             }else{
+                        $log=4;
                 $list=get_all_workingtime($dbcon, $startdate, $enddate, $orgno);
             }
         } else if($ucatno>=13){
+                        $log=5;
             $list = get_workfor_workingtime($dbcon, $empno, $startdate, $enddate, $orgno);
         }else {
+                        $log=6;
             $list = get_emp_workingtime($dbcon, $empno, $startdate, $enddate, $orgno);
         }
 
@@ -78,9 +86,12 @@ if(!isset($_SESSION['wm_ucatno'])){
             }
             $response['error'] = false;
             $response['data'] = $meta_array;
+            $response['log'] = $log;
+
         } else {
             $response['error'] = true;
             $response['message'] = "No Working Time Yet Found!";
+            $response['log'] = $log;
         }
     } catch (Exception $e) {
         $response['error'] = true;

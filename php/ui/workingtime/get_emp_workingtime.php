@@ -79,7 +79,7 @@ if(!isset($_SESSION['wm_ucatno'])){
                         $log=5;
                         $msg .= "ucatno$ucatno;orgno=$orgno;empno=$empno;startdate=$startdate;enddate=$enddate;";
 
-            $list = get_workfor_workingtime($dbcon, $empno, $startdate, $enddate, $orgno);
+            $list = get_emp_workingtime($dbcon, $empno, $startdate, $enddate, $orgno);
         }else {
                         $log=6;
                         $msg .= "ucatno$ucatno;orgno=$orgno;empno=$empno;startdate=$startdate;enddate=$enddate;";

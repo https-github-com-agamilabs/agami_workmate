@@ -58,6 +58,7 @@ if(!isset($_SESSION['wm_ucatno'])){
         $response['elapsedtime'] = $elapsedtime;
 
         $log=1;
+        $msg = "";
         if ($ucatno>=19) {
             if (isset($_POST['workfor']) && strlen($_POST['workfor'])>0) {
                         $log=2;
@@ -65,17 +66,24 @@ if(!isset($_SESSION['wm_ucatno'])){
                 $workfor=(int) $_POST['workfor'];
                 if($workfor>0){
                         $log=3;
+                        $msg .= "orgno=$orgno;workfor=$workfor;startdate=$startdate;enddate=$enddate;";
                     $list = get_workfor_workingtime($dbcon, $workfor, $startdate, $enddate, $orgno);
                 }
             }else{
                         $log=4;
+                        $msg .= "orgno=$orgno;startdate=$startdate;enddate=$enddate;";
+
                 $list=get_all_workingtime($dbcon, $startdate, $enddate, $orgno);
             }
         } else if($ucatno>=13){
                         $log=5;
+                        $msg .= "orgno=$orgno;empno=$empno;startdate=$startdate;enddate=$enddate;";
+
             $list = get_workfor_workingtime($dbcon, $empno, $startdate, $enddate, $orgno);
         }else {
                         $log=6;
+                        $msg .= "orgno=$orgno;empno=$empno;startdate=$startdate;enddate=$enddate;";
+
             $list = get_emp_workingtime($dbcon, $empno, $startdate, $enddate, $orgno);
         }
 
@@ -87,11 +95,13 @@ if(!isset($_SESSION['wm_ucatno'])){
             $response['error'] = false;
             $response['data'] = $meta_array;
             $response['log'] = $log;
+            $response['msg'] = $msg;
 
         } else {
             $response['error'] = true;
             $response['message'] = "No Working Time Yet Found!";
             $response['log'] = $log;
+            $response['msg'] = $msg;
         }
     } catch (Exception $e) {
         $response['error'] = true;

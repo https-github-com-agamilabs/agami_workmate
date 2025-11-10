@@ -66,7 +66,7 @@ if(!isset($_SESSION['wm_ucatno'])){
                 $workfor=(int) $_POST['workfor'];
                 if($workfor>0){
                         $log=3;
-                        $msg .= "orgno=$orgno;workfor=$workfor;startdate=$startdate;enddate=$enddate;";
+                        $msg .= "ucatno$ucatno;orgno=$orgno;workfor=$workfor;startdate=$startdate;enddate=$enddate;";
                     $list = get_workfor_workingtime($dbcon, $workfor, $startdate, $enddate, $orgno);
                 }
             }else{
@@ -77,12 +77,12 @@ if(!isset($_SESSION['wm_ucatno'])){
             }
         } else if($ucatno>=13){
                         $log=5;
-                        $msg .= "orgno=$orgno;empno=$empno;startdate=$startdate;enddate=$enddate;";
+                        $msg .= "ucatno$ucatno;orgno=$orgno;empno=$empno;startdate=$startdate;enddate=$enddate;";
 
             $list = get_workfor_workingtime($dbcon, $empno, $startdate, $enddate, $orgno);
         }else {
                         $log=6;
-                        $msg .= "orgno=$orgno;empno=$empno;startdate=$startdate;enddate=$enddate;";
+                        $msg .= "ucatno$ucatno;orgno=$orgno;empno=$empno;startdate=$startdate;enddate=$enddate;";
 
             $list = get_emp_workingtime($dbcon, $empno, $startdate, $enddate, $orgno);
         }

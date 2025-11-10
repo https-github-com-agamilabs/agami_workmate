@@ -150,6 +150,9 @@
 
 		get_tk_owner();
 
+			get_employee_elapsedtime();
+
+
 		function get_tk_owner() {
 			$(`#time_keeper_workfor_select`).empty().append(`<option value="">AGAMiLabs Ltd.</option>`);
 
@@ -174,7 +177,6 @@
 					.appendTo(target);
 			});
 
-			get_employee_elapsedtime();
 		}
 
 		$(`#time_keeper_workfor_select, #time_keeper_startdate_input, #time_keeper_enddate_input`).on("input", function(e) {

@@ -57,7 +57,7 @@
                 $list= get_all_emp_elapsedtime($dbcon, $startdate, $enddate,$orgno);
             }
         } else if($ucatno>=13){
-            $list = get_emp_elapsedtime_workfor($dbcon, $empno, $startdate, $enddate,$orgno);
+            $list = get_emp_elapsedtime($dbcon, $empno, $startdate, $enddate,$orgno);
         }else {
             $list = get_emp_elapsedtime($dbcon, $empno, $startdate, $enddate,$orgno);
         }

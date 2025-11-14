@@ -178,6 +178,15 @@ date_default_timezone_set("Asia/Dhaka");
 			margin-bottom: 0;
 			padding-bottom: 0;
 		}
+
+		.comment_story{
+			font-family: serif;
+			background: azure;
+			padding: 10px;
+			border: 1px solid #aaa;
+			border-radius: 12px;
+			margin-top: 8px;
+		}
 	</style>
 
 </head>

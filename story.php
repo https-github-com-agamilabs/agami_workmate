@@ -1946,7 +1946,9 @@ date_default_timezone_set("Asia/Dhaka");
 			$.post(`php/ui/userattlocset/get_user_wherework_today.php`, resp => {
 				if (resp.error) {
 					// toastr.error(resp.message);
+					$('.sidebar_right').hide();
 				} else {
+					$('.sidebar_right').show();
 					show_user_wherework_today(resp.results);
 				}
 			}, `json`);

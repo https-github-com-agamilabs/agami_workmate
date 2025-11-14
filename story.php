@@ -1961,7 +1961,7 @@ date_default_timezone_set("Asia/Dhaka");
 				let starttime = formatTime(value.starttime.split(` `)[1]);
 				let endtime = formatTime(value.endtime.split(` `)[1]);
 
-				let template = $(`<div class="card card-body p-2 mt-1">
+				let template = $(`<div class="card card-body fadeIn p-2 mt-1">
 						<a href="${link}&query=${value.loclat}%2C${value.loclon}" style="text-decoration:underline;" target="_blank">${value.locname}</a>
 						<div>
 							[<span title="${formatDateTime(value.starttime)}">${starttime}</span> -

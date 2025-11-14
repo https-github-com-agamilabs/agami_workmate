@@ -187,6 +187,18 @@ date_default_timezone_set("Asia/Dhaka");
 			border-radius: 12px;
 			margin-top: 8px;
 		}
+
+		.hint_text {
+			
+			border: 1px solid #aaa;
+			border-radius: 12px;
+			white-space: normal;
+			padding: 5px;
+			background: azure;
+			font-family: serif;
+			font-size: 9pt;
+
+		}
 	</style>
 
 </head>
@@ -1191,7 +1203,7 @@ date_default_timezone_set("Asia/Dhaka");
 
 									<div class='mt-1 mb-2 d-flex'>
 										<i class='fa fa-info-circle fa-info1 text-primary mx-1' style='font-style: italic;'></i>
-										<div class='ml-2'>
+										<div class='ml-2 hint_text'>
 											${deNormaliseUserInput(aSchedule.howto || "<i>No hint.</i>")}
 										</div>
 									</div>

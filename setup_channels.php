@@ -22,7 +22,7 @@
 				<div class="app-main__inner pt-3 pl-3 pl-lg-0 pr-3">
 
 					<div class="card mb-3">
-						<div class="card-header">
+						<div class="card-header sticky-top" style="top: 60px;">
 							<div class="d-flex justify-content-between w-100">
 								<h5>Channel</h5>
 								<button id="channel_add_button" class="btn btn-primary font-weight-bold rounded-pill px-3 py-0 shadow" type="button">

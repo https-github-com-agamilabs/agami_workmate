@@ -1028,7 +1028,7 @@ date_default_timezone_set("Asia/Dhaka");
 							<img class='rounded-semi-circle mr-2' src="${value.photo_url||"assets/image/user_icon.png"}" width="40">
 							<div class="d-flex flex-column">
 								<div class="d-flex flex-wrap align-items-center">
-									<div class="mr-2" style='font-weight: bold;font-family: monospace;color:black'>${value.postedby || value.assignedby || ``}</div>
+									<div class="mr-2" style='font-weight: bold;color:black'>${value.postedby || value.assignedby || ``}</div>
 									<div class="small">${value.storytype == 3 ? `${value.priorityleveltitle} (${value.relativepriority})` : ``}</div>
 								</div>
 								<small class="mr-2">
@@ -1282,7 +1282,7 @@ date_default_timezone_set("Asia/Dhaka");
 					if (isSelfComment) { // self
 						commenttpl = `<div class="d-flex justify-content-end comment">
 								<div class="text-right mr-2">
-									<div class="text-primary font-weight-bold line-height-1" style="font-family: monospace;">${aComment.commentedby}</div>
+									<div class="text-primary font-weight-bold line-height-1" style="">${aComment.commentedby}</div>
 									<pre class="comment_story">${aComment.story}</pre>
 									<small>
 										<span data-backlogno="${aComment.backlogno}" class="edit_comment ${isEditAllowed ? `` : `d-none`} cursor-pointer text-info ml-2">
@@ -1304,7 +1304,7 @@ date_default_timezone_set("Asia/Dhaka");
 									<img class="rounded-semi-circle" src="${userImgSrc}" width="35" title="${aComment.commentedby}" />
 								</div>
 								<div class="text-left ml-2">
-									<div class="text-primary font-weight-bold line-height-1" style="font-family: monospace;">${aComment.commentedby}</div>
+									<div class="text-primary font-weight-bold line-height-1" style="">${aComment.commentedby}</div>
 									<pre class="comment_story">${aComment.story}</pre>
 									<small>
 										${formatDateTime(aComment.lastupdatetime)}

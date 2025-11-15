@@ -6,139 +6,187 @@ error_reporting(E_ALL);
 
 date_default_timezone_set('Asia/Dhaka');
 
-// -------------------- CONFIG --------------------
-$admin_email = "agamilabs@gmail.com";
-$CC_emails = "shmazumder23@gmail.com, shazzad@agamilabs.com";
-$from_email = "noreply@workmate.agamilab.com";
-$lag_buffer = 10; // % buffer for lagging
-$stalled_hours = 1; // no progress threshold
+/* ==================== CONFIG ==================== */
+$admin_email   = "agamilabs@gmail.com";
+$CC_emails     = array_filter(array_map('trim', explode(',', "shmazumder23@gmail.com, shazzad@agamilabs.com")));
+$from_email    = "noreply@workmate.agamilab.com";
+$lag_buffer    = 10;      // % buffer for lagging
+$stalled_hours = 1;       // no progress threshold
 
-$enable_whatsapp = false; // enable free WhatsApp notifications
-$callmebot_api_key = "YOUR_CALLMEBOT_API_KEY"; // free WhatsApp API key
-// ------------------------------------------------
+$enable_whatsapp    = false;
+$callmebot_api_key  = "YOUR_CALLMEBOT_API_KEY";
+/* =============================================== */
 
-// -------------------- DB CONNECTION --------------------
+/* ==================== DB ==================== */
 $base_path = dirname(dirname(dirname(__FILE__)));
-require_once($base_path."/db/Database.php");
+require_once $base_path . "/db/Database.php";
 
-$db = new Database();
+$db   = new Database();
 $conn = $db->db_connect();
-if (!$db || !$db->is_connected()) {
-    throw new \Exception("Database is not connected!", 1);
+if (!$db->is_connected()) {
+    die("Database connection failed");
 }
 
-// Current datetime
-$now = new DateTime();
+$now   = new DateTime();
 $today = $now->format('Y-m-d');
+/* ============================================ */
 
-// -------------------- HELPER FUNCTIONS --------------------
-function sendEmail($to, $subject, $body) {
-    global $from_email;
-    global $CC_emails;
-    mail($to, $subject, $body, "From: AGAMiLabs <$from_email>\r\nCC: $CC_emails\r\n");
+/* ==================== HELPERS ==================== */
+function sendEmail(string $to, string $subject, string $body): void
+{
+    global $from_email, $CC_emails;
+    $headers  = "From: AGAMiLabs <$from_email>\r\n";
+    $headers .= "CC: " . implode(', ', $CC_emails) . "\r\n";
+    $headers .= "MIME-Version: 1.0\r\nContent-Type: text/plain; charset=UTF-8\r\n";
+    mail($to, $subject, $body, $headers);
 }
 
-function sendWhatsApp($phone, $message) {
+function sendWhatsApp(string $phone, string $message): void
+{
     global $enable_whatsapp, $callmebot_api_key;
-    if(!$enable_whatsapp || empty($phone)) return;
+    if (!$enable_whatsapp || empty($phone) || empty($callmebot_api_key)) {
+        return;
+    }
 
-    // Clean number & urlencode message
     $phone = preg_replace('/\D/', '', $phone);
+    if ($phone[0] !== '+') {
+        $phone = '+' . $phone;
+    }
     $text = urlencode($message);
-    $url = "https://api.callmebot.com/whatsapp.php?phone=$phone&text=$text&apikey=$callmebot_api_key";
+    $url  = "https://api.callmebot.com/whatsapp.php?phone=$phone&text=$text&apikey=$callmebot_api_key";
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
     curl_exec($ch);
     curl_close($ch);
 }
 
-// Check if reminder sent
-function reminderSent($conn, $userno, $cblscheduleno, $type) {
-    $cblscheduleno_val = $cblscheduleno ? " = $cblscheduleno" : " IS NULL";
+/** Prepared-statement version – safe & reusable */
+function reminderSent(mysqli $conn, int $userno, ?int $cblscheduleno, string $type): bool
+{
     $sql = "SELECT 1 FROM asp_task_reminder_log 
-            WHERE userno = $userno AND cblscheduleno $cblscheduleno_val 
-            AND reminder_type = '$type' 
-            AND DATE(sent_time) = CURDATE() LIMIT 1";
-    $res = $conn->query($sql);
+            WHERE userno = ? 
+              AND reminder_type = ? 
+              AND DATE(sent_time) = CURDATE()";
+    $params = [$userno, $type];
+    $types  = 'is';
+
+    if ($cblscheduleno !== null) {
+        $sql   .= " AND cblscheduleno = ?";
+        $params[] = $cblscheduleno;
+        $types .= 'i';
+    } else {
+        $sql .= " AND cblscheduleno IS NULL";
+    }
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param($types, ...$params);
+    $stmt->execute();
+    $res = $stmt->get_result();
     return $res->num_rows > 0;
 }
 
-function logReminder($conn, $userno, $cblscheduleno, $type) {
-    $cblscheduleno_val = $cblscheduleno ? $cblscheduleno : "NULL";
-    $conn->query("INSERT INTO asp_task_reminder_log (userno, cblscheduleno, reminder_type) 
-                  VALUES ($userno, $cblscheduleno_val, '$type')");
+function logReminder(mysqli $conn, int $userno, ?int $cblscheduleno, string $type): void
+{
+    $sql = "INSERT INTO asp_task_reminder_log (userno, cblscheduleno, reminder_type) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('iis', $userno, $cblscheduleno, $type);
+    $stmt->execute();
 }
+/* ================================================= */
 
-// -------------------- 1. Morning Task Summary --------------------
-$employees = $conn->query("SELECT userno, concat(firstname, ' ', lastname) as fullname, email, concat(u.countrycode,u.primarycontact) as whatsapp FROM hr_user as u WHERE isactive=1");
-while($emp = $employees->fetch_assoc()) {
-    $userno = $emp['userno'];
+/* ==================== 1. MORNING SUMMARY ==================== */
+$empStmt = $conn->prepare(
+    "SELECT userno, CONCAT(firstname,' ',lastname) AS fullname, email,
+            CONCAT(countrycode,primarycontact) AS whatsapp
+       FROM hr_user WHERE isactive = 1"
+);
+$empStmt->execute();
+$employees = $empStmt->get_result();
 
-    $tasks = $conn->query("SELECT * FROM asp_cblschedule 
-                           WHERE assignedto = $userno AND scheduledate = '$today'");
+while ($emp = $employees->fetch_assoc()) {
+    $userno = (int)$emp['userno'];
 
-    if($tasks->num_rows > 0 && !reminderSent($conn, $userno, null, 'morning')) {
-        $task_list = "";
-        while($t = $tasks->fetch_assoc()) {
-            $task_list .= "Task #" . $t['cblscheduleno'] . ": " . $t['howto'] . " (Duration: " . $t['duration'] . "h)\n";
+    // ---- today’s tasks for this employee ----
+    $taskStmt = $conn->prepare(
+        "SELECT cblscheduleno, howto, duration
+           FROM asp_cblschedule
+          WHERE assignedto = ? AND scheduledate = ?"
+    );
+    $taskStmt->bind_param('is', $userno, $today);
+    $taskStmt->execute();
+    $tasksResult = $taskStmt->get_result();
+
+    if ($tasksResult->num_rows > 0 && !reminderSent($conn, $userno, null, 'morning')) {
+        $taskList = '';
+        while ($t = $tasksResult->fetch_assoc()) {
+            $taskList .= "Task #{$t['cblscheduleno']}: {$t['howto']} (Duration: {$t['duration']}h)\n";
         }
         $subject = "Today's Tasks";
-        $body = "Good morning!\n\nHere are your tasks for today:\n\n" . $task_list;
+        $body    = "Good morning!\n\nHere are your tasks for today:\n\n" . $taskList;
 
         sendEmail($emp['email'], $subject, $body);
         sendWhatsApp($emp['whatsapp'], $body);
         logReminder($conn, $userno, null, 'morning');
-    } elseif($tasks->num_rows == 0 && !reminderSent($conn, $userno, null, 'morning_admin')) {
+    } elseif ($tasksResult->num_rows === 0 && !reminderSent($conn, $userno, null, 'morning_admin')) {
         $body = "No task assigned for employee {$emp['fullname']} (UserID: $userno) for today.";
         sendEmail($admin_email, "No Task Assigned", $body);
         logReminder($conn, $userno, null, 'morning_admin');
     }
+    $tasksResult->free();
 }
+$employees->free();
 
-// -------------------- 2. Progress Check --------------------
-$sql = "
-SELECT s.cblscheduleno, s.assignedto, s.assigntime, s.duration, s.scheduledate,
-       u.email, concat(u.countrycode,u.primarycontact) as whatsapp,
-       (SELECT MAX(progresstime) FROM asp_cblprogress p WHERE p.cblscheduleno = s.cblscheduleno) AS last_progress,
-       (SELECT percentile FROM asp_cblprogress p WHERE p.cblscheduleno = s.cblscheduleno ORDER BY progresstime DESC LIMIT 1) AS percentile
+/* ==================== 2. PROGRESS CHECK ==================== */
+$progressSQL = "
+SELECT s.cblscheduleno, s.assignedto, s.assigntime, s.duration,
+       u.email, CONCAT(u.countrycode,u.primarycontact) AS whatsapp,
+       MAX(p.progresstime) AS last_progress,
+       COALESCE(MAX(p.percentile),0) AS percentile
 FROM asp_cblschedule s
 JOIN hr_user u ON u.userno = s.assignedto
-WHERE s.scheduledate >= '$today' AND u.isactive=1";
+LEFT JOIN asp_cblprogress p ON p.cblscheduleno = s.cblscheduleno
+WHERE s.scheduledate <= ? AND u.isactive = 1
+GROUP BY s.cblscheduleno";
 
-$result = $conn->query($sql);
+$progStmt = $conn->prepare($progressSQL);
+$progStmt->bind_param('s', $today);
+$progStmt->execute();
+$progressRes = $progStmt->get_result();
 
-while($row = $result->fetch_assoc()) {
-    $assigntime = strtotime($row['assigntime']);
-    $duration_hours = floatval($row['duration']);
-    $elapsed_hours = ($now->getTimestamp() - $assigntime) / 3600;
-    $expected_percent = min(100, ($elapsed_hours / $duration_hours) * 100);
-    $current_percent = intval($row['percentile'] ?? 0);
+while ($row = $progressRes->fetch_assoc()) {
+    $taskId         = (int)$row['cblscheduleno'];
+    $userno         = (int)$row['assignedto'];
+    $email          = $row['email'];
+    $whatsapp       = $row['whatsapp'];
+    $durationHours  = (float)$row['duration'];
+    $assignTS       = strtotime($row['assigntime']);
+    $elapsedHours   = ($now->getTimestamp() - $assignTS) / 3600;
+    $expectedPct    = min(100, ($elapsedHours / $durationHours) * 100);
+    $currentPct     = (int)$row['percentile'];
 
-    $last_progress = isset($row['last_progress']) ? strtotime($row['last_progress']) : $assigntime;
-    $hours_since_progress = ($now->getTimestamp() - $last_progress) / 3600;
+    $lastProgTS     = $row['last_progress'] ? strtotime($row['last_progress']) : $assignTS;
+    $hoursNoProg    = ($now->getTimestamp() - $lastProgTS) / 3600;
 
-    $task_id = $row['cblscheduleno'];
-    $employee_email = $row['email'];
-    $employee_whatsapp = $row['whatsapp'];
-    $userno = $row['assignedto'];
-
-    // --- Lagging progress ---
-    if($current_percent + $lag_buffer < $expected_percent && !reminderSent($conn, $userno, $task_id, 'lagging')) {
-        $subject = "Task #$task_id Lagging Reminder";
-        $body = "Task #$task_id is lagging behind expected progress. Please update your progress.";
-        sendEmail($employee_email, $subject, $body);
-        sendWhatsApp($employee_whatsapp, $body);
-        logReminder($conn, $userno, $task_id, 'lagging');
+    /* ---- Lagging ---- */
+    if (($currentPct + $lag_buffer) < $expectedPct && !reminderSent($conn, $userno, $taskId, 'lagging')) {
+        $subject = "Task #$taskId Lagging Reminder";
+        $body    = "Task #$taskId is lagging behind expected progress (expected ~" .
+                   round($expectedPct) . "%, current $currentPct%). Please update.";
+        sendEmail($email, $subject, $body);
+        sendWhatsApp($whatsapp, $body);
+        logReminder($conn, $userno, $taskId, 'lagging');
     }
 
-    // --- Stalled progress (>4h) ---
-    if($hours_since_progress >= $stalled_hours && !reminderSent($conn, $userno, $task_id, 'stalled')) {
-        $subject = "No Progress Update for Task #$task_id";
-        $body = "Task #$task_id assigned to user $userno has no progress update for $stalled_hours+ hours.";
+    /* ---- Stalled ---- */
+    if ($hoursNoProg >= $stalled_hours && !reminderSent($conn, $userno, $taskId, 'stalled')) {
+        $subject = "No Progress Update for Task #$taskId";
+        $body    = "Task #$taskId (user $userno) has no progress for " .
+                   round($hoursNoProg, 1) . " hours.";
         sendEmail($admin_email, $subject, $body);
-        logReminder($conn, $userno, $task_id, 'stalled');
+        logReminder($conn, $userno, $taskId, 'stalled');
     }
 }
-
+$progressRes->free();
 $conn->close();

@@ -8,6 +8,7 @@ date_default_timezone_set('Asia/Dhaka');
 
 // -------------------- CONFIG --------------------
 $admin_email = "agamilabs@gmail.com";
+$CC_emails = "shmazumder23@gmail.com, shazzad@agamilabs.com";
 $from_email = "noreply@workmate.agamilab.com";
 $lag_buffer = 10; // % buffer for lagging
 $stalled_hours = 4; // no progress threshold
@@ -33,7 +34,8 @@ $today = $now->format('Y-m-d');
 // -------------------- HELPER FUNCTIONS --------------------
 function sendEmail($to, $subject, $body) {
     global $from_email;
-    mail($to, $subject, $body, "From: AGAMiLabs <$from_email>");
+    global $CC_emails;
+    mail($to, $subject, $body, "From: AGAMiLabs <$from_email>\r\nCC: $CC_emails\r\n");
 }
 
 function sendWhatsApp($phone, $message) {

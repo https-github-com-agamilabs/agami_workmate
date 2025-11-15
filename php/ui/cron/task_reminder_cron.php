@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
 date_default_timezone_set('Asia/Dhaka');
 
 // -------------------- CONFIG --------------------
@@ -97,7 +101,7 @@ SELECT s.cblscheduleno, s.assignedto, s.assigntime, s.duration, s.scheduledate,
        (SELECT MAX(progresstime) FROM asp_cblprogress p WHERE p.cblscheduleno = s.cblscheduleno) AS last_progress,
        (SELECT percentile FROM asp_cblprogress p WHERE p.cblscheduleno = s.cblscheduleno ORDER BY progresstime DESC LIMIT 1) AS percentile
 FROM asp_cblschedule s
-JOIN users u ON u.userno = s.assignedto
+JOIN hr_user u ON u.userno = s.assignedto
 WHERE s.scheduledate >= '$today'";
 
 $result = $conn->query($sql);

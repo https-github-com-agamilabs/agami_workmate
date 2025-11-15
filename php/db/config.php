@@ -60,7 +60,7 @@ if ($debug || !$isCronJob) {
     $publicAccessUrl = $REQUEST_PROTOCOL . "://$host/" . $projectName . "/";
     $projectPath = DIRECTORY_SEPARATOR . $projectName . DIRECTORY_SEPARATOR;
     $authUrl = $REQUEST_PROTOCOL . "://$host/" . $projectName . "/auth/?redirect=";
-} if($isCronJob){
+} else if($isCronJob){
     $projectName = "workmate.agamilabs.com";
 
     #MySQL Database name:

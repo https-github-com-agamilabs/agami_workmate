@@ -69,7 +69,7 @@ function logReminder($conn, $userno, $cblscheduleno, $type) {
 }
 
 // -------------------- 1. Morning Task Summary --------------------
-$employees = $conn->query("SELECT userno, fullname, email, concat(u.countrycode,u.primarycontact) as whatsapp FROM users");
+$employees = $conn->query("SELECT userno, fullname, email, concat(u.countrycode,u.primarycontact) as whatsapp FROM hr_user");
 while($emp = $employees->fetch_assoc()) {
     $userno = $emp['userno'];
 

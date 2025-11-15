@@ -11,7 +11,7 @@ $admin_email = "agamilabs@gmail.com";
 $CC_emails = "shmazumder23@gmail.com, shazzad@agamilabs.com";
 $from_email = "noreply@workmate.agamilab.com";
 $lag_buffer = 10; // % buffer for lagging
-$stalled_hours = 4; // no progress threshold
+$stalled_hours = 1; // no progress threshold
 
 $enable_whatsapp = false; // enable free WhatsApp notifications
 $callmebot_api_key = "YOUR_CALLMEBOT_API_KEY"; // free WhatsApp API key

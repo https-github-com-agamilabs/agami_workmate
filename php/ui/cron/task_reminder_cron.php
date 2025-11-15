@@ -1,16 +1,12 @@
 <?php
 /**
- * task_reminder.php
- * Daily Task Reminder + Progress Monitor
- * Runs: 8:30 AM Dhaka time (cron)
+ * task_reminder.php – WITH DEADLINE MONITORING
+ * Runs daily at 8:30 AM Dhaka time
  * Features:
- *  - Personalized emails with employee name
- *  - HTML-rich task descriptions (howto)
- *  - Multipart email (HTML + Plain text)
- *  - WhatsApp support (plain text)
- *  - Lagging & Stalled alerts
- *  - SQL injection safe
- *  - No duplicate alerts
+ *  - Morning task list (HTML + rich howto)
+ *  - Lagging / Stalled alerts
+ *  - Deadline warnings: 3-day, 1-day, overdue
+ *  - Personalized, beautiful emails
  */
 
 ini_set('display_errors', '1');
@@ -23,64 +19,52 @@ date_default_timezone_set('Asia/Dhaka');
 $admin_email   = "agamilabs@gmail.com";
 $CC_emails     = array_filter(array_map('trim', explode(',', "shmazumder23@gmail.com, shazzad@agamilabs.com")));
 $from_email    = "noreply@workmate.agamilab.com";
-$lag_buffer    = 10;        // % buffer for lagging
-$stalled_hours = 1;         // hours with no progress
+$lag_buffer    = 10;
+$stalled_hours = 1;
 
-$enable_whatsapp    = false;  // Set true + API key to enable
+$enable_whatsapp    = false;
 $callmebot_api_key  = "YOUR_CALLMEBOT_API_KEY";
 // ===============================================
 
-// ==================== DB CONNECTION ====================
 $base_path = dirname(dirname(dirname(__FILE__)));
 require_once $base_path . "/db/Database.php";
 
 $db   = new Database();
 $conn = $db->db_connect();
-if (!$db->is_connected()) {
-    die("Database connection failed");
-}
+if (!$db->is_connected()) die("DB failed");
 
 $now   = new DateTime();
 $today = $now->format('Y-m-d');
-// =======================================================
+$now_ts = $now->getTimestamp();
+// ===============================================
 
-// ==================== HELPER FUNCTIONS ====================
-
-/** Send multipart email (HTML + Plain text) */
-function sendEmail(string $to, string $subject, string $plainBody, string $htmlBody): void
+// ==================== HELPERS ====================
+function sendEmail(string $to, string $subject, string $plain, string $html): void
 {
     global $from_email, $CC_emails;
-
     $boundary = md5(time());
     $headers  = "From: AGAMiLabs <$from_email>\r\n";
     $headers .= "CC: " . implode(', ', $CC_emails) . "\r\n";
     $headers .= "MIME-Version: 1.0\r\n";
     $headers .= "Content-Type: multipart/alternative; boundary=\"$boundary\"\r\n";
 
-    $message  = "--$boundary\r\n";
-    $message .= "Content-Type: text/plain; charset=UTF-8\r\n\r\n";
-    $message .= $plainBody . "\r\n";
+    $msg  = "--$boundary\r\n";
+    $msg .= "Content-Type: text/plain; charset=UTF-8\r\n\r\n$plain\r\n";
+    $msg .= "--$boundary\r\n";
+    $msg .= "Content-Type: text/html; charset=UTF-8\r\n\r\n$html\r\n";
+    $msg .= "--$boundary--";
 
-    $message .= "--$boundary\r\n";
-    $message .= "Content-Type: text/html; charset=UTF-8\r\n\r\n";
-    $message .= $htmlBody . "\r\n";
-
-    $message .= "--$boundary--";
-
-    mail($to, $subject, $message, $headers);
+    mail($to, $subject, $msg, $headers);
 }
 
-/** Send WhatsApp message (plain text only) */
-function sendWhatsApp(?string $phone, string $message): void
+function sendWhatsApp(?string $phone, string $msg): void
 {
     global $enable_whatsapp, $callmebot_api_key;
     if (!$enable_whatsapp || !$phone || empty($callmebot_api_key)) return;
-
     $phone = preg_replace('/\D/', '', $phone);
     $phone = $phone[0] === '+' ? $phone : '+' . $phone;
-    $text  = urlencode($message);
+    $text  = urlencode($msg);
     $url   = "https://api.callmebot.com/whatsapp.php?phone=$phone&text=$text&apikey=$callmebot_api_key";
-
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);
@@ -88,58 +72,43 @@ function sendWhatsApp(?string $phone, string $message): void
     curl_close($ch);
 }
 
-/** Check if reminder already sent today */
 function reminderSent(mysqli $conn, int $userno, ?int $cblscheduleno, string $type): bool
 {
-    $sql = "SELECT 1 FROM asp_task_reminder_log 
-            WHERE userno = ? AND reminder_type = ? AND DATE(sent_time) = CURDATE()";
+    $sql = "SELECT 1 FROM asp_task_reminder_log WHERE userno = ? AND reminder_type = ? AND DATE(sent_time) = CURDATE()";
     $params = [$userno, $type];
     $types  = 'is';
-
     if ($cblscheduleno !== null) {
-        $sql   .= " AND cblscheduleno = ?";
+        $sql .= " AND cblscheduleno = ?";
         $params[] = $cblscheduleno;
         $types .= 'i';
-    } else {
-        $sql .= " AND cblscheduleno IS NULL";
-    }
+    } else $sql .= " AND cblscheduleno IS NULL";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param($types, ...$params);
     $stmt->execute();
-    $res = $stmt->get_result();
-    return $res->num_rows > 0;
+    return $stmt->get_result()->num_rows > 0;
 }
 
-/** Log reminder to prevent duplicates */
 function logReminder(mysqli $conn, int $userno, ?int $cblscheduleno, string $type): void
 {
-    $stmt = $conn->prepare(
-        "INSERT INTO asp_task_reminder_log (userno, cblscheduleno, reminder_type) VALUES (?, ?, ?)"
-    );
+    $stmt = $conn->prepare("INSERT INTO asp_task_reminder_log (userno, cblscheduleno, reminder_type) VALUES (?, ?, ?)");
     $stmt->bind_param('iis', $userno, $cblscheduleno, $type);
     $stmt->execute();
 }
 
-/** Sanitize and format howto HTML safely */
 function formatHowTo(string $html): string
 {
-    // Allow only safe tags
     $allowed = '<b><i><u><strong><em><a><ul><ol><li><br><p><blockquote><code><pre>';
     $safe = strip_tags($html, $allowed);
-
-    // Make links clickable and styled
-    $safe = preg_replace(
+    return preg_replace(
         '#<a\s+href=["\']([^"\']+)["\'][^>]*>([^<]+)</a>#i',
         '<a href="$1" style="color:#0066cc;text-decoration:underline;">$2</a>',
         $safe
     );
-
-    return $safe;
 }
-// =======================================================
+// ===============================================
 
-// ==================== 1. MORNING SUMMARY (HTML + Plain) ====================
+// ==================== 1. MORNING SUMMARY ====================
 $empStmt = $conn->prepare(
     "SELECT userno, CONCAT(firstname,' ',lastname) AS fullname, email,
             CONCAT(IFNULL(countrycode,''),IFNULL(primarycontact,'')) AS whatsapp
@@ -155,60 +124,42 @@ while ($emp = $employees->fetch_assoc()) {
     $whatsapp = $emp['whatsapp'];
 
     $taskStmt = $conn->prepare(
-        "SELECT cblscheduleno, howto, duration
-           FROM asp_cblschedule
-          WHERE assignedto = ? AND scheduledate = ?"
+        "SELECT cblscheduleno, howto, duration FROM asp_cblschedule WHERE assignedto = ? AND scheduledate = ?"
     );
     $taskStmt->bind_param('is', $userno, $today);
     $taskStmt->execute();
     $tasksResult = $taskStmt->get_result();
 
     if ($tasksResult->num_rows > 0 && !reminderSent($conn, $userno, null, 'morning')) {
-        $plainTasks = '';
-        $htmlTasks  = '<ul style="margin:15px 0; padding-left:25px; line-height:1.6;">';
-
+        $plainTasks = $htmlTasks = '<ul style="margin:15px 0;padding-left:25px;line-height:1.6;">';
         while ($t = $tasksResult->fetch_assoc()) {
-            $taskId   = $t['cblscheduleno'];
-            $howtoRaw = $t['howto'] ?? '';
-            $duration = $t['duration'];
+            $id = $t['cblscheduleno']; $how = $t['howto'] ?? ''; $dur = $t['duration'];
+            $plainHow = html_entity_decode(strip_tags($how), ENT_QUOTES, 'UTF-8');
+            $plainTasks .= "Task #$id: $plainHow (Duration: {$dur}h)\n";
 
-            // Plain text version
-            $plainHowTo = html_entity_decode(strip_tags($howtoRaw), ENT_QUOTES, 'UTF-8');
-            $plainTasks .= "Task #$taskId: $plainHowTo (Duration: {$duration}h)\n";
-
-            // HTML version
-            $safeHowTo = formatHowTo($howtoRaw);
+            $safeHow = formatHowTo($how);
             $htmlTasks .= "<li style=\"margin:10px 0;\">
-                <strong style=\"color:#2c3e50;\">Task #$taskId</strong>
-                <span style=\"color:#7f8c8d;font-size:0.9em;\"> (Duration: {$duration}h)</span><br>
-                $safeHowTo
+                <strong style=\"color:#2c3e50;\">Task #$id</strong> 
+                <span style=\"color:#7f8c8d;font-size:0.9em;\">(Duration: {$dur}h)</span><br>
+                $safeHow
             </li>";
         }
         $htmlTasks .= '</ul>';
 
-        // Email bodies
         $plainBody = "Good morning, $fullname!\n\nHere are your tasks for today:\n\n$plainTasks";
         $htmlBody  = "
-        <html>
-        <body style=\"font-family: 'Segoe UI', Arial, sans-serif; color: #333; background:#f9f9fb; padding:20px;\">
-            <div style=\"max-width:600px; margin:auto; background:#fff; border-radius:10px; padding:25px; box-shadow:0 2px 10px rgba(0,0,0,0.1);\">
-                <h2 style=\"color:#2c3e50; border-bottom:2px solid #3498db; padding-bottom:8px;\">Good morning, $fullname!</h2>
-                <p style=\"font-size:16px;\">Here are your tasks for <strong>today</strong>:</p>
+        <html><body style=\"font-family:'Segoe UI',Arial,sans-serif;color:#333;background:#f9f9fb;padding:20px;\">
+            <div style=\"max-width:600px;margin:auto;background:#fff;border-radius:10px;padding:25px;box-shadow:0 2px 10px rgba(0,0,0,0.1);\">
+                <h2 style=\"color:#2c3e50;border-bottom:2px solid #3498db;padding-bottom:8px;\">Good morning, $fullname!</h2>
+                <p style=\"font-size:16px;\">Your tasks for <strong>today</strong>:</p>
                 $htmlTasks
-                <hr style=\"border:0; border-top:1px solid #eee; margin:25px 0;\">
-                <p style=\"font-size:13px; color:#95a5a6;\">
-                    This is an automated reminder from <strong>WorkMate</strong> @ AGAMiLabs.
-                </p>
+                <hr style=\"border:0;border-top:1px solid #eee;margin:25px 0;\">
+                <p style=\"font-size:13px;color:#95a5a6;\">Automated from <strong>WorkMate</strong> @ AGAMiLabs</p>
             </div>
-        </body>
-        </html>";
+        </body></html>";
 
         sendEmail($email, "Today's Tasks", $plainBody, $htmlBody);
-
-        if (!empty($whatsapp)) {
-            sendWhatsApp($whatsapp, $plainBody);
-        }
-
+        if (!empty($whatsapp)) sendWhatsApp($whatsapp, $plainBody);
         logReminder($conn, $userno, null, 'morning');
     }
     elseif ($tasksResult->num_rows === 0 && !reminderSent($conn, $userno, null, 'morning_admin')) {
@@ -216,22 +167,22 @@ while ($emp = $employees->fetch_assoc()) {
         sendEmail($admin_email, "No Task Assigned", $body, "<p>$body</p>");
         logReminder($conn, $userno, null, 'morning_admin');
     }
-
     $tasksResult->free();
 }
 $employees->free();
 
-// ==================== 2. PROGRESS CHECK (HTML emails) ====================
+// ==================== 2. PROGRESS + DEADLINE CHECK ====================
 $progressSQL = "
-SELECT s.cblscheduleno, s.assignedto, s.assigntime, s.duration,
-       u.email,
-       CONCAT(IFNULL(u.countrycode,''),IFNULL(u.primarycontact,'')) AS whatsapp,
+SELECT s.cblscheduleno, s.assignedto, s.assigntime, s.duration, s.scheduledate,
+       u.email, CONCAT(IFNULL(u.countrycode,''),IFNULL(u.primarycontact,'')) AS whatsapp,
        CONCAT(u.firstname,' ',u.lastname) AS fullname,
        MAX(p.progresstime) AS last_progress,
-       COALESCE(MAX(p.percentile),0) AS percentile
+       COALESCE(MAX(p.percentile),0) AS percentile,
+       d.deadline
 FROM asp_cblschedule s
 JOIN hr_user u ON u.userno = s.assignedto
 LEFT JOIN asp_cblprogress p ON p.cblscheduleno = s.cblscheduleno
+LEFT JOIN asp_deadlines d ON d.cblscheduleno = s.cblscheduleno
 WHERE s.scheduledate <= ? AND u.isactive = 1
 GROUP BY s.cblscheduleno";
 
@@ -248,39 +199,65 @@ while ($row = $progressRes->fetch_assoc()) {
     $fullname      = $row['fullname'];
     $durationHours = (float)$row['duration'];
     $assignTS      = strtotime($row['assigntime']);
-    $elapsedHours  = ($now->getTimestamp() - $assignTS) / 3600;
+    $elapsedHours  = ($now_ts - $assignTS) / 3600;
     $expectedPct   = min(100, ($elapsedHours / $durationHours) * 100);
     $currentPct    = (int)$row['percentile'];
-
     $lastProgTS    = $row['last_progress'] ? strtotime($row['last_progress']) : $assignTS;
-    $hoursNoProg   = ($now->getTimestamp() - $lastProgTS) / 3600;
+    $hoursNoProg   = ($now_ts - $lastProgTS) / 3600;
 
-    /* ---- Lagging Reminder ---- */
+    $deadlineStr   = $row['deadline'];
+    $hasDeadline   = !empty($deadlineStr);
+    $deadlineDate  = $hasDeadline ? new DateTime($deadlineStr) : null;
+    $daysToDeadline = $hasDeadline ? (int)$deadlineDate->diff($now)->format('%r%a') : null;
+
+    // === LAGGING ===
     if (($currentPct + $lag_buffer) < $expectedPct && !reminderSent($conn, $userno, $taskId, 'lagging')) {
-        $plainBody = "Hi $fullname,\n\nTask #$taskId is lagging behind expected progress (expected ~" . round($expectedPct) . "%, current $currentPct%). Please update your progress.";
-        $htmlBody  = "
-        <html><body style=\"font-family:Arial,sans-serif;color:#333;\">
-            <h3>Hi $fullname,</h3>
-            <p><strong>Task #$taskId</strong> is <span style=\"color:#e74c3c;font-weight:bold;\">lagging behind</span> expected progress.</p>
-            <ul>
-                <li>Expected: ~" . round($expectedPct) . "%</li>
-                <li>Current: $currentPct%</li>
-            </ul>
-            <p>Please update your progress now.</p>
-        </body></html>";
-
-        sendEmail($email, "Task #$taskId Lagging Reminder", $plainBody, $htmlBody);
-        if (!empty($whatsapp)) sendWhatsApp($whatsapp, $plainBody);
+        $plain = "Hi $fullname,\n\nTask #$taskId is lagging (expected ~" . round($expectedPct) . "%, current $currentPct%). Please update.";
+        $html  = "<p>Hi <strong>$fullname</strong>,</p><p><strong>Task #$taskId</strong> is <span style=\"color:#e74c3c;font-weight:bold;\">lagging</span>.</p><ul><li>Expected: ~" . round($expectedPct) . "%</li><li>Current: $currentPct%</li></ul><p>Please update now.</p>";
+        sendEmail($email, "Task #$taskId Lagging", $plain, $html);
+        if (!empty($whatsapp)) sendWhatsApp($whatsapp, $plain);
         logReminder($conn, $userno, $taskId, 'lagging');
     }
 
-    /* ---- Stalled Alert (Admin) ---- */
+    // === STALLED ===
     if ($hoursNoProg >= $stalled_hours && !reminderSent($conn, $userno, $taskId, 'stalled')) {
-        $plainBody = "Task #$taskId assigned to $fullname (UserID: $userno) has no progress for " . round($hoursNoProg, 1) . " hours.";
-        $htmlBody  = "<p>$plainBody</p>";
-
-        sendEmail($admin_email, "No Progress Update for Task #$taskId", $plainBody, $htmlBody);
+        $plain = "Task #$taskId assigned to $fullname (UserID: $userno) has no progress for " . round($hoursNoProg, 1) . " hours.";
+        $html  = "<p>$plain</p>";
+        sendEmail($admin_email, "No Progress: Task #$taskId", $plain, $html);
         logReminder($conn, $userno, $taskId, 'stalled');
+    }
+
+    // === DEADLINE ALERTS ===
+    if ($hasDeadline) {
+        $dlFormatted = $deadlineDate->format('F j, Y');
+
+        // Overdue
+        if ($daysToDeadline < 0 && !reminderSent($conn, $userno, $taskId, 'deadline_overdue')) {
+            $daysLate = abs($daysToDeadline);
+            $plain = "URGENT: Task #$taskId is OVERDUE by $daysLate day(s)! Deadline was $dlFormatted.";
+            $html  = "<p style=\"color:#c0392b;font-weight:bold;\">Task #$taskId is <u>OVERDUE</u> by $daysLate day(s)!</p><p>Deadline: <strong>$dlFormatted</strong></p>";
+            sendEmail($email, "OVERDUE: Task #$taskId", $plain, $html);
+            sendEmail($admin_email, "OVERDUE Alert: Task #$taskId", $plain, $html);
+            if (!empty($whatsapp)) sendWhatsApp($whatsapp, $plain);
+            logReminder($conn, $userno, $taskId, 'deadline_overdue');
+        }
+
+        // 1 Day Before
+        elseif ($daysToDeadline == 1 && !reminderSent($conn, $userno, $taskId, 'deadline_1day')) {
+            $plain = "Reminder: Task #$taskId is due TOMORROW ($dlFormatted).";
+            $html  = "<p>Task #$taskId is due <strong style=\"color:#e67e22;\">TOMORROW</strong> – $dlFormatted.</p>";
+            sendEmail($email, "Due Tomorrow: Task #$taskId", $plain, $html);
+            if (!empty($whatsapp)) sendWhatsApp($whatsapp, $plain);
+            logReminder($conn, $userno, $taskId, 'deadline_1day');
+        }
+
+        // 3 Days Before
+        elseif ($daysToDeadline == 3 && !reminderSent($conn, $userno, $taskId, 'deadline_3day')) {
+            $plain = "Heads up: Task #$taskId deadline in 3 days ($dlFormatted).";
+            $html  = "<p>Task #$taskId deadline in <strong>3 days</strong> – $dlFormatted.</p>";
+            sendEmail($email, "Deadline in 3 Days: Task #$taskId", $plain, $html);
+            logReminder($conn, $userno, $taskId, 'deadline_3day');
+        }
     }
 }
 $progressRes->free();

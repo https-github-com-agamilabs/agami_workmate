@@ -69,7 +69,7 @@ function logReminder($conn, $userno, $cblscheduleno, $type) {
 }
 
 // -------------------- 1. Morning Task Summary --------------------
-$employees = $conn->query("SELECT userno, concat(firstname, ' ', lastname) as fullname, email, concat(u.countrycode,u.primarycontact) as whatsapp FROM hr_user as u");
+$employees = $conn->query("SELECT userno, concat(firstname, ' ', lastname) as fullname, email, concat(u.countrycode,u.primarycontact) as whatsapp FROM hr_user as u WHERE isactive=1");
 while($emp = $employees->fetch_assoc()) {
     $userno = $emp['userno'];
 
@@ -102,7 +102,7 @@ SELECT s.cblscheduleno, s.assignedto, s.assigntime, s.duration, s.scheduledate,
        (SELECT percentile FROM asp_cblprogress p WHERE p.cblscheduleno = s.cblscheduleno ORDER BY progresstime DESC LIMIT 1) AS percentile
 FROM asp_cblschedule s
 JOIN hr_user u ON u.userno = s.assignedto
-WHERE s.scheduledate >= '$today'";
+WHERE s.scheduledate >= '$today' AND u.isactive=1";
 
 $result = $conn->query($sql);
 

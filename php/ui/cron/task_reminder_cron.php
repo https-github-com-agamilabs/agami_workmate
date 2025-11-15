@@ -175,7 +175,7 @@ while ($row = $progressRes->fetch_assoc()) {
         $body    = "Task #$taskId is lagging behind expected progress (expected ~" .
                    round($expectedPct) . "%, current $currentPct%). Please update.";
         sendEmail($email, $subject, $body);
-        if(!ifnull($whatsapp) && !empty($whatsapp)){
+        if(!is_null($whatsapp) && !empty($whatsapp)){
             sendWhatsApp($whatsapp, $body);
         }
         logReminder($conn, $userno, $taskId, 'lagging');

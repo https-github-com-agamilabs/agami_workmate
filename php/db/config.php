@@ -60,6 +60,23 @@ if ($debug || !$isCronJob) {
     $publicAccessUrl = $REQUEST_PROTOCOL . "://$host/" . $projectName . "/";
     $projectPath = DIRECTORY_SEPARATOR . $projectName . DIRECTORY_SEPARATOR;
     $authUrl = $REQUEST_PROTOCOL . "://$host/" . $projectName . "/auth/?redirect=";
+} if($isCronJob){
+    $projectName = "workmate.agamilabs.com";
+
+    #MySQL Database name:
+    define('DB_NAME', 'workmatedb');
+    #MySQL Database User Name:
+    define('DB_USER', 'workmate_admn');
+    #MySQL Database Password:
+    define('DB_PASSWORD', ']H}gX{)XGnAf');
+    #MySQL Hostname:
+    define('DB_HOST', 'localhost');
+
+    define('PREFIX', '');
+
+    $publicAccessUrl = $REQUEST_PROTOCOL . "://$host/";
+    $projectPath = DIRECTORY_SEPARATOR . $projectName . DIRECTORY_SEPARATOR;
+    $authUrl = $REQUEST_PROTOCOL . "://$host/auth/?redirect=";
 } elseif (strcasecmp($host, "workmate.agamilabs.com") === 0 || strcasecmp($host, "www.workmate.agamilabs.com") === 0) {
     $projectName = "workmate.agamilabs.com";
 
@@ -94,24 +111,7 @@ if ($debug || !$isCronJob) {
     $publicAccessUrl = $REQUEST_PROTOCOL . "://$host/";
     $projectPath = DIRECTORY_SEPARATOR . $projectName . DIRECTORY_SEPARATOR;
     $authUrl = $REQUEST_PROTOCOL . "://$host/auth/?redirect=";
-} if($isCronJob){
-    $projectName = "workmate.agamilabs.com";
-
-    #MySQL Database name:
-    define('DB_NAME', 'workmatedb');
-    #MySQL Database User Name:
-    define('DB_USER', 'workmate_admn');
-    #MySQL Database Password:
-    define('DB_PASSWORD', ']H}gX{)XGnAf');
-    #MySQL Hostname:
-    define('DB_HOST', 'localhost');
-
-    define('PREFIX', '');
-
-    $publicAccessUrl = $REQUEST_PROTOCOL . "://$host/";
-    $projectPath = DIRECTORY_SEPARATOR . $projectName . DIRECTORY_SEPARATOR;
-    $authUrl = $REQUEST_PROTOCOL . "://$host/auth/?redirect=";
-}else {
+} else {
     $err_msg =  "$host is not allowed in Production Mode. Please contact AGAMiLabs Ltd.";
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         echo $err_msg;

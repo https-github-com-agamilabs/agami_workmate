@@ -1,12 +1,14 @@
 <?php
 /**
- * task_reminder.php – WITH DEADLINE MONITORING
+ * task_reminder.php – WITH backlogno + DEADLINE MONITORING
  * Runs daily at 8:30 AM Dhaka time
  * Features:
+ *  - Uses BACKLOGNO (not cblscheduleno) in all messages
  *  - Morning task list (HTML + rich howto)
- *  - Lagging / Stalled alerts
- *  - Deadline warnings: 3-day, 1-day, overdue
+ *  - Lagging / Stalled / Deadline alerts
  *  - Personalized, beautiful emails
+ *  - WhatsApp (plain text)
+ *  - No duplicates
  */
 
 ini_set('display_errors', '1');
@@ -72,14 +74,14 @@ function sendWhatsApp(?string $phone, string $msg): void
     curl_close($ch);
 }
 
-function reminderSent(mysqli $conn, int $userno, ?int $cblscheduleno, string $type): bool
+function reminderSent(mysqli $conn, int $userno, ?int $backlogno, string $type): bool
 {
     $sql = "SELECT 1 FROM asp_task_reminder_log WHERE userno = ? AND reminder_type = ? AND DATE(sent_time) = CURDATE()";
     $params = [$userno, $type];
     $types  = 'is';
-    if ($cblscheduleno !== null) {
-        $sql .= " AND cblscheduleno = ?";
-        $params[] = $cblscheduleno;
+    if ($backlogno !== null) {
+        $sql .= " AND cblscheduleno = (SELECT cblscheduleno FROM asp_cblschedule WHERE backlogno = ? LIMIT 1)";
+        $params[] = $backlogno;
         $types .= 'i';
     } else $sql .= " AND cblscheduleno IS NULL";
 
@@ -89,8 +91,9 @@ function reminderSent(mysqli $conn, int $userno, ?int $cblscheduleno, string $ty
     return $stmt->get_result()->num_rows > 0;
 }
 
-function logReminder(mysqli $conn, int $userno, ?int $cblscheduleno, string $type): void
+function logReminder(mysqli $conn, int $userno, ?int $backlogno, string $type): void
 {
+    $cblscheduleno = $backlogno ? $conn->query("SELECT cblscheduleno FROM asp_cblschedule WHERE backlogno = $backlogno LIMIT 1")->fetch_row()[0] ?? null : null;
     $stmt = $conn->prepare("INSERT INTO asp_task_reminder_log (userno, cblscheduleno, reminder_type) VALUES (?, ?, ?)");
     $stmt->bind_param('iis', $userno, $cblscheduleno, $type);
     $stmt->execute();
@@ -108,11 +111,11 @@ function formatHowTo(string $html): string
 }
 // ===============================================
 
-// ==================== 1. MORNING SUMMARY ====================
+// ==================== 1. MORNING SUMMARY (backlogno) ====================
 $empStmt = $conn->prepare(
-    "SELECT userno, CONCAT(firstname,' ',lastname) AS fullname, email,
-            CONCAT(IFNULL(countrycode,''),IFNULL(primarycontact,'')) AS whatsapp
-       FROM hr_user WHERE isactive = 1"
+    "SELECT u.userno, CONCAT(u.firstname,' ',u.lastname) AS fullname, u.email,
+            CONCAT(IFNULL(u.countrycode,''),IFNULL(u.primarycontact,'')) AS whatsapp
+       FROM hr_user u WHERE u.isactive = 1"
 );
 $empStmt->execute();
 $employees = $empStmt->get_result();
@@ -124,7 +127,9 @@ while ($emp = $employees->fetch_assoc()) {
     $whatsapp = $emp['whatsapp'];
 
     $taskStmt = $conn->prepare(
-        "SELECT cblscheduleno, howto, duration FROM asp_cblschedule WHERE assignedto = ? AND scheduledate = ?"
+        "SELECT s.backlogno, s.howto, s.duration 
+           FROM asp_cblschedule s 
+          WHERE s.assignedto = ? AND s.scheduledate = ?"
     );
     $taskStmt->bind_param('is', $userno, $today);
     $taskStmt->execute();
@@ -133,13 +138,16 @@ while ($emp = $employees->fetch_assoc()) {
     if ($tasksResult->num_rows > 0 && !reminderSent($conn, $userno, null, 'morning')) {
         $plainTasks = $htmlTasks = '<ul style="margin:15px 0;padding-left:25px;line-height:1.6;">';
         while ($t = $tasksResult->fetch_assoc()) {
-            $id = $t['cblscheduleno']; $how = $t['howto'] ?? ''; $dur = $t['duration'];
+            $backlogno = $t['backlogno'];
+            $how = $t['howto'] ?? '';
+            $dur = $t['duration'];
+
             $plainHow = html_entity_decode(strip_tags($how), ENT_QUOTES, 'UTF-8');
-            $plainTasks .= "Task #$id: $plainHow (Duration: {$dur}h)\n";
+            $plainTasks .= "Backlog #$backlogno: $plainHow (Duration: {$dur}h)\n";
 
             $safeHow = formatHowTo($how);
             $htmlTasks .= "<li style=\"margin:10px 0;\">
-                <strong style=\"color:#2c3e50;\">Task #$id</strong> 
+                <strong style=\"color:#2c3e50;\">Backlog #$backlogno</strong> 
                 <span style=\"color:#7f8c8d;font-size:0.9em;\">(Duration: {$dur}h)</span><br>
                 $safeHow
             </li>";
@@ -171,9 +179,9 @@ while ($emp = $employees->fetch_assoc()) {
 }
 $employees->free();
 
-// ==================== 2. PROGRESS + DEADLINE CHECK ====================
+// ==================== 2. PROGRESS + DEADLINE CHECK (backlogno) ====================
 $progressSQL = "
-SELECT s.cblscheduleno, s.assignedto, s.assigntime, s.duration, s.scheduledate,
+SELECT s.backlogno, s.cblscheduleno, s.assignedto, s.assigntime, s.duration,
        u.email, CONCAT(IFNULL(u.countrycode,''),IFNULL(u.primarycontact,'')) AS whatsapp,
        CONCAT(u.firstname,' ',u.lastname) AS fullname,
        MAX(p.progresstime) AS last_progress,
@@ -192,7 +200,8 @@ $progStmt->execute();
 $progressRes = $progStmt->get_result();
 
 while ($row = $progressRes->fetch_assoc()) {
-    $taskId        = (int)$row['cblscheduleno'];
+    $backlogno     = (int)$row['backlogno'];
+    $cblscheduleno = (int)$row['cblscheduleno'];
     $userno        = (int)$row['assignedto'];
     $email         = $row['email'];
     $whatsapp      = $row['whatsapp'];
@@ -211,20 +220,20 @@ while ($row = $progressRes->fetch_assoc()) {
     $daysToDeadline = $hasDeadline ? (int)$deadlineDate->diff($now)->format('%r%a') : null;
 
     // === LAGGING ===
-    if (($currentPct + $lag_buffer) < $expectedPct && !reminderSent($conn, $userno, $taskId, 'lagging')) {
-        $plain = "Hi $fullname,\n\nTask #$taskId is lagging (expected ~" . round($expectedPct) . "%, current $currentPct%). Please update.";
-        $html  = "<p>Hi <strong>$fullname</strong>,</p><p><strong>Task #$taskId</strong> is <span style=\"color:#e74c3c;font-weight:bold;\">lagging</span>.</p><ul><li>Expected: ~" . round($expectedPct) . "%</li><li>Current: $currentPct%</li></ul><p>Please update now.</p>";
-        sendEmail($email, "Task #$taskId Lagging", $plain, $html);
+    if (($currentPct + $lag_buffer) < $expectedPct && !reminderSent($conn, $userno, $backlogno, 'lagging')) {
+        $plain = "Hi $fullname,\n\nBacklog #$backlogno is lagging (expected ~" . round($expectedPct) . "%, current $currentPct%). Please update.";
+        $html  = "<p>Hi <strong>$fullname</strong>,</p><p><strong>Backlog #$backlogno</strong> is <span style=\"color:#e74c3c;font-weight:bold;\">lagging</span>.</p><ul><li>Expected: ~" . round($expectedPct) . "%</li><li>Current: $currentPct%</li></ul><p>Please update now.</p>";
+        sendEmail($email, "Backlog #$backlogno Lagging", $plain, $html);
         if (!empty($whatsapp)) sendWhatsApp($whatsapp, $plain);
-        logReminder($conn, $userno, $taskId, 'lagging');
+        logReminder($conn, $userno, $backlogno, 'lagging');
     }
 
     // === STALLED ===
-    if ($hoursNoProg >= $stalled_hours && !reminderSent($conn, $userno, $taskId, 'stalled')) {
-        $plain = "Task #$taskId assigned to $fullname (UserID: $userno) has no progress for " . round($hoursNoProg, 1) . " hours.";
+    if ($hoursNoProg >= $stalled_hours && !reminderSent($conn, $userno, $backlogno, 'stalled')) {
+        $plain = "Backlog #$backlogno assigned to $fullname (UserID: $userno) has no progress for " . round($hoursNoProg, 1) . " hours.";
         $html  = "<p>$plain</p>";
-        sendEmail($admin_email, "No Progress: Task #$taskId", $plain, $html);
-        logReminder($conn, $userno, $taskId, 'stalled');
+        sendEmail($admin_email, "No Progress: Backlog #$backlogno", $plain, $html);
+        logReminder($conn, $userno, $backlogno, 'stalled');
     }
 
     // === DEADLINE ALERTS ===
@@ -232,31 +241,31 @@ while ($row = $progressRes->fetch_assoc()) {
         $dlFormatted = $deadlineDate->format('F j, Y');
 
         // Overdue
-        if ($daysToDeadline < 0 && !reminderSent($conn, $userno, $taskId, 'deadline_overdue')) {
+        if ($daysToDeadline < 0 && !reminderSent($conn, $userno, $backlogno, 'deadline_overdue')) {
             $daysLate = abs($daysToDeadline);
-            $plain = "URGENT: Task #$taskId is OVERDUE by $daysLate day(s)! Deadline was $dlFormatted.";
-            $html  = "<p style=\"color:#c0392b;font-weight:bold;\">Task #$taskId is <u>OVERDUE</u> by $daysLate day(s)!</p><p>Deadline: <strong>$dlFormatted</strong></p>";
-            sendEmail($email, "OVERDUE: Task #$taskId", $plain, $html);
-            sendEmail($admin_email, "OVERDUE Alert: Task #$taskId", $plain, $html);
+            $plain = "URGENT: Backlog #$backlogno is OVERDUE by $daysLate day(s)! Deadline was $dlFormatted.";
+            $html  = "<p style=\"color:#c0392b;font-weight:bold;\">Backlog #$backlogno is <u>OVERDUE</u> by $daysLate day(s)!</p><p>Deadline: <strong>$dlFormatted</strong></p>";
+            sendEmail($email, "OVERDUE: Backlog #$backlogno", $plain, $html);
+            sendEmail($admin_email, "OVERDUE Alert: Backlog #$backlogno", $plain, $html);
             if (!empty($whatsapp)) sendWhatsApp($whatsapp, $plain);
-            logReminder($conn, $userno, $taskId, 'deadline_overdue');
+            logReminder($conn, $userno, $backlogno, 'deadline_overdue');
         }
 
         // 1 Day Before
-        elseif ($daysToDeadline == 1 && !reminderSent($conn, $userno, $taskId, 'deadline_1day')) {
-            $plain = "Reminder: Task #$taskId is due TOMORROW ($dlFormatted).";
-            $html  = "<p>Task #$taskId is due <strong style=\"color:#e67e22;\">TOMORROW</strong> – $dlFormatted.</p>";
-            sendEmail($email, "Due Tomorrow: Task #$taskId", $plain, $html);
+        elseif ($daysToDeadline == 1 && !reminderSent($conn, $userno, $backlogno, 'deadline_1day')) {
+            $plain = "Reminder: Backlog #$backlogno is due TOMORROW ($dlFormatted).";
+            $html  = "<p>Backlog #$backlogno is due <strong style=\"color:#e67e22;\">TOMORROW</strong> – $dlFormatted.</p>";
+            sendEmail($email, "Due Tomorrow: Backlog #$backlogno", $plain, $html);
             if (!empty($whatsapp)) sendWhatsApp($whatsapp, $plain);
-            logReminder($conn, $userno, $taskId, 'deadline_1day');
+            logReminder($conn, $userno, $backlogno, 'deadline_1day');
         }
 
         // 3 Days Before
-        elseif ($daysToDeadline == 3 && !reminderSent($conn, $userno, $taskId, 'deadline_3day')) {
-            $plain = "Heads up: Task #$taskId deadline in 3 days ($dlFormatted).";
-            $html  = "<p>Task #$taskId deadline in <strong>3 days</strong> – $dlFormatted.</p>";
-            sendEmail($email, "Deadline in 3 Days: Task #$taskId", $plain, $html);
-            logReminder($conn, $userno, $taskId, 'deadline_3day');
+        elseif ($daysToDeadline == 3 && !reminderSent($conn, $userno, $backlogno, 'deadline_3day')) {
+            $plain = "Heads up: Backlog #$backlogno deadline in 3 days ($dlFormatted).";
+            $html  = "<p>Backlog #$backlogno deadline in <strong>3 days</strong> – $dlFormatted.</p>";
+            sendEmail($email, "Deadline in 3 Days: Backlog #$backlogno", $plain, $html);
+            logReminder($conn, $userno, $backlogno, 'deadline_3day');
         }
     }
 }

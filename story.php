@@ -1467,6 +1467,9 @@ date_default_timezone_set("Asia/Dhaka");
 
 					let shortCard = $(`<div class="card card-body${cardClass} cursor-pointer p-2 my-3 short_card_${value.backlogno}" style="border-radius:15px;">
 							<div class="d-flex flex-wrap justify-content-between align-items-center">
+								<div class='font-weight-bold text-primary'>#${value.backlogno}</div>
+							</div>
+							<div class="d-flex flex-wrap justify-content-between align-items-center">
 								<img class='rounded-semi-circle mr-2' src="${value.photo_url||"assets/image/user_icon.png"}" width="40" title="${value.postedby || ``}">
 
 								<div class="mb-1">${value.story}</div>
@@ -1482,6 +1485,8 @@ date_default_timezone_set("Asia/Dhaka");
 									${scheduleHTML}
 								</div>
 							</div>
+							<div class="font-weight-bold my-2">Double click to expand</div>
+
 						</div>`)
 						.appendTo(targetContainer);
 

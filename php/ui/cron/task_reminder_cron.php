@@ -128,7 +128,9 @@ while ($emp = $employees->fetch_assoc()) {
         $body = "Good morning, {$emp['fullname']}!\n\nHere are your tasks for today:\n\n" . $taskList;
 
         sendEmail($emp['email'], $subject, $body);
-        sendWhatsApp($emp['whatsapp'], $body);
+        if(!is_null($emp['whatsapp']) && !empty($emp['whatsapp'])){
+            sendWhatsApp($emp['whatsapp'], $body);
+        }
         logReminder($conn, $userno, null, 'morning');
     } elseif ($tasksResult->num_rows === 0 && !reminderSent($conn, $userno, null, 'morning_admin')) {
         $body = "No task assigned for employee {$emp['fullname']} (UserID: $userno) for today.";

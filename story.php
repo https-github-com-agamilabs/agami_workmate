@@ -1485,7 +1485,7 @@ date_default_timezone_set("Asia/Dhaka");
 									${scheduleHTML}
 								</div>
 							</div>
-							<div class="font-weight-bold my-2">Double click to expand</div>
+							<div class="font-weight-italic my-2">Double click to expand</div>
 
 						</div>`)
 						.appendTo(targetContainer);

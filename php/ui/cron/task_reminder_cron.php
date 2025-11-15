@@ -189,7 +189,7 @@ while ($row = $progressRes->fetch_assoc()) {
         $subject = "No Progress Update for Task #$taskId";
         // $body    = "Task #$taskId (user $userno) has no progress for " .
         //             round($hoursNoProg, 1) . " hours.";
-        $body       = "Task #$taskId assigned to {$emp['fullname']} (UserID: $userno) has no progress for " . 
+        $body       = "Task #$taskId assigned to {$row['fullname']} (UserID: $userno) has no progress for " . 
                     round($hoursNoProg, 1) . " hours.";
         sendEmail($admin_email, $subject, $body);
         logReminder($conn, $userno, $taskId, 'stalled');

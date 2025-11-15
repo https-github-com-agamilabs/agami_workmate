@@ -26,11 +26,11 @@ for ($i = 0; $i < count($debughost); $i++) {
     }
 }
 
-$isCronJob = (php_sapi_name() === 'cli' || defined('STDIN') || empty($_SERVER['HTTP_HOST']));
+$isCronJob = (php_sapi_name() === 'cli' || empty($_SERVER['HTTP_HOST']));
 
 // echo $debug."CONFIG HOST: ".$host;
 
-if ($debug || !$isCronJob) {
+if ($debug && !$isCronJob) {
     $projectName = "agami_workmate";
 
     #MySQL Database name:

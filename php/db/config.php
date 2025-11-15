@@ -26,9 +26,11 @@ for ($i = 0; $i < count($debughost); $i++) {
     }
 }
 
+$isCronJob = (php_sapi_name() === 'cli' || defined('STDIN') || empty($_SERVER['HTTP_HOST']));
+
 // echo $debug."CONFIG HOST: ".$host;
 
-if ($debug) {
+if ($debug || !$isCronJob) {
     $projectName = "agami_workmate";
 
     #MySQL Database name:
@@ -92,7 +94,24 @@ if ($debug) {
     $publicAccessUrl = $REQUEST_PROTOCOL . "://$host/";
     $projectPath = DIRECTORY_SEPARATOR . $projectName . DIRECTORY_SEPARATOR;
     $authUrl = $REQUEST_PROTOCOL . "://$host/auth/?redirect=";
-} else {
+} if($isCronJob){
+    $projectName = "workmate.agamilabs.com";
+
+    #MySQL Database name:
+    define('DB_NAME', 'workmatedb');
+    #MySQL Database User Name:
+    define('DB_USER', 'workmate_admn');
+    #MySQL Database Password:
+    define('DB_PASSWORD', ']H}gX{)XGnAf');
+    #MySQL Hostname:
+    define('DB_HOST', 'localhost');
+
+    define('PREFIX', '');
+
+    $publicAccessUrl = $REQUEST_PROTOCOL . "://$host/";
+    $projectPath = DIRECTORY_SEPARATOR . $projectName . DIRECTORY_SEPARATOR;
+    $authUrl = $REQUEST_PROTOCOL . "://$host/auth/?redirect=";
+}else {
     $err_msg =  "$host is not allowed in Production Mode. Please contact AGAMiLabs Ltd.";
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         echo $err_msg;

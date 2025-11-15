@@ -124,7 +124,8 @@ while ($emp = $employees->fetch_assoc()) {
             $taskList .= "Task #{$t['cblscheduleno']}: {$t['howto']} (Duration: {$t['duration']}h)\n";
         }
         $subject = "Today's Tasks";
-        $body    = "Good morning!\n\nHere are your tasks for today:\n\n" . $taskList;
+        // $body    = "Good morning!\n\nHere are your tasks for today:\n\n" . $taskList;
+        $body = "Good morning, {$emp['fullname']}!\n\nHere are your tasks for today:\n\n" . $taskList;
 
         sendEmail($emp['email'], $subject, $body);
         sendWhatsApp($emp['whatsapp'], $body);
@@ -172,8 +173,8 @@ while ($row = $progressRes->fetch_assoc()) {
     /* ---- Lagging ---- */
     if (($currentPct + $lag_buffer) < $expectedPct && !reminderSent($conn, $userno, $taskId, 'lagging')) {
         $subject = "Task #$taskId Lagging Reminder";
-        $body    = "Task #$taskId is lagging behind expected progress (expected ~" .
-                   round($expectedPct) . "%, current $currentPct%). Please update.";
+        $body    = "Hi {$emp['fullname']},\n\nTask #$taskId is lagging behind expected progress (expected ~" .
+                   round($expectedPct) . "%, current $currentPct%). Please update your progress.";
         sendEmail($email, $subject, $body);
         if(!is_null($whatsapp) && !empty($whatsapp)){
             sendWhatsApp($whatsapp, $body);
@@ -184,8 +185,10 @@ while ($row = $progressRes->fetch_assoc()) {
     /* ---- Stalled ---- */
     if ($hoursNoProg >= $stalled_hours && !reminderSent($conn, $userno, $taskId, 'stalled')) {
         $subject = "No Progress Update for Task #$taskId";
-        $body    = "Task #$taskId (user $userno) has no progress for " .
-                   round($hoursNoProg, 1) . " hours.";
+        // $body    = "Task #$taskId (user $userno) has no progress for " .
+        //             round($hoursNoProg, 1) . " hours.";
+        $body       = "Task #$taskId assigned to {$emp['fullname']} (UserID: $userno) has no progress for " . 
+                    round($hoursNoProg, 1) . " hours.";
         sendEmail($admin_email, $subject, $body);
         logReminder($conn, $userno, $taskId, 'stalled');
     }

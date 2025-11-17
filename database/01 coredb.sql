@@ -74,9 +74,13 @@ CREATE TABLE msg_channel(
 	channelno int AUTO_INCREMENT,
 	channeltitle varchar(255) NOT NULL,
 	parentchannel int DEFAULT NULL,
+	isactive int DEFAULT 0,
 	PRIMARY KEY(channelno),
 	CONSTRAINT fk_channel_parentchannel FOREIGN KEY(parentchannel) REFERENCES msg_channel(channelno) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ALTER TABLE msg_channel
+-- ADD COLUMN isactive int DEFAULT 0;
 
 CREATE TABLE msg_channelmember(
 	channelno int NOT NULL,

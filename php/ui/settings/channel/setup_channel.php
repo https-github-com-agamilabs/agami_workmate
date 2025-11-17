@@ -42,8 +42,13 @@
             $parentchannel = (int) $_POST['parentchannel'];
         }
 
+        $isactive=0;
+        if (isset($_POST['isactive']) && strlen($_POST['isactive'])>0) {
+            $isactive = (int) $_POST['isactive'];
+        }
+
         if($channelno>0){
-            $nos=update_channel($dbcon, $channeltitle, $parentchannel, $channelno,$orgno);
+            $nos=update_channel($dbcon, $channeltitle, $isactive, $parentchannel, $channelno,$orgno);
             if($nos>0){
                 $response['error'] = false;
                 $response['message'] = "Channel/Project info is Updated.";
@@ -52,7 +57,7 @@
                 $response['message'] = "Cannot Update channel/Project info.";
             }
         }else{
-            $channelno=insert_channel($dbcon, $channeltitle, $parentchannel,$orgno);
+            $channelno=insert_channel($dbcon, $channeltitle, $isactive, $parentchannel,$orgno);
             if($channelno>0){
                 $response['error'] = false;
                 $response['channelno']=$channelno;
@@ -75,24 +80,24 @@
      * Local Function
      */
 
-    function insert_channel($dbcon, $channeltitle, $parentchannel,$orgno){
+    function insert_channel($dbcon, $channeltitle, $isactive, $parentchannel,$orgno){
 
-        $sql = "INSERT INTO msg_channel(channeltitle, parentchannel,orgno)
-                VALUES(?,?,?)";
+        $sql = "INSERT INTO msg_channel(channeltitle, isactive, parentchannel,orgno)
+                VALUES(?,?,?,?)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("sii", $channeltitle, $parentchannel,$orgno);
+        $stmt->bind_param("siii", $channeltitle, $isactive, $parentchannel,$orgno);
         $stmt->execute();
         return $stmt->insert_id;
 
 
     }
 
-    function update_channel($dbcon, $channeltitle, $parentchannel, $channelno,$orgno){
+    function update_channel($dbcon, $channeltitle, $isactive, $parentchannel, $channelno,$orgno){
         $sql = "UPDATE msg_channel
-                SET channeltitle=?, parentchannel=?
+                SET channeltitle=?, isactive=?, parentchannel=?
                 WHERE channelno=? AND orgno=?";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("ssii", $channeltitle, $parentchannel, $channelno,$orgno);
+        $stmt->bind_param("sisii", $channeltitle, $isactive, $parentchannel, $channelno,$orgno);
         $stmt->execute();
         return $stmt->affected_rows;
     }

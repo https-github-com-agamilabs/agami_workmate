@@ -76,6 +76,17 @@
 								<select name="parentchannel" class="form-control shadow-sm mt-2"></select>
 							</label>
 						</div>
+
+						<div class="form-group">
+							<label class="d-block">
+								Status
+								<select name="isactive" class="form-control shadow-sm mt-2">
+									<option value="1">Active</option>
+									<option value="0">Inactive</option>
+									<option value="-1">Archieved</option>
+								</select>
+							</label>
+						</div>
 					</div>
 					<div class="modal-footer py-2">
 						<button type="submit" class="btn btn-primary rounded-pill px-4 shadow">Save</button>

@@ -465,6 +465,7 @@
     );
 
     function show_channels(data) {
+        data = data.filter(a => a.isactive == 1);
         $.each(data, (index, value) => {
             let listTag = $(`<li class="mm-active" style="margin: -0.5rem 0;">
                     <a href="javascript:void(0);" class="menu-anchor menu-anchor-lvl-1" aria-expanded="true">

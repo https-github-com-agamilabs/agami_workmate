@@ -245,7 +245,7 @@
 						"class": "fas fa-pen text-info mx-1 ml-1",
 						"type": "button",
 						"title": "Edit Channel",
-						"style": "cursor: pointer;"
+						"style": "cursor: pointer; border-radius: 100%;padding: 5px;border: 0.5px solid;"
 					});
 
 				let deleteButton = $("<i>")
@@ -254,7 +254,7 @@
 						"class": "fas fa-times text-danger mx-1 ml-1",
 						"type": "button",
 						"title": "Delete Channel",
-						"style": "cursor: pointer;"
+						"style": "cursor: pointer; border-radius: 100%;padding: 5px;border: 0.5px solid;"
 					});
 
 				let membersCell = $("<td>").attr("class", "border-right-0").append(value.members?.length ? value.members.map(a => `${a.firstname}${a.lastname ? ` ${a.lastname}` : ``}`).join(", ") : "-");

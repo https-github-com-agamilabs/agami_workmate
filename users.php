@@ -352,7 +352,7 @@
 						"render": (data, type, row) => `${row.username || ""} 
 						<br> 
 						${row.isactive == 0 ? `<div class="badge badge-danger"><i class='fa fa-lock'><i></div>` : `<div class="badge badge-success"><i class='fa fa-check-circle'><i></div>`} 
-						<button class="status_change_button btn btn-sm btn-alternate font-weight-bold rounded-pill px-3 shadow grow" type="button">
+						<button class="status_change_button btn btn-sm btn-alternate font-weight-bold rounded-pill px-2 shadow grow" type="button">
 							${row.isactive == 0 ? "Change" : "Change"}
 						</button>`
 					},

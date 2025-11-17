@@ -234,7 +234,7 @@
 				let channeltitleDiv = $("<div>")
 				.attr('style', 'display: flex; justify-content:space-between;')
 				.append(`
-					<i class='mr-1 mr-lg-2 fa ${value.isactive==0?'fa-lock text-secondary':value.isactive<0?'fa-archive text-warning':'fa-check-circle text-success'} mr-1'></i>
+					<i class='mr-1 mr-lg-2 my-auto fa ${value.isactive==0?'fa-lock text-secondary':value.isactive<0?'fa-archive text-warning':'fa-check-circle text-success'} mr-1'></i>
 					<div style='max-width: 30vw; text-align: left;'>${value.channeltitle}</div>
 				`).appendTo(channeltitleCell);
 
@@ -242,7 +242,7 @@
 				let editButton = $("<i>")
 					.appendTo(channelActionDiv)
 					.attr({
-						"class": "fas fa-pen text-info mx-1 ml-1",
+						"class": "fas fa-pen text-info mx-1 ml-1 my-auto",
 						"type": "button",
 						"title": "Edit Channel",
 						"style": "cursor: pointer; border-radius: 100%;padding: 5px;border: 0.5px solid;"
@@ -251,7 +251,7 @@
 				let deleteButton = $("<i>")
 					.appendTo(channelActionDiv)
 					.attr({
-						"class": "fas fa-times text-danger mx-1 ml-1",
+						"class": "fas fa-times text-danger mx-1 ml-1 my-auto",
 						"type": "button",
 						"title": "Delete Channel",
 						"style": "cursor: pointer; border-radius: 100%;padding: 5px;border: 0.5px solid;"

@@ -104,7 +104,7 @@
 											<th>Contact</th>
 											<th>User Type</th>
 											<th>Permission Level</th>
-											<th class="text-center">Status</th>
+											<!-- <th class="text-center">Status</th> -->
 											<th class="text-center">Reset Password</th>
 											<th class="text-center">Action</th>
 										</tr>
@@ -349,7 +349,12 @@
 					},
 					{
 						"data": "username",
-						"render": (data, type, row) => `${row.username || ""} <br> ${row.isactive == 0 ? `<div class="badge badge-danger">INACTIVE</div>` : `<div class="badge badge-success">ACTIVE</div>`}`
+						"render": (data, type, row) => `${row.username || ""} 
+						<br> 
+						${row.isactive == 0 ? `<div class="badge badge-danger">INACTIVE</div>` : `<div class="badge badge-success">ACTIVE</div>`} 
+						<button class="status_change_button btn btn-sm btn-alternate font-weight-bold rounded-pill px-3 shadow grow" type="button">
+							${row.isactive == 0 ? "Activate" : "Deactivate"}
+						</button>`
 					},
 					{
 						"data": "firstname",
@@ -394,22 +399,21 @@
 						"sortable": false,
 						"render": (data, type, row) => {
 							return `<div class="d-flex justify-content-center">
-										<button class="status_change_button btn btn-sm btn-alternate font-weight-bold rounded-pill px-3 shadow grow" type="button">
-											${row.isactive == 0 ? "Activate" : "Deactivate"}
-										</button>
-									</div>`;
-						}
-					},
-					{
-						"data": null,
-						"searchable": false,
-						"sortable": false,
-						"render": (data, type, row) => {
-							return `<div class="d-flex justify-content-center">
 										<button class="reset_password_button btn btn-sm btn-alternate font-weight-bold rounded-pill px-3 shadow grow" type="button">Reset</button>
+
 									</div>`;
 						}
 					},
+					// {
+					// 	"data": null,
+					// 	"searchable": false,
+					// 	"sortable": false,
+					// 	"render": (data, type, row) => {
+					// 		return `<div class="d-flex justify-content-center">
+					// 					<button class="reset_password_button btn btn-sm btn-alternate font-weight-bold rounded-pill px-3 shadow grow" type="button">Reset</button>
+					// 				</div>`;
+					// 	}
+					// },
 					{
 						"data": null,
 						"searchable": false,

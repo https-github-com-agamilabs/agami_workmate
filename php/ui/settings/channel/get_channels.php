@@ -89,7 +89,7 @@
 
     function get_main_channels($dbcon,$orgno)
     {
-        $sql = "SELECT channelno,channeltitle,parentchannel
+        $sql = "SELECT channelno,channeltitle,parentchannel,isactive
                 FROM msg_channel
                 WHERE orgno=? AND parentchannel is NULL
                 ORDER BY channelno";
@@ -105,7 +105,7 @@
 
     function get_sub_channels($dbcon,$parentchannel)
     {
-        $sql = "SELECT channelno,channeltitle,parentchannel
+        $sql = "SELECT channelno,channeltitle,parentchannel,isactive
                 FROM msg_channel
                 WHERE parentchannel=?
                 ORDER BY channelno";
@@ -121,7 +121,7 @@
 
     function get_emp_main_channels($dbcon,$orgno,$empno)
     {
-        $sql = "SELECT channelno,channeltitle,parentchannel
+        $sql = "SELECT channelno,channeltitle,parentchannel,isactive
                 FROM msg_channel
                 WHERE (parentchannel is NULL) AND channelno IN(
                     SELECT DISTINCT parentchannel
@@ -141,7 +141,7 @@
 
     function get_emp_sub_channels($dbcon,$parent,$empno)
     {
-        $sql = "SELECT channelno,channeltitle,parentchannel
+        $sql = "SELECT channelno,channeltitle,parentchannel,isactive
                 FROM msg_channel
                 WHERE parentchannel=?  AND channelno IN(
                     SELECT DISTINCT channelno

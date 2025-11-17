@@ -21,6 +21,12 @@
 			-moz-transform: rotate(-180deg);
 			transform: rotate(-180deg);
 		}
+
+		.table th, .table td{
+			font-size: 8pt;
+			font-family: monospace;
+			color: midnightblue;
+		}
 	</style>
 </head>
 

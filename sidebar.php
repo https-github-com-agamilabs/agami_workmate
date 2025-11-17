@@ -450,7 +450,7 @@
     function get_channels() {
         return new Promise((resolve, reject) => {
             // let channel_data = $(`#channels_container`).data(`channel_data`);
-            let channel_data = localStorage.getItem(`my_channels_${cacheKey}`) ? JSON.parse(localStorage.getItem('my_channels')) : null;
+            let channel_data = localStorage.getItem(`my_channels_${cacheKey}`) ? JSON.parse(localStorage.getItem(`my_channels_${cacheKey}`)) : null;
 
             if (channel_data && channel_data.length) {
                 resolve(channel_data);

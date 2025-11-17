@@ -65,7 +65,7 @@ function sendWhatsApp($phone, $msg) {
 
 function reminderSent($conn, $userno, $backlogno, $type, $level = null) {
     $sql = "SELECT level FROM asp_task_reminder_log 
-            WHERE userno = ? AND cblscheduleno = (SELECT cblscheduleno FROM asp_cblschedule WHERE backlogno = ?)
+            WHERE userno = ? AND cblscheduleno in (SELECT cblscheduleno FROM asp_cblschedule WHERE backlogno = ?)
               AND reminder_type = ? AND DATE(sent_time) = CURDATE()";
     if ($level) $sql .= " AND level = ?";
     $stmt = $conn->prepare($sql);

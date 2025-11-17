@@ -467,6 +467,9 @@
     function show_channels(data) {
         data = data.filter(a => a.isactive == 1);
         $.each(data, (index, value) => {
+
+            let subchannels = value.subchannels.filter(a => a.isactive == 1);
+
             let listTag = $(`<li class="mm-active" style="margin: -0.5rem 0;">
                     <a href="javascript:void(0);" class="menu-anchor menu-anchor-lvl-1" aria-expanded="true">
                         <i class="metismenu-icon fas fa-layer-group"></i> ${value.channeltitle}
@@ -475,7 +478,7 @@
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
                     <ul class="mm-collapse mm-show">
-                        ${value.subchannels.map(a =>
+                        ${subchannels.map(a =>
                         `<li style="margin: -0.5rem 0;">
                             <a href="story.php?channelno=${a.channelno}" class="menu-anchor menu-anchor-lvl-2">
                                 <i class="metismenu-icon"></i> <i class="fas fa-comments opacity-6 mr-2"></i> ${a.channeltitle}

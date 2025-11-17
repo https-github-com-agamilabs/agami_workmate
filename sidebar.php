@@ -261,7 +261,7 @@
     }
 </style>
 
-<div class="app-sidebar sidebar-shadow0 d-print-none">
+<div class="app-sidebar sidebar-shadow d-print-none">
     <div class="app-header__logo">
         <div class="logo-src"></div>
         <div class="header__pane ml-auto">
@@ -439,9 +439,18 @@
 
 
 <script type="text/javascript">
+    let dmy_hh_key = new Date().getDate().toString().padStart(2, '0') +
+        (new Date().getMonth() + 1).toString().padStart(2, '0') +
+        new Date().getFullYear().toString().slice(-2) +
+        new Date().getHours().toString().padStart(2, '0');
+    let dmy_key = new Date().getDate().toString().padStart(2, '0') +
+        (new Date().getMonth() + 1).toString().padStart(2, '0') +
+        new Date().getFullYear().toString().slice(-2);
+    let cacheKey = `cache_${dmy_key}`;
     function get_channels() {
         return new Promise((resolve, reject) => {
-            let channel_data = $(`#channels_container`).data(`channel_data`);
+            // let channel_data = $(`#channels_container`).data(`channel_data`);
+            let channel_data = localStorage.getItem(`my_channels_${cacheKey}`) ? JSON.parse(localStorage.getItem('my_channels')) : null;
 
             if (channel_data && channel_data.length) {
                 resolve(channel_data);
@@ -452,6 +461,8 @@
                             toastr.error(resp.message);
                         } else {
                             $(`#channels_container`).data(`channel_data`, resp.data);
+                            localStorage.setItem(`my_channels_${cacheKey}`, JSON.stringify(resp.data));
+                            
                             resolve(resp.data);
                         }
                     }, `json`);

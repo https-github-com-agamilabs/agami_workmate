@@ -235,7 +235,7 @@
 				.attr('style', 'display: flex; justify-content:space-between;white-space:no-wrap;')
 				.append(`
 					<i class='fa ${value.isactive==0?'fa-lock text-secondary':value.isactive<0?'fa-archive text-warning':'fa-check-circle text-success'} mr-1'></i>
-					<div style='max-width: 30vw; text-align: start;'>${value.channeltitle}</div>
+					<div style='max-width: 30vw; text-align: left;'>${value.channeltitle}</div>
 				`).appendTo(channeltitleCell);
 
 				let channelActionDiv = $("<div>").attr("class", "d-flex justify-content-end p-0").appendTo(channeltitleDiv);

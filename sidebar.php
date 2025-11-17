@@ -504,8 +504,8 @@
             // let optgroup1 = $(`<optgroup label="${value.channeltitle}"></optgroup>`).appendTo(select1);
             // let optgroup2 = $(`<optgroup label="${value.channeltitle}"></optgroup>`).appendTo(select2);
             let optgroup3 = $(`<optgroup label="${value.channeltitle}"></optgroup>`).appendTo(select3);
-
-            $.each(value.subchannels, (indexInSubChannels, valueOfSubChannels) => {
+            let subchannels = value.subchannels.filter(a => a.isactive == 1);
+            $.each(subchannels, (indexInSubChannels, valueOfSubChannels) => {
                 // $(`<option value="${valueOfSubChannels.channelno}">${valueOfSubChannels.channeltitle}</option>`).appendTo(optgroup1);
                 // $(`<option value="${valueOfSubChannels.channelno}">${valueOfSubChannels.channeltitle}</option>`).appendTo(optgroup2);
                 $(`<option value="${valueOfSubChannels.channelno}" ${selected_channel==valueOfSubChannels.channelno?"selected":""}>${valueOfSubChannels.channeltitle}</option>`).appendTo(optgroup3);

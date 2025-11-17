@@ -83,7 +83,7 @@
 								<select name="isactive" class="form-control shadow-sm mt-2">
 									<option value="1">Active</option>
 									<option value="0">Inactive</option>
-									<option value="-1">Archieved</option>
+									<option value="-1">Archived</option>
 								</select>
 							</label>
 						</div>
@@ -230,7 +230,7 @@
 			$.each(data, (index, value) => {
 				let slCell = $("<td>").append($(`#channel_table_tbody tr`).length + 1);
 				let parentchannelCell = $("<td>").append(parentchannel || "-");
-				let channeltitleCell = $("<td>").append(value.channeltitle || "-");
+				let channeltitleCell = $("<td>").append(`<i class='fa ${value.isactive==0?'fa-lock text-secondary':value.isactive<0?'fa-archive text-warning':'fa-tick text-success'} mr-1'></i>${value.channeltitle || "-"}`);
 
 				let editButton = $("<i>")
 					.appendTo(channeltitleCell)

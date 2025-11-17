@@ -25,7 +25,8 @@
 		.table th, .table td{
 			font-size: 8pt;
 			font-family: monospace;
-			color: midnightblue;
+			/* color: midnightblue; */
+			color: #000;
 		}
 	</style>
 </head>

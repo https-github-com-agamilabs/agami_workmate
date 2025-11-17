@@ -70,7 +70,7 @@ function sendEmail($to, $sub, $plain, $html) {
 // }
 
 function sendWhatsApp($phone, $msg) {
-    global $enable_whatsapp, $callmebot_api_key;
+    global $enable_whatsapp, $callmebot_api_key, $textmebot_api_key;
     if (!$enable_whatsapp || !$phone) return;
     $phone = preg_replace('/\D/', '', $phone);
     $phone = '+' . $phone;

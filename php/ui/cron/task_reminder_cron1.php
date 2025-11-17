@@ -8,10 +8,6 @@
  *  - Deadline countdown (5h, 2h, 1h, overdue)
  *  - Uses BACKLOGNO
  *  - HTML + WhatsApp
- *  - NEW: Hourly task update reminders to employees with progress summary
- *  - NEW: No-task reminders to admin
- *  - NEW: Start-of-day reminders to all employees (at 9 AM)
- *  - NEW: Daily summaries to admin (at 9 AM for previous day, at 6 PM for current day)
  */
 
 ini_set('display_errors', '1');
@@ -24,7 +20,7 @@ $now = new DateTime();
 $hour = (int)$now->format('H');
 
 // === ONLY RUN DURING WORK HOURS (9 AM – 6 PM) ===
-// if ($hour < 9 || $hour > 18) exit("Outside work hours\n");
+if ($hour < 9 || $hour > 18) exit("Outside work hours\n");
 
 // Config
 $admin_email = "agamilabs@gmail.com";
@@ -44,7 +40,6 @@ $conn = $db->db_connect();
 if (!$db->is_connected()) exit("DB failed");
 
 $today = $now->format('Y-m-d');
-$yesterday = date('Y-m-d', strtotime('-1 day'));
 $now_ts = $now->getTimestamp();
 
 // === HELPERS ===
@@ -87,21 +82,7 @@ function logReminder($conn, $userno, $backlogno, $type, $level = 1) {
     $stmt->execute();
 }
 
-function getUserEmailAndPhone($conn, $userno) {
-    $stmt = $conn->prepare("SELECT email, CONCAT(IFNULL(countrycode,''),IFNULL(primarycontact,'')) AS whatsapp FROM hr_user WHERE userno = ?");
-    $stmt->bind_param('i', $userno);
-    $stmt->execute();
-    return $stmt->get_result()->fetch_assoc();
-}
-
-function getUserFullName($conn, $userno) {
-    $stmt = $conn->prepare("SELECT CONCAT(firstname,' ',lastname) AS fullname FROM hr_user WHERE userno = ?");
-    $stmt->bind_param('i', $userno);
-    $stmt->execute();
-    return $stmt->get_result()->fetch_assoc()['fullname'] ?? 'Unknown';
-}
-
-// === MAIN QUERY FOR LAGGING/STALLED/DEADLINES ===
+// === MAIN QUERY ===
 $sql = "
 SELECT s.backlogno, s.cblscheduleno, s.assignedto, s.assigntime, s.duration,
        u.email, CONCAT(IFNULL(u.countrycode,''),IFNULL(u.primarycontact,'')) AS whatsapp,
@@ -121,8 +102,6 @@ $stmt->bind_param('s', $today);
 $stmt->execute();
 $res = $stmt->get_result();
 
-$user_tasks = []; // Collect for hourly summaries
-
 while ($r = $res->fetch_assoc()) {
     $backlogno = (int)$r['backlogno'];
     $userno = (int)$r['assignedto'];
@@ -139,16 +118,6 @@ while ($r = $res->fetch_assoc()) {
 
     $deadline = $r['deadline'] ? new DateTime($r['deadline']) : null;
     $hoursToDL = $deadline ? ($deadline->getTimestamp() - $now_ts) / 3600 : null;
-    $dlStr = $deadline ? $deadline->format('M j, Y g:i A') : 'None';
-
-    // Collect for hourly summary
-    $user_tasks[$userno][] = [
-        'backlogno' => $backlogno,
-        'percentile' => $current,
-        'expected' => round($expected),
-        'duration' => $duration,
-        'deadline' => $dlStr
-    ];
 
     // === LAGGING (Escalating) ===
     if (($current + $lag_buffer) < $expected) {
@@ -208,150 +177,4 @@ while ($r = $res->fetch_assoc()) {
         }
     }
 }
-
-// === 1. HOURLY TASK UPDATE REMINDERS WITH PROGRESS SUMMARY ===
-foreach ($user_tasks as $userno => $tasks) {
-    $user_info = getUserEmailAndPhone($conn, $userno);
-    $email = $user_info['email'];
-    $whatsapp = $user_info['whatsapp'];
-    $fullname = getUserFullName($conn, $userno);
-
-    $plain = "Hi $fullname,\n\nYour hourly task progress summary:\n";
-    $html = "<p>Hi <strong>$fullname</strong>,</p><h3>Hourly Task Progress Summary</h3><ul>";
-    
-    foreach ($tasks as $t) {
-        $plain .= "- Task #{$t['backlogno']}: {$t['percentile']}% done (expected: {$t['expected']}%). Deadline: {$t['deadline']}\n";
-        $html .= "<li><strong>Task #{$t['backlogno']}</strong>: {$t['percentile']}% done (expected: {$t['expected']}%). Deadline: {$t['deadline']}</li>";
-    }
-    
-    $plain .= "\nPlease update your progress if needed.";
-    $html .= "</ul><p>Please update your progress if needed.</p>";
-    
-    sendEmail($email, "Hourly Task Progress Summary", $plain, $html);
-    if ($whatsapp) sendWhatsApp($whatsapp, $plain);
-}
-
-// === 2. EMPLOYEES WITH NO TASKS - REMINDER TO ADMIN ===
-$sql_no_tasks = "
-SELECT u.userno, CONCAT(u.firstname,' ',u.lastname) AS fullname
-FROM hr_user u
-JOIN com_userorg uo ON uo.userno = u.userno
-WHERE u.isactive = 1 AND uo.isactive = 1
-AND NOT EXISTS (
-    SELECT 1 FROM asp_cblschedule s
-    LEFT JOIN asp_cblprogress p ON p.cblscheduleno = s.cblscheduleno
-    AND p.progresstime = (SELECT MAX(p2.progresstime) FROM asp_cblprogress p2 WHERE p2.cblscheduleno = s.cblscheduleno)
-    WHERE s.assignedto = u.userno AND (p.wstatusno IS NULL OR p.wstatusno IN (1,2))
-)";
-
-$res_no = $conn->query($sql_no_tasks);
-$no_task_list = [];
-
-while ($r = $res_no->fetch_assoc()) {
-    $no_task_list[] = $r['fullname'];
-}
-
-if (!empty($no_task_list)) {
-    $msg = "Employees with no active tasks: " . implode(', ', $no_task_list);
-    sendEmail($admin_email, "No Tasks Alert", $msg, "<p>$msg</p>");
-}
-
-// === 3. START OF DAY REMINDER TO ALL EMPLOYEES (9 AM) ===
-if ($hour == 9) {
-    $sql_all_employees = "
-    SELECT u.userno, u.email, CONCAT(IFNULL(u.countrycode,''),IFNULL(u.primarycontact,'')) AS whatsapp,
-           CONCAT(u.firstname,' ',u.lastname) AS fullname
-    FROM hr_user u
-    JOIN com_userorg uo ON uo.userno = u.userno
-    WHERE u.isactive = 1 AND uo.isactive = 1";
-
-    $res_all = $conn->query($sql_all_employees);
-
-    while ($r = $res_all->fetch_assoc()) {
-        $userno = (int)$r['userno'];
-        $email = $r['email'];
-        $whatsapp = $r['whatsapp'];
-        $fullname = $r['fullname'];
-
-        // Get today's tasks
-        $sql_tasks = "
-        SELECT s.backlogno, cb.story, s.duration, d.deadline
-        FROM asp_cblschedule s
-        JOIN asp_channelbacklog cb ON cb.backlogno = s.backlogno
-        LEFT JOIN asp_deadlines d ON d.cblscheduleno = s.cblscheduleno
-        LEFT JOIN asp_cblprogress p ON p.cblscheduleno = s.cblscheduleno
-        AND p.progresstime = (SELECT MAX(p2.progresstime) FROM asp_cblprogress p2 WHERE p2.cblscheduleno = s.cblscheduleno)
-        WHERE s.assignedto = ? AND s.scheduledate = ?
-        AND (p.wstatusno IS NULL OR p.wstatusno IN (1,2))";
-
-        $stmt_tasks = $conn->prepare($sql_tasks);
-        $stmt_tasks->bind_param('is', $userno, $today);
-        $stmt_tasks->execute();
-        $res_tasks = $stmt_tasks->get_result();
-
-        $plain = "Good morning, $fullname!\n\nYour tasks for today:\n";
-        $html = "<p>Good morning, <strong>$fullname</strong>!</p><h3>Your tasks for today:</h3><ul>";
-
-        $has_tasks = false;
-        while ($t = $res_tasks->fetch_assoc()) {
-            $has_tasks = true;
-            $dl = $t['deadline'] ? date('M j, Y g:i A', strtotime($t['deadline'])) : 'None';
-            $plain .= "- Task #{$t['backlogno']}: {$t['story']} (Duration: {$t['duration']} hrs, Deadline: $dl)\n";
-            $html .= "<li><strong>Task #{$t['backlogno']}</strong>: {$t['story']} (Duration: {$t['duration']} hrs, Deadline: $dl)</li>";
-        }
-
-        if (!$has_tasks) {
-            $plain .= "No tasks scheduled for today.\n";
-            $html .= "<li>No tasks scheduled for today.</li>";
-        }
-
-        $plain .= "\nHave a productive day!";
-        $html .= "</ul><p>Have a productive day!</p>";
-
-        sendEmail($email, "Start of Day Reminder", $plain, $html);
-        if ($whatsapp) sendWhatsApp($whatsapp, $plain);
-    }
-}
-
-// === 4. SUMMARY OF WORKS TO ADMIN (9 AM: Previous Day, 6 PM: Today) ===
-if ($hour == 9 || $hour == 18) {
-    $summary_date = ($hour == 9) ? $yesterday : $today;
-    $period = ($hour == 9) ? "Previous Day's" : "Today's";
-    
-    // Query completed tasks and progress updates
-    $sql_summary = "
-    SELECT u.userno, CONCAT(u.firstname,' ',u.lastname) AS fullname,
-           GROUP_CONCAT(DISTINCT CONCAT('Task #', s.backlogno, ': ', cb.story) SEPARATOR '\n') AS completed_tasks
-    FROM asp_cblprogress p
-    JOIN asp_cblschedule s ON s.cblscheduleno = p.cblscheduleno
-    JOIN asp_channelbacklog cb ON cb.backlogno = s.backlogno
-    JOIN hr_user u ON u.userno = s.assignedto
-    WHERE DATE(p.progresstime) = ? AND p.wstatusno = 3
-    GROUP BY u.userno";
-
-    $stmt_summary = $conn->prepare($sql_summary);
-    $stmt_summary->bind_param('s', $summary_date);
-    $stmt_summary->execute();
-    $res_summary = $stmt_summary->get_result();
-
-    $plain = "$period Work Summary:\n";
-    $html = "<h3>$period Work Summary</h3><ul>";
-
-    $has_activity = false;
-    while ($r = $res_summary->fetch_assoc()) {
-        $has_activity = true;
-        $fullname = $r['fullname'];
-        $tasks = $r['completed_tasks'] ? str_replace("\n", "\n- ", $r['completed_tasks']) : 'No completions';
-        $plain .= "$fullname:\n- $tasks\n\n";
-        $html .= "<li><strong>$fullname</strong>:<ul><li>" . str_replace("\n", "</li><li>", $r['completed_tasks']) . "</li></ul></li>";
-    }
-
-    if (!$has_activity) {
-        $plain .= "No completions recorded.\n";
-        $html .= "<li>No completions recorded.</li>";
-    }
-
-    sendEmail($admin_email, "$period Work Summary", $plain, $html);
-}
-
 $conn->close();

@@ -33,8 +33,9 @@ $from_email  = "noreply@workmate.agamilab.com";
 $lag_buffer  = 15;  // % buffer
 $stalled_hours = 2; // no progress
 
-$enable_whatsapp = false;
+$enable_whatsapp = true;
 $callmebot_api_key = "YOUR_KEY";
+$textmebot_api_key = "XUonpYwBBxqt";
 
 $base_path = dirname(dirname(dirname(__FILE__)));
 require_once $base_path . "/db/Database.php";
@@ -73,7 +74,11 @@ function sendWhatsApp($phone, $msg) {
     if (!$enable_whatsapp || !$phone) return;
     $phone = preg_replace('/\D/', '', $phone);
     $phone = '+' . $phone;
-    $url = "https://api.callmebot.com/whatsapp.php?phone=$phone&text=" . urlencode($msg) . "&apikey=" . urlencode($callmebot_api_key);
+    // $url = "https://api.callmebot.com/whatsapp.php?phone=$phone&text=" . urlencode($msg) . "&apikey=" . urlencode($callmebot_api_key);
+    // $url = "http://api.textmebot.com/send.php?recipient=+8801843730611&apikey=XUonpYwBBxqt&text=This%20is%20a%20test";
+    
+    $url = "https://api.textmebot.com/send.php?phone=$phone&text=" . urlencode($msg) . "&apikey=" . urlencode($textmebot_api_key);
+    
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, 5);

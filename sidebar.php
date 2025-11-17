@@ -312,12 +312,12 @@
                 if ($_SESSION['wm_ucatno'] != 5) : ?>
                     <li class="app-sidebar__heading">Time Keeper</li>
 
-                    <li style="margin: -0.5rem 0;">
+                    <li style="">
                         <a href="time_keeper.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-play-circle"></i> Time Keeper
                         </a>
                     </li>
-                    <li style="margin: -0.5rem 0;">
+                    <li style="">
                         <a href="time_keeper_summary.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-chart-bar"></i> Time Keeper Summary
                         </a>
@@ -357,7 +357,7 @@
 
                 <?php
                 if ($_SESSION['wm_ucatno'] == 19) : ?>
-                    <li style="margin: -0.5rem 0;">
+                    <li style="">
                         <a href="users.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-users"></i> Users
                         </a>
@@ -410,7 +410,7 @@
 
                 <?php
                 if ($_SESSION['wm_ucatno'] === 19) : ?>
-                    <li style="margin: -0.5rem 0;">
+                    <li style="">
                         <a href="setup_channels.php" class="menu-anchor menu-anchor-lvl-1">
                             <i class="metismenu-icon fas fa-plus-square"></i> Setup Channel
                         </a>
@@ -423,7 +423,7 @@
                     </li> -->
                 <?php endif; ?>
 
-                <li style="margin: -0.5rem 0;">
+                <li style="">
                     <a href="task_filter.php" class="menu-anchor menu-anchor-lvl-1">
                         <i class="metismenu-icon fas fa-tasks"></i> Task Filter
                     </a>
@@ -484,7 +484,7 @@
 
             let subchannels = value.subchannels.filter(a => a.isactive == 1);
 
-            let listTag = $(`<li class="mm-active" style="margin: -0.5rem 0;">
+            let listTag = $(`<li class="mm-active" style="">
                     <a href="javascript:void(0);" class="menu-anchor menu-anchor-lvl-1" aria-expanded="true">
                         <i class="metismenu-icon fas fa-layer-group"></i> ${value.channeltitle}
                         <span class="chat_badge badge badge-info rounded-circle p-0"></span>
@@ -493,7 +493,7 @@
                     </a>
                     <ul class="mm-collapse mm-show">
                         ${subchannels.map(a =>
-                        `<li style="margin: -0.5rem 0;">
+                        `<li style="">
                             <a href="story.php?channelno=${a.channelno}" class="menu-anchor menu-anchor-lvl-2">
                                 <i class="metismenu-icon"></i> <i class="fas fa-comments opacity-6 mr-2"></i> ${a.channeltitle}
                                 <span class="chat_badge badge badge-info rounded-circle p-0"></span>

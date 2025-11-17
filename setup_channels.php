@@ -230,7 +230,12 @@
 			$.each(data, (index, value) => {
 				let slCell = $("<td>").append($(`#channel_table_tbody tr`).length + 1);
 				let parentchannelCell = $("<td>").append(parentchannel || "-");
-				let channeltitleCell = $("<td>").append(`<i class='fa ${value.isactive==0?'fa-lock text-secondary':value.isactive<0?'fa-archive text-warning':'fa-tick text-success'} mr-1'></i>${value.channeltitle || "-"}`);
+				let channeltitleCell = $("<td>").append(`
+					<div style='max-width: 30%; white-space:wrap;'>
+						<i class='fa ${value.isactive==0?'fa-lock text-secondary':value.isactive<0?'fa-archive text-warning':'fa-tick text-success'} mr-1'></i>
+						${value.channeltitle || "-"}
+					</div>
+				`);
 
 				let editButton = $("<i>")
 					.appendTo(channeltitleCell)

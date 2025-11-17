@@ -97,15 +97,16 @@ function sendWhatsApp($phone, $msg) {
 // }
 
 function reminderSent($conn, $userno, $backlogno, $type, $level = null) {
+    $curdate = date('Y-m-d');
     $sql = "SELECT level FROM asp_task_reminder_log 
             WHERE userno = ? AND cblscheduleno in (SELECT cblscheduleno FROM asp_cblschedule WHERE backlogno = ?)
               AND reminder_type = ? AND DATE(sent_time) = ?";
     if ($level !== null) $sql .= " AND level = ?";
     $stmt = $conn->prepare($sql);
     if ($level !== null) {
-        $stmt->bind_param('iisis', $userno, $backlogno, $type, date('Y-m-d'), $level);
+        $stmt->bind_param('iisis', $userno, $backlogno, $type, $curdate, $level);
     } else {
-        $stmt->bind_param('iiss', $userno, $backlogno, $type, date('Y-m-d'));
+        $stmt->bind_param('iiss', $userno, $backlogno, $type, $curdate);
     }
     $stmt->execute();
     $res = $stmt->get_result();

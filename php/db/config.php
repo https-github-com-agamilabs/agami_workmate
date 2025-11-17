@@ -63,16 +63,16 @@ if ($debug && !$isCronJob) {
 } else if($isCronJob){
     $projectName = "workmate.agamilabs.com";
 
-    #MySQL Database name:
+     #MySQL Database name:
     define('DB_NAME', 'workmatedb');
     #MySQL Database User Name:
     define('DB_USER', 'workmate_admn');
     #MySQL Database Password:
-    define('DB_PASSWORD', ']H}gX{)XGnAf');
+    define('DB_PASSWORD', 'JI7@*na?h5Q|');
     #MySQL Hostname:
     define('DB_HOST', 'localhost');
 
-    define('PREFIX', '');
+    define('PREFIX', 'u164367160_');
 
     $publicAccessUrl = $REQUEST_PROTOCOL . "://$host/";
     $projectPath = DIRECTORY_SEPARATOR . $projectName . DIRECTORY_SEPARATOR;

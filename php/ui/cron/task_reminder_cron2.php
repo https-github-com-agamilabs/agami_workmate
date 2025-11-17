@@ -132,7 +132,13 @@ while ($r = $res->fetch_assoc()) {
     $duration = (float)$r['duration'];
     $assignTS = strtotime($r['assigntime']);
     $elapsed = ($now_ts - $assignTS) / 3600;
-    $expected = min(100, ($elapsed / $duration) * 100);
+    $expected = 0;
+    if ($duration <= 0) {
+        // If duration unknown/zero assume expected = 100% after long elapsed, or set safer default
+        $expected = $elapsed >= 1 ? 100 : 0;
+    } else {
+        $expected = min(100, ($elapsed / $duration) * 100);
+    }
     $current = (int)$r['percentile'];
     $lastProg = $r['last_progress'] ? strtotime($r['last_progress']) : $assignTS;
     $noProgHrs = ($now_ts - $lastProg) / 3600;

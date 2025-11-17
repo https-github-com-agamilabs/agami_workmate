@@ -60,31 +60,86 @@ function sendEmail($to, $sub, $plain, $html) {
     mail($to, $sub, $m, $h);
 }
 
+// function sendWhatsApp($phone, $msg) {
+//     global $enable_whatsapp, $callmebot_api_key;
+//     if (!$enable_whatsapp || !$phone) return;
+//     $phone = preg_replace('/\D/', '', $phone); $phone = '+' . $phone;
+//     $url = "https://api.callmebot.com/whatsapp.php?phone=$phone&text=" . urlencode($msg) . "&apikey=$callmebot_api_key";
+//     @file_get_contents($url);
+// }
+
 function sendWhatsApp($phone, $msg) {
     global $enable_whatsapp, $callmebot_api_key;
     if (!$enable_whatsapp || !$phone) return;
-    $phone = preg_replace('/\D/', '', $phone); $phone = '+' . $phone;
-    $url = "https://api.callmebot.com/whatsapp.php?phone=$phone&text=" . urlencode($msg) . "&apikey=$callmebot_api_key";
-    @file_get_contents($url);
+    $phone = preg_replace('/\D/', '', $phone);
+    $phone = '+' . $phone;
+    $url = "https://api.callmebot.com/whatsapp.php?phone=$phone&text=" . urlencode($msg) . "&apikey=" . urlencode($callmebot_api_key);
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    $resp = curl_exec($ch);
+    $err = curl_error($ch);
+    curl_close($ch);
+    // optionally log $resp / $err
 }
+
+
+// function reminderSent($conn, $userno, $backlogno, $type, $level = null) {
+//     $sql = "SELECT level FROM asp_task_reminder_log 
+//             WHERE userno = ? AND cblscheduleno in (SELECT cblscheduleno FROM asp_cblschedule WHERE backlogno = ?)
+//               AND reminder_type = ? AND DATE(sent_time) = CURDATE()";
+//     if ($level) $sql .= " AND level = ?";
+//     $stmt = $conn->prepare($sql);
+//     if ($level) $stmt->bind_param('iisi', $userno, $backlogno, $type, $level);
+//     else $stmt->bind_param('iis', $userno, $backlogno, $type);
+//     $stmt->execute();
+//     return $stmt->get_result()->num_rows > 0;
+// }
 
 function reminderSent($conn, $userno, $backlogno, $type, $level = null) {
     $sql = "SELECT level FROM asp_task_reminder_log 
             WHERE userno = ? AND cblscheduleno in (SELECT cblscheduleno FROM asp_cblschedule WHERE backlogno = ?)
-              AND reminder_type = ? AND DATE(sent_time) = CURDATE()";
-    if ($level) $sql .= " AND level = ?";
+              AND reminder_type = ? AND DATE(sent_time) = ?";
+    if ($level !== null) $sql .= " AND level = ?";
     $stmt = $conn->prepare($sql);
-    if ($level) $stmt->bind_param('iisi', $userno, $backlogno, $type, $level);
-    else $stmt->bind_param('iis', $userno, $backlogno, $type);
+    if ($level !== null) {
+        $stmt->bind_param('iisis', $userno, $backlogno, $type, date('Y-m-d'), $level);
+    } else {
+        $stmt->bind_param('iiss', $userno, $backlogno, $type, date('Y-m-d'));
+    }
     $stmt->execute();
-    return $stmt->get_result()->num_rows > 0;
+    $res = $stmt->get_result();
+    $found = $res->num_rows > 0;
+    $stmt->close();
+    return $found;
 }
 
+// function logReminder($conn, $userno, $backlogno, $type, $level = 1) {
+//     $cbl = $conn->query("SELECT cblscheduleno FROM asp_cblschedule WHERE backlogno = $backlogno LIMIT 1")->fetch_row()[0] ?? null;
+//     $stmt = $conn->prepare("INSERT INTO asp_task_reminder_log (userno, cblscheduleno, reminder_type, level) VALUES (?, ?, ?, ?)");
+//     $stmt->bind_param('iisi', $userno, $cbl, $type, $level);
+//     $stmt->execute();
+// }
+
 function logReminder($conn, $userno, $backlogno, $type, $level = 1) {
-    $cbl = $conn->query("SELECT cblscheduleno FROM asp_cblschedule WHERE backlogno = $backlogno LIMIT 1")->fetch_row()[0] ?? null;
+    $cbl = null;
+    $stmtCbl = $conn->prepare("SELECT cblscheduleno FROM asp_cblschedule WHERE backlogno = ? LIMIT 1");
+    $stmtCbl->bind_param('i', $backlogno);
+    $stmtCbl->execute();
+    $resCbl = $stmtCbl->get_result();
+    if ($row = $resCbl->fetch_assoc()) $cbl = (int)$row['cblscheduleno'];
+    $stmtCbl->close();
+
     $stmt = $conn->prepare("INSERT INTO asp_task_reminder_log (userno, cblscheduleno, reminder_type, level) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param('iisi', $userno, $cbl, $type, $level);
+    // allow NULL for cblscheduleno
+    if ($cbl === null) {
+        $null = null;
+        $stmt->bind_param('iisi', $userno, $null, $type, $level);
+    } else {
+        $stmt->bind_param('iisi', $userno, $cbl, $type, $level);
+    }
     $stmt->execute();
+    $stmt->close();
 }
 
 function getUserEmailAndPhone($conn, $userno) {
@@ -106,12 +161,20 @@ $sql = "
 SELECT s.backlogno, s.cblscheduleno, s.assignedto, s.assigntime, s.duration,
        u.email, CONCAT(IFNULL(u.countrycode,''),IFNULL(u.primarycontact,'')) AS whatsapp,
        CONCAT(u.firstname,' ',u.lastname) AS fullname,
-       MAX(p.progresstime) AS last_progress,
-       COALESCE(MAX(p.percentile),0) AS percentile,
+       lp.progresstime AS last_progress,
+       COALESCE(lp.percentile,0) AS percentile,
        d.deadline
 FROM asp_cblschedule s
 JOIN hr_user u ON u.userno = s.assignedto
-LEFT JOIN asp_cblprogress p ON p.cblscheduleno = s.cblscheduleno
+LEFT JOIN (
+    SELECT p1.cblscheduleno, p1.progresstime, p1.percentile
+    FROM asp_cblprogress p1
+    JOIN (
+        SELECT cblscheduleno, MAX(progresstime) AS max_progresstime
+        FROM asp_cblprogress
+        GROUP BY cblscheduleno
+    ) p2 ON p1.cblscheduleno = p2.cblscheduleno AND p1.progresstime = p2.max_progresstime
+) lp ON lp.cblscheduleno = s.cblscheduleno
 LEFT JOIN asp_deadlines d ON d.cblscheduleno = s.cblscheduleno
 WHERE s.scheduledate <= ? AND u.isactive = 1
 GROUP BY s.cblscheduleno";
@@ -132,7 +195,13 @@ while ($r = $res->fetch_assoc()) {
     $duration = (float)$r['duration'];
     $assignTS = strtotime($r['assigntime']);
     $elapsed = ($now_ts - $assignTS) / 3600;
-    $expected = min(100, ($elapsed / $duration) * 100);
+    $expected = 0;
+    if ($duration <= 0) {
+        // If duration unknown/zero assume expected = 100% after long elapsed, or set safer default
+        $expected = $elapsed >= 1 ? 100 : 0;
+    } else {
+        $expected = min(100, ($elapsed / $duration) * 100);
+    }
     $current = (int)$r['percentile'];
     $lastProg = $r['last_progress'] ? strtotime($r['last_progress']) : $assignTS;
     $noProgHrs = ($now_ts - $lastProg) / 3600;

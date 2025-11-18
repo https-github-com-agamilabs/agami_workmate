@@ -220,9 +220,9 @@ date_default_timezone_set("Asia/Dhaka");
 											if (!empty($_SESSION["wm_photoname"])) {
 												echo $_SESSION["wm_photoname"];
 											} else {
-												echo 'assets/image/user_icon.png';
+												echo 'assets/image/assets/image/user_icon_hello.gif';
 											}
-											?>" onerror="this.onerror=null;this.src='assets/image/user_icon.png'" class="align-self-start img-fluid rounded-semi-circle mr-3" style="width:40px;height:40px;" alt="...">
+											?>" onerror="this.onerror=null;this.src='assets/image/user_icon_hello.gif'" class="align-self-start img-fluid rounded-semi-circle mr-3" style="width:40px;height:40px;" alt="...">
 								<div class="media-body">
 									<input name="create_post" class="form-control bg-white rounded-pill cursor-pointer" type="text" placeholder="What's on your mind?" readonly>
 								</div>

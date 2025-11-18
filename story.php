@@ -273,7 +273,7 @@ date_default_timezone_set("Asia/Dhaka");
 				</div>
 			</div>
 
-			<div class="sidebar_right">
+			<div class="sidebar_right" style="display:none">
 				<div class="wherework_today my-3"></div>
 
 				<div class="my_watchlist"></div>
@@ -1015,13 +1015,17 @@ date_default_timezone_set("Asia/Dhaka");
 		 * Hanif
 		 * Showed the stories
 		 */
-		$.post(`php/ui/notification/setup_lastvisit.php`, {
-			channelno: selected_channel
-		}, resp => {
-			if (resp.error) {
-				toastr.error(resp.message);
-			}
-		}, `json`);
+		setTimeout(() => {
+			
+			$.post(`php/ui/notification/setup_lastvisit.php`, {
+				channelno: selected_channel
+			}, resp => {
+				if (resp.error) {
+					toastr.error(resp.message);
+				}
+			}, `json`);
+
+		}, 5000);
 
 
 		function get_header(value) {
@@ -1952,6 +1956,8 @@ date_default_timezone_set("Asia/Dhaka");
 		get_user_wherework_today();
 
 		function get_user_wherework_today() {
+			$('.sidebar_right').hide();
+
 			$.post(`php/ui/userattlocset/get_user_wherework_today.php`, resp => {
 				if (resp.error) {
 					// toastr.error(resp.message);

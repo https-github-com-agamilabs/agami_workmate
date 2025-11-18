@@ -345,7 +345,7 @@
 				"ordering": false,
 				"columns": [{
 						"data": "photo_url",
-						"render": (data, type, row) => `<div class='text-center'><img src='${row.photo_url||"assets/image/user_icon.png"}' width="40"/></div>`
+						"render": (data, type, row) => `<div class='text-center'><img src='${row.photo_url||"assets/image/user_icon_hello.gif"}' width="40"/></div>`
 					},
 					{
 						"data": "username",

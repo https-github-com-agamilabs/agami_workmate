@@ -297,9 +297,9 @@ date_default_timezone_set("Asia/Dhaka");
 										if (!empty($_SESSION["wm_photoname"])) {
 											echo $_SESSION["wm_photoname"];
 										} else {
-											echo 'assets/image/user_icon.png';
+											echo 'assets/image/user_icon_hello.gif';
 										}
-										?>" onerror="this.onerror=null;this.src='assets/image/user_icon.png'" class="align-self-start img-fluid rounded-semi-circle mr-3" style="width:40px;height:40px;" alt="...">
+										?>" onerror="this.onerror=null;this.src='assets/image/user_icon_hello.gif'" class="align-self-start img-fluid rounded-semi-circle mr-3" style="width:40px;height:40px;" alt="...">
 							<div class="media-body">
 								<div class="text-primary font-weight-bold">
 									<?php
@@ -1476,7 +1476,7 @@ date_default_timezone_set("Asia/Dhaka");
 								<div class='font-weight-bold text-primary'>#${value.backlogno}</div>
 							</div>
 							<div class="d-flex flex-wrap justify-content-between align-items-center">
-								<img class='rounded-semi-circle mr-2' src="${value.photo_url||"assets/image/user_icon.png"}" width="40" title="${value.postedby || ``}">
+								<img class='rounded-semi-circle mr-2' src="${value.photo_url||"assets/image/user_icon_away.gif"}" width="40" title="${value.postedby || ``}">
 
 								<div class="mb-1">${value.story}</div>
 								<div class="d-flex flex-wrap justify-content-end align-items-center">

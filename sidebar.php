@@ -453,6 +453,8 @@
             let channel_data = localStorage.getItem(`my_channels_${cacheKey}`) ? JSON.parse(localStorage.getItem(`my_channels_${cacheKey}`)) : null;
 
             if (channel_data && channel_data.length) {
+                $(`#channels_container`).data(`channel_data`, JSON.stringify(channel_data));
+
                 resolve(channel_data);
             } else {
                 try {

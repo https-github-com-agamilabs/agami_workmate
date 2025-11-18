@@ -531,13 +531,15 @@ date_default_timezone_set("Asia/Dhaka");
 
 		// show_available_channels([]);
 		let channelInterval = setInterval(() => {
-			let channel_data = $(`#channels_container`).data(`channel_data`);
+			// let channel_data = $(`#channels_container`).data(`channel_data`);
+            let channel_data = localStorage.getItem(`my_channels_${cacheKey}`) ? JSON.parse(localStorage.getItem(`my_channels_${cacheKey}`)) : null;
+
 
 			if (channel_data && channel_data.length) {
 				show_available_channels(channel_data);
 				clearInterval(channelInterval);
 			}
-		}, 500);
+		}, 100);
 
 		//get_channels_available_task();
 		// get_channel_task_detail();

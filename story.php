@@ -1459,7 +1459,7 @@ date_default_timezone_set("Asia/Dhaka");
 										</span>
 										<div class="progress-value w-100 he-100 rounded-circle d-flex align-items-center justify-content-center">
 											<div class="font-weight-bold">
-												<img src="${valueOfSchedule.photo_url || `assets/image/user_icon.png`}"
+												<img src="${valueOfSchedule.photo_url || `assets/image/user_icon_away.gif`}"
 													class="rounded-circle" style="width:36px;" alt="${valueOfSchedule.assignee}">
 											</div>
 										</div>

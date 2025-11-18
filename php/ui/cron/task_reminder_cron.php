@@ -33,7 +33,7 @@ $from_email  = "noreply@workmate.agamilab.com";
 $lag_buffer  = 15;  // % buffer
 $stalled_hours = 2; // no progress
 
-$enable_whatsapp = true;
+$enable_whatsapp = $hour < 9 || $hour > 18; //true;
 $callmebot_api_key = "YOUR_KEY";
 $textmebot_api_key = "XUonpYwBBxqt";
 

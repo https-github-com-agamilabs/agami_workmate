@@ -1029,7 +1029,7 @@ date_default_timezone_set("Asia/Dhaka");
 
 
 		function get_header(value) {
-			return `<div class="d-flex justify-content-between px-3 py-2">
+			return `<div class="d-flex justify-content-between px-3 pt-3">
 						<div class="d-flex flex-row align-items-center large_card_header cursor-pointer">
 							<img class='rounded-semi-circle mr-2' src="${value.photo_url||"assets/image/user_icon.png"}" width="40">
 							<div class="d-flex flex-column">
@@ -1219,13 +1219,13 @@ date_default_timezone_set("Asia/Dhaka");
 									<button data-cblscheduleno="${aSchedule.cblscheduleno}" class='status_button mt-1 btn btn-sm btn-outline-primary px-2 mb-1' >Update Progress</button>
 								</div>
 
-								<div class='col-1 p-0 text-right border-top'>
-									<div class='mt-0 d-none'>
-										<img title='${aSchedule.assignee}' class='rounded-semi-circle' src="${aSchedule.photo_url || "assets/image/user_icon.png"}" width="35"/>
+								<div class='col-1 p-0 text-right border-bottom pb-2'>
+									<div class='mt-0'>
+										<img title='${aSchedule.assignee}' class='rounded-semi-circle' src="${aSchedule.photo_url || "assets/image/user_icon_working.gif"}" width="35"/>
 									</div>
 								</div>
 
-								<div class='col-11 border-top'>
+								<div class='col-11 border-bottom pb-2'>
 									<div class='mt-1 pb-2' id='collapse_progress_${aSchedule.cblscheduleno}'>
 										<div class='d-flex flex-wrap'>
 											<div class='my-auto'>

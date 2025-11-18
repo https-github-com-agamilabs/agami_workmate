@@ -1221,7 +1221,7 @@ date_default_timezone_set("Asia/Dhaka");
 
 								<div class='col-1 p-0 text-right border-bottom pb-2'>
 									<div class='mt-0'>
-										<img title='${aSchedule.assignee}' class='rounded-semi-circle' src="${aSchedule.photo_url || "assets/image/user_icon_working.gif"}" width="35"/>
+										<img title='${aSchedule.assignee}' class='rounded-circle border border-light' src="${aSchedule.photo_url || "assets/image/user_icon_working.gif"}" width="35"/>
 									</div>
 								</div>
 

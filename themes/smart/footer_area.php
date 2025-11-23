@@ -42,7 +42,7 @@ $langData = array_merge($langData, langConverter($lang, 'about'));
                         <div class="footer-logo">
                             <img src="<?= $publicAccessUrl . $response['orglogourl']; ?>" style="height:45px;" alt="">
                         </div>
-                        <p id="footer_about">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Lorem ipsum dolor sit amet, consectetuer.</p>
+                        <p id="footer_about"><?= $PAGE_DATA['about'] ?? ''; ?></p>
                         <div class="footer-social-info">
                             <!-- <a href="#"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a> -->
                             <a href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a>
@@ -110,7 +110,7 @@ $langData = array_merge($langData, langConverter($lang, 'about'));
                                 <input name="email" type="email" class="form-control border-0 mb-0" placeholder="<?= $langData['lang_your_email_here']; ?>" required>
                                 <button type="submit"><?= $langData['lang_subscribe']; ?></button>
                                 <div class="d-flex justify-content-between">
-                                    <p id="footer_subscription">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+                                    <p id="footer_subscription"><?= $PAGE_DATA['subscription'] ?? ''; ?></p>
                                     <!-- <a id="unsubscribe_anchor" href="javascript:void(0);" class="text-muted" style="font-size: 12px;padding: 0 21.5px;">
                                         <u><?php //$langData['lang_unsubscribe'];
                                             ?></u>

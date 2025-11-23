@@ -1,7 +1,7 @@
 {
-    "title": "Track Time & Task @ HiWorkmate",
-    "nav-title": "Welcome to <span>Hi, Workmate! </span>",
-    "about": "HiWorkmate can make your business more transparent and more profitable. <br> 🕒 Effortless Time Tracking: Monitor your work hours seamlessly and gain valuable insights into your daily, weekly, and monthly activities. Say goodbye to manual timekeeping and embrace the simplicity of automated tracking! <br> 📅 Task Management Simplified: Easily create, assign, and prioritize tasks with our intuitive interface. Collaborate effortlessly with your team, ensuring everyone stays on track and meets deadlines with ease.",
+    "title": "Track Time & Task @ Workmate",
+    "nav-title": "Welcome to <span>Workmate! </span>",
+    "about": "Workmate can make your business more transparent and more profitable. <br> 🕒 Effortless Time Tracking: Monitor your work hours seamlessly and gain valuable insights into your daily, weekly, and monthly activities. Say goodbye to manual timekeeping and embrace the simplicity of automated tracking! <br> 📅 Task Management Simplified: Easily create, assign, and prioritize tasks with our intuitive interface. Collaborate effortlessly with your team, ensuring everyone stays on track and meets deadlines with ease.",
     "subscription": "Community blog may help solving your frequent problems.",
     "network": [
         {
@@ -50,14 +50,14 @@
     "sections": {
         "about": {
             "title": "About",
-            "sub-title": "HiWorkmate",
-            "description": "HiWorkmate can make your business more transparent and more profitable. <br> 🕒 Effortless Time Tracking: Monitor your work hours seamlessly and gain valuable insights into your daily, weekly, and monthly activities. Say goodbye to manual timekeeping and embrace the simplicity of automated tracking! <br> 📅 Task Management Simplified: Easily create, assign, and prioritize tasks with our intuitive interface. Collaborate effortlessly with your team, ensuring everyone stays on track and meets deadlines with ease.",
-            "keynote": "🚀 Boost Productivity with Our Cutting-Edge HiWorkmate to Track Your Time and Task digitally!"
+            "sub-title": "Workmate",
+            "description": "Workmate can make your business more transparent and more profitable. <br> 🕒 Effortless Time Tracking: Monitor your work hours seamlessly and gain valuable insights into your daily, weekly, and monthly activities. Say goodbye to manual timekeeping and embrace the simplicity of automated tracking! <br> 📅 Task Management Simplified: Easily create, assign, and prioritize tasks with our intuitive interface. Collaborate effortlessly with your team, ensuring everyone stays on track and meets deadlines with ease.",
+            "keynote": "🚀 Boost Productivity with Our Cutting-Edge Workmate to Track Your Time and Task digitally!"
         },
         "service": {
             "title": "Features",
-            "sub-title": "Maximize Your Productivity with HiWorkmate.",
-            "description": "Tired of juggling multiple tasks and losing track of time? Unlock the potential of your workday with HiWorkmate. Join today!",
+            "sub-title": "Maximize Your Productivity with Workmate.",
+            "description": "Tired of juggling multiple tasks and losing track of time? Unlock the potential of your workday with Workmate. Join today!",
             "list": [
                 {
                     "icon": "fas fa-location-arrow",
@@ -92,7 +92,7 @@
                 {
                     "icon": "fab fa-autoprefixer",
                     "title": "Automated Reminders",
-                    "short-description": "Never miss a deadline again! HiWorkmate sends automated reminders, keeping you on track and ensuring you meet every milestone."
+                    "short-description": "Never miss a deadline again! Workmate sends automated reminders, keeping you on track and ensuring you meet every milestone."
                 },
                 {
                     "icon": "fas fa-chart-line",
@@ -112,7 +112,7 @@
             ]
         },
         "blog": {
-            "title": "Latest Update from HiWorkmate User Community",
+            "title": "Latest Update from Workmate User Community",
             "sub-title": "Operation Insights: Stay informed, stay happy.",
             "description": ""
         }

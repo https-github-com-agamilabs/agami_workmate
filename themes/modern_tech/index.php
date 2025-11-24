@@ -100,7 +100,7 @@ $imgPath = $publicAccessUrl . 'themes/modern_tech/img/';
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <div class="flex-shrink-0 flex items-center gap-3">
-                    <img class="h-8 w-auto" src="<?= $publicAccessUrl . 'themes/smart/img/core-img/logo.png'; ?>" onerror="this.style.display='none'" alt="Workmate">
+                    <img class="h-8 w-auto" src="<?= $publicAccessUrl . 'themes/modern_tech/img/core-img/logo.png'; ?>" onerror="this.style.display='none'" alt="Workmate">
                     <span class="font-bold text-xl text-white tracking-tight">Workmate</span>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
@@ -273,7 +273,7 @@ $imgPath = $publicAccessUrl . 'themes/modern_tech/img/';
             <div class="grid md:grid-cols-4 gap-12 mb-12">
                 <div class="col-span-1 md:col-span-2">
                     <div class="flex items-center gap-3 mb-6">
-                        <img class="h-8 w-auto" src="<?= $publicAccessUrl . 'themes/smart/img/core-img/logo.png'; ?>" onerror="this.style.display='none'" alt="Workmate">
+                        <img class="h-8 w-auto" src="<?= $publicAccessUrl . 'themes/modern_tech/img/core-img/logo.png'; ?>" onerror="this.style.display='none'" alt="Workmate">
                         <span class="font-bold text-xl text-white">Workmate</span>
                     </div>
                     <p class="text-slate-400 max-w-sm">

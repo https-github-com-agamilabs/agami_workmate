@@ -34,7 +34,7 @@ try {
 
     INSERT IGNORE INTO managers (username, password_hash) VALUES (
       'admin',
-      '$2y$10$0qxWfqGYBb5j5KmY9v9zVuVpFjFJb4R7I7GBiF4jL5vxKqD0v5Vze'
+      '".password_hash('11135984', PASSWORD_DEFAULT)."'
     );
     ";
 
@@ -44,7 +44,7 @@ try {
                 $result->free();
             }
         } while ($conn->more_results() && $conn->next_result());
-        echo "Database 'monitor' and tables created successfully.\n";
+        echo "Database '".$dbName."' and tables created successfully.\n";
     } else {
         echo "Error creating database/tables: " . $conn->error . "\n";
     }

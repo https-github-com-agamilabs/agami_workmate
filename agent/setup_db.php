@@ -12,8 +12,8 @@ try {
     echo "Connected successfully.\n";
 
     $sql = "
-    CREATE DATABASE IF NOT EXISTS monitor DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-    USE monitor;
+    CREATE DATABASE IF NOT EXISTS ".$dbName." DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+    USE ".$dbName.";
 
     CREATE TABLE IF NOT EXISTS app_usage (
       id INT AUTO_INCREMENT PRIMARY KEY,

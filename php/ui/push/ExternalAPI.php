@@ -48,31 +48,33 @@ class TelegramBotAPI {
         return json_decode($response, true);
     }
 
-    public function loginLog(){
+    public function loginLog($response){
         $firstname = $_SESSION['wm_firstname'];
         $lastname = $_SESSION['wm_lastname'];
         $fullname = $firstname." ".$lastname;
         $photo_url = $_SESSION['wm_photo_url'];
         $email = $_SESSION['wm_email'];
 
-        $this->sendSimpleMessage("Login attempt by: $fullname
-            Status: ".($response['error']?"Failed":"Success")."
-            Message: ".$response['message']."
-            Email: $email
+        $this->sendSimpleMessage("Login Alert
+Name:$fullname
+Status: ".($response['error']?"Failed":"Success")."
+Message: ".$response['message']."
+Email: $email
         ");
     }
 
-    public function timerLog(){
+    public function timerLog($response){
         $firstname = $_SESSION['wm_firstname'];
         $lastname = $_SESSION['wm_lastname'];
         $fullname = $firstname." ".$lastname;
         $photo_url = $_SESSION['wm_photo_url'];
         $email = $_SESSION['wm_email'];
 
-        $this->sendSimpleMessage("Working Time Updated by: $fullname
-            Status: ".($response['error']?"Failed":"Success")."
-            Message: ".$response['message']."
-            Email: $email
+        $this->sendSimpleMessage("Working Time Alert
+Name: $fullname
+Status: ".($response['error']?"Failed":"Success")."
+Message: ".$response['message']."
+Email: $email
         ");
     }
 }

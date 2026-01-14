@@ -101,7 +101,7 @@
     try{
         require_once($base_path."/ui/push/ExternalAPI.php");
         $telegramBot = new TelegramBotAPI();
-        $telegramBot->timerLog();
+        $telegramBot->timerLog($response);
     }catch(Exception $ex){
 
     }

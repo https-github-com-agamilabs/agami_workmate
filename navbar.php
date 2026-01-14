@@ -678,6 +678,7 @@
     let isProcessing = false;
     function onoff_working_time(json) {
         if(isProcessing){
+            toastr.info(`Processing your previous request. Please wait...`);
             return;
         }
         isProcessing = true;

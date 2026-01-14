@@ -173,6 +173,15 @@ try {
 
 
 echo json_encode($response);
+
+try{
+    require_once($base_path."/ui/push/ExternalAPI.php");
+    $telegramBot = new TelegramBotAPI();
+    $telegramBot->loginLog();
+}catch(Exception $ex){
+
+}
+
 $dbcon->close();
 
 /**

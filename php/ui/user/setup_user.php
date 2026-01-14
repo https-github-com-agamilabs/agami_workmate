@@ -75,6 +75,11 @@
             $primarycontact = trim(strip_tags($_POST['primarycontact']));
         }
 
+        $ofc_email=NULL;
+        if (isset($_POST['ofc_email']) && strlen($_POST['ofc_email'])>0) {
+            $ofc_email = trim(strip_tags($_POST['ofc_email']));
+        }
+
         $permissionlevel=NULL;
         if (isset($_POST['permissionlevel']) && strlen($_POST['permissionlevel'])>0) {
             $permissionlevel = trim(strip_tags($_POST['permissionlevel']));
@@ -107,7 +112,7 @@
         if($userno>0){
             $nos=update_user($dbcon, $username,$firstname,$lastname,
                                     $affiliation,$jobtitle,$photo_url,
-                                    $email,$primarycontact,
+                                    $email,$primarycontact,$ofc_email,
                                     $ucatno, $permissionlevel,
                                     $userno);
             if($nos>0){
@@ -120,7 +125,7 @@
         }else{
             $userno=insert_user($dbcon, $username,$firstname,$lastname,
                                     $affiliation,$jobtitle,$photo_url,
-                                    $email,$primarycontact,
+                                    $email,$primarycontact,$ofc_email,
                                     $ucatno, $permissionlevel,
                                     $passphrase);
             if($userno>0){
@@ -146,21 +151,22 @@
 
     function insert_user($dbcon, $username,$firstname,$lastname,
                                 $affiliation,$jobtitle,$photo_url,
-                                $email,$primarycontact,
+                                $email,$primarycontact,$ofc_email,
                                 $ucatno, $permissionlevel,
                                 $passphrase){
 
         $sql = "INSERT INTO hr_user(
                                 username,firstname,lastname,
                                 affiliation,jobtitle,photo_url,
-                                email,primarycontact,passphrase,
+                                email,primarycontact,ofc_email,passphrase,
                                 ucatno,permissionlevel
                             )
-                VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+                VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
         $stmt = $dbcon->prepare($sql);
-        $stmt->bind_param("sssssssssii",$username,$firstname,$lastname,
+        $stmt->bind_param("ssssssssssii",$username,$firstname,$lastname,
                             $affiliation,$jobtitle,$photo_url,
-                            $email,$primarycontact,$passphrase,$ucatno,$permissionlevel);
+                            $email,$primarycontact,$ofc_email,
+                            $passphrase,$ucatno,$permissionlevel);
         $stmt->execute();
         return $stmt->insert_id;
 
@@ -169,7 +175,7 @@
 
     function update_user($dbcon, $username,$firstname,$lastname, 
                                 $affiliation,$jobtitle,$photo_url, 
-                                $email,$primarycontact,
+                                $email,$primarycontact,$ofc_email,
                                 $ucatno, $permissionlevel,
                                 $userno){
 
@@ -215,6 +221,12 @@
         if(!is_null($email)){
             $dataset[] ="email=?";
             $params[] = &$email;
+            $types[] = "s";
+        }
+
+        if(!is_null($ofc_email)){
+            $dataset[] ="ofc_email=?";
+            $params[] = &$ofc_email;
             $types[] = "s";
         }
 

@@ -67,6 +67,12 @@ try {
 
     $loginuserinfo = $loginuserinfo->fetch_array(MYSQLI_ASSOC);
 
+    $leavestatuses = array(
+        1 => 'PLACED',
+        2 => 'APPROVED',
+        3 => 'REJECTED',
+        4 => 'DELETED'
+    );
 
     if ($lappno > 0) {
 
@@ -76,6 +82,8 @@ try {
         } else {
             throw new \Exception("Leave Status is not set!", 1);
         }
+
+        $leavestatus = in_array($leavestatusno, array_keys($leavestatuses)) ? $leavestatuses[$leavestatusno] : '';
 
         $application = get_leaveapplication($dbcon, $lappno);
         if ($application->num_rows != 1) {
@@ -98,13 +106,20 @@ try {
             $emp_name = $application['fullname'];
             $jobtitle = $application['jobtitle'];
             $leavedates_str = $application['leavedays'];
+            $employee_ofc_email = isset($application['ofc_email'])?$application['ofc_email']:'info@agamilabs.com';
+            $employee_email = isset($application['email'])?$application['email']:'';
+            if(strlen($employee_email)>0){
+                $employee_email = ",".$employee_email;
+            }
+
+            $isModified = strcasecmp($updateby, $emp_name) === 0; // if same person modified his own application, no need to mention who updated
 
             $payload = array();
-            $payload['to'] = "agamilabs@gmail.com"; // mandatory
-            $payload['cc'] = "khanam.toslima@gmail.com"; // optional, mandatory for keeping record
-            $payload['subject'] = "Leave Application Updated"; // optional
+            $payload['to'] = "info@agamilabs.com"; // mandatory
+            $payload['cc'] = "shmazumder23@gmail.com,khanam.toslima@gmail.com,agamilabs@gmail.com".$employee_email; // optional, mandatory for keeping record
+            $payload['subject'] = $isModified ? "[Modified] Leave request of $emp_name" : "[$leavestatus] Leave request of $emp_name | $updateby"; // optional
             $payload['message'] = get_leaveapplication_update_body($lappno, $emp_name, $jobtitle, $leavedates_str, $reasontext, $updateby); // optional
-            $payload['from'] = "info@agamilabs.com"; // mandatory
+            $payload['from'] = $employee_ofc_email; // mandatory
             $emailed = sendMail($payload);
 
 
@@ -121,6 +136,8 @@ try {
         } else {
             // throw new \Exception("Leave Status is not set!", 1);
         }
+        $leavestatus = in_array($leavestatusno, array_keys($leavestatuses)) ? $leavestatuses[$leavestatusno] : '';
+
         if (isset($_POST['leavedates'])) {
             $leavedates = json_decode($_POST['leavedates'], true);
         } else {
@@ -146,14 +163,20 @@ try {
 
             $emp_name = $loginuserinfo['fullname'];
             $jobtitle = $loginuserinfo['jobtitle'];
+            $employee_ofc_email = isset($application['ofc_email'])?$application['ofc_email']:'info@agamilabs.com';
+            $employee_email = isset($application['email'])?$application['email']:'';
+            if(strlen($employee_email)>0){
+                $employee_email = ",".$employee_email;
+            }
+
             $leavedates_str = implode(", ", $leavedates);
 
             $payload = array();
-            $payload['to'] = "agamilabs@gmail.com"; // mandatory
-            $payload['cc'] = "khanam.toslima@gmail.com"; // optional, mandatory for keeping record
-            $payload['subject'] = "Leave Application Submitted"; // optional
+            $payload['to'] = "info@agamilabs.com"; // mandatory
+            $payload['cc'] = "shmazumder23@gmail.com,khanam.toslima@gmail.com,agamilabs@gmail.com".$employee_email; // optional, mandatory for keeping record
+            $payload['subject'] = "[$leavestatus] Leave request by $emp_name"; // optional
             $payload['message'] = get_leaveapplication_body($emp_name, $jobtitle, $leavedates_str, $reasontext); // optional
-            $payload['from'] = "info@agamilabs.com"; // mandatory
+            $payload['from'] = $employee_ofc_email; // mandatory
             $emailed = sendMail($payload);
 
             $response['error'] = false;
@@ -184,7 +207,7 @@ function get_user_info($dbcon, $userno)
 {
     $sql = "SELECT u.userno,username,firstname,lastname,
                     CONCAT(firstname, ' ', lastname) as fullname,
-                    affiliation,jobtitle,email,primarycontact,
+                    affiliation,jobtitle,email,primarycontact,ofc_email,
                     passphrase,createtime,lastupdatetime,
                     uo.ucatno, (SELECT ucattitle FROM hr_usercat WHERE ucatno=uo.ucatno) as ucattitle,
                     uo.isactive
@@ -275,13 +298,14 @@ function delete_leavedates($dbcon, $lappno)
 }
 
 
-function validateEmail($email)
+function validateEmail($emails)
 {
-    if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-        return false;
-    }
+    foreach (explode(',', $emails) as $email) 
+        if (!empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            return false;
+        }
 
-    return true;
+    return strlen($emails)>0;
 }
 
 

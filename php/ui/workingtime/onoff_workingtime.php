@@ -1,7 +1,6 @@
 <?php
 
-    include_once  dirname(dirname(__FILE__))."/login/check_session.php";
-
+    include_once  dirname(dirname(__FILE__))."/login/check_session.php";    
     $response = array();
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         $response['error'] = true;
@@ -99,6 +98,14 @@
 
     echo json_encode($response);
 
+    try{
+        require_once($base_path."/ui/push/ExternalAPI.php");
+        $telegramBot = new TelegramBotAPI();
+        $telegramBot->timerLog();
+    }catch(Exception $ex){
+
+    }
+   
     $dbcon->close();
 
     /**

@@ -42,6 +42,7 @@ CREATE TABLE hr_user(
 	jobtitle VARCHAR(63) DEFAULT NULL,
 	photo_url varchar(255) DEFAULT NULL,
 	email varchar(255) DEFAULT NULL,
+	ofc_email varchar(255) DEFAULT NULL,
 	countrycode varchar(7) DEFAULT null,
 	primarycontact varchar(15) DEFAULT NULL,
 	passphrase varchar(255) NOT NULL,
@@ -69,6 +70,9 @@ CREATE TABLE hr_user(
 
 -- ALTER TABLE hr_user
 -- ADD COLUMN countrycode varchar(7) DEFAULT null;
+
+-- ALTER TABLE hr_user
+-- ADD COLUMN ofc_email varchar(255) DEFAULT NULL;
 
 CREATE TABLE msg_channel(
 	channelno int AUTO_INCREMENT,

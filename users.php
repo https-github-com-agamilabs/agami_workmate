@@ -178,6 +178,13 @@
 
 							<div class="col-md-6 form-group">
 								<label class="d-block">
+									Official Email
+									<input name="ofc_email" class="form-control shadow-sm mt-2" type="email" placeholder="Official Email...">
+								</label>
+							</div>
+
+							<div class="col-md-6 form-group">
+								<label class="d-block">
 									Affiliation
 									<input name="affiliation" class="form-control shadow-sm mt-2" type="text" placeholder="Affiliation...">
 								</label>
@@ -372,6 +379,10 @@
 						"data": "email",
 						"render": (data, type, row) => `${row.email ? `<i class="fas fa-envelope mr-2"></i>${row.email}` : ""} <br>
 								${row.primarycontact ? `<i class="fas fa-phone mr-2"></i>${row.primarycontact}` : ""}`
+					},
+					{
+						"data": "ofc_email",
+						"render": (data, type, row) => `${row.ofc_email ? `<i class="fas fa-envelope mr-2"></i>${row.ofc_email}` : ""}`
 					},
 					{
 						"data": "ucattitle",

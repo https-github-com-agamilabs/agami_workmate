@@ -675,11 +675,18 @@
         );
     }
 
+    let isProcessing = false;
     function onoff_working_time(json) {
+        if(isProcessing){
+            return;
+        }
+        isProcessing = true;
         $.post(`php/ui/workingtime/onoff_workingtime.php`, json, resp => {
             if (resp.error) {
                 toastr.error(resp.message);
             } else {
+                isProcessing = false;
+                toastr.success(resp.message);
                 if (stopWatch.isTimeStopped) {
                     stopWatch.startTimer();
                 } else {

@@ -3,9 +3,9 @@
 class TelegramBotAPI {
     private $apiUrl;
     private $botToken = "8225078226:AAElZpXjq8StxkiIolI2p85FVM966GGUwV4";
-    private $chatId = "1293704299";
+    private $chatId = "-1003762214734";//"1293704299";
 
-    public function __construct($botToken = "8225078226:AAElZpXjq8StxkiIolI2p85FVM966GGUwV4", $chatId = "1293704299") {
+    public function __construct($botToken = "8225078226:AAElZpXjq8StxkiIolI2p85FVM966GGUwV4", $chatId = "-1003762214734") {
         $this->botToken = $botToken;
         $this->chatId = $chatId;
         $this->apiUrl = "https://api.telegram.org/bot" . $this->botToken . "/";
